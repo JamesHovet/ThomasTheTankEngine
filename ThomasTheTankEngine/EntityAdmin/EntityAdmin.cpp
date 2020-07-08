@@ -7,14 +7,16 @@
 //
 
 #include "EntityAdmin.hpp"
+#include "AllComponents.hpp"
 #include "DebugPrintSystem.hpp"
 
-void populatePool(std::array<void *, Components::ComponentsCount>&);
+void populatePool(std::array<void *, Components::ComponentsCount>& pool);
 
 EntityAdmin::EntityAdmin(){
     m_systems.reserve(Systems::SystemsCount);
+    m_entity_pool.reserve(MAX_ENTITIES);
     
-    populatePool(m_components_pool);
+    populatePool(m_components_pool_array);
     
 }
 
@@ -26,32 +28,32 @@ EntityAdmin::~EntityAdmin(){
     
 }
 
+entityID EntityAdmin::createEntity(){
+    entityID id = m_entity_pool.size();
+    assert(id < MAX_ENTITIES);
+    m_entity_pool.push_back(Entity(id));
+    m_entities[id] = &m_entity_pool.at(id);
+    return id;
+}
+
+void EntityAdmin::destroyEntity(entityID e){
+    //TODO
+}
+
 void EntityAdmin::setup(){
-    m_systems.push_back(new DebugPrintSystem(this));
+    m_systems.push_back(new DebugPrintSystem(*this));
     
-    Entity* e = new Entity(0);
-    m_entities[0] = e;
+
+    for(int i = 0; i < 1024; i++){
+        entityID eID = this->createEntity();
+        this->addComponent<DebugInfoComponent>(eID, Components::DebugInfoComponent);
+        DebugInfoComponent* c = this->getComponent<DebugInfoComponent>(eID, Components::DebugInfoComponent);
+        
+        c->buf[0] = 48 + eID;
+        m_systems[Systems::DebugPrintSystem]->registerEntity(eID);
+    }
     
-    auto tmp = (std::vector<DebugInfoComponent>*) m_components_pool.at(Components::DebugInfoComponent);
-    tmp->emplace_back();
-    tmp->back().buf[0] = 'a';
-    tmp->back().buf[1] = 'b';
-    tmp->back().buf[2] = 'c';
-    e->m_components[Components::DebugInfoComponent] = tmp->size() - 1;
-    
-    
-    m_systems[Systems::DebugPrintSystem]->registerEntity(0);
-    
-//    e->m_components[Components::DebugInfoComponent] =  
-//
-//    m_entities.emplace(std::make_pair(0,new Entity(0)));
-//    m_entities.emplace(std::make_pair(1,new Entity(1)));
-//    m_systems[Systems::DebugPrint]->registerEntity(0);
-//    m_systems[Systems::DebugPrint]->registerEntity(1);
-//
-//    m_systems[Systems::DebugPrint]->unregisterEntity(0);
-//    delete m_entities.at(0);
-//    m_entities.erase(0);
+    return;
     
 }
 

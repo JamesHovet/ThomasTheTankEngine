@@ -516,6 +516,7 @@
 		59661B40242968880088525D /* libboost_filesystem.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_filesystem.dylib; path = ../../../../../usr/local/Cellar/boost/1.71.0/lib/libboost_filesystem.dylib; sourceTree = "<group>"; };
 		59661B43242B93900088525D /* Shader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
 		59661B45242B958C0088525D /* shader_globals.glh */ = {isa = PBXFileReference; lastKnownFileType = text; path = shader_globals.glh; sourceTree = "<group>"; };
+		59839E6624B6591900BB3362 /* SingletonsEnum.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SingletonsEnum.hpp; sourceTree = "<group>"; };
 		59F7F2A82430F3C900A673D1 /* Graphics.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Graphics.cpp; sourceTree = "<group>"; };
 		59F7F2A92430F3C900A673D1 /* Graphics.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Graphics.hpp; sourceTree = "<group>"; };
 		59F7F2AB2430F56500A673D1 /* graphics_globals.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = graphics_globals.hpp; sourceTree = "<group>"; };
@@ -589,6 +590,7 @@
 				594A5F2524B4B13700733231 /* EntityAdmin */,
 				594A5F2124B4AFD800733231 /* Systems */,
 				594A5F2024B4AFB500733231 /* Components */,
+				59839E6524B658C500BB3362 /* Singletons */,
 				59661B34242960E80088525D /* Utils */,
 				594A5F3424B4BB7400733231 /* typedefs.h */,
 				59484F5424290FCE0068591C /* src */,
@@ -1169,6 +1171,14 @@
 				59661B45242B958C0088525D /* shader_globals.glh */,
 			);
 			path = Shaders;
+			sourceTree = "<group>";
+		};
+		59839E6524B658C500BB3362 /* Singletons */ = {
+			isa = PBXGroup;
+			children = (
+				59839E6624B6591900BB3362 /* SingletonsEnum.hpp */,
+			);
+			path = Singletons;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

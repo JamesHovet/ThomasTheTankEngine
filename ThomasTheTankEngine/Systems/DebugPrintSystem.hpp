@@ -22,7 +22,7 @@ class DebugPrintSystem : public System {
 public:
     void tick(float dt);
     void init();
-    DebugPrintSystem(EntityAdmin* admin) : System(admin) {};
+    DebugPrintSystem(EntityAdmin& admin) : System(admin) {};
     ~DebugPrintSystem();
 };
 

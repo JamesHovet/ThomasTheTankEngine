@@ -12,14 +12,17 @@
 #include <stdio.h>
 #include "Components/ComponentsEnum.hpp"
 #include "typedefs.h"
+#include <algorithm>
 
-class Entity {
-public:
+struct Entity {
     entityID m_entityID;
     
-    unsigned long m_components[Components::ComponentsCount];
+    int m_components[Components::ComponentsCount];
     
-    Entity(entityID h) : m_entityID(h) {}
+    Entity(entityID eID){
+        m_entityID = eID;
+        std::fill(m_components, m_components + Components::ComponentsCount, -1);
+    }
 };
 
 #endif /* Entity_hpp */

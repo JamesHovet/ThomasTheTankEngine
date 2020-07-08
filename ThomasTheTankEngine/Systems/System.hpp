@@ -31,9 +31,9 @@ public:
     }
 //    virtual void SendMessage(Message *msg) = 0;
     virtual ~System(){};
-    System(EntityAdmin * admin) : m_admin(admin) {};
+    System(EntityAdmin & admin) : m_admin(admin) {};
 protected:
-    EntityAdmin* m_admin; 
+    EntityAdmin& m_admin; 
     std::set<entityID> m_registered;
 };
 

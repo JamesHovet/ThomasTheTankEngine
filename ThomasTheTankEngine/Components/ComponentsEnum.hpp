@@ -9,9 +9,9 @@
 #ifndef ComponentsEnum_hpp
 #define ComponentsEnum_hpp
 namespace Components {
-    enum Components {
+    typedef enum Components {
         DebugInfoComponent,
         ComponentsCount
-    };
+    } ComponentType;
 }
 #endif /* ComponentsEnum_hpp */

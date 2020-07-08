@@ -7,15 +7,14 @@
 //
 
 #include "DebugPrintSystem.hpp"
+#include "DebugInfoComponent.hpp"
 
 void DebugPrintSystem::tick(float dt){
     std::cout << "registered entities" << std::endl;
     for(entityID e : m_registered){
         std::cout << e << std::endl;
-        auto idx = m_admin->m_entities.at(e)->m_components[Components::DebugInfoComponent];
-        std::vector<DebugInfoComponent>* vec = (std::vector<DebugInfoComponent>*) m_admin->m_components_pool[Components::DebugInfoComponent];
-        DebugInfoComponent c = vec->at(idx);
-        std::cout << c.buf << std::endl;
+        DebugInfoComponent* c = m_admin.getComponent<DebugInfoComponent>(e, Components::DebugInfoComponent);
+        std::cout << c->buf << std::endl;
     }
 }
 

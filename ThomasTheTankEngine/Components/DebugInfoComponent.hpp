@@ -10,10 +10,11 @@
 #define DebugInfoComponent_hpp
 
 #include "Component.hpp"
+#include <string>
 
 struct DebugInfoComponent : public Component {
     static constexpr int componentIndex{ 0 };
-    char buf[16];
+    std::string str;
 };
 
 #endif /* DebugInfoComponent_hpp */

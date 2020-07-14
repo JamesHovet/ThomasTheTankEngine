@@ -12,8 +12,10 @@
 #include <stdio.h>
 #include <vector>
 #include <map>
+#include <unordered_map>
 #include <array>
 #include "object_pool.hpp"
+#include <functional>
 
 #include "Component.hpp"
 #include "Entity.hpp"
@@ -50,7 +52,7 @@ public:
         int componentID = ComponentIndexTable::RetrieveComponentIndex<T>::componentIndex;
         boost::object_pool<T>* this_pool = ((boost::object_pool<T>*)m_components_pool_array.at(componentID));
         T* out = this_pool->construct();
-        m_entities.at(e)->componentMap.insert(std::make_pair(componentID, out));
+        m_entities.at(e)->m_componentMap.insert(std::make_pair(componentID, out));
         return *out;
     }
     
@@ -62,17 +64,14 @@ public:
 
 //private:
     
-    std::map<entityID, Entity*> m_entities;
+    std::unordered_map<entityID, Entity*> m_entities;
     std::vector<System *> m_systems;
 private:
     std::array<void *, NUM_COMPONENTS> m_components_pool_array;
+    std::array<std::function<void (void *)>, NUM_COMPONENTS> m_components_destroyers_array;
     entityID nextFreeID = 0;
     boost::object_pool<Entity> m_entity_pool;
     std::array<void *, Singletons::SingletonsCount> m_singletons;
-    
-    //TODO: Replace the entity pool vector with an actual object pool data structure
-    //TODO: Same thing for the components pool, probably using a block allocator
-    
 };
 
 #endif /* EntityAdmin_hpp */

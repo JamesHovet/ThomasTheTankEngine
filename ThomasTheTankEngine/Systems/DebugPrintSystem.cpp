@@ -15,7 +15,7 @@ void DebugPrintSystem::tick(float dt){
         std::cout << eID << std::endl;
         DebugInfoComponent& c = m_admin.getComponent<DebugInfoComponent>(eID);
 //        DebugInfoComponent* c = m_admin.getComponent<DebugInfoComponent>(e, Components::DebugInfoComponent);
-        std::cout << c.buf << std::endl;
+        std::cout << c.str << std::endl;
     }
 }
 

@@ -11,10 +11,11 @@
 
 void DebugPrintSystem::tick(float dt){
     std::cout << "registered entities" << std::endl;
-    for(entityID e : m_registered){
-        std::cout << e << std::endl;
-        DebugInfoComponent* c = m_admin.getComponent<DebugInfoComponent>(e, Components::DebugInfoComponent);
-        std::cout << c->buf << std::endl;
+    for(entityID eID : m_registered){
+        std::cout << eID << std::endl;
+        DebugInfoComponent& c = m_admin.getComponent<DebugInfoComponent>(eID);
+//        DebugInfoComponent* c = m_admin.getComponent<DebugInfoComponent>(e, Components::DebugInfoComponent);
+        std::cout << c.buf << std::endl;
     }
 }
 

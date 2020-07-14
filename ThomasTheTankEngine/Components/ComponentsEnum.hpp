@@ -8,10 +8,17 @@
 
 #ifndef ComponentsEnum_hpp
 #define ComponentsEnum_hpp
-namespace Components {
-    typedef enum Components {
-        DebugInfoComponent,
-        ComponentsCount
-    } ComponentType;
-}
+
+enum class Components {
+    DebugInfoComponent = 0,
+    ComponentsCount = 1
+};
+
+//
+//namespace Components {
+//    typedef enum Components {
+//        DebugInfoComponent,
+//        ComponentsCount
+//    } ComponentType;
+//}
 #endif /* ComponentsEnum_hpp */

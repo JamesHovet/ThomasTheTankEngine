@@ -9,10 +9,18 @@
 #ifndef Component_hpp
 #define Component_hpp
 
-#include "Entity.hpp"
+//#include "Entity.hpp"
+class Entity;
 
 struct Component {
     Entity* m_parentEntity;
 };
+
+namespace ComponentIndexTable {
+    template <typename T>
+    struct RetrieveComponentIndex {
+        static constexpr int componentIndex = T::componentIndex;
+    };
+}
 
 #endif /* Component_hpp */

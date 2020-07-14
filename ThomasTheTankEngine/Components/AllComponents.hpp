@@ -11,4 +11,6 @@
 
 #include "Components/DebugInfoComponent.hpp"
 
+#define NUM_COMPONENTS 1
+
 #endif /* AllComponents_hpp */

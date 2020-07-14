@@ -12,6 +12,7 @@
 #include "Component.hpp"
 
 struct DebugInfoComponent : public Component {
+    static constexpr int componentIndex{ 0 };
     char buf[16];
 };
 

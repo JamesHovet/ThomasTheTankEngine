@@ -9,19 +9,21 @@
 #include "EntityAdmin.hpp"
 #include "AllComponents.hpp"
 #include "DebugPrintSystem.hpp"
+#include "object_pool.hpp"
 
-void populatePool(std::array<void *, Components::ComponentsCount>& pool);
+void constructComponentPools(std::array<void *, NUM_COMPONENTS>& pool);
 
 EntityAdmin::EntityAdmin(){
     m_systems.reserve(Systems::SystemsCount);
-    m_entity_pool.reserve(MAX_ENTITIES);
-    
-    populatePool(m_components_pool_array);
+
+    constructComponentPools(m_components_pool_array);
     
 }
 
-void populatePool(std::array<void *, Components::ComponentsCount>& pool){
-    pool[Components::DebugInfoComponent] = new std::vector<DebugInfoComponent>();
+void constructComponentPools(std::array<void *, NUM_COMPONENTS>& pool){
+//    pool[Components::DebugInfoComponent] = new std::vector<DebugInfoComponent>();
+    //#include "populatePoolsInclude.cpp"
+    pool[0] = new boost::object_pool<DebugInfoComponent>;
 }
 
 EntityAdmin::~EntityAdmin(){
@@ -29,10 +31,10 @@ EntityAdmin::~EntityAdmin(){
 }
 
 entityID EntityAdmin::createEntity(){
-    entityID id = m_entity_pool.size();
+    entityID id = this->nextFreeID++;
     assert(id < MAX_ENTITIES);
-    m_entity_pool.push_back(Entity(id));
-    m_entities[id] = &m_entity_pool.at(id);
+    Entity* e = m_entity_pool.construct(id);
+    m_entities[id] = e;
     return id;
 }
 
@@ -46,10 +48,9 @@ void EntityAdmin::setup(){
 
     for(int i = 0; i < 1024; i++){
         entityID eID = this->createEntity();
-        this->addComponent<DebugInfoComponent>(eID, Components::DebugInfoComponent);
-        DebugInfoComponent* c = this->getComponent<DebugInfoComponent>(eID, Components::DebugInfoComponent);
-        
-        c->buf[0] = 48 + eID;
+        DebugInfoComponent& c = this->addComponent<DebugInfoComponent>(eID);
+
+        c.buf[0] = 48 + eID;
         m_systems[Systems::DebugPrintSystem]->registerEntity(eID);
     }
     

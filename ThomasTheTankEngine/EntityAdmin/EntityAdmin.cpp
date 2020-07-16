@@ -10,7 +10,7 @@
 
 #include <stdlib.h>
 
-#include "AllComponents.hpp"
+#include "AllComponents.h"
 #include "DebugPrintSystem.hpp"
 #include "object_pool.hpp"
 
@@ -18,19 +18,19 @@
 void constructComponentPools(std::array<void *, NUM_COMPONENTS>& pool,
                              std::array<std::function<void (void *)>, NUM_COMPONENTS>& destroyers,
                              std::vector<std::function<void (void)>>& cleanup_callbacks){
-    //#include "populatePoolsInclude.cpp"
-    boost::object_pool<DebugInfoComponent>* p = new boost::object_pool<DebugInfoComponent>;
-    std::function<void (void *)> destroyer = [p](void * ptr) {
-        p->free((boost::object_pool<DebugInfoComponent>::element_type *) ptr);
-    };
-    std::function<void (void)> cleanup = [p](void) {
-        delete p;
-    };
-    
-    pool[0] = p;
-    destroyers[0] = destroyer;
-    cleanup_callbacks.push_back(cleanup);
-    
+    #include "populatePoolsInclude.cpp"
+//    boost::object_pool<DebugInfoComponent>* p = new boost::object_pool<DebugInfoComponent>;
+//    std::function<void (void *)> destroyer = [p](void * ptr) {
+//        p->free((boost::object_pool<DebugInfoComponent>::element_type *) ptr);
+//    };
+//    std::function<void (void)> cleanup = [p](void) {
+//        delete p;
+//    };
+//
+//    pool[0] = p;
+//    destroyers[0] = destroyer;
+//    cleanup_callbacks.push_back(cleanup);
+//
     
 }
 
@@ -87,11 +87,12 @@ void EntityAdmin::setup(){
     //@Remove: temporary test entities
     for(int i = 0; i < 1024; i++){
         entityID eID = this->createEntity();
-        DebugInfoComponent& c = this->addComponent<DebugInfoComponent>(eID);
+        DebugNameComponent& c = this->addComponent<DebugNameComponent>(eID);
 
 //        c.str = std::to_string(eID);
 //        c.b = (i % 2) == 0;
-        c.pos = glm::vec3(0, 0, i);
+//        c.pos = glm::vec3(0, 0, i);
+        c.m_name = std::to_string(eID);
         m_systems[Systems::DebugPrintSystem]->registerEntity(eID);
     }
     

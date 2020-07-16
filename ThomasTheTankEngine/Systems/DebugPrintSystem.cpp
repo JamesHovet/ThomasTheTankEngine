@@ -7,13 +7,15 @@
 //
 
 #include "DebugPrintSystem.hpp"
-#include "DebugInfoComponent.hpp"
+//#include "DebugInfoComponent.hpp"
 
 void DebugPrintSystem::tick(float dt){
     std::cout << "registered entities:" << std::endl;
     for(entityID eID : m_registered){
-        DebugInfoComponent& c = m_admin.getComponent<DebugInfoComponent>(eID);
-        std::cout << "[" << &c << "]: " <<  c.pos.x << " " << c.pos.y << " " << c.pos.z << std::endl;
+//        DebugInfoComponent& c = m_admin.getComponent<DebugInfoComponent>(eID);
+//        std::cout << "[" << &c << "]: " <<  c.pos.x << " " << c.pos.y << " " << c.pos.z << std::endl;
+        DebugNameComponent& c = m_admin.getComponent<DebugNameComponent>(eID);
+        std::cout << c.m_name << std::endl;
     }
 }
 

@@ -23,7 +23,7 @@
 //#include "System.hpp"
 #include "SystemsEnum.hpp"
 #include "ComponentsEnum.hpp"
-#include "AllComponents.hpp"
+#include "AllComponents.h"
 #include "SingletonsEnum.hpp"
 
 

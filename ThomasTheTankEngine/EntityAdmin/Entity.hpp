@@ -14,43 +14,23 @@
 #include "typedefs.h"
 #include "Component.hpp"
 #include <map>
+#include <bitset>
+
 class EntityAdmin;
 
 struct Entity {
     friend EntityAdmin;
 private:
-    std::map<int, Component*> m_componentMap;
+//    std::map<int, Component*> m_componentMap;
 public:
+    std::bitset<MAX_COMPONENT_TYPES> mask;
     entityID m_entityID;
 
     Entity(entityID eID){
         m_entityID = eID;
+        mask.reset();
     }
-    
-private:
-    template <typename T>
-    T* tryGetComponent(){
-        constexpr int id = ComponentIndexTable::RetrieveComponentIndex<T>::componentIndex;
-        if (m_componentMap.count(id) != 0){
-            return static_cast<T*>(m_componentMap.at(id));
-        }
-        return nullptr;
-    }
-    
-    template <typename T>
-    T& getComponent(){
-        auto value = tryGetComponent<T>();
-        assert(value != nullptr);
-        return *value;
-    }
-    
-    template <typename T>
-    const T& getComponent() const {
-        auto value = tryGetComponent<T>();
-        assert(value != nullptr);
-        return *value;
-    }
-    
+
 };
 
 #endif /* Entity_hpp */

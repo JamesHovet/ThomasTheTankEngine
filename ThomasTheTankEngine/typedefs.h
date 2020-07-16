@@ -10,5 +10,6 @@
 #define typedefs_h
 
 typedef unsigned entityID;
+typedef unsigned componentID;
 
 #endif /* typedefs_h */

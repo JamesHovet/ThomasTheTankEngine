@@ -14,7 +14,7 @@
 #include "glm.hpp"
 
 struct DebugInfoComponent : public Component {
-    static constexpr int componentIndex{ 0 };
+    static constexpr componentID componentIndex{ 0 };
 //    std::string str;
 //    bool b;
     glm::vec3 pos;

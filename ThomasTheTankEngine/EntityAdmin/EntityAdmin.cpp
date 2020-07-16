@@ -54,29 +54,30 @@ EntityAdmin::~EntityAdmin(){
 }
 
 entityID EntityAdmin::createEntity(){
-    assert(m_entityIDs.size() < MAX_ENTITIES);
+    m_entities_dirty = true;
+    assert(m_entities.size() < MAX_ENTITIES);
     
     // pseudorandom entity ID
-    entityID id = rand() % MAX_ENTITIES;
-    while(m_entityIDs.count(id) != 0){
-        id = rand() % MAX_ENTITIES;
+    entityID eID = rand() % MAX_ENTITIES;
+    while(m_entities.count(eID) != 0){
+        eID = rand() % MAX_ENTITIES;
     }
     
-    Entity* e = m_entity_pool.construct(id);
-    m_entities[id] = e;
-    m_entityIDs.insert(id);
+    Entity* e = m_entity_pool.construct(eID);
+    m_entities[eID] = e;
+    m_component_maps.insert(std::make_pair(eID, std::unordered_map<componentID, Component*>()));
     
-    return id;
+    return eID;
 }
 
 void EntityAdmin::destroyEntity(entityID eID){
     m_entities_dirty = true;
-    Entity* e = m_entities[eID];
-    for(auto pair : e->m_componentMap){
+    for(auto pair : m_component_maps.at(eID)){
         auto componentID = pair.first;
         auto componentPtr = pair.second;
         std::invoke(m_components_destuction_callbacks_array[componentID], componentPtr);
     }
+    Entity* e = m_entities[eID];
     m_entity_pool.destroy(e);
 }
 
@@ -105,8 +106,8 @@ void EntityAdmin::update(float dt){
 }
 
 void EntityAdmin::teardown(){
-    for(auto it = m_entityIDs.begin(); it != m_entityIDs.end(); ++it){
-        destroyEntity(*it);
+    for(auto it = m_entities.begin(); it != m_entities.end(); ++it){
+        destroyEntity(it->first);
     }
     
 //    for(auto it = m_entities.begin(); it != m_entities.end(); ++it){

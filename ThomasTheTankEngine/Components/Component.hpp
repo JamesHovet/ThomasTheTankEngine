@@ -13,9 +13,11 @@
 class Entity;
 
 struct Component {
-    Entity* m_parentEntity;
+    
 };
 
+// a bit of a hack to allow lookup of a component index using <> notation.
+// usage: `ComponentIndexTable::RetrieveComponentIndex<ComponentName>`
 namespace ComponentIndexTable {
     template <typename T>
     struct RetrieveComponentIndex {

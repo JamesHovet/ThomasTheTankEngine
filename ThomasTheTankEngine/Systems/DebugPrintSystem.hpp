@@ -11,13 +11,6 @@
 
 #include "System.hpp"
 
-//class System {
-//    virtual void Update(float dt) = 0;
-//    virtual void Init(void) = 0;
-////    virtual void SendMessage(Message *msg) = 0;
-//    virtual ~System(){};
-//};
-
 class DebugPrintSystem : public System {
 public:
     void tick(float dt);

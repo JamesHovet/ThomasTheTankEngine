@@ -14,6 +14,7 @@
 #include <map>
 #include <unordered_map>
 #include <array>
+#include <unordered_set>
 #include "object_pool.hpp"
 #include <functional>
 
@@ -36,17 +37,13 @@ public:
     ~EntityAdmin();
     
     void setup();
+    void teardown();
     void update(float dt);
     void mainLoop(void);
     
     entityID createEntity();
     void destroyEntity(entityID e);
-//    template <typename T>
-//    T* addComponent(entityID e, Components type){
-//        boost::object_pool<T>* this_pool = ((boost::object_pool<T>*)m_components_pool_array.at((int)type));
-//        T* out = this_pool->construct();
-//        return out;
-//    }
+    
     template <typename T>
     T& addComponent(entityID e){
         int componentID = ComponentIndexTable::RetrieveComponentIndex<T>::componentIndex;
@@ -65,10 +62,13 @@ public:
 //private:
     
     std::unordered_map<entityID, Entity*> m_entities;
+    std::unordered_set<entityID> m_entityIDs;
+    bool m_entities_dirty = true;
     std::vector<System *> m_systems;
 private:
     std::array<void *, NUM_COMPONENTS> m_components_pool_array;
-    std::array<std::function<void (void *)>, NUM_COMPONENTS> m_components_destroyers_array;
+    std::array<std::function<void (void *)>, NUM_COMPONENTS> m_components_destuction_callbacks_array;
+    std::vector<std::function<void (void)>> m_cleanup_callbacks;
     entityID nextFreeID = 0;
     boost::object_pool<Entity> m_entity_pool;
     std::array<void *, Singletons::SingletonsCount> m_singletons;

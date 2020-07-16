@@ -14,11 +14,4 @@ enum class Components {
     ComponentsCount = 1
 };
 
-//
-//namespace Components {
-//    typedef enum Components {
-//        DebugInfoComponent,
-//        ComponentsCount
-//    } ComponentType;
-//}
 #endif /* ComponentsEnum_hpp */

@@ -46,6 +46,7 @@ int main(int argc, const char * argv[]) {
     
     admin.setup();
     admin.update(1.0);
+    admin.teardown();
     
     return 0;
 }

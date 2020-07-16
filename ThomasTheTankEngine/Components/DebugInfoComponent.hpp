@@ -11,10 +11,13 @@
 
 #include "Component.hpp"
 #include <string>
+#include "glm.hpp"
 
 struct DebugInfoComponent : public Component {
     static constexpr int componentIndex{ 0 };
-    std::string str;
+//    std::string str;
+//    bool b;
+    glm::vec3 pos;
 };
 
 #endif /* DebugInfoComponent_hpp */

@@ -14,15 +14,20 @@
 #include "typedefs.h"
 #include "Component.hpp"
 #include <map>
+class EntityAdmin;
 
 struct Entity {
+    friend EntityAdmin;
+private:
     std::map<int, Component*> m_componentMap;
+public:
     entityID m_entityID;
 
     Entity(entityID eID){
         m_entityID = eID;
     }
     
+private:
     template <typename T>
     T* tryGetComponent(){
         constexpr int id = ComponentIndexTable::RetrieveComponentIndex<T>::componentIndex;
@@ -46,17 +51,6 @@ struct Entity {
         return *value;
     }
     
-    /* from Halley
-     template <typename T>
-     bool hasComponent(World& world) const
-     {
-         if (dirty) {
-             return tryGetComponent<T>() != nullptr;
-         } else {
-             return hasBit(world, FamilyMask::RetrieveComponentIndex<T>::componentIndex);
-         }
-     }
-     */
 };
 
 #endif /* Entity_hpp */

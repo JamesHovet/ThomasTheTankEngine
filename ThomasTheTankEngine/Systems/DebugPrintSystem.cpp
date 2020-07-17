@@ -10,14 +10,17 @@
 #include <stdio.h>
 
 void DebugPrintSystem::tick(float dt){
-    std::cout << "registered entities:" << std::endl;
+//    std::cout << "registered entities:" << std::endl;
+    float sum = 0;
     for(entityID eID : m_registered){
         DebugNameComponent& nameC = m_admin.getComponent<DebugNameComponent>(eID);
         TransformComponent& transC = m_admin.getComponent<TransformComponent>(eID);
-        glm::vec3 pos = transC.m_position;
+        glm::vec3& pos = transC.m_position;
         
-        printf("[%10s] (%5.0f, %5.0f, %5.0f)\n", nameC.m_name.c_str(), pos.x, pos.y, pos.z);
+//        pos.y = dt;
+//        sum += pos.y;
     }
+    
 }
 
 void DebugPrintSystem::init(){

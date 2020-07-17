@@ -9,8 +9,8 @@
 using namespace glm;
 
 
-const int SCREEN_WIDTH = 256 * 3;
-const int SCREEN_HEIGHT = 240 * 3;
+const int SCREEN_WIDTH = 256 * 2;
+const int SCREEN_HEIGHT = 240 * 2;
 int graphics_globals::screen_width = SCREEN_WIDTH;
 int graphics_globals::screen_height = SCREEN_HEIGHT;
 
@@ -19,6 +19,8 @@ SDL_GLContext gl_context;
 
 
 Shader defaultShader;
+
+EntityAdmin g_admin;
 
 /*
  std::vector<std::unique_ptr<Node>> nodes = std::vector<std::unique_ptr<Node>>();
@@ -42,11 +44,18 @@ int main(int argc, const char * argv[]) {
 //    holdWindowOpen();
 //    window_close();
     
-    EntityAdmin admin;
     
-    admin.setup();
-    admin.update(1.0);
-    admin.teardown();
+    
+    window_init();
+    
+    g_admin.setup();
+    
+//    holdWindowOpen();
+    legacyHoldWindowOpen();
+    
+    g_admin.teardown();
+    
+    window_close();
     
     return 0;
 }
@@ -191,6 +200,54 @@ unsigned int cubeIndices[] = {
 };
 
 void holdWindowOpen() {
+    float deltaTime = 0.0f;
+    Uint32 lastFrame = 0;
+    
+    SDL_Event e;
+    bool quit = false;
+    while (!quit){
+        Uint32 currentFrame = SDL_GetTicks();
+        deltaTime = ((float) currentFrame - lastFrame) / 1000.0f;
+        lastFrame = currentFrame;
+        
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplSDL2_NewFrame(g_window);
+        ImGui::NewFrame();
+        
+        while (SDL_PollEvent(&e)){
+            ImGui_ImplSDL2_ProcessEvent(&e);
+            if (e.type == SDL_QUIT){
+                quit = true;
+            }
+            if (e.type == SDL_KEYDOWN){
+                quit = false;
+            }
+            if (e.type == SDL_MOUSEBUTTONDOWN){
+                quit = false;
+            }
+        }
+        
+        g_admin.update(deltaTime);
+        
+        ImGui::Begin("main");
+        
+        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
+                    1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+        
+        ImGui::End();
+        
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        
+        SDL_GL_SwapWindow(g_window);
+    }
+    
+}
+
+void legacyHoldWindowOpen() {
     // create a vertex array object to store all these attributes.  This lets us switch between these attribute sets easily.
     unsigned int VAO;
     glGenVertexArrays(1, &VAO);

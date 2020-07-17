@@ -41,5 +41,6 @@
 bool window_init();
 void window_close();
 void holdWindowOpen();
+void legacyHoldWindowOpen();
 
 #endif /* main_h */

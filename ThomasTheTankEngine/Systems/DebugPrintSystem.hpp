@@ -10,6 +10,8 @@
 #define DebugPrintSystem_hpp
 
 #include "System.hpp"
+#include "DebugNameComponent.hpp"
+#include "TransformComponent.hpp"
 
 class DebugPrintSystem : public System {
 public:

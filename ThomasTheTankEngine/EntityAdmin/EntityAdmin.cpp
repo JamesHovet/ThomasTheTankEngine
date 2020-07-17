@@ -18,6 +18,24 @@
 void constructComponentPools(std::array<void *, NUM_COMPONENTS>& pool,
                              std::array<std::function<void (void *)>, NUM_COMPONENTS>& destroyers,
                              std::vector<std::function<void (void)>>& cleanup_callbacks){
+    
+    { // Transform is built in.
+        boost::object_pool<TransformComponent>* p = new boost::object_pool<TransformComponent>;
+        pool[0] = p;
+        destroyers[0] = [p](void * ptr){
+            p->free((boost::object_pool<TransformComponent>::element_type *) ptr);
+        };
+        cleanup_callbacks.push_back([p](void) { delete p; });
+    }
+    { // DebugName is built in.
+        boost::object_pool<DebugNameComponent>* p = new boost::object_pool<DebugNameComponent>;
+        pool[1] = p;
+        destroyers[1] = [p](void * ptr){
+            p->free((boost::object_pool<DebugNameComponent>::element_type *) ptr);
+        };
+        cleanup_callbacks.push_back([p](void) { delete p; });
+    }
+    
     #include "populatePoolsInclude.cpp"
 //    boost::object_pool<DebugInfoComponent>* p = new boost::object_pool<DebugInfoComponent>;
 //    std::function<void (void *)> destroyer = [p](void * ptr) {
@@ -87,12 +105,12 @@ void EntityAdmin::setup(){
     //@Remove: temporary test entities
     for(int i = 0; i < 1024; i++){
         entityID eID = this->createEntity();
-        DebugNameComponent& c = this->addComponent<DebugNameComponent>(eID);
+        DebugNameComponent& nameC = this->addComponent<DebugNameComponent>(eID);
+        TransformComponent& transformC = this->addComponent<TransformComponent>(eID);
 
-//        c.str = std::to_string(eID);
-//        c.b = (i % 2) == 0;
-//        c.pos = glm::vec3(0, 0, i);
-        c.m_name = std::to_string(eID);
+        nameC.m_name = std::to_string(eID);
+        transformC.m_position = glm::vec3((float) i, 0, (float) eID);
+        
         m_systems[Systems::DebugPrintSystem]->registerEntity(eID);
     }
     

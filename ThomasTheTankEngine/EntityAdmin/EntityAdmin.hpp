@@ -20,10 +20,9 @@
 
 #include "Component.hpp"
 #include "Entity.hpp"
-//#include "System.hpp"
+#include "System.hpp"
 #include "SystemsEnum.hpp"
 #include "ComponentsEnum.hpp"
-#include "AllComponents.h"
 #include "SingletonsEnum.hpp"
 
 

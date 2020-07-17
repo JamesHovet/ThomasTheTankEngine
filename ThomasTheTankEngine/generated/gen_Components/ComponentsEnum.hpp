@@ -1,12 +1,15 @@
 // ComponentsEnum.hpp
-// generated at: 2020-07-16 14:49:53.802412
+// generated at: 2020-07-17 09:30:59.211665
 
 #ifndef ComponentsEnum_hpp
 #define ComponentsEnum_hpp
 
 enum class Components {
-	DebugPrintComponent = 0,
-	DebugNameComponent = 1,
-	ComponentsCount = 2
+    TransformComponent = 0,
+    DebugNameComponent = 1,
+	DebugPrintComponent = 2,
+	ComponentsCount = 3
 };
+
+#define NUM_COMPONENTS 3
 #endif 

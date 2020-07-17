@@ -89,7 +89,7 @@ if __name__ == "__main__":
     allFamilies = open(OUTPUT_FAMILIES + 'allFamilies.h', mode='w')
     createPoolsCPP = open(OUTPUT_CPP + 'populatePoolsInclude.cpp', mode='w')
 
-    componentID = 0
+    componentID = 2 ## transform and DebugName components built into the engine
     familyID = 0
 
     allComponents.write("// AllComponents.hpp\n")
@@ -97,6 +97,9 @@ if __name__ == "__main__":
     allComponents.write("""
 #ifndef AllComponents_hpp
 #define AllComponents_hpp\n
+
+#include "TransformComponent.hpp"
+#include "DebugNameComponent.hpp"
 """)
 
     componentsEnum.write("// ComponentsEnum.hpp\n")
@@ -106,6 +109,8 @@ if __name__ == "__main__":
 #define ComponentsEnum_hpp
 
 enum class Components {
+    TransformComponent = 0,
+    DebugNameComponent = 1,
 """)
     
     allFamilies.write("""
@@ -120,11 +125,12 @@ enum class Components {
             createHeadersFromJSON(json.load(f))
             f.close()
 
-    allComponents.write("\n#define NUM_COMPONENTS " + str(componentID) + "\n")
-    allFamilies.write("\n#define NUM_FAMILIES " + str(familyID) + "\n")
+#    allComponents.write("\n#define NUM_COMPONENTS " + str(componentID) + "\n")
+#    allFamilies.write("\n#define NUM_FAMILIES " + str(familyID) + "\n")
 
     componentsEnum.write("\tComponentsCount = " + str(componentID) + "\n")
     componentsEnum.write("};\n")
+    componentsEnum.write("\n#define NUM_COMPONENTS " + str(componentID) + "\n")
 
     allComponents.write("#endif \n")
     componentsEnum.write("#endif \n")

@@ -19,19 +19,6 @@
 					"type": "float"
 				}
 			]
-		}, 
-		{
-			"name" : "DebugName",
-			"includes" : [
-				"<string>"
-			],
-			"members" : [
-				{
-					"name" : "m_name",
-					"type" : "std::string",
-					"default": "\"myName\""
-				}
-			]
 		}
 	],
 	"families" : [

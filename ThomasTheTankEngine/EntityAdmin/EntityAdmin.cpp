@@ -11,7 +11,7 @@
 #include <stdlib.h>
 
 #include "AllComponents.h"
-#include "DebugPrintSystem.hpp"
+#include "allFamilies.h"
 #include "object_pool.hpp"
 
 // Helpers:
@@ -36,35 +36,34 @@ void constructComponentPools(std::array<void *, NUM_COMPONENTS>& pool,
         cleanup_callbacks.push_back([p](void) { delete p; });
     }
     
-    #include "populatePoolsInclude.cpp"
-//    boost::object_pool<DebugInfoComponent>* p = new boost::object_pool<DebugInfoComponent>;
-//    std::function<void (void *)> destroyer = [p](void * ptr) {
-//        p->free((boost::object_pool<DebugInfoComponent>::element_type *) ptr);
-//    };
-//    std::function<void (void)> cleanup = [p](void) {
-//        delete p;
-//    };
-//
-//    pool[0] = p;
-//    destroyers[0] = destroyer;
-//    cleanup_callbacks.push_back(cleanup);
-//
-    
+    #include "populateComponentPoolsInclude.cpp"
+}
+
+void constructFamilyVectors(std::array<void *, NUM_FAMILIES>& array, std::vector<std::function<void (void)>>& cleanup_callbacks){
+    #include "populateFamilyVectorsInclude.cpp"
+//    {
+//        std::vector<GreyBoxFamily>* v = new std::vector<GreyBoxFamily>;
+//        array[0] = v;
+//        cleanup_callbacks.push_back([v](void) {delete v;});
+//    }
 }
 
 // EntityAdmin member functions
-EntityAdmin::EntityAdmin(){
-    m_systems.reserve(Systems::SystemsCount);
+EntityAdmin::EntityAdmin()
+    : m_DebugPrintSystem(*this)
+{
     constructComponentPools(m_components_pool_array,
                             m_components_destuction_callbacks_array,
                             m_cleanup_callbacks);
+    
+    constructFamilyVectors(m_families_vectors_array, m_cleanup_callbacks);
 }
 
 
 EntityAdmin::~EntityAdmin(){
-    for (System * s : m_systems){
-        delete s;
-    }
+//    for (System * s : m_systems){
+//        delete s;
+//    }
     // cleanup callbacks including calling destructors on all the component object pools
     for (auto cleanup_callback : m_cleanup_callbacks){
         std::invoke(cleanup_callback);
@@ -100,18 +99,25 @@ void EntityAdmin::destroyEntity(entityID eID){
 }
 
 void EntityAdmin::setup(){
-    m_systems.push_back(new DebugPrintSystem(*this));
+//    m_systems.push_back(new DebugPrintSystem(*this));
 
+    std::vector<GreyBoxFamily>& greyBoxFamilies = this->getFamilyVector<GreyBoxFamily>();
+    
     //@Remove: temporary test entities
     for(int i = 0; i < 1024; i++){
         entityID eID = this->createEntity();
         DebugNameComponent& nameC = this->addComponent<DebugNameComponent>(eID);
         TransformComponent& transformC = this->addComponent<TransformComponent>(eID);
+        GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(eID);
 
         nameC.m_name = std::to_string(eID);
         transformC.m_position = glm::vec3((float) i, 0, (float) eID);
         
-        m_systems[Systems::DebugPrintSystem]->registerEntity(eID);
+        GreyBoxFamily greyBoxF = GreyBoxFamily(transformC, boxC);
+        
+        greyBoxFamilies.push_back(greyBoxF);
+        
+//        m_systems[Systems::DebugPrintSystem]->registerEntity(eID);
     }
     
     return;
@@ -119,19 +125,17 @@ void EntityAdmin::setup(){
 }
 
 void EntityAdmin::update(float dt){
-    for (System* s : m_systems){
-        s->tick(1.0);
-    }
+//    for (System* s : m_systems){
+//        s->tick(1.0);
+//    }
+    
+    m_DebugPrintSystem.tick(dt);
 }
 
 void EntityAdmin::teardown(){
     for(auto it = m_entities.begin(); it != m_entities.end(); ++it){
         destroyEntity(it->first);
     }
-    
-//    for(auto it = m_entities.begin(); it != m_entities.end(); ++it){
-//        destr
-//    }
 }
 
 void EntityAdmin::mainLoop(){

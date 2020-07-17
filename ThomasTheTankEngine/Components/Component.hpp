@@ -14,7 +14,7 @@
 #define MAX_COMPONENT_TYPES 64
 
 //#include "Entity.hpp"
-class Entity;
+//class Entity;
 
 struct Component {
     

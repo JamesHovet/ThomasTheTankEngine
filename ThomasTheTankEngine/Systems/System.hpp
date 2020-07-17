@@ -15,7 +15,7 @@
 #include <iostream>
 
 #include "typedefs.h"
-#include "EntityAdmin.hpp"
+//#include "EntityAdmin.hpp"
 
 class EntityAdmin;
 
@@ -23,18 +23,19 @@ class System {
 public:
     virtual void tick(float dt) = 0;
     virtual void init(void) = 0;
-    virtual void registerEntity(entityID e){
-        m_registered.push_back(e);
-    }
-    virtual void clear(){
-        m_registered.clear();
-    }
+    virtual void render(void) = 0;
+//    virtual void registerEntity(entityID e){
+//        m_registered.push_back(e);
+//    }
+//    virtual void clear(){
+//        m_registered.clear();
+//    }
 //    virtual void SendMessage(Message *msg) = 0;
     virtual ~System(){};
     System(EntityAdmin & admin) : m_admin(admin) {};
 protected:
-    EntityAdmin& m_admin; 
-    std::vector<entityID> m_registered;
+    EntityAdmin& m_admin;
+//    std::vector<entityID> m_registered;
 };
 
 #endif /* System_hpp */

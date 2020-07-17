@@ -46,16 +46,17 @@ int main(int argc, const char * argv[]) {
     
     
     
-    window_init();
+//    window_init();
     
     g_admin.setup();
     
+    g_admin.update(1.0f);
 //    holdWindowOpen();
-    legacyHoldWindowOpen();
+//    legacyHoldWindowOpen();
     
     g_admin.teardown();
     
-    window_close();
+//    window_close();
     
     return 0;
 }

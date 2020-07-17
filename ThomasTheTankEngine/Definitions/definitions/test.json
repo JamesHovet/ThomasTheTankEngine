@@ -19,12 +19,26 @@
 					"type": "float"
 				}
 			]
-		}
+		},
+        {
+            "name" : "GreyBox" ,
+            "members" : [
+                {
+                    "name": "m_color",
+                    "type": "glm::vec3",
+                    "default" : "glm::vec3(0.8f)"
+                }
+            ]
+        }
 	],
 	"families" : [
 		{
 			"name" : "DebugPrintable",
 			"components" : [ "DebugPrint" ]
-		}
+		},
+        {
+            "name" : "GreyBox",
+            "components" : ["Transform", "GreyBox"]
+        }
 	]
 }

@@ -18,13 +18,13 @@ def createAndWriteForComponentDict(c, componentID):
     componentsEnum.write("\t" + fullname + " = " + str(componentID) + ",\n")
 
     #construct component pools include
-    createPoolsCPP.write("\t{\n")
-    createPoolsCPP.write("\t\tboost::object_pool<{}>* p = new boost::object_pool<{}>;\n".format(fullname, fullname))
-    createPoolsCPP.write("\t\tpool[{}] = p;\n".format(componentID))
-    createPoolsCPP.write("\t\tdestroyers[{}] = [p](void * ptr)".format(componentID) + "{ \n")
-    createPoolsCPP.write("\t\t\tp->free((boost::object_pool<{}>::element_type *) ptr);".format(fullname) + "\n\t\t};\n")
-    createPoolsCPP.write("\t\tcleanup_callbacks.push_back([p](void) { delete p; });\n")
-    createPoolsCPP.write("\t}\n")
+    createComponentPoolsCPP.write("\t{\n")
+    createComponentPoolsCPP.write("\t\tboost::object_pool<{}>* p = new boost::object_pool<{}>;\n".format(fullname, fullname))
+    createComponentPoolsCPP.write("\t\tpool[{}] = p;\n".format(componentID))
+    createComponentPoolsCPP.write("\t\tdestroyers[{}] = [p](void * ptr)".format(componentID) + "{ \n")
+    createComponentPoolsCPP.write("\t\t\tp->free((boost::object_pool<{}>::element_type *) ptr);".format(fullname) + "\n\t\t};\n")
+    createComponentPoolsCPP.write("\t\tcleanup_callbacks.push_back([p](void) { delete p; });\n")
+    createComponentPoolsCPP.write("\t}\n")
 
     #header file
     f = open(OUTPUT_COMPONENTS + fullname + ".hpp", mode='w')
@@ -57,13 +57,64 @@ def createAndWriteForComponentDict(c, componentID):
 
 def createAndWriteForFamilyDict(c, familyID):
     fullname = c['name'] + "Family"
-    allFamilies.write("#include \"" + fullname + ".hpp\n")
     
+    #allFamilies
+    allFamilies.write("#include \"" + fullname + ".hpp\"\n")
+    
+    #familiesEnum
+    familiesEnum.write("\t" + fullname + " = " + str(familyID) + ",\n")
+    
+    #familiesVectorConstructionCPP
+    createFamilyVectorsCPP.write("\t{\n")
+    createFamilyVectorsCPP.write("\t\tstd::vector<{}>* v = new std::vector<{}>;\n".format(fullname, fullname))
+    createFamilyVectorsCPP.write("\t\tarray[{}] = v;\n".format(familyID))
+    createFamilyVectorsCPP.write("\t\tcleanup_callbacks.push_back([v](void) {delete v;});\n")
+    createFamilyVectorsCPP.write("\t}\n")
+    
+    #header files
     f = open(OUTPUT_FAMILIES + fullname + ".hpp", mode='w')
     f.write("// " + fullname + ".hpp\n")
     f.write("// generated at: " + str(datetime.now()) + "\n")
     f.write("#ifndef " + fullname + "_hpp\n") 
-    f.write("#define " + fullname + "_hpp\n\n") 
+    f.write("#define " + fullname + "_hpp\n\n")
+    
+    for componentName in c['components']:
+        fullComponentName = componentName + "Component"
+        f.write("#include \"{}.hpp\"\n".format(fullComponentName))
+    
+    
+#    f.write("struct " + fullname + " : public Family {\n")
+    f.write("struct " + fullname + " {\n")
+
+    f.write("\tstatic constexpr int familyIndex{ " + str(familyID) + " };\n")
+    familyID += 1
+
+    
+    for componentName in c['components']:
+        fullComponentName = componentName + "Component"
+        f.write("\t{}& m_{};\n".format(fullComponentName, fullComponentName))
+    
+    f.write("\n\t{}(".format(fullname))
+    
+    for idx, componentName in enumerate(c['components']):
+        fullComponentName = componentName + "Component"
+        if (idx == 0):
+            f.write("{}& _{}".format(fullComponentName, fullComponentName))
+        else:
+            f.write(", {}& _{}".format(fullComponentName, fullComponentName))
+    
+    f.write(")\n\t: ")
+    
+    for idx, componentName in enumerate(c['components']):
+        fullComponentName = componentName + "Component"
+        if (idx == 0):
+            f.write("m_{} (_{})".format(fullComponentName, fullComponentName))
+        else:
+            f.write(",\n\tm_{} (_{})\n".format(fullComponentName, fullComponentName))
+    f.write("\t{}\n")
+    
+    
+    f.write("};")
 
     f.write("\n#endif")
     f.close()
@@ -87,7 +138,9 @@ if __name__ == "__main__":
     allComponents = open(OUTPUT_COMPONENTS + 'allComponents.h', mode='w')
     componentsEnum = open(OUTPUT_COMPONENTS + 'ComponentsEnum.hpp', mode='w')
     allFamilies = open(OUTPUT_FAMILIES + 'allFamilies.h', mode='w')
-    createPoolsCPP = open(OUTPUT_CPP + 'populatePoolsInclude.cpp', mode='w')
+    familiesEnum = open(OUTPUT_FAMILIES + 'familiesEnum.hpp', mode='w')
+    createComponentPoolsCPP = open(OUTPUT_CPP + 'populateComponentPoolsInclude.cpp', mode='w')
+    createFamilyVectorsCPP = open(OUTPUT_CPP + 'populateFamilyVectorsInclude.cpp', mode='w')
 
     componentID = 2 ## transform and DebugName components built into the engine
     familyID = 0
@@ -119,6 +172,15 @@ enum class Components {
 #define AllFamilies_hpp\n
 """)
 
+    familiesEnum.write("// familiesEnum.hpp\n")
+    familiesEnum.write("// generated at: " + str(datetime.now()) + "\n")
+    familiesEnum.write("""
+#ifndef familiesEnum_hpp
+#define familiesEnum_hpp\n
+
+enum class Families {
+""")
+
     for fname in os.listdir(INPUT_DIR):
         if fname.endswith(".json"):
             f = open(INPUT_DIR + fname, mode='r')
@@ -131,14 +193,19 @@ enum class Components {
     componentsEnum.write("\tComponentsCount = " + str(componentID) + "\n")
     componentsEnum.write("};\n")
     componentsEnum.write("\n#define NUM_COMPONENTS " + str(componentID) + "\n")
-
+    
+    familiesEnum.write("\tFamiliesCount = " + str(familyID) + "\n")
+    familiesEnum.write("};\n")
+    familiesEnum.write("\n#define NUM_FAMILIES " + str(familyID) + "\n")
+    
     allComponents.write("#endif \n")
     componentsEnum.write("#endif \n")
     allFamilies.write("#endif \n")
+    familiesEnum.write("#endif \n")
 
     allComponents.close()
     allFamilies.close()
     componentsEnum.close()
-    createPoolsCPP.close()
+    createComponentPoolsCPP.close()
 
 

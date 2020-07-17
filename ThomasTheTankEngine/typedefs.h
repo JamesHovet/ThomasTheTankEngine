@@ -11,5 +11,6 @@
 
 typedef unsigned entityID;
 typedef unsigned componentID;
+typedef unsigned familyID;
 
 #endif /* typedefs_h */

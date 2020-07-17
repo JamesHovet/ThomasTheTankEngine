@@ -9,6 +9,7 @@
 #ifndef TransformComponent_hpp
 #define TransformComponent_hpp
 
+#include "Component.hpp"
 #include "glm.hpp"
 #include "glm/gtc/quaternion.hpp"
 #include "glm/gtx/quaternion.hpp"

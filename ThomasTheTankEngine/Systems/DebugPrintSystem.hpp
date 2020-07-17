@@ -10,15 +10,19 @@
 #define DebugPrintSystem_hpp
 
 #include "System.hpp"
-#include "DebugNameComponent.hpp"
-#include "TransformComponent.hpp"
+//#include "DebugNameComponent.hpp"
+//#include "TransformComponent.hpp"
+#include "GreyBoxFamily.hpp"
+
 
 class DebugPrintSystem : public System {
 public:
     void tick(float dt);
     void init();
+    void render(){};
+    
     DebugPrintSystem(EntityAdmin& admin) : System(admin) {};
-    ~DebugPrintSystem();
+    ~DebugPrintSystem(){};
 };
 
 #endif /* DebugPrintSystem_hpp */

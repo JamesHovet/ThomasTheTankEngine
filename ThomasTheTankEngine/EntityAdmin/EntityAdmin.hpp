@@ -19,16 +19,21 @@
 #include <functional>
 
 #include "Component.hpp"
-#include "Entity.hpp"
-#include "System.hpp"
-#include "SystemsEnum.hpp"
 #include "ComponentsEnum.hpp"
+
+#include "Entity.hpp"
+
+#include "Family.hpp"
+#include "FamiliesEnum.hpp"
+//#include "System.hpp"
+#include "AllSystems.hpp"
+
 #include "SingletonsEnum.hpp"
 
 
 #define MAX_ENTITIES 2048
 
-class System;
+//class System;
 
 class EntityAdmin {
 public:
@@ -59,7 +64,7 @@ public:
 
     template <typename T>
     T* tryGetComponent(entityID eID){
-        constexpr int cID = ComponentIndexTable::RetrieveComponentIndex<T>::componentIndex;
+        constexpr componentID cID = ComponentIndexTable::RetrieveComponentIndex<T>::componentIndex;
         assert(m_component_maps.count(eID) != 0);
         auto this_entity_map = m_component_maps.at(eID);
         if (this_entity_map.count(cID) != 0){
@@ -96,19 +101,32 @@ public:
         m_entities.at(eID)->mask.reset(cID); // clear entity flags
     }
     
+    template <typename T>
+    std::vector<T>& getFamilyVector() {
+        constexpr familyID familyID = FamilyIndexTable::FamilyComponentIndex<T>::familyIndex;
+        return *(static_cast<std::vector<T>*>(m_families_vectors_array[familyID]));
+    }
+    
+//    template <typename T>
+//    std::vector<T>& getFamilyVector() const {
+//        auto value =
+//    }
+    
 private:
     std::unordered_map<entityID, std::unordered_map<componentID, Component *>> m_component_maps;
     std::unordered_map<entityID, Entity*> m_entities;
     boost::object_pool<Entity> m_entity_pool;
     bool m_entities_dirty = true;
     
-    std::vector<System *> m_systems;
-    
     std::array<void *, NUM_COMPONENTS> m_components_pool_array;
-    std::array<std::function<void (void *)>, NUM_COMPONENTS> m_components_destuction_callbacks_array;
+    std::array<std::function<void (void *)>, NUM_COMPONENTS> m_components_destuction_callbacks_array; // 
     std::vector<std::function<void (void)>> m_cleanup_callbacks;
     
-    std::array<void *, Singletons::SingletonsCount> m_singletons;
+    std::array<void *, NUM_FAMILIES> m_families_vectors_array;
+    
+    DebugPrintSystem m_DebugPrintSystem;
+    
+    
+//    std::array<void *, Singletons::SingletonsCount> m_singletons;
 };
-
 #endif /* EntityAdmin_hpp */

@@ -4,5 +4,6 @@
 #ifndef AllFamilies_hpp
 #define AllFamilies_hpp
 
-#include "DebugPrintableFamily.hpp
+#include "DebugPrintableFamily.hpp"
+#include "GreyBoxFamily.hpp"
 #endif 

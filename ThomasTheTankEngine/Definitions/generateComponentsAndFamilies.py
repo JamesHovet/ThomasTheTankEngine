@@ -70,17 +70,17 @@ def createAndWriteForFamilyDict(c, familyID):
     familiesEnum.write("\t" + fullname + " = " + str(familyID) + ",\n")
     
     #familiesVectorConstructionCPP
-    createFamilyVectorsCPP.write("\t{\n")
+    createFamilyMapsCPP.write("\t{\n")
     
-    createFamilyVectorsCPP.write("\t\tstd::vector<{}>* v = new std::vector<{}>;\n".format(fullname, fullname))
-    createFamilyVectorsCPP.write("\t\tarray[{}] = v;\n".format(familyID))
-    createFamilyVectorsCPP.write("\t\tcleanup_callbacks.push_back([v](void) {delete v;});\n")
+    createFamilyMapsCPP.write("\t\tstd::unordered_map<entityID, {}>* m = new std::unordered_map<entityID, {}>;\n".format(fullname, fullname))
+    createFamilyMapsCPP.write("\t\tarray[{}] = m;\n".format(familyID))
+    createFamilyMapsCPP.write("\t\tcleanup_callbacks.push_back([m](void) {delete m;});\n")
     
     for componentName in c['components']:
         fullComponentName = componentName + "Component"
-        createFamilyVectorsCPP.write("\t\tFamily<{}>::mask.set({});\n".format(fullname, componentNamesToIDs[fullComponentName]))
+        createFamilyMapsCPP.write("\t\tFamily<{}>::mask.set({});\n".format(fullname, componentNamesToIDs[fullComponentName]))
         
-    createFamilyVectorsCPP.write("\t}\n")
+    createFamilyMapsCPP.write("\t}\n")
     
     #header files
     f = open(OUTPUT_FAMILIES + fullname + ".hpp", mode='w')
@@ -150,7 +150,7 @@ if __name__ == "__main__":
     allFamilies = open(OUTPUT_FAMILIES + 'allFamilies.h', mode='w')
     familiesEnum = open(OUTPUT_FAMILIES + 'familiesEnum.hpp', mode='w')
     createComponentPoolsCPP = open(OUTPUT_CPP + 'populateComponentPoolsInclude.cpp', mode='w')
-    createFamilyVectorsCPP = open(OUTPUT_CPP + 'populateFamilyVectorsInclude.cpp', mode='w')
+    createFamilyMapsCPP = open(OUTPUT_CPP + 'populateFamilyMapsInclude.cpp', mode='w')
 
     componentID = 2 ## transform and DebugName components built into the engine
     familyID = 0

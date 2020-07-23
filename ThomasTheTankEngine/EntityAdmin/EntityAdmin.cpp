@@ -40,15 +40,24 @@ void constructComponentPools(std::array<void *, NUM_COMPONENTS>& pool,
     #include "populateComponentPoolsInclude.cpp"
 }
 
-void constructFamilyVectors(std::array<void *, NUM_FAMILIES>& array, std::vector<std::function<void (void)>>& cleanup_callbacks){
-    #include "populateFamilyVectorsInclude.cpp"
+//void constructFamilyVectors(std::array<void *, NUM_FAMILIES>& array, std::vector<std::function<void (void)>>& cleanup_callbacks){
+//    #include "populateFamilyVectorsInclude.cpp"
+////    {
+////        std::vector<GreyBoxFamily>* v = new std::vector<GreyBoxFamily>;
+////        array[0] = v;
+////        cleanup_callbacks.push_back([v](void) {delete v;});
+////    }
+//}
+
+void constructFamilyMaps(std::array<void *, NUM_FAMILIES>& array, std::vector<std::function<void (void)>>& cleanup_callbacks){
+    #include "populateFamilyMapsInclude.cpp"
 //    {
-//        std::vector<GreyBoxFamily>* v = new std::vector<GreyBoxFamily>;
-//        array[0] = v;
-//        cleanup_callbacks.push_back([v](void) {delete v;});
+//        std::unordered_map<entityID, GreyBoxFamily>* m = new std::unordered_map<entityID, GreyBoxFamily>;
+//        array[0] = m;
+//        cleanup_callbacks.push_back([m](void) {delete m;});
 //    }
 }
-
+    
 // EntityAdmin member functions
 EntityAdmin::EntityAdmin()
     : m_DebugPrintSystem(*this)
@@ -57,7 +66,7 @@ EntityAdmin::EntityAdmin()
                             m_components_destuction_callbacks_array,
                             m_cleanup_callbacks);
     
-    constructFamilyVectors(m_families_vectors_array, m_cleanup_callbacks);
+    constructFamilyMaps(m_families_maps_array, m_cleanup_callbacks);
 }
 
 
@@ -102,7 +111,7 @@ void EntityAdmin::destroyEntity(entityID eID){
 void EntityAdmin::setup(){
 //    m_systems.push_back(new DebugPrintSystem(*this));
 
-    std::vector<GreyBoxFamily>& greyBoxFamilies = this->getFamilyVector<GreyBoxFamily>();
+    std::unordered_map<entityID, GreyBoxFamily>& greyBoxFamilies = this->getFamilyMap<GreyBoxFamily>();
     
     //@Remove: temporary test entities
     for(int i = 0; i < 1024; i++){
@@ -150,8 +159,8 @@ void EntityAdmin::mainLoop(){
 void EntityAdmin::filterEntitiesIntoFamilies(){
     // TODO: autogenerate this as well...
     
-    getFamilyVector<DebugPrintableFamily>().clear();
-    getFamilyVector<GreyBoxFamily>().clear();
+    getFamilyMap<DebugPrintableFamily>().clear();
+    getFamilyMap<GreyBoxFamily>().clear();
     
     for (std::pair<entityID, Entity*> pair : m_entities){
         Entity* e = pair.second;
@@ -161,13 +170,13 @@ void EntityAdmin::filterEntitiesIntoFamilies(){
         
         if(ECSUtils::doesPassFilter(mask, Family<DebugPrintableFamily>::mask)){
             DebugPrintableFamily family = DebugPrintableFamily(eID, getComponent<DebugPrintComponent>(eID));
-            getFamilyVector<DebugPrintableFamily>().push_back(family);
+            getFamilyMap<DebugPrintableFamily>().emplace(std::make_pair(eID, family));
         }
         
         if(ECSUtils::doesPassFilter(mask, Family<GreyBoxFamily>::mask)){
             GreyBoxFamily family = GreyBoxFamily(eID, getComponent<TransformComponent>(eID),
                                                  getComponent<GreyBoxComponent>(eID));
-            getFamilyVector<GreyBoxFamily>().push_back(family);
+            getFamilyMap<GreyBoxFamily>().emplace(std::make_pair(eID, family));
         }
     }
 }

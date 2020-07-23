@@ -103,16 +103,13 @@ public:
         m_entities.at(eID)->m_mask.reset(cID); // clear entity flag
     }
     
+
     template <typename T>
-    std::vector<T>& getFamilyVector() {
+    std::unordered_map<entityID, T>& getFamilyMap() {
         constexpr familyID familyID = FamilyIndexTable::FamilyComponentIndex<T>::familyIndex;
-        return *(static_cast<std::vector<T>*>(m_families_vectors_array[familyID]));
+        return *(static_cast<std::unordered_map<entityID, T>*>(m_families_maps_array[familyID]));
     }
     
-//    template <typename T>
-//    std::vector<T>& getFamilyVector() const {
-//        auto value =
-//    }
     
 private:
     std::unordered_map<entityID, std::unordered_map<componentID, Component *>> m_component_maps;
@@ -123,10 +120,7 @@ private:
     std::array<void *, NUM_COMPONENTS> m_components_pool_array;
     std::array<std::function<void (void *)>, NUM_COMPONENTS> m_components_destuction_callbacks_array; // 
     std::vector<std::function<void (void)>> m_cleanup_callbacks;
-    
-    //TODO: make these vectors of families unordered_maps keyed by entityID. I don't think we will lose that much performance and it lets us perform checks like the overwatch "isHostileTo" much more locally within the system as opposed to reaching back out into the entity to search for omponents y entityID. 
-    std::array<void *, NUM_FAMILIES> m_families_vectors_array;
-    
+    std::array<void *, NUM_FAMILIES> m_families_maps_array;
     
     DebugPrintSystem m_DebugPrintSystem;
     

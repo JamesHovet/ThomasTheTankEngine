@@ -47,9 +47,10 @@ public:
     
     entityID createEntity();
     void destroyEntity(entityID e);
-    
+private:
     void filterEntitiesIntoFamilies();
-    
+    void clearFamilies();
+public:
     template <typename T>
     T& addComponent(entityID eID){
         m_entities_dirty = true;

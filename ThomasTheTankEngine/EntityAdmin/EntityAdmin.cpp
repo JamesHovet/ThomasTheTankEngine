@@ -114,7 +114,7 @@ void EntityAdmin::setup(){
     std::unordered_map<entityID, GreyBoxFamily>& greyBoxFamilies = this->getFamilyMap<GreyBoxFamily>();
     
     //@Remove: temporary test entities
-    for(int i = 0; i < 1024; i++){
+    for(int i = 0; i < 512; i++){
         entityID eID = this->createEntity();
         DebugNameComponent& nameC = this->addComponent<DebugNameComponent>(eID);
         TransformComponent& transformC = this->addComponent<TransformComponent>(eID);
@@ -122,12 +122,11 @@ void EntityAdmin::setup(){
 
         nameC.m_name = std::to_string(eID);
         transformC.m_position = glm::vec3((float) i, 0, (float) eID);
-        
-//        GreyBoxFamily greyBoxF = GreyBoxFamily(transformC, boxC);
-//        
-//        greyBoxFamilies.push_back(greyBoxF);
-        
-//        m_systems[Systems::DebugPrintSystem]->registerEntity(eID);
+        boxC.m_color = glm::vec3(0.4);
+    }
+    
+    for(int i = 512; i < 1024; i++){
+        entityID eID = this->createEntity();
     }
     
     return;
@@ -156,27 +155,24 @@ void EntityAdmin::mainLoop(){
     
 }
 
+void EntityAdmin::clearFamilies(){
+    #include "clearFamiliesInclude.cpp"
+//    getFamilyMap<DebugPrintableFamily>().clear();
+}
+
 void EntityAdmin::filterEntitiesIntoFamilies(){
-    // TODO: autogenerate this as well...
-    
-    getFamilyMap<DebugPrintableFamily>().clear();
-    getFamilyMap<GreyBoxFamily>().clear();
+    this->clearFamilies();
     
     for (std::pair<entityID, Entity*> pair : m_entities){
         Entity* e = pair.second;
         componentMask mask = e->m_mask;
         entityID eID = e->m_entityID;
         
+        #include "filterEntitiesIntoFamiliesInclude.cpp"
         
-        if(ECSUtils::doesPassFilter(mask, Family<DebugPrintableFamily>::mask)){
-            DebugPrintableFamily family = DebugPrintableFamily(eID, getComponent<DebugPrintComponent>(eID));
-            getFamilyMap<DebugPrintableFamily>().emplace(std::make_pair(eID, family));
-        }
-        
-        if(ECSUtils::doesPassFilter(mask, Family<GreyBoxFamily>::mask)){
-            GreyBoxFamily family = GreyBoxFamily(eID, getComponent<TransformComponent>(eID),
-                                                 getComponent<GreyBoxComponent>(eID));
-            getFamilyMap<GreyBoxFamily>().emplace(std::make_pair(eID, family));
-        }
+//        if(ECSUtils::doesPassFilter(mask, Family<DebugPrintableFamily>::mask)){
+//            DebugPrintableFamily family = DebugPrintableFamily(eID, getComponent<DebugPrintComponent>(eID));
+//            getFamilyMap<DebugPrintableFamily>().emplace(std::make_pair(eID, family));
+//        }
     }
 }

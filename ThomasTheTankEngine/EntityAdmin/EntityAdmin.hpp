@@ -43,6 +43,7 @@ public:
     void setup();
     void teardown();
     void update(float dt);
+    void render();
     void mainLoop(void);
     
     entityID createEntity();
@@ -124,6 +125,7 @@ private:
     std::array<void *, NUM_FAMILIES> m_families_maps_array;
     
     DebugPrintSystem m_DebugPrintSystem;
+    GreyBoxRenderSystem m_GreyBoxRenderSystem;
     
     
 //    std::array<void *, Singletons::SingletonsCount> m_singletons;

@@ -10,5 +10,6 @@
 #define AllSystems_hpp
 
 #include "DebugPrintSystem.hpp"
+#include "GreyBoxRenderSystem.hpp"
 
 #endif /* AllSystems_hpp */

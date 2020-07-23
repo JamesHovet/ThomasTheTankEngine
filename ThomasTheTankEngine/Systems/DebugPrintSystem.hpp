@@ -17,8 +17,8 @@
 
 class DebugPrintSystem : public System {
 public:
-    void tick(float dt);
     void init();
+    void tick(float dt);
     void render(){};
     
     DebugPrintSystem(EntityAdmin& admin) : System(admin) {};

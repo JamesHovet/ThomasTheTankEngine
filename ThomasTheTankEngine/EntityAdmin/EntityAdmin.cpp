@@ -60,7 +60,8 @@ void constructFamilyMaps(std::array<void *, NUM_FAMILIES>& array, std::vector<st
     
 // EntityAdmin member functions
 EntityAdmin::EntityAdmin()
-    : m_DebugPrintSystem(*this)
+    : m_DebugPrintSystem(*this),
+    m_GreyBoxRenderSystem(*this)
 {
     constructComponentPools(m_components_pool_array,
                             m_components_destuction_callbacks_array,
@@ -109,24 +110,20 @@ void EntityAdmin::destroyEntity(entityID eID){
 }
 
 void EntityAdmin::setup(){
-//    m_systems.push_back(new DebugPrintSystem(*this));
-
-    std::unordered_map<entityID, GreyBoxFamily>& greyBoxFamilies = this->getFamilyMap<GreyBoxFamily>();
+    
+    m_DebugPrintSystem.init();
+    m_GreyBoxRenderSystem.init();
     
     //@Remove: temporary test entities
-    for(int i = 0; i < 512; i++){
+    for(int i = 0; i < 5; i++){
         entityID eID = this->createEntity();
         DebugNameComponent& nameC = this->addComponent<DebugNameComponent>(eID);
         TransformComponent& transformC = this->addComponent<TransformComponent>(eID);
         GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(eID);
 
         nameC.m_name = std::to_string(eID);
-        transformC.m_position = glm::vec3((float) i, 0, (float) eID);
-        boxC.m_color = glm::vec3(0.4);
-    }
-    
-    for(int i = 512; i < 1024; i++){
-        entityID eID = this->createEntity();
+        transformC.m_position = glm::vec3(((float) i - 2) / 4.0f);
+        boxC.m_color = glm::vec3(((float) i) * 0.2, 0.0, 0.0);
     }
     
     return;
@@ -134,15 +131,15 @@ void EntityAdmin::setup(){
 }
 
 void EntityAdmin::update(float dt){
-//    for (System* s : m_systems){
-//        s->tick(1.0);
-//    }
-    
     if(m_entities_dirty){
         filterEntitiesIntoFamilies();
     }
     
-    m_DebugPrintSystem.tick(dt);
+//    m_DebugPrintSystem.tick(dt);
+}
+
+void EntityAdmin::render(){
+    m_GreyBoxRenderSystem.render();
 }
 
 void EntityAdmin::teardown(){

@@ -1,14 +1,16 @@
 // DebugPrintableFamily.hpp
-// generated at: 2020-07-17 15:07:43.915530
+// generated at: 2020-07-18 06:43:46.858462
 #ifndef DebugPrintableFamily_hpp
 #define DebugPrintableFamily_hpp
 
+#include "Family.hpp"
+
 #include "DebugPrintComponent.hpp"
-struct DebugPrintableFamily {
+struct DebugPrintableFamily : public Family<DebugPrintableFamily> {
 	static constexpr int familyIndex{ 0 };
 	DebugPrintComponent& m_DebugPrintComponent;
 
-	DebugPrintableFamily(DebugPrintComponent& _DebugPrintComponent)
-	: m_DebugPrintComponent (_DebugPrintComponent)	{}
+	DebugPrintableFamily(entityID _eID, DebugPrintComponent& _DebugPrintComponent)
+	: m_DebugPrintComponent (_DebugPrintComponent)	{eID = _eID;}
 };
 #endif

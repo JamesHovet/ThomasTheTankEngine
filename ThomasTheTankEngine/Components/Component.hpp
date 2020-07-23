@@ -9,8 +9,8 @@
 #ifndef Component_hpp
 #define Component_hpp
 
-#include "typedefs.h"
 
+#include "typedefs.h"
 #define MAX_COMPONENT_TYPES 64
 
 //#include "Entity.hpp"

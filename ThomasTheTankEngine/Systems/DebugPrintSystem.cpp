@@ -11,11 +11,14 @@
 #include <stdio.h>
 
 void DebugPrintSystem::tick(float dt){
-    
+    int count = 0;
     for(GreyBoxFamily f : m_admin.getFamilyVector<GreyBoxFamily>()){
+        count++;
         auto pos = f.m_TransformComponent.m_position;
-        printf("(%4.0f, %4.0f, %4.0f) : %2.2f\n", pos.x, pos.y, pos.z, f.m_GreyBoxComponent.m_color.r);
+        printf("[%4d]:(%4.0f, %4.0f, %4.0f) : %2.2f\n", f.eID, pos.x, pos.y, pos.z, f.m_GreyBoxComponent.m_color.r);
     }
+    
+    printf("\n%d\n", count);
     
 //    std::cout << "registered entities:" << std::endl;
 //    for(entityID eID : m_registered){

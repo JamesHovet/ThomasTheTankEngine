@@ -14,7 +14,6 @@
 #include "typedefs.h"
 #include "Component.hpp"
 #include <map>
-#include <bitset>
 
 class EntityAdmin;
 
@@ -23,12 +22,12 @@ struct Entity {
 private:
 //    std::map<int, Component*> m_componentMap;
 public:
-    std::bitset<MAX_COMPONENT_TYPES> mask;
+    componentMask m_mask;
     entityID m_entityID;
 
     Entity(entityID eID){
         m_entityID = eID;
-        mask.reset();
+        m_mask.reset();
     }
 
 };

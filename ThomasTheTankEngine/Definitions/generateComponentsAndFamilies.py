@@ -7,9 +7,14 @@ OUTPUT_COMPONENTS  = "../generated/gen_Components/"
 OUTPUT_FAMILIES    = "../generated/gen_Families/"
 OUTPUT_CPP         = "../generated/gen_cpp/"
 
+componentNamesToIDs = {
+    "TransformComponent" : 0,
+    "DebugNameComponent" : 1
+}
 
 def createAndWriteForComponentDict(c, componentID):
     fullname = c['name'] + "Component"
+    componentNamesToIDs[fullname] = componentID
 
     #allComponnets
     allComponents.write("#include \"" + fullname + ".hpp\"\n")
@@ -66,9 +71,15 @@ def createAndWriteForFamilyDict(c, familyID):
     
     #familiesVectorConstructionCPP
     createFamilyVectorsCPP.write("\t{\n")
+    
     createFamilyVectorsCPP.write("\t\tstd::vector<{}>* v = new std::vector<{}>;\n".format(fullname, fullname))
     createFamilyVectorsCPP.write("\t\tarray[{}] = v;\n".format(familyID))
     createFamilyVectorsCPP.write("\t\tcleanup_callbacks.push_back([v](void) {delete v;});\n")
+    
+    for componentName in c['components']:
+        fullComponentName = componentName + "Component"
+        createFamilyVectorsCPP.write("\t\tFamily<{}>::mask.set({});\n".format(fullname, componentNamesToIDs[fullComponentName]))
+        
     createFamilyVectorsCPP.write("\t}\n")
     
     #header files
@@ -77,16 +88,18 @@ def createAndWriteForFamilyDict(c, familyID):
     f.write("// generated at: " + str(datetime.now()) + "\n")
     f.write("#ifndef " + fullname + "_hpp\n") 
     f.write("#define " + fullname + "_hpp\n\n")
+    f.write("#include \"Family.hpp\"\n\n")
     
     for componentName in c['components']:
         fullComponentName = componentName + "Component"
         f.write("#include \"{}.hpp\"\n".format(fullComponentName))
     
-    
-#    f.write("struct " + fullname + " : public Family {\n")
-    f.write("struct " + fullname + " {\n")
+    ## see: https://stackoverflow.com/a/3829887 and https://en.wikipedia.org/wiki/Curiously_recurring_template_pattern
+    f.write("struct {} : public Family<{}> ".format(fullname, fullname) + "{\n")
+#    f.write("struct " + fullname + " {\n")
 
     f.write("\tstatic constexpr int familyIndex{ " + str(familyID) + " };\n")
+#    f.write("\tstatic")
     familyID += 1
 
     
@@ -94,14 +107,11 @@ def createAndWriteForFamilyDict(c, familyID):
         fullComponentName = componentName + "Component"
         f.write("\t{}& m_{};\n".format(fullComponentName, fullComponentName))
     
-    f.write("\n\t{}(".format(fullname))
+    f.write("\n\t{}(entityID _eID".format(fullname))
     
     for idx, componentName in enumerate(c['components']):
         fullComponentName = componentName + "Component"
-        if (idx == 0):
-            f.write("{}& _{}".format(fullComponentName, fullComponentName))
-        else:
-            f.write(", {}& _{}".format(fullComponentName, fullComponentName))
+        f.write(", {}& _{}".format(fullComponentName, fullComponentName))
     
     f.write(")\n\t: ")
     
@@ -111,7 +121,7 @@ def createAndWriteForFamilyDict(c, familyID):
             f.write("m_{} (_{})".format(fullComponentName, fullComponentName))
         else:
             f.write(",\n\tm_{} (_{})\n".format(fullComponentName, fullComponentName))
-    f.write("\t{}\n")
+    f.write("\t{eID = _eID;}\n")
     
     
     f.write("};")

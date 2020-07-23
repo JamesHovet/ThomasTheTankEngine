@@ -8,9 +8,11 @@
 
 #ifndef typedefs_h
 #define typedefs_h
+#include <bitset>
 
 typedef unsigned entityID;
 typedef unsigned componentID;
 typedef unsigned familyID;
+typedef std::bitset<64> componentMask;
 
 #endif /* typedefs_h */

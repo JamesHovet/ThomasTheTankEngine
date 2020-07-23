@@ -13,6 +13,7 @@
 		590F5687242CD9B300BC9DC2 /* awesomeface.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 590F5686242CD9B300BC9DC2 /* awesomeface.png */; };
 		591D1D0B243106A400AF9DC5 /* ImGuiUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 591D1D09243106A400AF9DC5 /* ImGuiUtils.cpp */; };
 		591D1D0E243123CE00AF9DC5 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 591D1D0C243123CE00AF9DC5 /* Node.cpp */; };
+		5937528824C25FBC00A0EC78 /* ECSUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5937528624C25FBC00A0EC78 /* ECSUtils.cpp */; };
 		59484F2E24290AEE0068591C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 59484F2D24290AEE0068591C /* Assets.xcassets */; };
 		59484F3424290AEE0068591C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59484F3324290AEE0068591C /* main.cpp */; };
 		59484F3F24290AEE0068591C /* ThomasTheTankEngineTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 59484F3E24290AEE0068591C /* ThomasTheTankEngineTests.m */; };
@@ -35,7 +36,6 @@
 		59661B46242B96250088525D /* default.vert in CopyFiles */ = {isa = PBXBuildFile; fileRef = 59661B3B242962B70088525D /* default.vert */; };
 		59661B47242B96250088525D /* default.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 59661B3C242962CA0088525D /* default.frag */; };
 		59661B48242B96250088525D /* shader_globals.glh in CopyFiles */ = {isa = PBXBuildFile; fileRef = 59661B45242B958C0088525D /* shader_globals.glh */; };
-		59A7A96924BD273800DB8CD9 /* DebugInfoComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59A7A96724BD273800DB8CD9 /* DebugInfoComponent.cpp */; };
 		59F7F2AA2430F3C900A673D1 /* Graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59F7F2A82430F3C900A673D1 /* Graphics.cpp */; };
 		59F7F2AE2430F9EA00A673D1 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59F7F2AC2430F9EA00A673D1 /* Camera.cpp */; };
 /* End PBXBuildFile section */
@@ -83,10 +83,24 @@
 		590F5683242CD3B700BC9DC2 /* stb_image.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stb_image.h; sourceTree = "<group>"; };
 		590F5684242CD3D300BC9DC2 /* stb_image_implementation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = stb_image_implementation.cpp; sourceTree = "<group>"; };
 		590F5686242CD9B300BC9DC2 /* awesomeface.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = awesomeface.png; sourceTree = "<group>"; };
+		5919A0F324C0E63E009F97F8 /* generateComponentsAndFamilies.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = generateComponentsAndFamilies.py; sourceTree = "<group>"; };
+		5919A0F524C0E63E009F97F8 /* test.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = test.json; sourceTree = "<group>"; };
+		5919A0F624C0E701009F97F8 /* ComponentsEnum.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ComponentsEnum.hpp; sourceTree = "<group>"; };
+		5919A0F724C0E701009F97F8 /* DebugNameComponent.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DebugNameComponent.hpp; sourceTree = "<group>"; };
+		5919A0F824C0E701009F97F8 /* allComponents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = allComponents.h; sourceTree = "<group>"; };
+		5919A0F924C0E702009F97F8 /* DebugPrintComponent.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DebugPrintComponent.hpp; sourceTree = "<group>"; };
+		5919A0FA24C0E70C009F97F8 /* DebugPrintableFamily.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DebugPrintableFamily.hpp; sourceTree = "<group>"; };
+		5919A0FB24C0E70C009F97F8 /* allFamilies.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = allFamilies.h; sourceTree = "<group>"; };
+		5919A0FC24C0E718009F97F8 /* populateComponentPoolsInclude.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = populateComponentPoolsInclude.cpp; sourceTree = "<group>"; };
 		591D1D09243106A400AF9DC5 /* ImGuiUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ImGuiUtils.cpp; sourceTree = "<group>"; };
 		591D1D0A243106A400AF9DC5 /* ImGuiUtils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ImGuiUtils.hpp; sourceTree = "<group>"; };
 		591D1D0C243123CE00AF9DC5 /* Node.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Node.cpp; sourceTree = "<group>"; };
 		591D1D0D243123CE00AF9DC5 /* Node.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Node.hpp; sourceTree = "<group>"; };
+		5937528124C230DF00A0EC78 /* FamiliesEnum.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FamiliesEnum.hpp; sourceTree = "<group>"; };
+		5937528224C23BC100A0EC78 /* populateFamilyVectorsInclude.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = populateFamilyVectorsInclude.cpp; sourceTree = "<group>"; };
+		5937528524C23D9200A0EC78 /* Family.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Family.hpp; sourceTree = "<group>"; };
+		5937528624C25FBC00A0EC78 /* ECSUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ECSUtils.cpp; sourceTree = "<group>"; };
+		5937528724C25FBC00A0EC78 /* ECSUtils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ECSUtils.hpp; sourceTree = "<group>"; };
 		59484F2724290AEE0068591C /* ThomasTheTankEngine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ThomasTheTankEngine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		59484F2D24290AEE0068591C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		59484F3224290AEE0068591C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -118,7 +132,6 @@
 		594A5F2724B4B17900733231 /* Entity.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Entity.hpp; sourceTree = "<group>"; };
 		594A5F2A24B4B32A00733231 /* EntityAdmin.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EntityAdmin.cpp; sourceTree = "<group>"; };
 		594A5F2B24B4B32A00733231 /* EntityAdmin.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = EntityAdmin.hpp; sourceTree = "<group>"; };
-		594A5F2D24B4B39500733231 /* SystemsEnum.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SystemsEnum.hpp; sourceTree = "<group>"; };
 		594A5F2E24B4B41D00733231 /* System.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = System.cpp; sourceTree = "<group>"; };
 		594A5F2F24B4B41D00733231 /* System.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = System.hpp; sourceTree = "<group>"; };
 		594A5F3124B4BA6400733231 /* DebugPrintSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DebugPrintSystem.cpp; sourceTree = "<group>"; };
@@ -126,6 +139,9 @@
 		594A5F3424B4BB7400733231 /* typedefs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = typedefs.h; sourceTree = "<group>"; };
 		594A5F3824B4E99000733231 /* Component.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Component.cpp; sourceTree = "<group>"; };
 		594A5F3924B4E99000733231 /* Component.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Component.hpp; sourceTree = "<group>"; };
+		594F6A2324C1D71300647AC3 /* TransformComponent.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TransformComponent.hpp; sourceTree = "<group>"; };
+		594F6A2424C20CB600647AC3 /* GreyBoxFamily.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GreyBoxFamily.hpp; sourceTree = "<group>"; };
+		594F6A2524C218FA00647AC3 /* AllSystems.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AllSystems.hpp; sourceTree = "<group>"; };
 		596619B3242926BF0088525D /* vec4.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = vec4.hpp; sourceTree = "<group>"; };
 		596619B4242926BF0088525D /* integer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = integer.hpp; sourceTree = "<group>"; };
 		596619B5242926BF0088525D /* vector_relational.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = vector_relational.hpp; sourceTree = "<group>"; };
@@ -523,10 +539,6 @@
 		59A7A96124BD269400DB8CD9 /* mutex.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mutex.hpp; sourceTree = "<group>"; };
 		59A7A96224BD269400DB8CD9 /* pool_construct.ipp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pool_construct.ipp; sourceTree = "<group>"; };
 		59A7A96324BD269400DB8CD9 /* simple_segregated_storage.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = simple_segregated_storage.hpp; sourceTree = "<group>"; };
-		59A7A96424BD273700DB8CD9 /* AllComponents.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AllComponents.hpp; sourceTree = "<group>"; };
-		59A7A96524BD273800DB8CD9 /* ComponentsEnum.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ComponentsEnum.hpp; sourceTree = "<group>"; };
-		59A7A96724BD273800DB8CD9 /* DebugInfoComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DebugInfoComponent.cpp; sourceTree = "<group>"; };
-		59A7A96824BD273800DB8CD9 /* DebugInfoComponent.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DebugInfoComponent.hpp; sourceTree = "<group>"; };
 		59F7F2A82430F3C900A673D1 /* Graphics.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Graphics.cpp; sourceTree = "<group>"; };
 		59F7F2A92430F3C900A673D1 /* Graphics.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Graphics.hpp; sourceTree = "<group>"; };
 		59F7F2AB2430F56500A673D1 /* graphics_globals.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = graphics_globals.hpp; sourceTree = "<group>"; };
@@ -573,6 +585,71 @@
 			path = Textures;
 			sourceTree = "<group>";
 		};
+		5919A0EE24C0E544009F97F8 /* generated */ = {
+			isa = PBXGroup;
+			children = (
+				5919A0F124C0E56B009F97F8 /* gen_cpp */,
+				5919A0F024C0E55F009F97F8 /* gen_Families */,
+				5919A0EF24C0E553009F97F8 /* gen_Components */,
+			);
+			path = generated;
+			sourceTree = "<group>";
+		};
+		5919A0EF24C0E553009F97F8 /* gen_Components */ = {
+			isa = PBXGroup;
+			children = (
+				5919A0F824C0E701009F97F8 /* allComponents.h */,
+				5919A0F624C0E701009F97F8 /* ComponentsEnum.hpp */,
+				5919A0F924C0E702009F97F8 /* DebugPrintComponent.hpp */,
+			);
+			path = gen_Components;
+			sourceTree = "<group>";
+		};
+		5919A0F024C0E55F009F97F8 /* gen_Families */ = {
+			isa = PBXGroup;
+			children = (
+				5919A0FB24C0E70C009F97F8 /* allFamilies.h */,
+				5937528124C230DF00A0EC78 /* FamiliesEnum.hpp */,
+				594F6A2424C20CB600647AC3 /* GreyBoxFamily.hpp */,
+				5919A0FA24C0E70C009F97F8 /* DebugPrintableFamily.hpp */,
+			);
+			path = gen_Families;
+			sourceTree = "<group>";
+		};
+		5919A0F124C0E56B009F97F8 /* gen_cpp */ = {
+			isa = PBXGroup;
+			children = (
+				5919A0FC24C0E718009F97F8 /* populateComponentPoolsInclude.cpp */,
+				5937528224C23BC100A0EC78 /* populateFamilyVectorsInclude.cpp */,
+			);
+			path = gen_cpp;
+			sourceTree = "<group>";
+		};
+		5919A0F224C0E63E009F97F8 /* Definitions */ = {
+			isa = PBXGroup;
+			children = (
+				5919A0F324C0E63E009F97F8 /* generateComponentsAndFamilies.py */,
+				5919A0F424C0E63E009F97F8 /* definitions */,
+			);
+			path = Definitions;
+			sourceTree = "<group>";
+		};
+		5919A0F424C0E63E009F97F8 /* definitions */ = {
+			isa = PBXGroup;
+			children = (
+				5919A0F524C0E63E009F97F8 /* test.json */,
+			);
+			path = definitions;
+			sourceTree = "<group>";
+		};
+		5937528424C23D7900A0EC78 /* Families */ = {
+			isa = PBXGroup;
+			children = (
+				5937528524C23D9200A0EC78 /* Family.hpp */,
+			);
+			path = Families;
+			sourceTree = "<group>";
+		};
 		59484F1E24290AEE0068591C = {
 			isa = PBXGroup;
 			children = (
@@ -600,9 +677,12 @@
 				594A5F2524B4B13700733231 /* EntityAdmin */,
 				594A5F2124B4AFD800733231 /* Systems */,
 				594A5F2024B4AFB500733231 /* Components */,
+				5937528424C23D7900A0EC78 /* Families */,
 				59839E6524B658C500BB3362 /* Singletons */,
 				59661B34242960E80088525D /* Utils */,
 				594A5F3424B4BB7400733231 /* typedefs.h */,
+				5919A0F224C0E63E009F97F8 /* Definitions */,
+				5919A0EE24C0E544009F97F8 /* generated */,
 				59484F5424290FCE0068591C /* src */,
 				59484F5524290FEE0068591C /* libs */,
 				590F567C242CCD7500BC9DC2 /* Assets */,
@@ -681,12 +761,10 @@
 		594A5F2024B4AFB500733231 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				59A7A96424BD273700DB8CD9 /* AllComponents.hpp */,
-				59A7A96524BD273800DB8CD9 /* ComponentsEnum.hpp */,
-				59A7A96724BD273800DB8CD9 /* DebugInfoComponent.cpp */,
-				59A7A96824BD273800DB8CD9 /* DebugInfoComponent.hpp */,
 				594A5F3824B4E99000733231 /* Component.cpp */,
 				594A5F3924B4E99000733231 /* Component.hpp */,
+				594F6A2324C1D71300647AC3 /* TransformComponent.hpp */,
+				5919A0F724C0E701009F97F8 /* DebugNameComponent.hpp */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -694,7 +772,7 @@
 		594A5F2124B4AFD800733231 /* Systems */ = {
 			isa = PBXGroup;
 			children = (
-				594A5F2D24B4B39500733231 /* SystemsEnum.hpp */,
+				594F6A2524C218FA00647AC3 /* AllSystems.hpp */,
 				594A5F2E24B4B41D00733231 /* System.cpp */,
 				594A5F2F24B4B41D00733231 /* System.hpp */,
 				594A5F3124B4BA6400733231 /* DebugPrintSystem.cpp */,
@@ -1144,6 +1222,8 @@
 		59661B34242960E80088525D /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				5937528624C25FBC00A0EC78 /* ECSUtils.cpp */,
+				5937528724C25FBC00A0EC78 /* ECSUtils.hpp */,
 				59661B35242960EF0088525D /* GL */,
 				590F5680242CCDD600BC9DC2 /* FileUtils.hpp */,
 				590F5681242CD12A00BC9DC2 /* FileUtils.cpp */,
@@ -1318,6 +1398,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				59484F3424290AEE0068591C /* main.cpp in Sources */,
+				5937528824C25FBC00A0EC78 /* ECSUtils.cpp in Sources */,
 				591D1D0E243123CE00AF9DC5 /* Node.cpp in Sources */,
 				59484F6A242910030068591C /* imgui_draw.cpp in Sources */,
 				591D1D0B243106A400AF9DC5 /* ImGuiUtils.cpp in Sources */,
@@ -1330,7 +1411,6 @@
 				59484F65242910030068591C /* imgui_widgets.cpp in Sources */,
 				59484F67242910030068591C /* imgui_impl_opengl3.cpp in Sources */,
 				59484F68242910030068591C /* imgui_demo.cpp in Sources */,
-				59A7A96924BD273800DB8CD9 /* DebugInfoComponent.cpp in Sources */,
 				59484F66242910030068591C /* imgui.cpp in Sources */,
 				590F5685242CD3D300BC9DC2 /* stb_image_implementation.cpp in Sources */,
 				59484F69242910030068591C /* imgui_impl_sdl.cpp in Sources */,
@@ -1414,6 +1494,7 @@
 					"$(SRCROOT)/ThomasTheTankEngine/libs",
 					"$(SRCROOT)/ThomasTheTankEngine/",
 					/usr/local/Cellar/boost/1.72.0_3/include,
+					"$(SRCROOT)/ThomasTheTankEngine/generated/**",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -1472,6 +1553,7 @@
 					"$(SRCROOT)/ThomasTheTankEngine/libs",
 					"$(SRCROOT)/ThomasTheTankEngine/",
 					/usr/local/Cellar/boost/1.72.0_3/include,
+					"$(SRCROOT)/ThomasTheTankEngine/generated/**",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = NO;

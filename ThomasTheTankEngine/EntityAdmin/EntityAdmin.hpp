@@ -48,6 +48,8 @@ public:
     entityID createEntity();
     void destroyEntity(entityID e);
     
+    void filterEntitiesIntoFamilies();
+    
     template <typename T>
     T& addComponent(entityID eID){
         m_entities_dirty = true;
@@ -57,7 +59,7 @@ public:
         T* out = this_pool->construct();
         
         m_component_maps.at(eID).insert(std::make_pair(componentID, out));
-        m_entities.at(eID)->mask.set(componentID);
+        m_entities.at(eID)->m_mask.set(componentID);
         
         return *out;
     }
@@ -98,7 +100,7 @@ public:
         std::invoke(m_components_destuction_callbacks_array[cID], componentPtr);
         this_entity_map.erase(cID);
         
-        m_entities.at(eID)->mask.reset(cID); // clear entity flags
+        m_entities.at(eID)->m_mask.reset(cID); // clear entity flag
     }
     
     template <typename T>
@@ -122,7 +124,9 @@ private:
     std::array<std::function<void (void *)>, NUM_COMPONENTS> m_components_destuction_callbacks_array; // 
     std::vector<std::function<void (void)>> m_cleanup_callbacks;
     
+    //TODO: make these vectors of families unordered_maps keyed by entityID. I don't think we will lose that much performance and it lets us perform checks like the overwatch "isHostileTo" much more locally within the system as opposed to reaching back out into the entity to search for omponents y entityID. 
     std::array<void *, NUM_FAMILIES> m_families_vectors_array;
+    
     
     DebugPrintSystem m_DebugPrintSystem;
     

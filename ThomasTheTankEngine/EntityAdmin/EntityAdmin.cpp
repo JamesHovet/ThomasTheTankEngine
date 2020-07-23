@@ -13,6 +13,7 @@
 #include "AllComponents.h"
 #include "allFamilies.h"
 #include "object_pool.hpp"
+#include "ECSUtils.hpp"
 
 // Helpers:
 void constructComponentPools(std::array<void *, NUM_COMPONENTS>& pool,
@@ -113,9 +114,9 @@ void EntityAdmin::setup(){
         nameC.m_name = std::to_string(eID);
         transformC.m_position = glm::vec3((float) i, 0, (float) eID);
         
-        GreyBoxFamily greyBoxF = GreyBoxFamily(transformC, boxC);
-        
-        greyBoxFamilies.push_back(greyBoxF);
+//        GreyBoxFamily greyBoxF = GreyBoxFamily(transformC, boxC);
+//        
+//        greyBoxFamilies.push_back(greyBoxF);
         
 //        m_systems[Systems::DebugPrintSystem]->registerEntity(eID);
     }
@@ -129,6 +130,10 @@ void EntityAdmin::update(float dt){
 //        s->tick(1.0);
 //    }
     
+    if(m_entities_dirty){
+        filterEntitiesIntoFamilies();
+    }
+    
     m_DebugPrintSystem.tick(dt);
 }
 
@@ -140,4 +145,29 @@ void EntityAdmin::teardown(){
 
 void EntityAdmin::mainLoop(){
     
+}
+
+void EntityAdmin::filterEntitiesIntoFamilies(){
+    // TODO: autogenerate this as well...
+    
+    getFamilyVector<DebugPrintableFamily>().clear();
+    getFamilyVector<GreyBoxFamily>().clear();
+    
+    for (std::pair<entityID, Entity*> pair : m_entities){
+        Entity* e = pair.second;
+        componentMask mask = e->m_mask;
+        entityID eID = e->m_entityID;
+        
+        
+        if(ECSUtils::doesPassFilter(mask, Family<DebugPrintableFamily>::mask)){
+            DebugPrintableFamily family = DebugPrintableFamily(eID, getComponent<DebugPrintComponent>(eID));
+            getFamilyVector<DebugPrintableFamily>().push_back(family);
+        }
+        
+        if(ECSUtils::doesPassFilter(mask, Family<GreyBoxFamily>::mask)){
+            GreyBoxFamily family = GreyBoxFamily(eID, getComponent<TransformComponent>(eID),
+                                                 getComponent<GreyBoxComponent>(eID));
+            getFamilyVector<GreyBoxFamily>().push_back(family);
+        }
+    }
 }

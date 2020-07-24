@@ -14,3 +14,11 @@
 		};
 		cleanup_callbacks.push_back([p](void) { delete p; });
 	}
+	{
+		boost::object_pool<CameraComponent>* p = new boost::object_pool<CameraComponent>;
+		pool[4] = p;
+		destroyers[4] = [p](void * ptr){ 
+			p->free((boost::object_pool<CameraComponent>::element_type *) ptr);
+		};
+		cleanup_callbacks.push_back([p](void) { delete p; });
+	}

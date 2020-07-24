@@ -6,51 +6,27 @@
 //  Copyright © 2020 James Hovet. All rights reserved.
 //
 #include "main.h"
-using namespace glm;
+//using namespace glm;
 
 
-const int SCREEN_WIDTH = 256 * 2;
-const int SCREEN_HEIGHT = 240 * 2;
+const int SCREEN_WIDTH = 500;
+const int SCREEN_HEIGHT = 500;
 int graphics_globals::screen_width = SCREEN_WIDTH;
 int graphics_globals::screen_height = SCREEN_HEIGHT;
 
 SDL_Window* g_window = NULL;
 SDL_GLContext gl_context;
 
-
 Shader defaultShader;
 
 EntityAdmin g_admin;
 
-/*
- std::vector<std::unique_ptr<Node>> nodes = std::vector<std::unique_ptr<Node>>();
- 
- nodes.push_back(std::make_unique<Node>(nullptr));
- nodes.push_back(std::make_unique<Node>(nullptr));
- //    for(auto it = nodes.begin(); it != nodes.end(); it ++){
- //        (*it)->addChild(new Node());
- //    }
- (*nodes.begin())->addChild(new Node(nullptr));
- nodes.erase(nodes.begin(), nodes.end());
- */
-
 int main(int argc, const char * argv[]) {
-    
-//    if(window_init() == false){
-//        printf("failure\n");
-//        return 1;
-//    }
-//    ImGuiIO& io = ImGui::GetIO(); (void)io;
-//    holdWindowOpen();
-//    window_close();
-    
-    
     
     window_init();
     
     g_admin.setup();
     
-//    g_admin.update(1.0f);
     holdWindowOpen();
 //    legacyHoldWindowOpen();
     

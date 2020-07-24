@@ -11,3 +11,10 @@
 		Family<GreyBoxFamily>::mask.set(0);
 		Family<GreyBoxFamily>::mask.set(3);
 	}
+	{
+		std::unordered_map<entityID, CameraFamily>* m = new std::unordered_map<entityID, CameraFamily>;
+		array[2] = m;
+		cleanup_callbacks.push_back([m](void) {delete m;});
+		Family<CameraFamily>::mask.set(0);
+		Family<CameraFamily>::mask.set(4);
+	}

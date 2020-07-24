@@ -25,10 +25,13 @@
 
 #include "Family.hpp"
 #include "FamiliesEnum.hpp"
+
+#include "RenderSingleton.hpp"
+
 //#include "System.hpp"
 #include "AllSystems.hpp"
 
-#include "SingletonsEnum.hpp"
+
 
 
 #define MAX_ENTITIES 2048
@@ -36,6 +39,7 @@
 //class System;
 
 class EntityAdmin {
+    friend EditorSystem;
 public:
     EntityAdmin();
     ~EntityAdmin();
@@ -123,9 +127,13 @@ private:
     std::array<std::function<void (void *)>, NUM_COMPONENTS> m_components_destuction_callbacks_array; // 
     std::vector<std::function<void (void)>> m_cleanup_callbacks;
     std::array<void *, NUM_FAMILIES> m_families_maps_array;
-    
+public:
+    RenderSingleton m_RenderSingleton;
+private:
+    EditorSystem m_EditorSystem;
     DebugPrintSystem m_DebugPrintSystem;
     GreyBoxRenderSystem m_GreyBoxRenderSystem;
+    
     
     
 //    std::array<void *, Singletons::SingletonsCount> m_singletons;

@@ -1,0 +1,72 @@
+{
+	"components" : [
+		{ 
+			"name" : "DebugPrint" ,
+			"members" : [
+				{
+					"name": "m_enabled", 
+					"type": "bool",
+					"default" : "false"
+				},
+				{
+					"name": "m_integer",
+					"type": "int",
+					"default" : "1.0"	
+				},
+				{
+					"name": "m_float",
+					"type": "float"
+				}
+			]
+		},
+        {
+            "name" : "GreyBox" ,
+            "members" : [
+                {
+                    "name": "m_color",
+                    "type": "glm::vec3",
+                    "default" : "glm::vec3(0.8f)"
+                }
+            ]
+        },
+        {
+            "name" : "Camera",
+            "members" : [
+                {
+                    "name" : "m_forward",
+                    "type" : "glm::vec3",
+                    "default" : "glm::vec3(0.0f, 0.0f, 1.0f)"
+                },
+                {
+                    "name" : "m_up",
+                    "type" : "glm::vec3",
+                    "default" : "glm::vec3(0.0f, 1.0f, 0.0f)"
+                },
+                {
+                    "name" : "m_FOV",
+                    "type" : "float",
+                    "default" : "45.0f"
+                },
+                {
+                    "name" : "m_enabled",
+                    "type" : "bool",
+                    "default" : "true"
+                }
+            ]
+        }
+	],
+	"families" : [
+		{
+			"name" : "DebugPrintable",
+			"components" : [ "DebugPrint" ]
+		},
+        {
+            "name" : "GreyBox",
+            "components" : ["Transform", "GreyBox"]
+        },
+        {
+            "name" : "Camera",
+            "components" : ["Transform", "Camera"]
+        }
+	]
+}

@@ -61,7 +61,8 @@ void constructFamilyMaps(std::array<void *, NUM_FAMILIES>& array, std::vector<st
 // EntityAdmin member functions
 EntityAdmin::EntityAdmin()
     : m_DebugPrintSystem(*this),
-    m_GreyBoxRenderSystem(*this)
+    m_GreyBoxRenderSystem(*this),
+    m_EditorSystem(*this)
 {
     constructComponentPools(m_components_pool_array,
                             m_components_destuction_callbacks_array,
@@ -113,19 +114,31 @@ void EntityAdmin::setup(){
     
     m_DebugPrintSystem.init();
     m_GreyBoxRenderSystem.init();
-    
-    //@Remove: temporary test entities
-    for(int i = 0; i < 5; i++){
-        entityID eID = this->createEntity();
-        DebugNameComponent& nameC = this->addComponent<DebugNameComponent>(eID);
-        TransformComponent& transformC = this->addComponent<TransformComponent>(eID);
-        GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(eID);
 
-        nameC.m_name = std::to_string(eID);
-        transformC.m_position = glm::vec3(((float) i - 2) / 4.0f);
-        boxC.m_color = glm::vec3(((float) i) * 0.2, 0.0, 0.0);
+    { // create camera
+        //@Remove: temporary test camera
+        entityID eID = this->createEntity();
+        TransformComponent& transformC = addComponent<TransformComponent>(eID);
+        transformC.m_position = glm::vec3(1.0f, 0.0f, -3.0f);
+        CameraComponent& cameraC = addComponent<CameraComponent>(eID);
+//        cameraC.m_forward = glm::vec3(0.0f, 0.0f, 1.0f);
+        DebugNameComponent& nameC = addComponent<DebugNameComponent>(eID);
+        nameC.m_name = "Main Camera";
+        
     }
-    
+    { // create testing boxes
+        //@Remove: temporary test entities
+        for(int i = 0; i < 5; i++){
+            entityID eID = this->createEntity();
+            DebugNameComponent& nameC = this->addComponent<DebugNameComponent>(eID);
+            TransformComponent& transformC = this->addComponent<TransformComponent>(eID);
+            GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(eID);
+
+            nameC.m_name = std::to_string(eID);
+            transformC.m_position = glm::vec3(((float) i - 2) / 4.0f);
+            boxC.m_color = glm::vec3(((float) i) * 0.2, 0.0, 0.0);
+        }
+    }
     return;
     
 }
@@ -136,10 +149,12 @@ void EntityAdmin::update(float dt){
     }
     
 //    m_DebugPrintSystem.tick(dt);
+    m_EditorSystem.tick(dt);
 }
 
 void EntityAdmin::render(){
     m_GreyBoxRenderSystem.render();
+    m_EditorSystem.render();
 }
 
 void EntityAdmin::teardown(){

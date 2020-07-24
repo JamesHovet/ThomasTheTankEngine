@@ -20,6 +20,7 @@
 #include "Shader.hpp"
 
 #include "GreyBoxFamily.hpp"
+#include "CameraFamily.hpp"
 
 class GreyBoxRenderSystem : public System {
 public:

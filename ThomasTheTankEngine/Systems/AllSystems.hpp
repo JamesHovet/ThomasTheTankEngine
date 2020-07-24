@@ -11,5 +11,6 @@
 
 #include "DebugPrintSystem.hpp"
 #include "GreyBoxRenderSystem.hpp"
+#include "EditorSystem.hpp"
 
 #endif /* AllSystems_hpp */

@@ -10,6 +10,7 @@
 
 #include <stdlib.h>
 
+#include "Component.hpp"
 #include "AllComponents.h"
 #include "allFamilies.h"
 #include "object_pool.hpp"
@@ -36,6 +37,15 @@ void constructComponentPools(std::array<void *, NUM_COMPONENTS>& pool,
         };
         cleanup_callbacks.push_back([p](void) { delete p; });
     }
+    {
+        boost::object_pool<CameraComponent>* p = new boost::object_pool<CameraComponent>;
+        pool[2] = p;
+        destroyers[2] = [p](void * ptr){
+            p->free((boost::object_pool<CameraComponent>::element_type *) ptr);
+        };
+        cleanup_callbacks.push_back([p](void) { delete p; });
+    }
+
     
     #include "populateComponentPoolsInclude.cpp"
 }
@@ -50,6 +60,15 @@ void constructComponentPools(std::array<void *, NUM_COMPONENTS>& pool,
 //}
 
 void constructFamilyMaps(std::array<void *, NUM_FAMILIES>& array, std::vector<std::function<void (void)>>& cleanup_callbacks){
+    
+    {
+        std::unordered_map<entityID, CameraFamily>* m = new std::unordered_map<entityID, CameraFamily>;
+        array[2] = m;
+        cleanup_callbacks.push_back([m](void) {delete m;});
+        Family<CameraFamily>::mask.set(0);
+        Family<CameraFamily>::mask.set(2);
+    }
+
     #include "populateFamilyMapsInclude.cpp"
 //    {
 //        std::unordered_map<entityID, GreyBoxFamily>* m = new std::unordered_map<entityID, GreyBoxFamily>;
@@ -69,6 +88,7 @@ EntityAdmin::EntityAdmin()
                             m_cleanup_callbacks);
     
     constructFamilyMaps(m_families_maps_array, m_cleanup_callbacks);
+    
 }
 
 
@@ -139,6 +159,9 @@ void EntityAdmin::setup(){
             boxC.m_color = glm::vec3(((float) i) * 0.2, 0.0, 0.0);
         }
     }
+    
+    m_EditorSingleton.shouldUseEditorCamera = true;
+    
     return;
     
 }
@@ -168,6 +191,7 @@ void EntityAdmin::mainLoop(){
 }
 
 void EntityAdmin::clearFamilies(){
+    getFamilyMap<CameraFamily>().clear();
     #include "clearFamiliesInclude.cpp"
 //    getFamilyMap<DebugPrintableFamily>().clear();
 }
@@ -179,6 +203,13 @@ void EntityAdmin::filterEntitiesIntoFamilies(){
         Entity* e = pair.second;
         componentMask mask = e->m_mask;
         entityID eID = e->m_entityID;
+        
+        {
+        if(ECSUtils::doesPassFilter(mask, Family<CameraFamily>::mask)){
+            CameraFamily family = CameraFamily(eID, getComponent<TransformComponent>(eID), getComponent<CameraComponent>(eID));
+            getFamilyMap<CameraFamily>().emplace(std::make_pair(eID, family));
+            }
+        }
         
         #include "filterEntitiesIntoFamiliesInclude.cpp"
         

@@ -6,5 +6,4 @@
 
 #include "DebugPrintableFamily.hpp"
 #include "GreyBoxFamily.hpp"
-#include "CameraFamily.hpp"
 #endif 

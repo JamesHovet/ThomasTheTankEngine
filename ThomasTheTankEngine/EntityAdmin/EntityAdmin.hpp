@@ -27,7 +27,7 @@
 #include "FamiliesEnum.hpp"
 
 #include "RenderSingleton.hpp"
-
+#include "EditorSingleton.hpp"
 //#include "System.hpp"
 #include "AllSystems.hpp"
 
@@ -116,6 +116,13 @@ public:
         return *(static_cast<std::unordered_map<entityID, T>*>(m_families_maps_array[familyID]));
     }
     
+public:
+    RenderSingleton m_RenderSingleton;
+    EditorSingleton m_EditorSingleton;
+private:
+    EditorSystem m_EditorSystem;
+    DebugPrintSystem m_DebugPrintSystem;
+    GreyBoxRenderSystem m_GreyBoxRenderSystem;
     
 private:
     std::unordered_map<entityID, std::unordered_map<componentID, Component *>> m_component_maps;
@@ -127,12 +134,6 @@ private:
     std::array<std::function<void (void *)>, NUM_COMPONENTS> m_components_destuction_callbacks_array; // 
     std::vector<std::function<void (void)>> m_cleanup_callbacks;
     std::array<void *, NUM_FAMILIES> m_families_maps_array;
-public:
-    RenderSingleton m_RenderSingleton;
-private:
-    EditorSystem m_EditorSystem;
-    DebugPrintSystem m_DebugPrintSystem;
-    GreyBoxRenderSystem m_GreyBoxRenderSystem;
     
     
     

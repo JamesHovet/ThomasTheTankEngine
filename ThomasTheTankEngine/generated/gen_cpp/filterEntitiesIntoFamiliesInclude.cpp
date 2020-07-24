@@ -10,9 +10,3 @@ if(ECSUtils::doesPassFilter(mask, Family<GreyBoxFamily>::mask)){
 	getFamilyMap<GreyBoxFamily>().emplace(std::make_pair(eID, family));
 	}
 }
-{
-if(ECSUtils::doesPassFilter(mask, Family<CameraFamily>::mask)){
-	CameraFamily family = CameraFamily(eID, getComponent<TransformComponent>(eID), getComponent<CameraComponent>(eID));
-	getFamilyMap<CameraFamily>().emplace(std::make_pair(eID, family));
-	}
-}

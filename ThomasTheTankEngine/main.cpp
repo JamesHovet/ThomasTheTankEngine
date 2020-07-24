@@ -8,6 +8,9 @@
 #include "main.h"
 //using namespace glm;
 
+//TODO: @Remove
+#include "TransformComponent.hpp"
+#include "CameraComponent.hpp"
 
 const int SCREEN_WIDTH = 500;
 const int SCREEN_HEIGHT = 500;
@@ -205,6 +208,35 @@ void holdWindowOpen() {
             if (e.type == SDL_MOUSEBUTTONDOWN){
                 quit = false;
             }
+            //TODO: @Factor into the engine and not this main loop
+            if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_c){
+                g_admin.m_EditorSingleton.shouldUseEditorCamera = !g_admin.m_EditorSingleton.shouldUseEditorCamera;
+            }
+            if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_w && g_admin.m_EditorSingleton.shouldUseEditorCamera){
+                TransformComponent& camTransformC = g_admin.m_EditorSingleton.editorCameraTransform;
+                CameraComponent& camC = g_admin.m_EditorSingleton.editorCameraComponent;
+                
+                camTransformC.m_position = camTransformC.m_position + (camC.m_forward * 0.2f);
+            }
+            if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_s && g_admin.m_EditorSingleton.shouldUseEditorCamera){
+                TransformComponent& camTransformC = g_admin.m_EditorSingleton.editorCameraTransform;
+                CameraComponent& camC = g_admin.m_EditorSingleton.editorCameraComponent;
+                
+                camTransformC.m_position = camTransformC.m_position - (camC.m_forward * 0.2f);
+            }
+            if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_a && g_admin.m_EditorSingleton.shouldUseEditorCamera){
+                TransformComponent& camTransformC = g_admin.m_EditorSingleton.editorCameraTransform;
+                CameraComponent& camC = g_admin.m_EditorSingleton.editorCameraComponent;
+                
+                camTransformC.m_position = camTransformC.m_position - (glm::cross(camC.m_forward, camC.m_up) * 0.2f);
+            }
+            if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_d && g_admin.m_EditorSingleton.shouldUseEditorCamera){
+                TransformComponent& camTransformC = g_admin.m_EditorSingleton.editorCameraTransform;
+                CameraComponent& camC = g_admin.m_EditorSingleton.editorCameraComponent;
+                
+                camTransformC.m_position = camTransformC.m_position + (glm::cross(camC.m_forward, camC.m_up) * 0.2f);
+            }
+            
         }
         
         g_admin.update(deltaTime);

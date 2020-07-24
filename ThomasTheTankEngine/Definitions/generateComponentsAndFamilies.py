@@ -9,7 +9,8 @@ OUTPUT_CPP         = "../generated/gen_cpp/"
 
 componentNamesToIDs = {
 	"TransformComponent" : 0,
-	"DebugNameComponent" : 1
+	"DebugNameComponent" : 1,
+    "CameraComponent"    : 2
 }
 
 def createAndWriteForComponentDict(c, componentID):
@@ -174,7 +175,7 @@ if __name__ == "__main__":
 	filterEntitiesIntoFamiliesCPP = open(OUTPUT_CPP + 'filterEntitiesIntoFamiliesInclude.cpp', mode='w')
 	clearFamiliesCPP = open(OUTPUT_CPP + 'clearFamiliesInclude.cpp', mode='w')
 
-	componentID = 2 ## transform and DebugName components built into the engine
+	componentID = 3 ## transform, DebugName, Camera components built into the engine
 	familyID = 0
 
 	allComponents.write("// AllComponents.hpp\n")

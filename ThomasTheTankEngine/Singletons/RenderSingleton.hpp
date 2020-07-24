@@ -15,6 +15,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "CameraComponent.hpp"
+#include "TransformComponent.hpp"
+
 struct RenderSingleton {
     
     //TODO: @Improve : populate this at some point with the actual values
@@ -23,6 +26,10 @@ struct RenderSingleton {
     
     glm::mat4 view;
     glm::mat4 projection;
+    
+    CameraComponent* currentCameraC;
+    TransformComponent* currentCameraTransformC;
+    
     
 };
 

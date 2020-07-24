@@ -85,22 +85,27 @@ void GreyBoxRenderSystem::init(){
 void GreyBoxRenderSystem::render(){
     RenderSingleton& renderSingleton = m_admin.m_RenderSingleton;
     
-    
-    { // setup camera
+    if (m_admin.m_EditorSingleton.shouldUseEditorCamera){
+        EditorSingleton& editorSingleton = m_admin.m_EditorSingleton;
+        CameraComponent& cameraC = editorSingleton.editorCameraComponent;
+        TransformComponent& transC = editorSingleton.editorCameraTransform;
         
+        renderSingleton.view = glm::lookAt(transC.m_position, transC.m_position + cameraC.m_forward, cameraC.m_up);
+        renderSingleton.projection = glm::perspective(glm::radians(cameraC.m_FOV), (float)renderSingleton.SCREEN_WIDTH / (float)renderSingleton.SCREEN_HEIGHT, 0.1f, 100.0f);
+    } else {
         std::unordered_map<entityID, CameraFamily>& cameraFamilies = m_admin.getFamilyMap<CameraFamily>();
         for(auto it = cameraFamilies.begin(); it != cameraFamilies.end(); it++){
             CameraComponent& cameraC = it->second.m_CameraComponent;
             TransformComponent& transC = it->second.m_TransformComponent;
             if(cameraC.m_enabled){
+                renderSingleton.currentCameraC = &cameraC;
+                renderSingleton.currentCameraTransformC = &transC;
+                
                 renderSingleton.view = glm::lookAt(transC.m_position, transC.m_position + cameraC.m_forward, cameraC.m_up);
                 renderSingleton.projection = glm::perspective(glm::radians(cameraC.m_FOV), (float)renderSingleton.SCREEN_WIDTH / (float)renderSingleton.SCREEN_HEIGHT, 0.1f, 100.0f);
                 break;
             }
         }
-        
-//        m_admin.m_RenderSingleton.view = glm::rotate(glm::translate(glm::mat4(1.0f), glm::vec3(1.0f, 0.0f, -3.0f)), -15.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-//        m_admin.m_RenderSingleton.projection = glm::perspective(glm::radians(45.0f), (float)renderSingleton.SCREEN_WIDTH / (float)renderSingleton.SCREEN_HEIGHT, 0.1f, 100.0f);
     }
     
     glm::mat4 model = glm::mat4(1.0f);

@@ -33,11 +33,15 @@
 	"families" : [
 		{
 			"name" : "DebugPrintable",
-			"components" : [ "DebugPrint" ]
+			"components" : [ "DebugPrint" ],
+            "update" : true,
+            "render" : false
 		},
         {
             "name" : "GreyBox",
-            "components" : ["Transform", "GreyBox"]
+            "components" : ["Transform", "GreyBox"],
+            "update" : true,
+            "render" : true
         }
 	]
 }

@@ -71,7 +71,7 @@ def createAndWriteForFamilyDict(c, familyID):
     #familiesEnum
     familiesEnum.write("\t" + fullname + " = " + str(familyID) + ",\n")
     
-    #familiesVectorConstructionCPP
+    #familyMapConstructionCPP
     createFamilyMapsCPP.write("\t{\n")
     
     createFamilyMapsCPP.write("\t\tstd::unordered_map<entityID, {}>* m = new std::unordered_map<entityID, {}>;\n".format(fullname, fullname))
@@ -84,25 +84,60 @@ def createAndWriteForFamilyDict(c, familyID):
         
     createFamilyMapsCPP.write("\t}\n")
 
-    #clear families
-    clearFamiliesCPP.write("getFamilyMap<{}>().clear();\n".format(fullname))
-
-    #family filters
-    filterEntitiesIntoMutableFamiliesCPP.write("{\n")
     
-    filterEntitiesIntoMutableFamiliesCPP.write("if(ECSUtils::doesPassFilter(mask, Family<{}>::mask))".format(fullname) + "{\n")
-    filterEntitiesIntoMutableFamiliesCPP.write("\t{} family = {}(eID".format(fullname, fullname))
-
+    #familiesVectorConstructionCPP
+    createFamilyStaticVectorsCPP.write("\t{\n")
+    
+    createFamilyStaticVectorsCPP.write("\t\tstd::vector<{}>* v = new std::vector<{}>;\n".format(staticname, staticname))
+    createFamilyStaticVectorsCPP.write("\t\tarray[{}] = v;\n".format(familyID))
+    createFamilyStaticVectorsCPP.write("\t\tcleanup_callbacks.push_back([v](void) {delete v;});\n")
+    
     for componentName in c['components']:
         fullComponentName = componentName + "Component"
-        filterEntitiesIntoMutableFamiliesCPP.write(", getComponent<{}>(eID)".format(fullComponentName))
+        createFamilyStaticVectorsCPP.write("\t\tFamily<{}>::mask.set({});\n".format(staticname, componentNamesToIDs[fullComponentName]))
+        
+    createFamilyStaticVectorsCPP.write("\t}\n")
 
-    filterEntitiesIntoMutableFamiliesCPP.write(");\n")
-    filterEntitiesIntoMutableFamiliesCPP.write("\tgetFamilyMap<{}>().emplace(std::make_pair(eID, family));\n".format(fullname))
+    #clear families
+    clearFamiliesCPP.write("getFamilyMap<{}>().clear();\n".format(fullname))
+    clearFamiliesCPP.write("getFamilyStaticVector<{}>().clear();\n".format(staticname))
 
-    filterEntitiesIntoMutableFamiliesCPP.write("\t}\n")
+    #family mutable filters
+    if ('update' in c and c['update']) or (not 'update' in c): # update is true by default
+        filterEntitiesIntoMutableFamiliesCPP.write("{\n")
+        
+        filterEntitiesIntoMutableFamiliesCPP.write("if(ECSUtils::doesPassFilter(mask, Family<{}>::mask))".format(fullname) + "{\n")
+        filterEntitiesIntoMutableFamiliesCPP.write("\t{} family = {}(eID".format(fullname, fullname))
+
+        for componentName in c['components']:
+            fullComponentName = componentName + "Component"
+            filterEntitiesIntoMutableFamiliesCPP.write(", getComponent<{}>(eID)".format(fullComponentName))
+
+        filterEntitiesIntoMutableFamiliesCPP.write(");\n")
+        filterEntitiesIntoMutableFamiliesCPP.write("\tgetFamilyMap<{}>().emplace(std::make_pair(eID, family));\n".format(fullname))
+
+        filterEntitiesIntoMutableFamiliesCPP.write("\t}\n")
+        
+        filterEntitiesIntoMutableFamiliesCPP.write("}\n")
     
-    filterEntitiesIntoMutableFamiliesCPP.write("}\n")
+    #family static families
+    if 'render' in c and c['render']:
+        filterEntitiesIntoStaticFamiliesCPP.write("{\n")
+
+        filterEntitiesIntoStaticFamiliesCPP.write("if(ECSUtils::doesPassFilter(mask, Family<{}>::mask))".format(staticname) + "{\n")
+        filterEntitiesIntoStaticFamiliesCPP.write("\t{} family = {}(eID".format(staticname, staticname))
+
+        for componentName in c['components']:
+            fullComponentName = componentName + "Component"
+            filterEntitiesIntoStaticFamiliesCPP.write(", getComponent<{}>(eID)".format(fullComponentName))
+
+        filterEntitiesIntoStaticFamiliesCPP.write(");\n")
+        filterEntitiesIntoStaticFamiliesCPP.write("\tgetFamilyStaticVector<{}>().push_back(family);\n".format(staticname))
+
+        filterEntitiesIntoStaticFamiliesCPP.write("\t}\n")
+
+        filterEntitiesIntoStaticFamiliesCPP.write("}\n")
+    
     
     #header files
     f = open(OUTPUT_FAMILIES + fullname + ".hpp", mode='w')
@@ -123,7 +158,7 @@ def createAndWriteForFamilyDict(c, familyID):
 
     f.write("\tstatic constexpr int familyIndex{ " + str(familyID) + " };\n")
 #    f.write("\tstatic")
-    familyID += 1
+    
 
     
     for componentName in c['components']:
@@ -156,7 +191,6 @@ def createAndWriteForFamilyDict(c, familyID):
 
     f.write("\tstatic constexpr int familyIndex{ " + str(familyID) + " };\n")
    #    f.write("\tstatic")
-    familyID += 1
 
     
     for componentName in c['components']:
@@ -185,6 +219,7 @@ def createAndWriteForFamilyDict(c, familyID):
     
     f.write("\n#endif")
     f.close()
+#    familyID += 1
 
 
 
@@ -208,11 +243,13 @@ if __name__ == "__main__":
     familiesEnum = open(OUTPUT_FAMILIES + 'familiesEnum.hpp', mode='w')
     createComponentPoolsCPP = open(OUTPUT_CPP + 'populateComponentPoolsInclude.cpp', mode='w')
     createFamilyMapsCPP = open(OUTPUT_CPP + 'populateFamilyMapsInclude.cpp', mode='w')
+    createFamilyStaticVectorsCPP = open(OUTPUT_CPP + 'populateFamilyStaticVectorsInclude.cpp', mode='w')
     filterEntitiesIntoMutableFamiliesCPP = open(OUTPUT_CPP + 'filterEntitiesIntoMutableFamiliesInclude.cpp', mode='w')
+    filterEntitiesIntoStaticFamiliesCPP = open(OUTPUT_CPP + 'filterEntitiesIntoStaticFamiliesInclude.cpp', mode='w')
     clearFamiliesCPP = open(OUTPUT_CPP + 'clearFamiliesInclude.cpp', mode='w')
 
     componentID = 3 ## transform, DebugName, Camera components built into the engine
-    familyID = 0
+    familyID = 1 # CameraFamily is built in
 
     allComponents.write("// AllComponents.hpp\n")
     allComponents.write("// generated at: " + str(datetime.now()) + "\n")
@@ -248,6 +285,7 @@ enum class Components {
 #define familiesEnum_hpp\n
 
 enum class Families {
+    CameraFamily = 0,
 """)
 
     for fname in os.listdir(INPUT_DIR):

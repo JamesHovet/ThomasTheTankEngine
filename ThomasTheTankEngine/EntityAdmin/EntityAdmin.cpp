@@ -59,11 +59,23 @@ void constructComponentPools(std::array<void *, NUM_COMPONENTS>& pool,
 ////    }
 //}
 
+void constructFamilyStaticVectors (std::array<void *, NUM_FAMILIES>& array,std::vector<std::function<void (void)>>& cleanup_callbacks){
+    {
+        std::vector<CameraFamilyStatic>* v = new std::vector<CameraFamilyStatic>;
+        array[0] = v;
+        cleanup_callbacks.push_back([v](void) {delete v;});
+        Family<CameraFamilyStatic>::mask.set(0);
+        Family<CameraFamilyStatic>::mask.set(2);
+    }
+    
+    #include "populateFamilyStaticVectorsInclude.cpp"
+}
+
 void constructFamilyMaps(std::array<void *, NUM_FAMILIES>& array, std::vector<std::function<void (void)>>& cleanup_callbacks){
     
     {
         std::unordered_map<entityID, CameraFamily>* m = new std::unordered_map<entityID, CameraFamily>;
-        array[2] = m;
+        array[0] = m;
         cleanup_callbacks.push_back([m](void) {delete m;});
         Family<CameraFamily>::mask.set(0);
         Family<CameraFamily>::mask.set(2);
@@ -88,6 +100,7 @@ EntityAdmin::EntityAdmin()
                             m_cleanup_callbacks);
     
     constructFamilyMaps(m_families_maps_array, m_cleanup_callbacks);
+    constructFamilyStaticVectors(m_families_maps_static_array, m_cleanup_callbacks);
     
 }
 
@@ -168,7 +181,9 @@ void EntityAdmin::setup(){
 
 void EntityAdmin::update(float dt){
     if(m_entities_dirty){
+        this->clearFamilies();
         filterEntitiesIntoMutableFamilies();
+        filterEntitiesIntoStaticFamilies();
     }
     
 //    m_DebugPrintSystem.tick(dt);
@@ -192,14 +207,12 @@ void EntityAdmin::mainLoop(){
 
 void EntityAdmin::clearFamilies(){
     getFamilyMap<CameraFamily>().clear();
+    getFamilyStaticVector<CameraFamilyStatic>().clear();
     #include "clearFamiliesInclude.cpp"
-//    getFamilyMap<DebugPrintableFamily>().clear();
 }
 
 // TODO: Create two versions of this, that creates references to mutable state, the other that does a copy for render purposes. Maybe specifiy in each family if it is needed for the render step, the update step, or both. This would be great groundwork for a multithreaded update/render thread.
 void EntityAdmin::filterEntitiesIntoMutableFamilies(){
-    this->clearFamilies();
-    
     for (std::pair<entityID, Entity*> pair : m_entities){
         Entity* e = pair.second;
         componentMask mask = e->m_mask;
@@ -218,5 +231,21 @@ void EntityAdmin::filterEntitiesIntoMutableFamilies(){
 //            DebugPrintableFamily family = DebugPrintableFamily(eID, getComponent<DebugPrintComponent>(eID));
 //            getFamilyMap<DebugPrintableFamily>().emplace(std::make_pair(eID, family));
 //        }
+    }
+}
+
+void EntityAdmin::filterEntitiesIntoStaticFamilies(){
+    for (std::pair<entityID, Entity*> pair : m_entities){
+        Entity* e = pair.second;
+        componentMask mask = e->m_mask;
+        entityID eID = e->m_entityID;
+        
+        {
+        if(ECSUtils::doesPassFilter(mask, Family<CameraFamilyStatic>::mask)){
+            CameraFamilyStatic family = CameraFamilyStatic(eID, getComponent<TransformComponent>(eID), getComponent<CameraComponent>(eID));
+            getFamilyStaticVector<CameraFamilyStatic>().push_back(family);
+            }
+        }
+        #include "filterEntitiesIntoStaticFamiliesInclude.cpp"
     }
 }

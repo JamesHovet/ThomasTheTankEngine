@@ -54,6 +54,7 @@ public:
     void destroyEntity(entityID e);
 private:
     void filterEntitiesIntoMutableFamilies();
+    void filterEntitiesIntoStaticFamilies();
     void clearFamilies();
 public:
     template <typename T>
@@ -116,6 +117,13 @@ public:
         return *(static_cast<std::unordered_map<entityID, T>*>(m_families_maps_array[familyID]));
     }
     
+    template <typename T>
+    std::vector<T>& getFamilyStaticVector(){
+        constexpr familyID familyID = FamilyIndexTable::FamilyComponentIndex<T>::familyIndex;
+        return *(static_cast<std::vector<T>*>(m_families_maps_static_array[familyID]));
+    }
+//    getFamilyStaticVector
+    
 public:
     RenderSingleton m_RenderSingleton;
     EditorSingleton m_EditorSingleton;
@@ -134,7 +142,7 @@ private:
     std::array<std::function<void (void *)>, NUM_COMPONENTS> m_components_destuction_callbacks_array; // 
     std::vector<std::function<void (void)>> m_cleanup_callbacks;
     std::array<void *, NUM_FAMILIES> m_families_maps_array;
-    
+    std::array<void *, NUM_FAMILIES> m_families_maps_static_array;
     
     
 //    std::array<void *, Singletons::SingletonsCount> m_singletons;

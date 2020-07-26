@@ -8,7 +8,7 @@
 #include "TransformComponent.hpp"
 #include "CameraComponent.hpp"
 struct CameraFamily : public Family<CameraFamily> {
-	static constexpr int familyIndex{ 2 };
+	static constexpr int familyIndex{ 0 };
 	TransformComponent& m_TransformComponent;
 	CameraComponent& m_CameraComponent;
 
@@ -19,7 +19,7 @@ struct CameraFamily : public Family<CameraFamily> {
 };
 
 struct CameraFamilyStatic : public Family<CameraFamilyStatic> {
-    static constexpr int familyIndex { 2 };
+    static constexpr int familyIndex { 0 };
     TransformComponent m_TransformComponent;
     CameraComponent m_CameraComponent;
     

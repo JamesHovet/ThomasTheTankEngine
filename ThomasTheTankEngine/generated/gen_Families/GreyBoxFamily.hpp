@@ -1,5 +1,5 @@
 // GreyBoxFamily.hpp
-// generated at: 2020-07-26 08:23:34.639668
+// generated at: 2020-07-26 09:18:57.948582
 #ifndef GreyBoxFamily_hpp
 #define GreyBoxFamily_hpp
 
@@ -8,7 +8,7 @@
 #include "TransformComponent.hpp"
 #include "GreyBoxComponent.hpp"
 struct GreyBoxFamily : public Family<GreyBoxFamily> {
-	static constexpr int familyIndex{ 1 };
+	static constexpr int familyIndex{ 2 };
 	TransformComponent& m_TransformComponent;
 	GreyBoxComponent& m_GreyBoxComponent;
 

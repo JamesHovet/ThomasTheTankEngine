@@ -85,6 +85,7 @@ void GreyBoxRenderSystem::init(){
 void GreyBoxRenderSystem::render(){
     RenderSingleton& renderSingleton = m_admin.m_RenderSingleton;
     
+    // get camera
     if (m_admin.m_EditorSingleton.shouldUseEditorCamera){
         EditorSingleton& editorSingleton = m_admin.m_EditorSingleton;
         CameraComponent& cameraC = editorSingleton.editorCameraComponent;
@@ -119,8 +120,7 @@ void GreyBoxRenderSystem::render(){
      
     //TODO: Factor out basically everything from this very hard-coded initial step.
     
-    for (std::pair<entityID, GreyBoxFamily> p : m_admin.getFamilyMap<GreyBoxFamily>()){
-        GreyBoxFamily f = p.second;
+    for (GreyBoxFamilyStatic f : m_admin.getFamilyStaticVector<GreyBoxFamilyStatic>()){
         glm::vec3 pos = f.m_TransformComponent.m_position;
         
 //        printf("[%4d]:(%4.0f, %4.0f, %4.0f) : %2.2f\n", f.eID, pos.x, pos.y, pos.z, f.m_GreyBoxComponent.m_color.r);

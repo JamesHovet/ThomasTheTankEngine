@@ -17,4 +17,15 @@ struct CameraFamily : public Family<CameraFamily> {
 	m_CameraComponent (_CameraComponent)
 	{eID = _eID;}
 };
+
+struct CameraFamilyStatic : public Family<CameraFamilyStatic> {
+    static constexpr int familyIndex { 2 };
+    TransformComponent m_TransformComponent;
+    CameraComponent m_CameraComponent;
+    
+    CameraFamilyStatic(entityID _eID, TransformComponent _TransformComponent, CameraComponent _CameraComponent)
+    : m_TransformComponent (_TransformComponent),
+    m_CameraComponent (_CameraComponent)
+    {eID = _eID;}
+};
 #endif

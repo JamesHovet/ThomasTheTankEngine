@@ -53,7 +53,7 @@ public:
     entityID createEntity();
     void destroyEntity(entityID e);
 private:
-    void filterEntitiesIntoFamilies();
+    void filterEntitiesIntoMutableFamilies();
     void clearFamilies();
 public:
     template <typename T>

@@ -1,5 +1,5 @@
 // DebugPrintableFamily.hpp
-// generated at: 2020-07-24 12:25:12.228867
+// generated at: 2020-07-26 08:23:34.639500
 #ifndef DebugPrintableFamily_hpp
 #define DebugPrintableFamily_hpp
 
@@ -11,6 +11,14 @@ struct DebugPrintableFamily : public Family<DebugPrintableFamily> {
 	DebugPrintComponent& m_DebugPrintComponent;
 
 	DebugPrintableFamily(entityID _eID, DebugPrintComponent& _DebugPrintComponent)
+	: m_DebugPrintComponent (_DebugPrintComponent)	{eID = _eID;}
+};
+
+struct DebugPrintableFamilyStatic : public Family<DebugPrintableFamilyStatic> {
+	static constexpr int familyIndex{ 1 };
+	DebugPrintComponent m_DebugPrintComponent;
+
+	DebugPrintableFamilyStatic(entityID _eID, DebugPrintComponent _DebugPrintComponent)
 	: m_DebugPrintComponent (_DebugPrintComponent)	{eID = _eID;}
 };
 #endif

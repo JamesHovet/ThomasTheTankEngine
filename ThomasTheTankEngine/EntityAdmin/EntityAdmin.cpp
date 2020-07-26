@@ -168,7 +168,7 @@ void EntityAdmin::setup(){
 
 void EntityAdmin::update(float dt){
     if(m_entities_dirty){
-        filterEntitiesIntoFamilies();
+        filterEntitiesIntoMutableFamilies();
     }
     
 //    m_DebugPrintSystem.tick(dt);
@@ -196,7 +196,8 @@ void EntityAdmin::clearFamilies(){
 //    getFamilyMap<DebugPrintableFamily>().clear();
 }
 
-void EntityAdmin::filterEntitiesIntoFamilies(){
+// TODO: Create two versions of this, that creates references to mutable state, the other that does a copy for render purposes. Maybe specifiy in each family if it is needed for the render step, the update step, or both. This would be great groundwork for a multithreaded update/render thread.
+void EntityAdmin::filterEntitiesIntoMutableFamilies(){
     this->clearFamilies();
     
     for (std::pair<entityID, Entity*> pair : m_entities){
@@ -211,7 +212,7 @@ void EntityAdmin::filterEntitiesIntoFamilies(){
             }
         }
         
-        #include "filterEntitiesIntoFamiliesInclude.cpp"
+        #include "filterEntitiesIntoMutableFamiliesInclude.cpp"
         
 //        if(ECSUtils::doesPassFilter(mask, Family<DebugPrintableFamily>::mask)){
 //            DebugPrintableFamily family = DebugPrintableFamily(eID, getComponent<DebugPrintComponent>(eID));

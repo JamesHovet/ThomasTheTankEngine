@@ -8,9 +8,11 @@
 
 #include "GreyBoxRenderSystem.hpp"
 #include "EntityAdmin.hpp"
+#include <vector>
 
-unsigned int GreyBoxRenderSystem::cube_VBO = 0;
-unsigned int GreyBoxRenderSystem::cube_VAO = 0;
+unsigned int GreyBoxRenderSystem::cube_VBO    = 0;
+unsigned int GreyBoxRenderSystem::cube_VAO    = 0;
+unsigned int GreyBoxRenderSystem::instanceVBO = 0;
 Shader greyboxShader;
 
 float greyBoxVertsNoIndices[] = {
@@ -66,10 +68,17 @@ void GreyBoxRenderSystem::init(){
     glGenBuffers(1, &cube_VBO);
     glBindBuffer(GL_ARRAY_BUFFER, cube_VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(greyBoxVertsNoIndices), greyBoxVertsNoIndices, GL_STATIC_DRAW);
-    
-    // not sure I need this...
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (3) * sizeof(float), (void *)0);
     glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (3) * sizeof(float), (void *)0);
+    
+    
+    glGenBuffers(1, &instanceVBO);
+    glEnableVertexAttribArray(1); // location 1 : v3
+    glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, (3) * sizeof(float), (void *)0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glVertexAttribDivisor(1, 1);
+    
     
     bool shouldDrawWireframe = false;
     if(shouldDrawWireframe){
@@ -111,36 +120,32 @@ void GreyBoxRenderSystem::render(){
     RenderSingleton& renderSingleton = m_admin.m_RenderSingleton;
     
     setupCamera();
-    
-    glm::mat4 model = glm::mat4(1.0f);
-    
     greyboxShader.begin();
-    
-    GLuint modelLoc = glGetUniformLocation(greyboxShader.ID, "model");
+
     GLuint viewLoc  = glGetUniformLocation(greyboxShader.ID, "view");
     GLuint projectionLoc  = glGetUniformLocation(greyboxShader.ID, "projection");
     
+    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(renderSingleton.view));
+    glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(renderSingleton.projection));
      
-    //TODO: Factor out basically everything from this very hard-coded initial step.
     
-    for (GreyBoxFamilyStatic f : m_admin.getFamilyStaticVector<GreyBoxFamilyStatic>()){
-        glm::vec3 pos = f.m_TransformComponent.m_position;
-        
-//        printf("[%4d]:(%4.0f, %4.0f, %4.0f) : %2.2f\n", f.eID, pos.x, pos.y, pos.z, f.m_GreyBoxComponent.m_color.r);
-        
-        model = glm::translate(glm::mat4(1.0f), pos);
-        
-        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(renderSingleton.view));
-        glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(renderSingleton.projection));
-        
-        glm::vec3 color = f.m_GreyBoxComponent.m_color;
-        greyboxShader.set3f("color", color.r, color.g, color.b);
-        
-        glBindVertexArray(cube_VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
-        glBindVertexArray(0);
+    // populate the instance positions array
+    std::vector<GreyBoxFamilyStatic>& boxes = m_admin.getFamilyStaticVector<GreyBoxFamilyStatic>();
+    
+    auto numBoxes = boxes.size();
+    glm::vec3 boxPositions[numBoxes];
+    
+    for(int i = 0; i < numBoxes; i++){
+        boxPositions[i] = boxes[i].m_TransformComponent.m_position;
     }
+    
+    glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * numBoxes, &boxPositions[0], GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    glBindVertexArray(cube_VAO);
+    glDrawArraysInstanced(GL_TRIANGLES, 0, 36, numBoxes);
+    glBindVertexArray(0);
     
     greyboxShader.end();
     

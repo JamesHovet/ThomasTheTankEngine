@@ -26,6 +26,7 @@ class GreyBoxRenderSystem : public System {
 public:
     static unsigned int cube_VBO;
     static unsigned int cube_VAO;
+    static unsigned int instanceVBO;
     
     void init();
     void tick(float dt){};

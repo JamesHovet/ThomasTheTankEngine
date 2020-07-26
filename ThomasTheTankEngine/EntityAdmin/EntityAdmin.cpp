@@ -169,7 +169,8 @@ void EntityAdmin::setup(){
 
             nameC.m_name = std::to_string(eID);
             transformC.m_position = glm::vec3(((float) i - 2) / 4.0f);
-            transformC.m_scale = glm::vec3(1.0f, 2.0f, 1.0f);
+            transformC.m_scale = glm::vec3(1.0f, 1.2f, 1.0f);
+            transformC.m_orientation = glm::quat(glm::vec3(0.0f, 0.0f, 0.0f));
             boxC.m_color = glm::vec4(((float) i) * 0.2, 0.0, 0.0, 1.0f);
         }
     }

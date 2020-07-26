@@ -64,6 +64,7 @@ struct greyBoxRenderData {
     glm::vec3 position;
     glm::vec3 scale;
     glm::vec4 color;
+    glm::vec4 rotation;
 };
 #pragma pack(pop)
 
@@ -95,6 +96,10 @@ void GreyBoxRenderSystem::init(){
     glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(greyBoxRenderData), (void *) offsetof(greyBoxRenderData, color));
     glEnableVertexAttribArray(3); // location 3 : v4 color (rgba)
     glVertexAttribDivisor(3, 1);
+    
+    glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(greyBoxRenderData), (void *) offsetof(greyBoxRenderData, rotation));
+    glEnableVertexAttribArray(4); // location 3 : v4 color (rgba)
+    glVertexAttribDivisor(4, 1);
     
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     
@@ -161,6 +166,8 @@ void GreyBoxRenderSystem::render(){
         instanceData[i].position = boxes[i].m_TransformComponent.m_position;
         instanceData[i].scale    = boxes[i].m_TransformComponent.m_scale;
         instanceData[i].color    = boxes[i].m_GreyBoxComponent.m_color;
+        auto orient = boxes[i].m_TransformComponent.m_orientation;
+        instanceData[i].rotation = glm::vec4(orient.x, orient.y, orient.z, orient.w);
         
     }
     

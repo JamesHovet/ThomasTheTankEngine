@@ -46,7 +46,9 @@ public:
     
     void setup();
     void teardown();
+    void filterIfNeeded();
     void update(float dt);
+    void copyToRenderBuffer();
     void render();
     void mainLoop(void);
     
@@ -56,6 +58,7 @@ private:
     void filterEntitiesIntoMutableFamilies();
     void filterEntitiesIntoStaticFamilies();
     void clearFamilies();
+    void clearStaticFamilyVectors();
 public:
     template <typename T>
     T& addComponent(entityID eID){

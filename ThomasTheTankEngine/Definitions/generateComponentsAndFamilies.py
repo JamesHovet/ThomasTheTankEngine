@@ -100,7 +100,9 @@ def createAndWriteForFamilyDict(c, familyID):
 
     #clear families
     clearFamiliesCPP.write("getFamilyMap<{}>().clear();\n".format(fullname))
-    clearFamiliesCPP.write("getFamilyStaticVector<{}>().clear();\n".format(staticname))
+    
+    #clear static family vectors
+    clearStaticFamilyVectorsCPP.write("getFamilyStaticVector<{}>().clear();\n".format(staticname))
 
     #family mutable filters
     if ('update' in c and c['update']) or (not 'update' in c): # update is true by default
@@ -247,6 +249,7 @@ if __name__ == "__main__":
     filterEntitiesIntoMutableFamiliesCPP = open(OUTPUT_CPP + 'filterEntitiesIntoMutableFamiliesInclude.cpp', mode='w')
     filterEntitiesIntoStaticFamiliesCPP = open(OUTPUT_CPP + 'filterEntitiesIntoStaticFamiliesInclude.cpp', mode='w')
     clearFamiliesCPP = open(OUTPUT_CPP + 'clearFamiliesInclude.cpp', mode='w')
+    clearStaticFamilyVectorsCPP = open(OUTPUT_CPP + 'clearStaticFamilyVectorsInclude.cpp', mode='w')
 
     componentID = 3 ## transform, DebugName, Camera components built into the engine
     familyID = 1 # CameraFamily is built in

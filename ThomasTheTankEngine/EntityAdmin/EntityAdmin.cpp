@@ -179,12 +179,24 @@ void EntityAdmin::setup(){
     
 }
 
-void EntityAdmin::update(float dt){
+void EntityAdmin::filterIfNeeded(){
     if(m_entities_dirty){
         this->clearFamilies();
         filterEntitiesIntoMutableFamilies();
-        filterEntitiesIntoStaticFamilies();
     }
+}
+
+void EntityAdmin::clearStaticFamilyVectors(){
+    getFamilyStaticVector<CameraFamilyStatic>().clear();
+    #include "clearStaticFamilyVectorsInclude.cpp"
+}
+
+void EntityAdmin::copyToRenderBuffer(){
+    clearStaticFamilyVectors();
+    filterEntitiesIntoStaticFamilies();
+}
+
+void EntityAdmin::update(float dt){
     
 //    m_DebugPrintSystem.tick(dt);
     m_EditorSystem.tick(dt);
@@ -207,7 +219,6 @@ void EntityAdmin::mainLoop(){
 
 void EntityAdmin::clearFamilies(){
     getFamilyMap<CameraFamily>().clear();
-    getFamilyStaticVector<CameraFamilyStatic>().clear();
     #include "clearFamiliesInclude.cpp"
 }
 

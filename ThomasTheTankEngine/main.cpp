@@ -12,6 +12,8 @@
 #include "TransformComponent.hpp"
 #include "CameraComponent.hpp"
 
+#include <thread>
+
 const int SCREEN_WIDTH = 500;
 const int SCREEN_HEIGHT = 500;
 int graphics_globals::screen_width = SCREEN_WIDTH;
@@ -239,8 +241,23 @@ void holdWindowOpen() {
             
         }
         
+        g_admin.filterIfNeeded();
+        g_admin.copyToRenderBuffer();
+        
+#ifndef NOJOBS
+        std::thread updateThread([deltaTime](void) {g_admin.update(deltaTime);});
+        std::thread renderThread([](void){
+            SDL_GL_MakeCurrent(g_window, gl_context);
+            g_admin.render();
+            
+        });
+        
+        updateThread.join();
+        renderThread.join();
+#else
         g_admin.update(deltaTime);
         g_admin.render();
+#endif
         
         ImGui::Begin("main");
         

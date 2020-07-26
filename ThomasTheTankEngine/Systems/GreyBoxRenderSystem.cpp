@@ -80,12 +80,9 @@ void GreyBoxRenderSystem::init(){
     
 }
 
-//TODO: @Cleanup: factor these sorts of globals out
-
-void GreyBoxRenderSystem::render(){
+void GreyBoxRenderSystem::setupCamera(){
     RenderSingleton& renderSingleton = m_admin.m_RenderSingleton;
     
-    // get camera
     if (m_admin.m_EditorSingleton.shouldUseEditorCamera){
         EditorSingleton& editorSingleton = m_admin.m_EditorSingleton;
         CameraComponent& cameraC = editorSingleton.editorCameraComponent;
@@ -108,6 +105,12 @@ void GreyBoxRenderSystem::render(){
             }
         }
     }
+}
+
+void GreyBoxRenderSystem::render(){
+    RenderSingleton& renderSingleton = m_admin.m_RenderSingleton;
+    
+    setupCamera();
     
     glm::mat4 model = glm::mat4(1.0f);
     

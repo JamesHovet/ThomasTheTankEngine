@@ -9,6 +9,8 @@
 #ifndef main_h
 #define main_h
 
+//#define NOJOBS
+
 #include <iostream>
 
 #pragma clang diagnostic push

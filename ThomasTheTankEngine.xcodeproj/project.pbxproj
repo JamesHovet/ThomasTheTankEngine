@@ -10,6 +10,7 @@
 		590A09B424CA34B800D1153A /* GreyBoxRenderSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 590A09B224CA34B800D1153A /* GreyBoxRenderSystem.cpp */; };
 		590A09B724CA462200D1153A /* greybox.vert in CopyFiles */ = {isa = PBXBuildFile; fileRef = 590A09B524CA3F2A00D1153A /* greybox.vert */; };
 		590A09B824CA462200D1153A /* greybox.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 590A09B624CA3F4200D1153A /* greybox.frag */; };
+		590A09DE24CB3B5E00D1153A /* EditorSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 590A09DC24CB3B5E00D1153A /* EditorSystem.cpp */; };
 		590F567F242CCD8000BC9DC2 /* wall.jpg in CopyFiles */ = {isa = PBXBuildFile; fileRef = 590F567E242CCD7500BC9DC2 /* wall.jpg */; };
 		590F5682242CD12A00BC9DC2 /* FileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 590F5681242CD12A00BC9DC2 /* FileUtils.cpp */; };
 		590F5685242CD3D300BC9DC2 /* stb_image_implementation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 590F5684242CD3D300BC9DC2 /* stb_image_implementation.cpp */; };
@@ -17,9 +18,14 @@
 		591D1D0B243106A400AF9DC5 /* ImGuiUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 591D1D09243106A400AF9DC5 /* ImGuiUtils.cpp */; };
 		591D1D0E243123CE00AF9DC5 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 591D1D0C243123CE00AF9DC5 /* Node.cpp */; };
 		5937528824C25FBC00A0EC78 /* ECSUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5937528624C25FBC00A0EC78 /* ECSUtils.cpp */; };
+		593868F524CE1F6E00AD33FF /* ThomasTheTankEngineTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 593868F424CE1F6E00AD33FF /* ThomasTheTankEngineTests.mm */; };
+		593868FC24CE201700AD33FF /* libGLEW.2.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 59484F4C24290C2D0068591C /* libGLEW.2.1.0.dylib */; };
+		593868FD24CE201C00AD33FF /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59B35EDD24CE1E0400605588 /* OpenGL.framework */; };
+		593868FE24CE202100AD33FF /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59484F4E24290C410068591C /* SDL2.framework */; };
+		593868FF24CE213C00AD33FF /* libboost_filesystem.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 59B35EE024CE1EAC00605588 /* libboost_filesystem.dylib */; };
+		5938690024CE214400AD33FF /* libboost_filesystem.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 59B35EE024CE1EAC00605588 /* libboost_filesystem.dylib */; };
 		59484F2E24290AEE0068591C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 59484F2D24290AEE0068591C /* Assets.xcassets */; };
 		59484F3424290AEE0068591C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59484F3324290AEE0068591C /* main.cpp */; };
-		59484F3F24290AEE0068591C /* ThomasTheTankEngineTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 59484F3E24290AEE0068591C /* ThomasTheTankEngineTests.m */; };
 		59484F4B24290C0D0068591C /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59484F4A24290C0D0068591C /* OpenGL.framework */; };
 		59484F4F24290C410068591C /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59484F4E24290C410068591C /* SDL2.framework */; };
 		59484F65242910030068591C /* imgui_widgets.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59484F5A242910030068591C /* imgui_widgets.cpp */; };
@@ -34,7 +40,6 @@
 		594A5F3024B4B41D00733231 /* System.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 594A5F2E24B4B41D00733231 /* System.cpp */; };
 		594A5F3324B4BA6400733231 /* DebugPrintSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 594A5F3124B4BA6400733231 /* DebugPrintSystem.cpp */; };
 		594A5F3A24B4E99000733231 /* Component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 594A5F3824B4E99000733231 /* Component.cpp */; };
-		59661B42242971150088525D /* libboost_filesystem.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 59661B40242968880088525D /* libboost_filesystem.dylib */; };
 		59661B44242B93900088525D /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59661B43242B93900088525D /* Shader.cpp */; };
 		59661B46242B96250088525D /* default.vert in CopyFiles */ = {isa = PBXBuildFile; fileRef = 59661B3B242962B70088525D /* default.vert */; };
 		59661B47242B96250088525D /* default.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 59661B3C242962CA0088525D /* default.frag */; };
@@ -44,7 +49,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		59484F3B24290AEE0068591C /* PBXContainerItemProxy */ = {
+		593868F724CE1F6E00AD33FF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 59484F1F24290AEE0068591C /* Project object */;
 			proxyType = 1;
@@ -82,12 +87,28 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		590A09AF24CA094200D1153A /* filterEntitiesIntoFamiliesInclude.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = filterEntitiesIntoFamiliesInclude.cpp; sourceTree = "<group>"; };
-		590A09B124CA0AD300D1153A /* clearFamiliesInclude.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = clearFamiliesInclude.cpp; sourceTree = "<group>"; };
 		590A09B224CA34B800D1153A /* GreyBoxRenderSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GreyBoxRenderSystem.cpp; sourceTree = "<group>"; };
 		590A09B324CA34B800D1153A /* GreyBoxRenderSystem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GreyBoxRenderSystem.hpp; sourceTree = "<group>"; };
 		590A09B524CA3F2A00D1153A /* greybox.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = greybox.vert; sourceTree = "<group>"; };
 		590A09B624CA3F4200D1153A /* greybox.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = greybox.frag; sourceTree = "<group>"; };
+		590A09B924CB286700D1153A /* RenderSingleton.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RenderSingleton.hpp; sourceTree = "<group>"; };
+		590A09CC24CB33A000D1153A /* GreyBoxComponent.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GreyBoxComponent.hpp; sourceTree = "<group>"; };
+		590A09CD24CB33A000D1153A /* DebugPrintComponent.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DebugPrintComponent.hpp; sourceTree = "<group>"; };
+		590A09CE24CB33A000D1153A /* ComponentsEnum.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ComponentsEnum.hpp; sourceTree = "<group>"; };
+		590A09D024CB33A000D1153A /* allComponents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = allComponents.h; sourceTree = "<group>"; };
+		590A09D224CB33A000D1153A /* filterEntitiesIntoMutableFamiliesInclude.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = filterEntitiesIntoMutableFamiliesInclude.cpp; sourceTree = "<group>"; };
+		590A09D324CB33A000D1153A /* populateComponentPoolsInclude.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = populateComponentPoolsInclude.cpp; sourceTree = "<group>"; };
+		590A09D424CB33A000D1153A /* populateFamilyMapsInclude.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = populateFamilyMapsInclude.cpp; sourceTree = "<group>"; };
+		590A09D524CB33A000D1153A /* clearFamiliesInclude.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = clearFamiliesInclude.cpp; sourceTree = "<group>"; };
+		590A09D724CB33A000D1153A /* GreyBoxFamily.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GreyBoxFamily.hpp; sourceTree = "<group>"; };
+		590A09D824CB33A000D1153A /* FamiliesEnum.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FamiliesEnum.hpp; sourceTree = "<group>"; };
+		590A09D924CB33A000D1153A /* DebugPrintableFamily.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DebugPrintableFamily.hpp; sourceTree = "<group>"; };
+		590A09DB24CB33A000D1153A /* allFamilies.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = allFamilies.h; sourceTree = "<group>"; };
+		590A09DC24CB3B5E00D1153A /* EditorSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EditorSystem.cpp; sourceTree = "<group>"; };
+		590A09DD24CB3B5E00D1153A /* EditorSystem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = EditorSystem.hpp; sourceTree = "<group>"; };
+		590A09DF24CB4AB000D1153A /* EditorSingleton.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = EditorSingleton.hpp; sourceTree = "<group>"; };
+		590A09E024CB4FB800D1153A /* CameraComponent.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CameraComponent.hpp; sourceTree = "<group>"; };
+		590A09E124CB4FD100D1153A /* CameraFamily.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CameraFamily.hpp; sourceTree = "<group>"; };
 		590F567E242CCD7500BC9DC2 /* wall.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = wall.jpg; sourceTree = "<group>"; };
 		590F5680242CCDD600BC9DC2 /* FileUtils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FileUtils.hpp; sourceTree = "<group>"; };
 		590F5681242CD12A00BC9DC2 /* FileUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FileUtils.cpp; sourceTree = "<group>"; };
@@ -95,30 +116,22 @@
 		590F5684242CD3D300BC9DC2 /* stb_image_implementation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = stb_image_implementation.cpp; sourceTree = "<group>"; };
 		590F5686242CD9B300BC9DC2 /* awesomeface.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = awesomeface.png; sourceTree = "<group>"; };
 		5919A0F324C0E63E009F97F8 /* generateComponentsAndFamilies.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = generateComponentsAndFamilies.py; sourceTree = "<group>"; };
-		5919A0F524C0E63E009F97F8 /* test.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = test.json; sourceTree = "<group>"; };
-		5919A0F624C0E701009F97F8 /* ComponentsEnum.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ComponentsEnum.hpp; sourceTree = "<group>"; };
+		5919A0F524C0E63E009F97F8 /* base.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = base.json; sourceTree = "<group>"; };
 		5919A0F724C0E701009F97F8 /* DebugNameComponent.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DebugNameComponent.hpp; sourceTree = "<group>"; };
-		5919A0F824C0E701009F97F8 /* allComponents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = allComponents.h; sourceTree = "<group>"; };
-		5919A0F924C0E702009F97F8 /* DebugPrintComponent.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DebugPrintComponent.hpp; sourceTree = "<group>"; };
-		5919A0FA24C0E70C009F97F8 /* DebugPrintableFamily.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DebugPrintableFamily.hpp; sourceTree = "<group>"; };
-		5919A0FB24C0E70C009F97F8 /* allFamilies.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = allFamilies.h; sourceTree = "<group>"; };
-		5919A0FC24C0E718009F97F8 /* populateComponentPoolsInclude.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = populateComponentPoolsInclude.cpp; sourceTree = "<group>"; };
 		591D1D09243106A400AF9DC5 /* ImGuiUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ImGuiUtils.cpp; sourceTree = "<group>"; };
 		591D1D0A243106A400AF9DC5 /* ImGuiUtils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ImGuiUtils.hpp; sourceTree = "<group>"; };
 		591D1D0C243123CE00AF9DC5 /* Node.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Node.cpp; sourceTree = "<group>"; };
 		591D1D0D243123CE00AF9DC5 /* Node.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Node.hpp; sourceTree = "<group>"; };
-		5937528124C230DF00A0EC78 /* FamiliesEnum.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FamiliesEnum.hpp; sourceTree = "<group>"; };
-		5937528224C23BC100A0EC78 /* populateFamilyMapsInclude.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = populateFamilyMapsInclude.cpp; sourceTree = "<group>"; };
 		5937528524C23D9200A0EC78 /* Family.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Family.hpp; sourceTree = "<group>"; };
 		5937528624C25FBC00A0EC78 /* ECSUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ECSUtils.cpp; sourceTree = "<group>"; };
 		5937528724C25FBC00A0EC78 /* ECSUtils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ECSUtils.hpp; sourceTree = "<group>"; };
+		593868F224CE1F6E00AD33FF /* ThomasTheTankEngineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ThomasTheTankEngineTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		593868F424CE1F6E00AD33FF /* ThomasTheTankEngineTests.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = ThomasTheTankEngineTests.mm; sourceTree = "<group>"; };
+		593868F624CE1F6E00AD33FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		59484F2724290AEE0068591C /* ThomasTheTankEngine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ThomasTheTankEngine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		59484F2D24290AEE0068591C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		59484F3224290AEE0068591C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		59484F3324290AEE0068591C /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		59484F3A24290AEE0068591C /* ThomasTheTankEngineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ThomasTheTankEngineTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		59484F3E24290AEE0068591C /* ThomasTheTankEngineTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ThomasTheTankEngineTests.m; sourceTree = "<group>"; };
-		59484F4024290AEE0068591C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		59484F4A24290C0D0068591C /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		59484F4C24290C2D0068591C /* libGLEW.2.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.2.1.0.dylib; path = ../../../../../usr/local/lib/libGLEW.2.1.0.dylib; sourceTree = "<group>"; };
 		59484F4E24290C410068591C /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
@@ -151,7 +164,6 @@
 		594A5F3824B4E99000733231 /* Component.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Component.cpp; sourceTree = "<group>"; };
 		594A5F3924B4E99000733231 /* Component.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Component.hpp; sourceTree = "<group>"; };
 		594F6A2324C1D71300647AC3 /* TransformComponent.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TransformComponent.hpp; sourceTree = "<group>"; };
-		594F6A2424C20CB600647AC3 /* GreyBoxFamily.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GreyBoxFamily.hpp; sourceTree = "<group>"; };
 		594F6A2524C218FA00647AC3 /* AllSystems.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AllSystems.hpp; sourceTree = "<group>"; };
 		596619B3242926BF0088525D /* vec4.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = vec4.hpp; sourceTree = "<group>"; };
 		596619B4242926BF0088525D /* integer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = integer.hpp; sourceTree = "<group>"; };
@@ -539,7 +551,7 @@
 		59661B40242968880088525D /* libboost_filesystem.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_filesystem.dylib; path = ../../../../../usr/local/Cellar/boost/1.71.0/lib/libboost_filesystem.dylib; sourceTree = "<group>"; };
 		59661B43242B93900088525D /* Shader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
 		59661B45242B958C0088525D /* shader_globals.glh */ = {isa = PBXFileReference; lastKnownFileType = text; path = shader_globals.glh; sourceTree = "<group>"; };
-		59839E6624B6591900BB3362 /* SingletonsEnum.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SingletonsEnum.hpp; sourceTree = "<group>"; };
+		5994CE5B24CDDA2800CED70A /* clearStaticFamilyVectorsInclude.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = clearStaticFamilyVectorsInclude.cpp; sourceTree = "<group>"; };
 		59A7A95924BD269400DB8CD9 /* poolfwd.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = poolfwd.hpp; sourceTree = "<group>"; };
 		59A7A95A24BD269400DB8CD9 /* pool_alloc.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pool_alloc.hpp; sourceTree = "<group>"; };
 		59A7A95B24BD269400DB8CD9 /* singleton_pool.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = singleton_pool.hpp; sourceTree = "<group>"; };
@@ -550,6 +562,10 @@
 		59A7A96124BD269400DB8CD9 /* mutex.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mutex.hpp; sourceTree = "<group>"; };
 		59A7A96224BD269400DB8CD9 /* pool_construct.ipp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pool_construct.ipp; sourceTree = "<group>"; };
 		59A7A96324BD269400DB8CD9 /* simple_segregated_storage.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = simple_segregated_storage.hpp; sourceTree = "<group>"; };
+		59B35EDD24CE1E0400605588 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework; sourceTree = DEVELOPER_DIR; };
+		59B35EE024CE1EAC00605588 /* libboost_filesystem.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_filesystem.dylib; path = ../../../../usr/local/Cellar/boost/1.72.0_3/lib/libboost_filesystem.dylib; sourceTree = "<group>"; };
+		59E57C4324CDC1E20076E507 /* filterEntitiesIntoStaticFamiliesInclude.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = filterEntitiesIntoStaticFamiliesInclude.cpp; sourceTree = "<group>"; };
+		59E57C4424CDC1F10076E507 /* populateFamilyStaticVectorsInclude.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = populateFamilyStaticVectorsInclude.cpp; sourceTree = "<group>"; };
 		59F7F2A82430F3C900A673D1 /* Graphics.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Graphics.cpp; sourceTree = "<group>"; };
 		59F7F2A92430F3C900A673D1 /* Graphics.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Graphics.hpp; sourceTree = "<group>"; };
 		59F7F2AB2430F56500A673D1 /* graphics_globals.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = graphics_globals.hpp; sourceTree = "<group>"; };
@@ -558,6 +574,17 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		593868EF24CE1F6E00AD33FF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				593868FC24CE201700AD33FF /* libGLEW.2.1.0.dylib in Frameworks */,
+				593868FD24CE201C00AD33FF /* OpenGL.framework in Frameworks */,
+				593868FE24CE202100AD33FF /* SDL2.framework in Frameworks */,
+				593868FF24CE213C00AD33FF /* libboost_filesystem.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		59484F2424290AEE0068591C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -565,20 +592,49 @@
 				59484F6B242911110068591C /* libGLEW.2.1.0.dylib in Frameworks */,
 				59484F4B24290C0D0068591C /* OpenGL.framework in Frameworks */,
 				59484F4F24290C410068591C /* SDL2.framework in Frameworks */,
-				59661B42242971150088525D /* libboost_filesystem.dylib in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		59484F3724290AEE0068591C /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				5938690024CE214400AD33FF /* libboost_filesystem.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		590A09CB24CB33A000D1153A /* gen_Components */ = {
+			isa = PBXGroup;
+			children = (
+				590A09CC24CB33A000D1153A /* GreyBoxComponent.hpp */,
+				590A09CD24CB33A000D1153A /* DebugPrintComponent.hpp */,
+				590A09CE24CB33A000D1153A /* ComponentsEnum.hpp */,
+				590A09D024CB33A000D1153A /* allComponents.h */,
+			);
+			path = gen_Components;
+			sourceTree = "<group>";
+		};
+		590A09D124CB33A000D1153A /* gen_cpp */ = {
+			isa = PBXGroup;
+			children = (
+				590A09D224CB33A000D1153A /* filterEntitiesIntoMutableFamiliesInclude.cpp */,
+				59E57C4324CDC1E20076E507 /* filterEntitiesIntoStaticFamiliesInclude.cpp */,
+				59E57C4424CDC1F10076E507 /* populateFamilyStaticVectorsInclude.cpp */,
+				590A09D324CB33A000D1153A /* populateComponentPoolsInclude.cpp */,
+				590A09D424CB33A000D1153A /* populateFamilyMapsInclude.cpp */,
+				590A09D524CB33A000D1153A /* clearFamiliesInclude.cpp */,
+				5994CE5B24CDDA2800CED70A /* clearStaticFamilyVectorsInclude.cpp */,
+			);
+			path = gen_cpp;
+			sourceTree = "<group>";
+		};
+		590A09D624CB33A000D1153A /* gen_Families */ = {
+			isa = PBXGroup;
+			children = (
+				590A09D724CB33A000D1153A /* GreyBoxFamily.hpp */,
+				590A09D824CB33A000D1153A /* FamiliesEnum.hpp */,
+				590A09D924CB33A000D1153A /* DebugPrintableFamily.hpp */,
+				590A09DB24CB33A000D1153A /* allFamilies.h */,
+			);
+			path = gen_Families;
+			sourceTree = "<group>";
+		};
 		590F567C242CCD7500BC9DC2 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -599,43 +655,11 @@
 		5919A0EE24C0E544009F97F8 /* generated */ = {
 			isa = PBXGroup;
 			children = (
-				5919A0F124C0E56B009F97F8 /* gen_cpp */,
-				5919A0F024C0E55F009F97F8 /* gen_Families */,
-				5919A0EF24C0E553009F97F8 /* gen_Components */,
+				590A09CB24CB33A000D1153A /* gen_Components */,
+				590A09D124CB33A000D1153A /* gen_cpp */,
+				590A09D624CB33A000D1153A /* gen_Families */,
 			);
 			path = generated;
-			sourceTree = "<group>";
-		};
-		5919A0EF24C0E553009F97F8 /* gen_Components */ = {
-			isa = PBXGroup;
-			children = (
-				5919A0F824C0E701009F97F8 /* allComponents.h */,
-				5919A0F624C0E701009F97F8 /* ComponentsEnum.hpp */,
-				5919A0F924C0E702009F97F8 /* DebugPrintComponent.hpp */,
-			);
-			path = gen_Components;
-			sourceTree = "<group>";
-		};
-		5919A0F024C0E55F009F97F8 /* gen_Families */ = {
-			isa = PBXGroup;
-			children = (
-				5919A0FB24C0E70C009F97F8 /* allFamilies.h */,
-				5937528124C230DF00A0EC78 /* FamiliesEnum.hpp */,
-				594F6A2424C20CB600647AC3 /* GreyBoxFamily.hpp */,
-				5919A0FA24C0E70C009F97F8 /* DebugPrintableFamily.hpp */,
-			);
-			path = gen_Families;
-			sourceTree = "<group>";
-		};
-		5919A0F124C0E56B009F97F8 /* gen_cpp */ = {
-			isa = PBXGroup;
-			children = (
-				590A09B124CA0AD300D1153A /* clearFamiliesInclude.cpp */,
-				590A09AF24CA094200D1153A /* filterEntitiesIntoFamiliesInclude.cpp */,
-				5919A0FC24C0E718009F97F8 /* populateComponentPoolsInclude.cpp */,
-				5937528224C23BC100A0EC78 /* populateFamilyMapsInclude.cpp */,
-			);
-			path = gen_cpp;
 			sourceTree = "<group>";
 		};
 		5919A0F224C0E63E009F97F8 /* Definitions */ = {
@@ -650,7 +674,7 @@
 		5919A0F424C0E63E009F97F8 /* definitions */ = {
 			isa = PBXGroup;
 			children = (
-				5919A0F524C0E63E009F97F8 /* test.json */,
+				5919A0F524C0E63E009F97F8 /* base.json */,
 			);
 			path = definitions;
 			sourceTree = "<group>";
@@ -659,15 +683,25 @@
 			isa = PBXGroup;
 			children = (
 				5937528524C23D9200A0EC78 /* Family.hpp */,
+				590A09E124CB4FD100D1153A /* CameraFamily.hpp */,
 			);
 			path = Families;
+			sourceTree = "<group>";
+		};
+		593868F324CE1F6E00AD33FF /* ThomasTheTankEngineTests */ = {
+			isa = PBXGroup;
+			children = (
+				593868F424CE1F6E00AD33FF /* ThomasTheTankEngineTests.mm */,
+				593868F624CE1F6E00AD33FF /* Info.plist */,
+			);
+			path = ThomasTheTankEngineTests;
 			sourceTree = "<group>";
 		};
 		59484F1E24290AEE0068591C = {
 			isa = PBXGroup;
 			children = (
 				59484F2924290AEE0068591C /* ThomasTheTankEngine */,
-				59484F3D24290AEE0068591C /* ThomasTheTankEngineTests */,
+				593868F324CE1F6E00AD33FF /* ThomasTheTankEngineTests */,
 				59484F2824290AEE0068591C /* Products */,
 				59484F4924290C0C0068591C /* Frameworks */,
 			);
@@ -677,7 +711,7 @@
 			isa = PBXGroup;
 			children = (
 				59484F2724290AEE0068591C /* ThomasTheTankEngine.app */,
-				59484F3A24290AEE0068591C /* ThomasTheTankEngineTests.xctest */,
+				593868F224CE1F6E00AD33FF /* ThomasTheTankEngineTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -693,7 +727,6 @@
 				5937528424C23D7900A0EC78 /* Families */,
 				59839E6524B658C500BB3362 /* Singletons */,
 				59661B34242960E80088525D /* Utils */,
-				594A5F3424B4BB7400733231 /* typedefs.h */,
 				5919A0F224C0E63E009F97F8 /* Definitions */,
 				5919A0EE24C0E544009F97F8 /* generated */,
 				59484F5424290FCE0068591C /* src */,
@@ -706,18 +739,11 @@
 			path = ThomasTheTankEngine;
 			sourceTree = "<group>";
 		};
-		59484F3D24290AEE0068591C /* ThomasTheTankEngineTests */ = {
-			isa = PBXGroup;
-			children = (
-				59484F3E24290AEE0068591C /* ThomasTheTankEngineTests.m */,
-				59484F4024290AEE0068591C /* Info.plist */,
-			);
-			path = ThomasTheTankEngineTests;
-			sourceTree = "<group>";
-		};
 		59484F4924290C0C0068591C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				59B35EE024CE1EAC00605588 /* libboost_filesystem.dylib */,
+				59B35EDD24CE1E0400605588 /* OpenGL.framework */,
 				59661B40242968880088525D /* libboost_filesystem.dylib */,
 				59484F5024290C5B0068591C /* libboost_program_options.dylib */,
 				59484F4E24290C410068591C /* SDL2.framework */,
@@ -778,6 +804,7 @@
 				594A5F3924B4E99000733231 /* Component.hpp */,
 				594F6A2324C1D71300647AC3 /* TransformComponent.hpp */,
 				5919A0F724C0E701009F97F8 /* DebugNameComponent.hpp */,
+				590A09E024CB4FB800D1153A /* CameraComponent.hpp */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -785,13 +812,13 @@
 		594A5F2124B4AFD800733231 /* Systems */ = {
 			isa = PBXGroup;
 			children = (
+				5994CE5D24CDDAA700CED70A /* UpdateOnly */,
+				5994CE5C24CDDA9700CED70A /* RenderOnly */,
 				594F6A2524C218FA00647AC3 /* AllSystems.hpp */,
 				594A5F2E24B4B41D00733231 /* System.cpp */,
 				594A5F2F24B4B41D00733231 /* System.hpp */,
-				594A5F3124B4BA6400733231 /* DebugPrintSystem.cpp */,
-				594A5F3224B4BA6400733231 /* DebugPrintSystem.hpp */,
-				590A09B224CA34B800D1153A /* GreyBoxRenderSystem.cpp */,
-				590A09B324CA34B800D1153A /* GreyBoxRenderSystem.hpp */,
+				590A09DC24CB3B5E00D1153A /* EditorSystem.cpp */,
+				590A09DD24CB3B5E00D1153A /* EditorSystem.hpp */,
 			);
 			path = Systems;
 			sourceTree = "<group>";
@@ -1243,6 +1270,7 @@
 				590F5680242CCDD600BC9DC2 /* FileUtils.hpp */,
 				590F5681242CD12A00BC9DC2 /* FileUtils.cpp */,
 				591D1D09243106A400AF9DC5 /* ImGuiUtils.cpp */,
+				594A5F3424B4BB7400733231 /* typedefs.h */,
 				591D1D0A243106A400AF9DC5 /* ImGuiUtils.hpp */,
 			);
 			path = Utils;
@@ -1284,9 +1312,28 @@
 		59839E6524B658C500BB3362 /* Singletons */ = {
 			isa = PBXGroup;
 			children = (
-				59839E6624B6591900BB3362 /* SingletonsEnum.hpp */,
+				590A09B924CB286700D1153A /* RenderSingleton.hpp */,
+				590A09DF24CB4AB000D1153A /* EditorSingleton.hpp */,
 			);
 			path = Singletons;
+			sourceTree = "<group>";
+		};
+		5994CE5C24CDDA9700CED70A /* RenderOnly */ = {
+			isa = PBXGroup;
+			children = (
+				590A09B224CA34B800D1153A /* GreyBoxRenderSystem.cpp */,
+				590A09B324CA34B800D1153A /* GreyBoxRenderSystem.hpp */,
+			);
+			path = RenderOnly;
+			sourceTree = "<group>";
+		};
+		5994CE5D24CDDAA700CED70A /* UpdateOnly */ = {
+			isa = PBXGroup;
+			children = (
+				594A5F3124B4BA6400733231 /* DebugPrintSystem.cpp */,
+				594A5F3224B4BA6400733231 /* DebugPrintSystem.hpp */,
+			);
+			path = UpdateOnly;
 			sourceTree = "<group>";
 		};
 		59A7A95824BD269400DB8CD9 /* pool */ = {
@@ -1317,6 +1364,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		593868F124CE1F6E00AD33FF /* ThomasTheTankEngineTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 593868FB24CE1F6E00AD33FF /* Build configuration list for PBXNativeTarget "ThomasTheTankEngineTests" */;
+			buildPhases = (
+				593868EE24CE1F6E00AD33FF /* Sources */,
+				593868EF24CE1F6E00AD33FF /* Frameworks */,
+				593868F024CE1F6E00AD33FF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				593868F824CE1F6E00AD33FF /* PBXTargetDependency */,
+			);
+			name = ThomasTheTankEngineTests;
+			productName = ThomasTheTankEngineTests;
+			productReference = 593868F224CE1F6E00AD33FF /* ThomasTheTankEngineTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		59484F2624290AEE0068591C /* ThomasTheTankEngine */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 59484F4324290AEE0068591C /* Build configuration list for PBXNativeTarget "ThomasTheTankEngine" */;
@@ -1336,24 +1401,6 @@
 			productReference = 59484F2724290AEE0068591C /* ThomasTheTankEngine.app */;
 			productType = "com.apple.product-type.application";
 		};
-		59484F3924290AEE0068591C /* ThomasTheTankEngineTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 59484F4624290AEE0068591C /* Build configuration list for PBXNativeTarget "ThomasTheTankEngineTests" */;
-			buildPhases = (
-				59484F3624290AEE0068591C /* Sources */,
-				59484F3724290AEE0068591C /* Frameworks */,
-				59484F3824290AEE0068591C /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				59484F3C24290AEE0068591C /* PBXTargetDependency */,
-			);
-			name = ThomasTheTankEngineTests;
-			productName = ThomasTheTankEngineTests;
-			productReference = 59484F3A24290AEE0068591C /* ThomasTheTankEngineTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1363,12 +1410,12 @@
 				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = "James Hovet";
 				TargetAttributes = {
+					593868F124CE1F6E00AD33FF = {
+						CreatedOnToolsVersion = 11.6;
+						TestTargetID = 59484F2624290AEE0068591C;
+					};
 					59484F2624290AEE0068591C = {
 						CreatedOnToolsVersion = 10.0;
-					};
-					59484F3924290AEE0068591C = {
-						CreatedOnToolsVersion = 10.0;
-						TestTargetID = 59484F2624290AEE0068591C;
 					};
 				};
 			};
@@ -1386,12 +1433,19 @@
 			projectRoot = "";
 			targets = (
 				59484F2624290AEE0068591C /* ThomasTheTankEngine */,
-				59484F3924290AEE0068591C /* ThomasTheTankEngineTests */,
+				593868F124CE1F6E00AD33FF /* ThomasTheTankEngineTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		593868F024CE1F6E00AD33FF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		59484F2524290AEE0068591C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1400,21 +1454,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		59484F3824290AEE0068591C /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		593868EE24CE1F6E00AD33FF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				593868F524CE1F6E00AD33FF /* ThomasTheTankEngineTests.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		59484F2324290AEE0068591C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				59484F3424290AEE0068591C /* main.cpp in Sources */,
+				590A09DE24CB3B5E00D1153A /* EditorSystem.cpp in Sources */,
 				5937528824C25FBC00A0EC78 /* ECSUtils.cpp in Sources */,
 				591D1D0E243123CE00AF9DC5 /* Node.cpp in Sources */,
 				59484F6A242910030068591C /* imgui_draw.cpp in Sources */,
@@ -1438,25 +1494,91 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		59484F3624290AEE0068591C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				59484F3F24290AEE0068591C /* ThomasTheTankEngineTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		59484F3C24290AEE0068591C /* PBXTargetDependency */ = {
+		593868F824CE1F6E00AD33FF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 59484F2624290AEE0068591C /* ThomasTheTankEngine */;
-			targetProxy = 59484F3B24290AEE0068591C /* PBXContainerItemProxy */;
+			targetProxy = 593868F724CE1F6E00AD33FF /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		593868F924CE1F6E00AD33FF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 7J7X6WVG78;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					/Library/Frameworks,
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/include/GL,
+					/usr/local/Cellar/boost/1.71.0/include,
+				);
+				INFOPLIST_FILE = ThomasTheTankEngineTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/boost/1.71.0/lib,
+					/usr/local/lib,
+					/usr/local/Cellar/boost/1.72.0_3/lib,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jameshovet.ThomasTheTankEngineTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ThomasTheTankEngine.app/Contents/MacOS/ThomasTheTankEngine";
+			};
+			name = Debug;
+		};
+		593868FA24CE1F6E00AD33FF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 7J7X6WVG78;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					/Library/Frameworks,
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/include/GL,
+					/usr/local/Cellar/boost/1.71.0/include,
+				);
+				INFOPLIST_FILE = ThomasTheTankEngineTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/boost/1.71.0/lib,
+					/usr/local/lib,
+					/usr/local/Cellar/boost/1.72.0_3/lib,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jameshovet.ThomasTheTankEngineTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ThomasTheTankEngine.app/Contents/MacOS/ThomasTheTankEngine";
+			};
+			name = Release;
+		};
 		59484F4124290AEE0068591C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1514,6 +1636,7 @@
 					/usr/local/Cellar/boost/1.72.0_3/include,
 					"$(SRCROOT)/ThomasTheTankEngine/generated/**",
 				);
+				LD_RUNPATH_SEARCH_PATHS = /Library/Frameworks;
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -1573,6 +1696,7 @@
 					/usr/local/Cellar/boost/1.72.0_3/include,
 					"$(SRCROOT)/ThomasTheTankEngine/generated/**",
 				);
+				LD_RUNPATH_SEARCH_PATHS = /Library/Frameworks;
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -1607,6 +1731,7 @@
 					"$(inherited)",
 					/usr/local/Cellar/boost/1.71.0/lib,
 					/usr/local/lib,
+					/usr/local/Cellar/boost/1.72.0_3/lib,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jamesHovet.ThomasTheTankEngine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1640,55 +1765,25 @@
 					"$(inherited)",
 					/usr/local/Cellar/boost/1.71.0/lib,
 					/usr/local/lib,
+					/usr/local/Cellar/boost/1.72.0_3/lib,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jamesHovet.ThomasTheTankEngine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
-		59484F4724290AEE0068591C /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 7J7X6WVG78;
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = ThomasTheTankEngineTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.jamesHovet.ThomasTheTankEngineTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ThomasTheTankEngine.app/Contents/MacOS/ThomasTheTankEngine";
-			};
-			name = Debug;
-		};
-		59484F4824290AEE0068591C /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 7J7X6WVG78;
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = ThomasTheTankEngineTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.jamesHovet.ThomasTheTankEngineTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ThomasTheTankEngine.app/Contents/MacOS/ThomasTheTankEngine";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		593868FB24CE1F6E00AD33FF /* Build configuration list for PBXNativeTarget "ThomasTheTankEngineTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				593868F924CE1F6E00AD33FF /* Debug */,
+				593868FA24CE1F6E00AD33FF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		59484F2224290AEE0068591C /* Build configuration list for PBXProject "ThomasTheTankEngine" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1703,15 +1798,6 @@
 			buildConfigurations = (
 				59484F4424290AEE0068591C /* Debug */,
 				59484F4524290AEE0068591C /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		59484F4624290AEE0068591C /* Build configuration list for PBXNativeTarget "ThomasTheTankEngineTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				59484F4724290AEE0068591C /* Debug */,
-				59484F4824290AEE0068591C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

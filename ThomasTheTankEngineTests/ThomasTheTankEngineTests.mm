@@ -2,7 +2,7 @@
 //  ThomasTheTankEngineTests.m
 //  ThomasTheTankEngineTests
 //
-//  Created by James Hovet on 3/23/20.
+//  Created by James Hovet on 7/26/20.
 //  Copyright © 2020 James Hovet. All rights reserved.
 //
 
@@ -23,15 +23,8 @@
 }
 
 - (void)testExample {
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
+    XCTAssert(true);
 }
 
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
-}
 
 @end

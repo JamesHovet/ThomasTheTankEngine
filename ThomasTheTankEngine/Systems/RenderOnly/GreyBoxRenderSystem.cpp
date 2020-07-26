@@ -59,6 +59,14 @@ float greyBoxVertsNoIndices[] = {
     -0.5f,  0.5f, -0.5f
 };
 
+#pragma pack(push, 0)
+struct greyBoxRenderData {
+    glm::vec3 position;
+    glm::vec3 scale;
+    glm::vec4 color;
+};
+#pragma pack(pop)
+
 void GreyBoxRenderSystem::init(){
     greyboxShader = Shader("Shaders/greybox.vert", "Shaders/greybox.frag");
     
@@ -67,17 +75,28 @@ void GreyBoxRenderSystem::init(){
     
     glGenBuffers(1, &cube_VBO);
     glBindBuffer(GL_ARRAY_BUFFER, cube_VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(greyBoxVertsNoIndices), greyBoxVertsNoIndices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(greyBoxVertsNoIndices), &greyBoxVertsNoIndices[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (3) * sizeof(float), (void *)0);
-    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
     
     glGenBuffers(1, &instanceVBO);
-    glEnableVertexAttribArray(1); // location 1 : v3
+    
     glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, (3) * sizeof(float), (void *)0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(greyBoxRenderData), (void *) offsetof(greyBoxRenderData, position));
+    glEnableVertexAttribArray(1); // location 1 : vec3 ipos
     glVertexAttribDivisor(1, 1);
+    
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(greyBoxRenderData), (void *) offsetof(greyBoxRenderData, scale));
+    glEnableVertexAttribArray(2); // location 2 : vec3 scale
+    glVertexAttribDivisor(2, 1);
+//
+    glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(greyBoxRenderData), (void *) offsetof(greyBoxRenderData, color));
+    glEnableVertexAttribArray(3); // location 3 : v4 color (rgba)
+    glVertexAttribDivisor(3, 1);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
     
     
     bool shouldDrawWireframe = false;
@@ -133,14 +152,20 @@ void GreyBoxRenderSystem::render(){
     std::vector<GreyBoxFamilyStatic>& boxes = m_admin.getFamilyStaticVector<GreyBoxFamilyStatic>();
     
     auto numBoxes = boxes.size();
-    glm::vec3 boxPositions[numBoxes];
+//    numBoxes = 3;
+    
+    greyBoxRenderData instanceData[numBoxes];
     
     for(int i = 0; i < numBoxes; i++){
-        boxPositions[i] = boxes[i].m_TransformComponent.m_position;
+        
+        instanceData[i].position = boxes[i].m_TransformComponent.m_position;
+        instanceData[i].scale    = boxes[i].m_TransformComponent.m_scale;
+        instanceData[i].color    = boxes[i].m_GreyBoxComponent.m_color;
+        
     }
     
     glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * numBoxes, &boxPositions[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(greyBoxRenderData) * numBoxes, &instanceData[0], GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     
     glBindVertexArray(cube_VAO);

@@ -27,10 +27,17 @@ enum Buttons {
     DUp,
     DDown,
     DLeft,
-    DRight
+    DRight,
+    LStickX,
+    LStickY,
+    RStickX,
+    RStickY,
+    LTAnalog,
+    RTAnalog
 };
 
-const int JOYSTICK_DEAD_ZONE = 8000;
+const float STICK_DEAD_ZONE   = 0.2;
+const float TRIGGER_DEAD_ZONE = 0.2;
 
 void InputSystem::init(){
     InputSingleton& input = m_admin.m_InputSingleton;
@@ -63,6 +70,20 @@ void InputSystem::init(){
     input.map->MapBool(DLeft, input.padID, gainput::PadButtonLeft);
     input.map->MapBool(DRight, input.padID, gainput::PadButtonRight);
     
+    input.map->MapFloat(LStickX, input.padID, gainput::PadButtonLeftStickX);
+    input.map->MapFloat(LStickY, input.padID, gainput::PadButtonLeftStickY);
+    input.map->MapFloat(RStickX, input.padID, gainput::PadButtonRightStickX);
+    input.map->MapFloat(RStickY, input.padID, gainput::PadButtonRightStickY);
+    input.map->MapFloat(LTAnalog, input.padID, gainput::PadButtonAxis4);
+    input.map->MapFloat(RTAnalog, input.padID, gainput::PadButtonAxis5);
+    
+    input.map->SetDeadZone(LStickX, STICK_DEAD_ZONE);
+    input.map->SetDeadZone(LStickY, STICK_DEAD_ZONE);
+    input.map->SetDeadZone(RStickX, STICK_DEAD_ZONE);
+    input.map->SetDeadZone(RStickY, STICK_DEAD_ZONE);
+    input.map->SetDeadZone(LTAnalog, TRIGGER_DEAD_ZONE);
+    input.map->SetDeadZone(RTAnalog, TRIGGER_DEAD_ZONE);
+
 }
 
 void InputSystem::tick(float dt){
@@ -88,6 +109,12 @@ void InputSystem::tick(float dt){
     input.DLeft  = input.map->GetBool(DLeft);
     input.DRight = input.map->GetBool(DRight);
     
+    input.LStickX   = input.map->GetFloat(LStickX);
+    input.LStickY   = input.map->GetFloat(LStickY);
+    input.RStickX   = input.map->GetFloat(RStickX);
+    input.RStickY   = input.map->GetFloat(RStickY);
+    input.LTAnalog  = input.map->GetFloat(LTAnalog);
+    input.RTAnalog  = input.map->GetFloat(RTAnalog);
     
 }
 

@@ -46,23 +46,29 @@ struct InputSingleton {
     const Uint8 * rawSDLState;
     
     
-    bool A = false;
-    bool B = false;
-    bool X = false;
-    bool Y = false;
-    bool start = false;
-    bool back = false;
-    bool RB = false;
-    bool LB = false;
-    bool RT = false;
-    bool LT = false;
-    bool LPush = false;
-    bool RPush = false;
-    bool DUp  = false;
-    bool DDown = false;
-    bool DLeft = false;
+    bool A      = false;
+    bool B      = false;
+    bool X      = false;
+    bool Y      = false;
+    bool start  = false;
+    bool back   = false;
+    bool RB     = false;
+    bool LB     = false;
+    bool RT     = false;
+    bool LT     = false;
+    bool LPush  = false;
+    bool RPush  = false;
+    bool DUp    = false;
+    bool DDown  = false;
+    bool DLeft  = false;
     bool DRight = false;
     
+    float LStickX  = 0.0f;
+    float LStickY  = 0.0f;
+    float RStickX  = 0.0f;
+    float RStickY  = 0.0f;
+    float LTAnalog = 0.0f;
+    float RTAnalog = 0.0f;
     
 };
 

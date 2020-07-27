@@ -16,7 +16,11 @@ struct EditorSingleton {
     
     TransformComponent editorCameraTransform;
     CameraComponent    editorCameraComponent;
-    CameraFamily       editorCameraFamily{0, editorCameraTransform, editorCameraComponent};
+    
+    TransformComponent defaultEditorCameraTransform;
+    CameraComponent    defaultEditorCameraComponent;
+    
+    
     
 };
 

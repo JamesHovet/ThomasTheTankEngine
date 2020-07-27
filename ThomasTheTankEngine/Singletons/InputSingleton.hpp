@@ -23,8 +23,8 @@
 //    LB,
 //    RT,
 //    LT,
-//    LClick,
-//    RClick,
+//    LPush,
+//    RPush,
 //    DUp,
 //    DDown,
 //    DLeft,
@@ -39,7 +39,11 @@ struct InputSingleton {
     int keyboardID = -1;
     int mouseID = -1;
     
-    const Uint8 * rawState;
+    gainput::InputDeviceKeyboard* keyboard;
+    gainput::InputDevicePad*      pad;
+    gainput::InputDeviceMouse*    mouse;
+    
+    const Uint8 * rawSDLState;
     
     
     bool A = false;
@@ -48,10 +52,18 @@ struct InputSingleton {
     bool Y = false;
     bool start = false;
     bool back = false;
+    bool RB = false;
+    bool LB = false;
+    bool RT = false;
+    bool LT = false;
+    bool LPush = false;
+    bool RPush = false;
     bool DUp  = false;
     bool DDown = false;
     bool DLeft = false;
     bool DRight = false;
+    
+    
 };
 
 #endif /* InputSingleton_hpp */

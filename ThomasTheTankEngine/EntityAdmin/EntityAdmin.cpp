@@ -145,9 +145,11 @@ void EntityAdmin::destroyEntity(entityID eID){
 }
 
 void EntityAdmin::initAllSystems(){
+    m_InputSystem.init();
+    m_EditorSystem.init();
     m_DebugPrintSystem.init();
     m_GreyBoxRenderSystem.init();
-    m_InputSystem.init();
+
 }
 
 void EntityAdmin::setup(){

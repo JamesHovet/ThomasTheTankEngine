@@ -28,6 +28,7 @@
 
 #include "RenderSingleton.hpp"
 #include "EditorSingleton.hpp"
+#include "InputSingleton.hpp"
 //#include "System.hpp"
 #include "AllSystems.hpp"
 
@@ -55,6 +56,7 @@ public:
     entityID createEntity();
     void destroyEntity(entityID e);
 private:
+    void initAllSystems();
     void filterEntitiesIntoMutableFamilies();
     void filterEntitiesIntoStaticFamilies();
     void clearFamilies();
@@ -130,10 +132,12 @@ public:
 public:
     RenderSingleton m_RenderSingleton;
     EditorSingleton m_EditorSingleton;
+    InputSingleton  m_InputSingleton;
 private:
-    EditorSystem m_EditorSystem;
-    DebugPrintSystem m_DebugPrintSystem;
-    GreyBoxRenderSystem m_GreyBoxRenderSystem;
+    InputSystem            m_InputSystem;
+    EditorSystem           m_EditorSystem;
+    DebugPrintSystem       m_DebugPrintSystem;
+    GreyBoxRenderSystem    m_GreyBoxRenderSystem;
     
 private:
     std::unordered_map<entityID, std::unordered_map<componentID, Component *>> m_component_maps;

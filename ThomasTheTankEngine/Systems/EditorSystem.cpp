@@ -16,6 +16,26 @@ void EditorSystem::init(){
     
 }
 
+void EditorSystem::tick(float dt){
+    InputSingleton& input = m_admin.m_InputSingleton;
+    TransformComponent& camTransformC = m_admin.m_EditorSingleton.editorCameraTransform;
+    CameraComponent& camC = m_admin.m_EditorSingleton.editorCameraComponent;
+    
+    
+    if(input.DUp){
+        camTransformC.m_position = camTransformC.m_position + (camC.m_forward * 0.2f);
+    }
+    if(input.DDown){
+        camTransformC.m_position = camTransformC.m_position - (camC.m_forward * 0.2f);
+    }
+    if(input.DRight){
+        camTransformC.m_position = camTransformC.m_position + (glm::cross(camC.m_forward, camC.m_up) * 0.2f);
+    }
+    if(input.DLeft){
+        camTransformC.m_position = camTransformC.m_position - (glm::cross(camC.m_forward, camC.m_up) * 0.2f);
+    }
+}
+
 // pre: Imgui must be running
 void EditorSystem::render(){
     ImGui::Begin("Editor");

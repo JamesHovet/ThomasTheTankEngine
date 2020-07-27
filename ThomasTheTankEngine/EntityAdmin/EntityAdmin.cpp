@@ -93,7 +93,8 @@ void constructFamilyMaps(std::array<void *, NUM_FAMILIES>& array, std::vector<st
 EntityAdmin::EntityAdmin()
     : m_DebugPrintSystem(*this),
     m_GreyBoxRenderSystem(*this),
-    m_EditorSystem(*this)
+    m_EditorSystem(*this),
+    m_InputSystem(*this)
 {
     constructComponentPools(m_components_pool_array,
                             m_components_destuction_callbacks_array,
@@ -143,11 +144,15 @@ void EntityAdmin::destroyEntity(entityID eID){
     m_entity_pool.destroy(e);
 }
 
-void EntityAdmin::setup(){
-    
+void EntityAdmin::initAllSystems(){
     m_DebugPrintSystem.init();
     m_GreyBoxRenderSystem.init();
+    m_InputSystem.init();
+}
 
+void EntityAdmin::setup(){
+    initAllSystems();
+    
     { // create camera
         //@Remove: temporary test camera
         entityID eID = this->createEntity();
@@ -175,7 +180,7 @@ void EntityAdmin::setup(){
         }
     }
     
-    m_EditorSingleton.shouldUseEditorCamera = false;
+    m_EditorSingleton.shouldUseEditorCamera = true;
     
     return;
     
@@ -201,7 +206,9 @@ void EntityAdmin::copyToRenderBuffer(){
 void EntityAdmin::update(float dt){
     
 //    m_DebugPrintSystem.tick(dt);
+    m_InputSystem.tick(dt);
     m_EditorSystem.tick(dt);
+    
 }
 
 void EntityAdmin::render(){
@@ -213,6 +220,8 @@ void EntityAdmin::teardown(){
     for(auto it = m_entities.begin(); it != m_entities.end(); ++it){
         destroyEntity(it->first);
     }
+    
+    m_InputSystem.teardown();
 }
 
 void EntityAdmin::mainLoop(){

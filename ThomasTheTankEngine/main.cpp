@@ -11,6 +11,8 @@
 //TODO: @Remove
 #include "TransformComponent.hpp"
 #include "CameraComponent.hpp"
+//TODO: @Remove
+#include <gainput/gainput.h>
 
 #include <thread>
 
@@ -30,6 +32,9 @@ int main(int argc, const char * argv[]) {
     
     window_init();
     
+    
+    
+   
     g_admin.setup();
     
     holdWindowOpen();
@@ -201,6 +206,7 @@ void holdWindowOpen() {
         
         while (SDL_PollEvent(&e)){
             ImGui_ImplSDL2_ProcessEvent(&e);
+            SDL_PumpEvents();
             if (e.type == SDL_QUIT){
                 quit = true;
             }
@@ -237,6 +243,18 @@ void holdWindowOpen() {
                 CameraComponent& camC = g_admin.m_EditorSingleton.editorCameraComponent;
                 
                 camTransformC.m_position = camTransformC.m_position + (glm::cross(camC.m_forward, camC.m_up) * 0.2f);
+            }
+            if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_LSHIFT && g_admin.m_EditorSingleton.shouldUseEditorCamera){
+                TransformComponent& camTransformC = g_admin.m_EditorSingleton.editorCameraTransform;
+                CameraComponent& camC = g_admin.m_EditorSingleton.editorCameraComponent;
+                
+                camTransformC.m_position = camTransformC.m_position - camC.m_up * 0.2f;
+            }
+            if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_SPACE && g_admin.m_EditorSingleton.shouldUseEditorCamera){
+                TransformComponent& camTransformC = g_admin.m_EditorSingleton.editorCameraTransform;
+                CameraComponent& camC = g_admin.m_EditorSingleton.editorCameraComponent;
+                
+                camTransformC.m_position = camTransformC.m_position + camC.m_up * 0.2f;
             }
             
         }

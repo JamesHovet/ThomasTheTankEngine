@@ -154,4 +154,8 @@ private:
     
 //    std::array<void *, Singletons::SingletonsCount> m_singletons;
 };
+
+float seconds(uint64_t ms);
 #endif /* EntityAdmin_hpp */
+
+

@@ -24,6 +24,11 @@ struct TransformComponent : public Component {
     glm::quat m_orientation = glm::quat(1.0f, 0.0f, 0.0f, 0.0f);
     glm::vec3 m_scale = glm::vec3(1.0f, 1.0f, 1.0f);
     
+    // TODO: maybe cache these and update them when an object has a change in rotation? really a decision about the data access pattern of components...
+    glm::vec3 getForward() {return glm::rotate(m_orientation, glm::vec3(0.0f, 0.0f, 1.0f));}
+    glm::vec3 getUp()      {return glm::rotate(m_orientation, glm::vec3(0.0f, 1.0f, 0.0f));}
+    glm::vec3 getRight()   {return glm::rotate(m_orientation, glm::vec3(1.0f, 0.0f, 0.0f));}
+    
 //    glm::mat4 m_cached_mat4; // I can always add these in for perf later, but I'm going to ignore it for now. https://gameprogrammingpatterns.com/dirty-flag.html
     
 //    entityID m_parent;

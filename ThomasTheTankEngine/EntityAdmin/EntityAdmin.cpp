@@ -273,3 +273,5 @@ void EntityAdmin::filterEntitiesIntoStaticFamilies(){
         #include "filterEntitiesIntoStaticFamiliesInclude.cpp"
     }
 }
+
+float seconds(uint64_t ms){ return ((float) ms) / 1000.0f;}

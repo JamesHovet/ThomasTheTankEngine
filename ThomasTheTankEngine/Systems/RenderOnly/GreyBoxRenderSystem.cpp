@@ -121,7 +121,7 @@ void GreyBoxRenderSystem::setupCamera(){
         CameraComponent& cameraC = editorSingleton.editorCameraComponent;
         TransformComponent& transC = editorSingleton.editorCameraTransform;
         
-        renderSingleton.view = glm::lookAt(transC.m_position, transC.m_position + cameraC.m_forward, cameraC.m_up);
+        renderSingleton.view = glm::lookAt(transC.m_position, transC.m_position + transC.getForward(), transC.getUp());
         renderSingleton.projection = glm::perspective(glm::radians(cameraC.m_FOV), (float)renderSingleton.SCREEN_WIDTH / (float)renderSingleton.SCREEN_HEIGHT, 0.1f, 100.0f);
     } else {
         std::unordered_map<entityID, CameraFamily>& cameraFamilies = m_admin.getFamilyMap<CameraFamily>();
@@ -132,7 +132,7 @@ void GreyBoxRenderSystem::setupCamera(){
                 renderSingleton.currentCameraC = &cameraC;
                 renderSingleton.currentCameraTransformC = &transC;
                 
-                renderSingleton.view = glm::lookAt(transC.m_position, transC.m_position + cameraC.m_forward, cameraC.m_up);
+                renderSingleton.view = glm::lookAt(transC.m_position, transC.m_position + transC.getForward(), transC.getUp());
                 renderSingleton.projection = glm::perspective(glm::radians(cameraC.m_FOV), (float)renderSingleton.SCREEN_WIDTH / (float)renderSingleton.SCREEN_HEIGHT, 0.1f, 100.0f);
                 break;
             }

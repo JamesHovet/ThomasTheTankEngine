@@ -26,6 +26,11 @@ void EditorSystem::tick(uint64_t dt){
     InputSingleton& input = m_admin.m_InputSingleton;
     TransformComponent& camTransformC = m_admin.m_EditorSingleton.editorCameraTransform;
     CameraComponent& camC = m_admin.m_EditorSingleton.editorCameraComponent;
+    
+    if(input.keyboard->GetBool(gainput::KeyC) && not input.keyboard->GetBoolPrevious(gainput::KeyC)){
+        edit.shouldUseEditorCamera = !edit.shouldUseEditorCamera;
+    }
+    
     if(edit.shouldUseEditorCamera){
         //TODO: @Cleanup: abstract away the gainput stuff here with a function call
         if(input.keyboard->GetBool(gainput::KeyR)){ // reset camera
@@ -33,35 +38,38 @@ void EditorSystem::tick(uint64_t dt){
             edit.editorCameraTransform = edit.defaultEditorCameraTransform;
         }
         
-        glm::vec3 right = (glm::cross(camC.m_forward, camC.m_up));
+        
         // Keyboard editor camera movement
         if(input.keyboard->GetBool(gainput::KeyW)){
-            camTransformC.m_position = camTransformC.m_position + (camC.m_forward * keyboardEditorMovementSpeed);
+            camTransformC.m_position = camTransformC.m_position + (camTransformC.getForward() * keyboardEditorMovementSpeed);
         }
         if(input.keyboard->GetBool(gainput::KeyS)){
-            camTransformC.m_position = camTransformC.m_position - (camC.m_forward * keyboardEditorMovementSpeed);
+            camTransformC.m_position = camTransformC.m_position - (camTransformC.getForward() * keyboardEditorMovementSpeed);
         }
         if(input.keyboard->GetBool(gainput::KeyD)){
-            camTransformC.m_position = camTransformC.m_position + right * keyboardEditorMovementSpeed;
+            camTransformC.m_position = camTransformC.m_position - camTransformC.getRight() * keyboardEditorMovementSpeed;
         }
         if(input.keyboard->GetBool(gainput::KeyA)){
-            camTransformC.m_position = camTransformC.m_position - right * keyboardEditorMovementSpeed;
+            camTransformC.m_position = camTransformC.m_position + camTransformC.getRight() * keyboardEditorMovementSpeed;
         }
         if(input.keyboard->GetBool(gainput::KeyShiftL)){
-            camTransformC.m_position = camTransformC.m_position + (camC.m_up * keyboardEditorMovementSpeed);
+            camTransformC.m_position = camTransformC.m_position + (camTransformC.getUp() * keyboardEditorMovementSpeed);
         }
         if(input.keyboard->GetBool(gainput::KeyCtrlL)){
-            camTransformC.m_position = camTransformC.m_position - (camC.m_up * keyboardEditorMovementSpeed);
+            camTransformC.m_position = camTransformC.m_position - (camTransformC.getUp() * keyboardEditorMovementSpeed);
+        }
+        if(input.keyboard->GetBool(gainput::KeyQ)){
+            camTransformC.m_orientation = glm::rotate(camTransformC.m_orientation, 1.0f * seconds(dt), camTransformC.getUp());
+        }
+        if(input.keyboard->GetBool(gainput::KeyE)){
+            camTransformC.m_orientation = glm::rotate(camTransformC.m_orientation, -1.0f * seconds(dt), camTransformC.getUp());
         }
         
         // Controller editor camera movement
-        camTransformC.m_position = camTransformC.m_position + (right * input.LStickX * controllerEditorMovementSpeed);
-        camTransformC.m_position = camTransformC.m_position + (camC.m_forward * input.LStickY * controllerEditorMovementSpeed);
-        std::cout << "---" << std::endl;
-        std::cout << input.LTAnalog << std::endl;
-        std::cout << input.RTAnalog << std::endl;
-        camTransformC.m_position = camTransformC.m_position - (camC.m_up * input.LTAnalog * controllerEditorMovementSpeed);
-        camTransformC.m_position = camTransformC.m_position + (camC.m_up * input.RTAnalog * controllerEditorMovementSpeed);
+        camTransformC.m_position = camTransformC.m_position - (camTransformC.getRight() * input.LStickX * controllerEditorMovementSpeed);
+        camTransformC.m_position = camTransformC.m_position + (camTransformC.getForward() * input.LStickY * controllerEditorMovementSpeed);
+        camTransformC.m_position = camTransformC.m_position - (camTransformC.getUp() * input.LTAnalog * controllerEditorMovementSpeed);
+        camTransformC.m_position = camTransformC.m_position + (camTransformC.getUp() * input.RTAnalog * controllerEditorMovementSpeed);
 
         
     }
@@ -85,7 +93,7 @@ void EditorSystem::render(){
         }
     }
     
-    ImGui::InputVec3("Camera forward", &cameraC->m_forward);
+//    ImGui::InputVec3("Camera forward", &cameraC->m_forward);
     
     ImGui::End();
 }

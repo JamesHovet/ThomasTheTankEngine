@@ -43,7 +43,7 @@ void InputSystem::init(){
     InputSingleton& input = m_admin.m_InputSingleton;
     input.rawSDLState = SDL_GetKeyboardState(NULL);
     
-    input.manager = new gainput::InputManager();
+    input.manager = new gainput::InputManager(false);
     
     input.padID = input.manager->CreateDevice<gainput::InputDevicePad>();
     input.pad = static_cast<gainput::InputDevicePad*>(input.manager->GetDevice(input.padID));
@@ -86,9 +86,10 @@ void InputSystem::init(){
 
 }
 
-void InputSystem::tick(float dt){
+void InputSystem::tick(uint64_t dt){
     InputSingleton& input = m_admin.m_InputSingleton;
-    input.manager->Update(); // todo: add dt?
+    input.manager->Update(dt);
+    
     
     float TRIGGER_DIGITAL_THRESHOLD = 0.7f;
     

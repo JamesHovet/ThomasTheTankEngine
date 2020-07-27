@@ -21,7 +21,7 @@ class EntityAdmin;
 
 class System {
 public:
-    virtual void tick(float dt) = 0;
+    virtual void tick(uint64_t dt) = 0;
     virtual void init(void) = 0;
     virtual void render(void) = 0;
 //    virtual void registerEntity(entityID e){

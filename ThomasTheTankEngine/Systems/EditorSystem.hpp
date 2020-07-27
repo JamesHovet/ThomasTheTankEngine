@@ -19,7 +19,7 @@ public:
     ~EditorSystem(){};
     
     void init();
-    void tick(float dt);
+    void tick(uint64_t dt);
     void render();
 };
 

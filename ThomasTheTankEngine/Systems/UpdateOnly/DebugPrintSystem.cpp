@@ -10,7 +10,7 @@
 #include "DebugPrintSystem.hpp"
 #include <stdio.h>
 
-void DebugPrintSystem::tick(float dt){
+void DebugPrintSystem::tick(uint64_t dt){
     int count = 0;
     for(std::pair<entityID, GreyBoxFamily> p : m_admin.getFamilyMap<GreyBoxFamily>()){
         count++;

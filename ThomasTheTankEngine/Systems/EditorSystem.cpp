@@ -21,7 +21,7 @@ void EditorSystem::init(){
 const float keyboardEditorMovementSpeed = 0.2f;
 const float controllerEditorMovementSpeed = 0.6f;
 
-void EditorSystem::tick(float dt){
+void EditorSystem::tick(uint64_t dt){
     EditorSingleton& edit = m_admin.m_EditorSingleton;
     InputSingleton& input = m_admin.m_InputSingleton;
     TransformComponent& camTransformC = m_admin.m_EditorSingleton.editorCameraTransform;
@@ -60,8 +60,8 @@ void EditorSystem::tick(float dt){
         std::cout << "---" << std::endl;
         std::cout << input.LTAnalog << std::endl;
         std::cout << input.RTAnalog << std::endl;
-        camTransformC.m_position = camTransformC.m_position + (camC.m_up * input.LTAnalog * controllerEditorMovementSpeed);
-        camTransformC.m_position = camTransformC.m_position - (camC.m_up * input.RTAnalog * controllerEditorMovementSpeed);
+        camTransformC.m_position = camTransformC.m_position - (camC.m_up * input.LTAnalog * controllerEditorMovementSpeed);
+        camTransformC.m_position = camTransformC.m_position + (camC.m_up * input.RTAnalog * controllerEditorMovementSpeed);
 
         
     }

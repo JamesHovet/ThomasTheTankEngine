@@ -29,7 +29,7 @@ public:
     static unsigned int instanceVBO;
     
     void init();
-    void tick(float dt){};
+    void tick(uint64_t dt){};
     void render();
     
     GreyBoxRenderSystem(EntityAdmin& admin) : System(admin) {};

@@ -187,14 +187,17 @@ unsigned int cubeIndices[] = {
 };
 
 void holdWindowOpen() {
-    float deltaTime = 0.0f;
-    Uint32 lastFrame = 0;
+    float dt_s = 0.0f;
+    uint64_t dt_ms = 0;
+    uint64_t lastFrame = 0;
     
     SDL_Event e;
     bool quit = false;
     while (!quit){
-        Uint32 currentFrame = SDL_GetTicks();
-        deltaTime = ((float) currentFrame - lastFrame) / 1000.0f;
+        uint64_t currentFrame = SDL_GetTicks();
+        dt_ms = currentFrame - lastFrame;
+        dt_s = ((float) dt_ms) / 1000.0f;
+        
         lastFrame = currentFrame;
         
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -224,7 +227,7 @@ void holdWindowOpen() {
         g_admin.copyToRenderBuffer();
         
 #ifndef NOJOBS
-        std::thread updateThread([deltaTime](void) {g_admin.update(deltaTime);});
+        std::thread updateThread([dt_ms](void) {g_admin.update(dt_ms);});
         std::thread renderThread([](void){
             SDL_GL_MakeCurrent(g_window, gl_context);
             g_admin.render();
@@ -234,7 +237,7 @@ void holdWindowOpen() {
         updateThread.join();
         renderThread.join();
 #else
-        g_admin.update(deltaTime);
+        g_admin.update(dt_ms);
         g_admin.render();
 #endif
         

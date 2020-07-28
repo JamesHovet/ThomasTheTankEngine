@@ -12,24 +12,16 @@
 #include <SDL2/SDL.h>
 #include <gainput/gainput.h>
 
-//enum Buttons {
-//    A,
-//    B,
-//    X,
-//    Y,
-//    start,
-//    back,
-//    RB,
-//    LB,
-//    RT,
-//    LT,
-//    LPush,
-//    RPush,
-//    DUp,
-//    DDown,
-//    DLeft,
-//    DRight
-//};
+enum class KEY_INPUT_MODE {
+    GAME,
+    EDITOR,
+    CONSOLE
+};
+
+enum class PAD_INPUT_MODE {
+    GAME,
+    EDITOR
+};
 
 struct InputSingleton {
 
@@ -45,6 +37,10 @@ struct InputSingleton {
     
     const Uint8 * rawSDLState;
     
+    KEY_INPUT_MODE shouldSendKeysTo = KEY_INPUT_MODE::GAME;
+    KEY_INPUT_MODE priorShouldSendKeysTo = KEY_INPUT_MODE::GAME;
+    PAD_INPUT_MODE shouldSendPadTo = PAD_INPUT_MODE::GAME;
+    PAD_INPUT_MODE priorShouldSendPadTo = PAD_INPUT_MODE::GAME;
     
     bool A      = false;
     bool B      = false;

@@ -14,17 +14,20 @@ void ConsoleSystem::init(){
     
 }
 
+bool shouldReturnToEditor = false;
+
 void ConsoleSystem::tick(uint64_t dt){
     InputSingleton& input = m_admin.m_InputSingleton;
+    ConsoleSingleton& console = m_admin.m_ConsoleSingleton;
     
-    if(input.keyboard->GetBool(gainput::KeyGrave) && not input.keyboard->GetBoolPrevious(gainput::KeyGrave)){
-        m_admin.m_ConsoleSingleton.shouldShowConsole = !m_admin.m_ConsoleSingleton.shouldShowConsole;
+    if (input.shouldSendKeysTo == KEY_INPUT_MODE::CONSOLE){
+        // do something
     }
     
 }
 
 void ConsoleSystem::render(){
-    if(not m_admin.m_ConsoleSingleton.shouldShowConsole){return;}
+    if(not m_admin.m_ConsoleSingleton.consoleActive){return;}
     
     ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoMouseInputs | ImGuiWindowFlags_NoResize;
     

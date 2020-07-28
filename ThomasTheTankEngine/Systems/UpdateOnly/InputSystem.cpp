@@ -87,9 +87,53 @@ void InputSystem::init(){
 }
 
 void InputSystem::tick(uint64_t dt){
-    InputSingleton& input = m_admin.m_InputSingleton;
+    InputSingleton& input     = m_admin.m_InputSingleton;
+    EditorSingleton& edit     = m_admin.m_EditorSingleton;
+    ConsoleSingleton& console = m_admin.m_ConsoleSingleton;
     input.manager->Update(dt);
-    
+   
+    //TODO: extend this system to get gamepad input sending between game and the debug camera
+    switch (input.shouldSendKeysTo){
+        case KEY_INPUT_MODE::GAME:
+            if(input.keyboard->GetBool(gainput::KeyC) && not input.keyboard->GetBoolPrevious(gainput::KeyC)){
+                input.priorShouldSendKeysTo = KEY_INPUT_MODE::GAME;
+                input.shouldSendKeysTo = KEY_INPUT_MODE::EDITOR;
+                
+                edit.shouldUseEditorCamera = true;
+                
+            }
+            if(input.keyboard->GetBool(gainput::KeyGrave) && not input.keyboard->GetBoolPrevious(gainput::KeyGrave)){
+                input.priorShouldSendKeysTo = KEY_INPUT_MODE::GAME;
+                input.shouldSendKeysTo = KEY_INPUT_MODE::CONSOLE;
+                
+                console.consoleActive = true;
+                printf("console should pop up\n");
+            }
+            break;
+        case KEY_INPUT_MODE::EDITOR:
+            if(input.keyboard->GetBool(gainput::KeyC) && not input.keyboard->GetBoolPrevious(gainput::KeyC)){
+                input.shouldSendKeysTo = KEY_INPUT_MODE::GAME;
+                
+                edit.shouldUseEditorCamera = false;
+                printf("leave editor\n");
+            }
+            if(input.keyboard->GetBool(gainput::KeyGrave) && not input.keyboard->GetBoolPrevious(gainput::KeyGrave)){
+                input.priorShouldSendKeysTo = KEY_INPUT_MODE::EDITOR;
+                input.shouldSendKeysTo = KEY_INPUT_MODE::CONSOLE;
+                
+                console.consoleActive = true;
+                printf("console should pop up\n");
+            }
+            break;
+        case KEY_INPUT_MODE::CONSOLE:
+            if(input.keyboard->GetBool(gainput::KeyGrave) && not input.keyboard->GetBoolPrevious(gainput::KeyGrave)){
+                input.shouldSendKeysTo = input.priorShouldSendKeysTo;
+                
+                console.consoleActive = false;
+                printf("leave console and return to where we were\n");
+            }
+            break;
+    }
     
     float TRIGGER_DIGITAL_THRESHOLD = 0.7f;
     

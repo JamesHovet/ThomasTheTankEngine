@@ -13,6 +13,7 @@
 
 struct EditorSingleton {
     bool shouldUseEditorCamera {false};
+    bool shouldTakeEditorInput {false};
     
     TransformComponent editorCameraTransform;
     CameraComponent    editorCameraComponent;

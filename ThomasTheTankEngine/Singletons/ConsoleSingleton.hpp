@@ -10,7 +10,7 @@
 #define ConsoleSingleton_hpp
 
 struct ConsoleSingleton {
-    bool shouldShowConsole = false;
+    bool consoleActive = false;
 };
 
 #endif /* ConsoleSingleton_hpp */

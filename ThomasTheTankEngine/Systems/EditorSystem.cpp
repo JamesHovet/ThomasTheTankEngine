@@ -27,11 +27,7 @@ void EditorSystem::tick(uint64_t dt){
     TransformComponent& camTransformC = m_admin.m_EditorSingleton.editorCameraTransform;
     CameraComponent& camC = m_admin.m_EditorSingleton.editorCameraComponent;
     
-    if(input.keyboard->GetBool(gainput::KeyC) && not input.keyboard->GetBoolPrevious(gainput::KeyC)){
-        edit.shouldUseEditorCamera = !edit.shouldUseEditorCamera;
-    }
-    
-    if(edit.shouldUseEditorCamera){
+    if(input.shouldSendKeysTo == KEY_INPUT_MODE::EDITOR){
         //TODO: @Cleanup: abstract away the gainput stuff here with a function call
         if(input.keyboard->GetBool(gainput::KeyR)){ // reset camera
             edit.editorCameraComponent = edit.defaultEditorCameraComponent;
@@ -64,14 +60,15 @@ void EditorSystem::tick(uint64_t dt){
         if(input.keyboard->GetBool(gainput::KeyE)){
             camTransformC.m_orientation = glm::rotate(camTransformC.m_orientation, -1.0f * seconds(dt), camTransformC.getUp());
         }
-        
+    }
+   
+    //TODO: @Remove forced always true once I add player control
+    if(input.shouldSendPadTo == PAD_INPUT_MODE::EDITOR or true){
         // Controller editor camera movement
         camTransformC.m_position = camTransformC.m_position - (camTransformC.getRight() * input.LStickX * controllerEditorMovementSpeed);
         camTransformC.m_position = camTransformC.m_position + (camTransformC.getForward() * input.LStickY * controllerEditorMovementSpeed);
         camTransformC.m_position = camTransformC.m_position - (camTransformC.getUp() * input.LTAnalog * controllerEditorMovementSpeed);
         camTransformC.m_position = camTransformC.m_position + (camTransformC.getUp() * input.RTAnalog * controllerEditorMovementSpeed);
-
-        
     }
     
 }

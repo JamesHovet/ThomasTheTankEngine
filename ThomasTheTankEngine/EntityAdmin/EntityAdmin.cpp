@@ -185,6 +185,8 @@ void EntityAdmin::setup(){
     }
     
     m_EditorSingleton.shouldUseEditorCamera = true;
+    m_EditorSingleton.shouldTakeEditorInput = true;
+    m_InputSingleton.shouldSendKeysTo = KEY_INPUT_MODE::EDITOR;
     
     return;
     

@@ -13,5 +13,6 @@
 #include "GreyBoxRenderSystem.hpp"
 #include "EditorSystem.hpp"
 #include "InputSystem.hpp"
+#include "ConsoleSystem.hpp"
 
 #endif /* AllSystems_hpp */

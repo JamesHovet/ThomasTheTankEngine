@@ -94,7 +94,8 @@ EntityAdmin::EntityAdmin()
     : m_DebugPrintSystem(*this),
     m_GreyBoxRenderSystem(*this),
     m_EditorSystem(*this),
-    m_InputSystem(*this)
+    m_InputSystem(*this),
+    m_ConsoleSystem(*this)
 {
     constructComponentPools(m_components_pool_array,
                             m_components_destuction_callbacks_array,
@@ -147,6 +148,7 @@ void EntityAdmin::destroyEntity(entityID eID){
 void EntityAdmin::initAllSystems(){
     m_InputSystem.init();
     m_EditorSystem.init();
+    m_ConsoleSystem.init();
     m_DebugPrintSystem.init();
     m_GreyBoxRenderSystem.init();
 
@@ -209,6 +211,7 @@ void EntityAdmin::update(float dt){
     
 //    m_DebugPrintSystem.tick(dt);
     m_InputSystem.tick(dt);
+    m_ConsoleSystem.tick(dt);
     m_EditorSystem.tick(dt);
     
 }
@@ -216,6 +219,7 @@ void EntityAdmin::update(float dt){
 void EntityAdmin::render(){
     m_GreyBoxRenderSystem.render();
     m_EditorSystem.render();
+    m_ConsoleSystem.render();
 }
 
 void EntityAdmin::teardown(){

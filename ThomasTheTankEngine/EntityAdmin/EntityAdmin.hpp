@@ -29,6 +29,8 @@
 #include "RenderSingleton.hpp"
 #include "EditorSingleton.hpp"
 #include "InputSingleton.hpp"
+#include "ConsoleSingleton.hpp"
+
 //#include "System.hpp"
 #include "AllSystems.hpp"
 
@@ -130,12 +132,14 @@ public:
 //    getFamilyStaticVector
     
 public:
-    RenderSingleton m_RenderSingleton;
-    EditorSingleton m_EditorSingleton;
-    InputSingleton  m_InputSingleton;
+    RenderSingleton  m_RenderSingleton;
+    EditorSingleton  m_EditorSingleton;
+    InputSingleton   m_InputSingleton;
+    ConsoleSingleton m_ConsoleSingleton;
 private:
     InputSystem            m_InputSystem;
     EditorSystem           m_EditorSystem;
+    ConsoleSystem          m_ConsoleSystem;
     DebugPrintSystem       m_DebugPrintSystem;
     GreyBoxRenderSystem    m_GreyBoxRenderSystem;
     

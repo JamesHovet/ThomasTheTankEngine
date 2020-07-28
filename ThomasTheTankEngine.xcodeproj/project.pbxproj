@@ -46,6 +46,7 @@
 		59661B46242B96250088525D /* default.vert in CopyFiles */ = {isa = PBXBuildFile; fileRef = 59661B3B242962B70088525D /* default.vert */; };
 		59661B47242B96250088525D /* default.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 59661B3C242962CA0088525D /* default.frag */; };
 		59661B48242B96250088525D /* shader_globals.glh in CopyFiles */ = {isa = PBXBuildFile; fileRef = 59661B45242B958C0088525D /* shader_globals.glh */; };
+		59668C6224CF9E31006744B7 /* ConsoleSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59668C6024CF9E31006744B7 /* ConsoleSystem.cpp */; };
 		5970727524CE455C0016F78F /* InputSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5970727324CE455C0016F78F /* InputSystem.cpp */; };
 		59F7F2AA2430F3C900A673D1 /* Graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59F7F2A82430F3C900A673D1 /* Graphics.cpp */; };
 		59F7F2AE2430F9EA00A673D1 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59F7F2AC2430F9EA00A673D1 /* Camera.cpp */; };
@@ -555,6 +556,9 @@
 		59661B40242968880088525D /* libboost_filesystem.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_filesystem.dylib; path = ../../../../../usr/local/Cellar/boost/1.71.0/lib/libboost_filesystem.dylib; sourceTree = "<group>"; };
 		59661B43242B93900088525D /* Shader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
 		59661B45242B958C0088525D /* shader_globals.glh */ = {isa = PBXFileReference; lastKnownFileType = text; path = shader_globals.glh; sourceTree = "<group>"; };
+		59668C6024CF9E31006744B7 /* ConsoleSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ConsoleSystem.cpp; sourceTree = "<group>"; };
+		59668C6124CF9E31006744B7 /* ConsoleSystem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ConsoleSystem.hpp; sourceTree = "<group>"; };
+		59668C6324CFA472006744B7 /* ConsoleSingleton.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ConsoleSingleton.hpp; sourceTree = "<group>"; };
 		5970727224CE452C0016F78F /* InputSingleton.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = InputSingleton.hpp; sourceTree = "<group>"; };
 		5970727324CE455C0016F78F /* InputSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = InputSystem.cpp; sourceTree = "<group>"; };
 		5970727424CE455C0016F78F /* InputSystem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = InputSystem.hpp; sourceTree = "<group>"; };
@@ -829,6 +833,8 @@
 				594A5F2F24B4B41D00733231 /* System.hpp */,
 				590A09DC24CB3B5E00D1153A /* EditorSystem.cpp */,
 				590A09DD24CB3B5E00D1153A /* EditorSystem.hpp */,
+				59668C6024CF9E31006744B7 /* ConsoleSystem.cpp */,
+				59668C6124CF9E31006744B7 /* ConsoleSystem.hpp */,
 			);
 			path = Systems;
 			sourceTree = "<group>";
@@ -1325,6 +1331,7 @@
 				590A09B924CB286700D1153A /* RenderSingleton.hpp */,
 				590A09DF24CB4AB000D1153A /* EditorSingleton.hpp */,
 				5970727224CE452C0016F78F /* InputSingleton.hpp */,
+				59668C6324CFA472006744B7 /* ConsoleSingleton.hpp */,
 			);
 			path = Singletons;
 			sourceTree = "<group>";
@@ -1484,6 +1491,7 @@
 			files = (
 				59484F3424290AEE0068591C /* main.cpp in Sources */,
 				590A09DE24CB3B5E00D1153A /* EditorSystem.cpp in Sources */,
+				59668C6224CF9E31006744B7 /* ConsoleSystem.cpp in Sources */,
 				5937528824C25FBC00A0EC78 /* ECSUtils.cpp in Sources */,
 				591D1D0E243123CE00AF9DC5 /* Node.cpp in Sources */,
 				59484F6A242910030068591C /* imgui_draw.cpp in Sources */,

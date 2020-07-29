@@ -23,6 +23,8 @@ enum class PAD_INPUT_MODE {
     EDITOR
 };
 
+#define MAX_INPUT_TEXT_LENGTH 256
+
 struct InputSingleton {
 
     gainput::InputManager* manager;
@@ -41,6 +43,10 @@ struct InputSingleton {
     KEY_INPUT_MODE priorShouldSendKeysTo = KEY_INPUT_MODE::GAME;
     PAD_INPUT_MODE shouldSendPadTo = PAD_INPUT_MODE::GAME;
     PAD_INPUT_MODE priorShouldSendPadTo = PAD_INPUT_MODE::GAME;
+    
+    bool textInputMode = false;
+    char activeLine[MAX_INPUT_TEXT_LENGTH];
+    unsigned activeLineCursor = 0;
     
     bool A      = false;
     bool B      = false;

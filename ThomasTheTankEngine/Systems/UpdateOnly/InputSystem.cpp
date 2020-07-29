@@ -10,6 +10,7 @@
 #include "InputSystem.hpp"
 
 #include <SDL2/SDL.h>
+#include "libs/imgui/imgui.h"
 
 enum Buttons {
     A,
@@ -51,6 +52,8 @@ void InputSystem::init(){
     input.keyboard = static_cast<gainput::InputDeviceKeyboard*>(input.manager->GetDevice(input.keyboardID));
     input.mouseID = input.manager->CreateDevice<gainput::InputDeviceMouse>();
     input.mouse = static_cast<gainput::InputDeviceMouse*>(input.manager->GetDevice(input.mouseID));
+ 
+    input.activeLine[0] = '\0';
     
     input.map = new gainput::InputMap(*input.manager);
     input.map->MapBool(A, input.padID, gainput::PadButtonA);
@@ -86,10 +89,36 @@ void InputSystem::init(){
 
 }
 
+
+
 void InputSystem::tick(uint64_t dt){
     InputSingleton& input     = m_admin.m_InputSingleton;
     EditorSingleton& edit     = m_admin.m_EditorSingleton;
     ConsoleSingleton& console = m_admin.m_ConsoleSingleton;
+
+    // Process all SDL events
+    SDL_Event e;
+    while(SDL_PollEvent(&e)){
+        if(input.textInputMode){
+            if(e.type == SDL_TEXTINPUT){
+                printf("textin\n");
+                if(input.activeLineCursor < MAX_INPUT_TEXT_LENGTH){
+                    strcat(input.activeLine, e.text.text);
+                    input.activeLineCursor += 1;
+                }
+            } else if (e.type == SDL_TEXTEDITING){
+                printf("textedit\n");
+            } else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_BACKSPACE){
+                printf("backspace\n");
+                if (input.activeLineCursor != 0){
+                    input.activeLineCursor -= 1;
+                    input.activeLine[input.activeLineCursor] = '\0';
+                }
+            }
+        }
+    }
+    
+    // Process all gainput inputs
     input.manager->Update(dt);
    
     //TODO: extend this system to get gamepad input sending between game and the debug camera
@@ -106,6 +135,7 @@ void InputSystem::tick(uint64_t dt){
                 input.priorShouldSendKeysTo = KEY_INPUT_MODE::GAME;
                 input.shouldSendKeysTo = KEY_INPUT_MODE::CONSOLE;
                 
+                beginTextInput();
                 console.consoleActive = true;
                 printf("console should pop up\n");
             }
@@ -120,7 +150,8 @@ void InputSystem::tick(uint64_t dt){
             if(input.keyboard->GetBool(gainput::KeyGrave) && not input.keyboard->GetBoolPrevious(gainput::KeyGrave)){
                 input.priorShouldSendKeysTo = KEY_INPUT_MODE::EDITOR;
                 input.shouldSendKeysTo = KEY_INPUT_MODE::CONSOLE;
-                
+               
+                beginTextInput();
                 console.consoleActive = true;
                 printf("console should pop up\n");
             }
@@ -130,6 +161,7 @@ void InputSystem::tick(uint64_t dt){
                 input.shouldSendKeysTo = input.priorShouldSendKeysTo;
                 
                 console.consoleActive = false;
+                endTextInput();
                 printf("leave console and return to where we were\n");
             }
             break;
@@ -166,4 +198,17 @@ void InputSystem::tick(uint64_t dt){
 void InputSystem::teardown(){
     delete m_admin.m_InputSingleton.map;
     delete m_admin.m_InputSingleton.manager;
+}
+
+
+void InputSystem::beginTextInput(){
+    InputSingleton& input = m_admin.m_InputSingleton;
+    input.textInputMode = true;
+    SDL_StartTextInput();
+}
+
+void InputSystem::endTextInput(){
+    InputSingleton& input = m_admin.m_InputSingleton;
+    input.textInputMode = false;
+    SDL_StopTextInput();
 }

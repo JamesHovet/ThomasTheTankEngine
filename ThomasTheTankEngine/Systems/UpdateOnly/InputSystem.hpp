@@ -17,6 +17,9 @@ public:
     void tick(uint64_t dt);
     void render(){};
     void teardown();
+   
+    void beginTextInput();
+    void endTextInput();
     
     InputSystem(EntityAdmin& admin) : System(admin) {};
     ~InputSystem(){};

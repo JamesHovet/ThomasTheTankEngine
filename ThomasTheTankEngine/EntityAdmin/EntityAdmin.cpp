@@ -209,10 +209,13 @@ void EntityAdmin::copyToRenderBuffer(){
     filterEntitiesIntoStaticFamilies();
 }
 
-void EntityAdmin::update(float dt){
+void EntityAdmin::updateInput(uint64_t dt){
+    m_InputSystem.tick(dt);
+}
+
+void EntityAdmin::update(uint64_t dt){
     
 //    m_DebugPrintSystem.tick(dt);
-    m_InputSystem.tick(dt);
     m_ConsoleSystem.tick(dt);
     m_EditorSystem.tick(dt);
     

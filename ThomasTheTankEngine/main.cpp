@@ -31,10 +31,7 @@ EntityAdmin g_admin;
 int main(int argc, const char * argv[]) {
     
     window_init();
-    
-    
-    
-   
+
     g_admin.setup();
     
     holdWindowOpen();
@@ -192,6 +189,7 @@ void holdWindowOpen() {
     uint64_t lastFrame = 0;
     
     SDL_Event e;
+    std::vector<SDL_Event> myEventStack;
     bool quit = false;
     while (!quit){
         uint64_t currentFrame = SDL_GetTicks();
@@ -206,34 +204,39 @@ void holdWindowOpen() {
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplSDL2_NewFrame(g_window);
         ImGui::NewFrame();
+
+        myEventStack.clear();
         
         while (SDL_PollEvent(&e)){
             ImGui_ImplSDL2_ProcessEvent(&e);
-            SDL_PumpEvents();
             if (e.type == SDL_QUIT){
                 quit = true;
             }
-            if (e.type == SDL_KEYDOWN){
-                quit = false;
-            }
-            if (e.type == SDL_MOUSEBUTTONDOWN){
-                quit = false;
+            //TODO: Not sure if this works 100%
+            if (!ImGui::GetIO().WantCaptureKeyboard){
+                myEventStack.push_back(e);
             }
         }
+        
+        for(SDL_Event e : myEventStack){
+            SDL_PushEvent(&e);
+        }
+        
         
         // Main loop:
         
         g_admin.filterIfNeeded();
         g_admin.copyToRenderBuffer();
-        
+       
+        g_admin.updateInput(dt_ms);
 #ifndef NOJOBS
-        std::thread updateThread([dt_ms](void) {g_admin.update(dt_ms);});
         std::thread renderThread([](void){
             SDL_GL_MakeCurrent(g_window, gl_context);
             g_admin.render();
             
         });
-        
+        std::thread updateThread([dt_ms](void) {g_admin.update(dt_ms);});
+
         updateThread.join();
         renderThread.join();
 #else
@@ -247,6 +250,9 @@ void holdWindowOpen() {
         
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
                     1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+        
+        int testingint;
+        ImGui::InputInt("test", &testingint);
         
         ImGui::End();
         

@@ -50,7 +50,8 @@ public:
     void setup();
     void teardown();
     void filterIfNeeded();
-    void update(float dt);
+    void updateInput(uint64_t dt);
+    void update(uint64_t dt);
     void copyToRenderBuffer();
     void render();
     void mainLoop(void);

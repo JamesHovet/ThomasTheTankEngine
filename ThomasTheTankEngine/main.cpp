@@ -414,7 +414,6 @@ void legacyHoldWindowOpen() {
             //            if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_LSHIFT){
             //                defaultCamera.cameraPos -= defaultCamera.cameraUp * cameraSpeed;
             //            }
-            // TODO: camera rotation
             if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_q){
             }
             if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_e){

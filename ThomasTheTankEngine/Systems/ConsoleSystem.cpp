@@ -18,7 +18,12 @@ void ConsoleSystem::init(){
 void ConsoleSystem::tick(uint64_t dt){
     InputSingleton& input = m_admin.m_InputSingleton;
     ConsoleSingleton& console = m_admin.m_ConsoleSingleton;
-
+    if(console.consoleActive){
+        if (input.lineCommitted){
+            printf("committed line to console: %s\n", input.activeLine);
+            input.resetTextInputLine();
+        }
+    }
 }
 
 void ConsoleSystem::render(){

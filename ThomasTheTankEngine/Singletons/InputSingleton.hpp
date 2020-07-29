@@ -47,6 +47,13 @@ struct InputSingleton {
     bool textInputMode = false;
     char activeLine[MAX_INPUT_TEXT_LENGTH];
     unsigned activeLineCursor = 0;
+    bool lineCommitted = false;
+    
+    void resetTextInputLine(){
+        lineCommitted = false;
+        activeLineCursor = 0;
+        activeLine[0] = '\0';
+    }
     
     bool A      = false;
     bool B      = false;

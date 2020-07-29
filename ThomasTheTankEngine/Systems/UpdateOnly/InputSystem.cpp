@@ -101,19 +101,24 @@ void InputSystem::tick(uint64_t dt){
     while(SDL_PollEvent(&e)){
         if(input.textInputMode){
             if(e.type == SDL_TEXTINPUT){
-                printf("textin\n");
+                // printf("textin\n");
                 if(input.activeLineCursor < MAX_INPUT_TEXT_LENGTH){
-                    strcat(input.activeLine, e.text.text);
-                    input.activeLineCursor += 1;
+                    if(e.text.text[0] != '`'){
+                        strcat(input.activeLine, e.text.text);
+                        input.activeLineCursor += 1;
+                    }
                 }
             } else if (e.type == SDL_TEXTEDITING){
-                printf("textedit\n");
+                // printf("textedit\n");
             } else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_BACKSPACE){
-                printf("backspace\n");
+                // printf("backspace\n");
                 if (input.activeLineCursor != 0){
                     input.activeLineCursor -= 1;
                     input.activeLine[input.activeLineCursor] = '\0';
                 }
+            } else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RETURN){
+                // printf("return\n");
+                input.lineCommitted = true;
             }
         }
     }
@@ -137,7 +142,7 @@ void InputSystem::tick(uint64_t dt){
                 
                 beginTextInput();
                 console.consoleActive = true;
-                printf("console should pop up\n");
+                // printf("console should pop up\n");
             }
             break;
         case KEY_INPUT_MODE::EDITOR:
@@ -145,7 +150,7 @@ void InputSystem::tick(uint64_t dt){
                 input.shouldSendKeysTo = KEY_INPUT_MODE::GAME;
                 
                 edit.shouldUseEditorCamera = false;
-                printf("leave editor\n");
+                // printf("leave editor\n");
             }
             if(input.keyboard->GetBool(gainput::KeyGrave) && not input.keyboard->GetBoolPrevious(gainput::KeyGrave)){
                 input.priorShouldSendKeysTo = KEY_INPUT_MODE::EDITOR;
@@ -153,7 +158,7 @@ void InputSystem::tick(uint64_t dt){
                
                 beginTextInput();
                 console.consoleActive = true;
-                printf("console should pop up\n");
+                // printf("console should pop up\n");
             }
             break;
         case KEY_INPUT_MODE::CONSOLE:
@@ -162,7 +167,7 @@ void InputSystem::tick(uint64_t dt){
                 
                 console.consoleActive = false;
                 endTextInput();
-                printf("leave console and return to where we were\n");
+                // printf("leave console and return to where we were\n");
             }
             break;
     }

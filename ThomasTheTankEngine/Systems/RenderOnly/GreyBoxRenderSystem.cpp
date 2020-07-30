@@ -13,7 +13,7 @@
 unsigned int GreyBoxRenderSystem::cube_VBO    = 0;
 unsigned int GreyBoxRenderSystem::cube_VAO    = 0;
 unsigned int GreyBoxRenderSystem::instanceVBO = 0;
-Shader greyboxShader;
+Shader* greyBoxShader;
 
 float greyBoxVertsNoIndices[] = {
     -0.5f, -0.5f, -0.5f,
@@ -69,7 +69,9 @@ struct greyBoxRenderData {
 #pragma pack(pop)
 
 void GreyBoxRenderSystem::init(){
-    greyboxShader = Shader("Shaders/greybox.vert", "Shaders/greybox.frag");
+    m_admin.m_ShaderCatalogSingleton.registerShader("greybox", "Shaders/greybox.vert", "Shaders/greybox.frag");
+    
+    greyBoxShader = &m_admin.m_ShaderCatalogSingleton.getShader("greybox");
     
     glGenVertexArrays(1, &cube_VAO);
     glBindVertexArray(cube_VAO);
@@ -144,10 +146,10 @@ void GreyBoxRenderSystem::render(){
     RenderSingleton& renderSingleton = m_admin.m_RenderSingleton;
     
     setupCamera();
-    greyboxShader.begin();
+    greyBoxShader->begin();
 
-    GLuint viewLoc  = glGetUniformLocation(greyboxShader.ID, "view");
-    GLuint projectionLoc  = glGetUniformLocation(greyboxShader.ID, "projection");
+    GLuint viewLoc  = glGetUniformLocation(greyBoxShader->ID, "view");
+    GLuint projectionLoc  = glGetUniformLocation(greyBoxShader->ID, "projection");
     
     glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(renderSingleton.view));
     glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(renderSingleton.projection));
@@ -179,6 +181,6 @@ void GreyBoxRenderSystem::render(){
     glDrawArraysInstanced(GL_TRIANGLES, 0, 36, numBoxes);
     glBindVertexArray(0);
     
-    greyboxShader.end();
+    greyBoxShader->end();
     
 }

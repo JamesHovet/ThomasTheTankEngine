@@ -34,9 +34,11 @@ public:
     // ------------------------------------------------------------------------
     Shader();
     Shader(const char* vertexPathCStr, const char* fragmentPathCStr);
+    Shader(boost::filesystem::path vertexPathAbsolute, boost::filesystem::path fragPathAbsolute);
     ~Shader();
     
     bool load(const char* vertexPathCStr, const char * fragmentPathCStr);
+    bool load(boost::filesystem::path vertexPathAbsolute, boost::filesystem::path fragPathAbsolute);
     void unload();
     bool reload();
     

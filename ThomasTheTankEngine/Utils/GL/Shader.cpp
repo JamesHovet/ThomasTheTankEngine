@@ -16,6 +16,10 @@ Shader::Shader(const char* vertexPathCStr, const char* fragmentPathCStr){
     load(vertexPathCStr, fragmentPathCStr);
 }
 
+Shader::Shader(boost::filesystem::path vertexPathAbsolute, boost::filesystem::path fragPathAbsolute){
+    load(vertexPathAbsolute, fragPathAbsolute);
+}
+
 Shader::~Shader(){
     
 }
@@ -81,6 +85,17 @@ bool Shader::compileAndLink(){
 
 bool Shader::load(const char* vertexPathCStr, const char* fragmentPathCStr){
     getAbsoluteFilePaths(vertexPathCStr, fragmentPathCStr);
+    if(!compileAndLink()){
+        return false;
+    }
+    isLoaded = true;
+    return true;
+}
+
+bool Shader::load(boost::filesystem::path vertexPathAbsolute, boost::filesystem::path fragPathAbsolute){
+    
+    vertexPathString = vertexPathAbsolute.string();
+    fragmentPathString = fragPathAbsolute.string();
     if(!compileAndLink()){
         return false;
     }

@@ -19,6 +19,7 @@
 		591D1D0E243123CE00AF9DC5 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 591D1D0C243123CE00AF9DC5 /* Node.cpp */; };
 		592B478124CF178200EB0DC0 /* libgainput.1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 592B478024CF178200EB0DC0 /* libgainput.1.0.0.dylib */; };
 		592B478224CF181A00EB0DC0 /* libgainput.1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 592B478024CF178200EB0DC0 /* libgainput.1.0.0.dylib */; };
+		59374D5424D367E100A75B7E /* ShaderCatalogSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59374D5224D367E100A75B7E /* ShaderCatalogSingleton.cpp */; };
 		5937528824C25FBC00A0EC78 /* ECSUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5937528624C25FBC00A0EC78 /* ECSUtils.cpp */; };
 		593868F524CE1F6E00AD33FF /* ThomasTheTankEngineTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 593868F424CE1F6E00AD33FF /* ThomasTheTankEngineTests.mm */; };
 		593868FC24CE201700AD33FF /* libGLEW.2.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 59484F4C24290C2D0068591C /* libGLEW.2.1.0.dylib */; };
@@ -127,6 +128,8 @@
 		591D1D0C243123CE00AF9DC5 /* Node.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Node.cpp; sourceTree = "<group>"; };
 		591D1D0D243123CE00AF9DC5 /* Node.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Node.hpp; sourceTree = "<group>"; };
 		592B478024CF178200EB0DC0 /* libgainput.1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgainput.1.0.0.dylib; path = ../../../../usr/local/lib/libgainput.1.0.0.dylib; sourceTree = "<group>"; };
+		59374D5224D367E100A75B7E /* ShaderCatalogSingleton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderCatalogSingleton.cpp; sourceTree = "<group>"; };
+		59374D5324D367E100A75B7E /* ShaderCatalogSingleton.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ShaderCatalogSingleton.hpp; sourceTree = "<group>"; };
 		5937528524C23D9200A0EC78 /* Family.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Family.hpp; sourceTree = "<group>"; };
 		5937528624C25FBC00A0EC78 /* ECSUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ECSUtils.cpp; sourceTree = "<group>"; };
 		5937528724C25FBC00A0EC78 /* ECSUtils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ECSUtils.hpp; sourceTree = "<group>"; };
@@ -1332,6 +1335,8 @@
 				590A09DF24CB4AB000D1153A /* EditorSingleton.hpp */,
 				5970727224CE452C0016F78F /* InputSingleton.hpp */,
 				59668C6324CFA472006744B7 /* ConsoleSingleton.hpp */,
+				59374D5224D367E100A75B7E /* ShaderCatalogSingleton.cpp */,
+				59374D5324D367E100A75B7E /* ShaderCatalogSingleton.hpp */,
 			);
 			path = Singletons;
 			sourceTree = "<group>";
@@ -1492,6 +1497,7 @@
 				59484F3424290AEE0068591C /* main.cpp in Sources */,
 				590A09DE24CB3B5E00D1153A /* EditorSystem.cpp in Sources */,
 				59668C6224CF9E31006744B7 /* ConsoleSystem.cpp in Sources */,
+				59374D5424D367E100A75B7E /* ShaderCatalogSingleton.cpp in Sources */,
 				5937528824C25FBC00A0EC78 /* ECSUtils.cpp in Sources */,
 				591D1D0E243123CE00AF9DC5 /* Node.cpp in Sources */,
 				59484F6A242910030068591C /* imgui_draw.cpp in Sources */,

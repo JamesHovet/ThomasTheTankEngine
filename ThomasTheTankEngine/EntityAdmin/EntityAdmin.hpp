@@ -30,6 +30,7 @@
 #include "EditorSingleton.hpp"
 #include "InputSingleton.hpp"
 #include "ConsoleSingleton.hpp"
+#include "ShaderCatalogSingleton.hpp"
 
 //#include "System.hpp"
 #include "AllSystems.hpp"
@@ -50,7 +51,7 @@ public:
     void setup();
     void teardown();
     void filterIfNeeded();
-    void updateInput(uint64_t dt);
+    void updateMainThread(uint64_t dt);
     void update(uint64_t dt);
     void copyToRenderBuffer();
     void render();
@@ -133,10 +134,12 @@ public:
 //    getFamilyStaticVector
     
 public:
-    RenderSingleton  m_RenderSingleton;
-    EditorSingleton  m_EditorSingleton;
-    InputSingleton   m_InputSingleton;
-    ConsoleSingleton m_ConsoleSingleton;
+    ShaderCatalogSingleton m_ShaderCatalogSingleton;
+    
+    RenderSingleton        m_RenderSingleton;
+    EditorSingleton        m_EditorSingleton;
+    InputSingleton         m_InputSingleton;
+    ConsoleSingleton       m_ConsoleSingleton;
 private:
     InputSystem            m_InputSystem;
     EditorSystem           m_EditorSystem;

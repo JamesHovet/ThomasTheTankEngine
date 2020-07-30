@@ -21,6 +21,10 @@ void ConsoleSystem::tick(uint64_t dt){
     if(console.consoleActive){
         if (input.lineCommitted){
             printf("committed line to console: %s\n", input.activeLine);
+            if (strncmp(input.activeLine, "reloadshaders", 13) == 0){
+                printf("reload shaders");
+                m_admin.m_ShaderCatalogSingleton.reloadDirtyShaders();
+            }
             input.resetTextInputLine();
         }
     }

@@ -20,7 +20,8 @@ void main()
 //    vert_color = color;
     vert_color = color;
 //    gl_Position = projection * view * vec4(ipos + (vpos), 1.0f);
-    vec3 rotated = qtransform(rotation, vpos);
+    vec3 scaled = vec3(vpos.x * scale.x, vpos.y * scale.y, vpos.z * scale.z);
+    vec3 rotated = qtransform(rotation, scaled);
     gl_Position = projection * view * vec4(ipos + rotated, 1.0f);
 }
 

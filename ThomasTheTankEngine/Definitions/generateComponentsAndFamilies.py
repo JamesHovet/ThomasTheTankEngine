@@ -55,6 +55,10 @@ def createAndWriteForComponentDict(c, componentID):
             f.write("\t" + m['type'] + " " + m['name'] + " = " + m['default'] + ";\n")
         else:
             f.write("\t" + m['type'] + " " + m['name'] + ";\n")
+            
+    f.write("\tvoid imDisplay(){\n")
+    
+    f.write("\t}")
 
     f.write("};\n")
 

@@ -9,6 +9,8 @@
 struct DebugNameComponent : public Component {
 	static constexpr int componentIndex{ 1 };
 	std::string m_name = "myName";
+    
+    void imDisplay(){}
 };
 
 #endif

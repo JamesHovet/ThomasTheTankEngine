@@ -48,6 +48,17 @@ struct TransformComponent : public Component {
     glm::mat4 getMat4() const {
         return getLocalModelMatrix();
     }
+    
+    void imDisplay(){
+        ImGui::PushID(this);
+        if(ImGui::TreeNode("Transform")){
+            ImGui::InputVec3("m_position", &m_position);
+            ImGui::InputVec3("m_scale", &m_scale);
+            ImGui::TreePop();
+        }
+        ImGui::PopID();
+    }
+    
 };
 
 #endif /* TransformComponent_hpp */

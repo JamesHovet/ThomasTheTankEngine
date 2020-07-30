@@ -1,5 +1,5 @@
 // DebugPrintComponent.hpp
-// generated at: 2020-07-26 11:47:03.215126
+// generated at: 2020-07-30 15:08:40.112917
 #ifndef DebugPrintComponent_hpp
 #define DebugPrintComponent_hpp
 
@@ -9,6 +9,7 @@ struct DebugPrintComponent : public Component {
 	bool m_enabled = false;
 	int m_integer = 1.0;
 	float m_float;
-};
+	void imDisplay(){
+	}};
 
 #endif

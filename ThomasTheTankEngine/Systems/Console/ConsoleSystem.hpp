@@ -9,7 +9,7 @@
 #ifndef ConsoleSystem_hpp
 #define ConsoleSystem_hpp
 #include "System.hpp"
-
+#include "ConsoleCommands.hpp"
 
 class ConsoleSystem : public System {
 public:

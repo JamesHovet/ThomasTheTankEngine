@@ -23,7 +23,7 @@ void ConsoleSystem::tick(uint64_t dt){
             printf("committed line to console: %s\n", input.activeLine);
             if (strncmp(input.activeLine, "reloadshaders", 13) == 0){
                 printf("reload shaders");
-                m_admin.m_ShaderCatalogSingleton.reloadDirtyShaders();
+                ConsoleCommands::cmd_reloadshaders(m_admin);
             }
             input.resetTextInputLine();
         }

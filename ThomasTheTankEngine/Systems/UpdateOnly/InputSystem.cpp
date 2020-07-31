@@ -99,6 +99,7 @@ void InputSystem::tick(uint64_t dt){
     // Process all SDL events
     SDL_Event e;
     while(SDL_PollEvent(&e)){
+        //textinput
         if(input.textInputMode){
             if(e.type == SDL_TEXTINPUT){
                 // printf("textin\n");
@@ -119,6 +120,15 @@ void InputSystem::tick(uint64_t dt){
             } else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RETURN){
                 // printf("return\n");
                 input.lineCommitted = true;
+            }
+        }
+        
+        // window resizing
+        if(e.type == SDL_WINDOWEVENT){
+            if (e.window.event == SDL_WINDOWEVENT_RESIZED){
+                m_admin.m_RenderSingleton.SCREEN_WIDTH  = e.window.data1;
+                m_admin.m_RenderSingleton.SCREEN_HEIGHT = e.window.data2;
+                glViewport(0, 0, m_admin.m_RenderSingleton.SCREEN_WIDTH, m_admin.m_RenderSingleton.SCREEN_HEIGHT);
             }
         }
     }

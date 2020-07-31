@@ -557,7 +557,6 @@
 		59661B362429610C0088525D /* Shader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Shader.hpp; sourceTree = "<group>"; };
 		59661B3B242962B70088525D /* default.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = default.vert; sourceTree = "<group>"; };
 		59661B3C242962CA0088525D /* default.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = default.frag; sourceTree = "<group>"; };
-		59661B40242968880088525D /* libboost_filesystem.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_filesystem.dylib; path = ../../../../../usr/local/Cellar/boost/1.71.0/lib/libboost_filesystem.dylib; sourceTree = "<group>"; };
 		59661B43242B93900088525D /* Shader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
 		59661B45242B958C0088525D /* shader_globals.glh */ = {isa = PBXFileReference; lastKnownFileType = text; path = shader_globals.glh; sourceTree = "<group>"; };
 		59668C6024CF9E31006744B7 /* ConsoleSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ConsoleSystem.cpp; sourceTree = "<group>"; };
@@ -764,7 +763,6 @@
 				592B478024CF178200EB0DC0 /* libgainput.1.0.0.dylib */,
 				59B35EE024CE1EAC00605588 /* libboost_filesystem.dylib */,
 				59B35EDD24CE1E0400605588 /* OpenGL.framework */,
-				59661B40242968880088525D /* libboost_filesystem.dylib */,
 				59484F5024290C5B0068591C /* libboost_program_options.dylib */,
 				59484F4E24290C410068591C /* SDL2.framework */,
 				59484F4C24290C2D0068591C /* libGLEW.2.1.0.dylib */,

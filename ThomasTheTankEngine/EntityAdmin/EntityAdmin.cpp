@@ -170,16 +170,17 @@ void EntityAdmin::setup(){
     }
     { // create testing boxes
         //@Remove: temporary test entities
-        for(int i = 0; i < 5; i++){
+        int numToAdd = 10;
+        for(int i = 0; i < numToAdd; i++){
             entityID eID = this->createEntity();
             DebugNameComponent& nameC = this->addComponent<DebugNameComponent>(eID);
             TransformComponent& transformC = this->addComponent<TransformComponent>(eID);
             GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(eID);
 
             nameC.m_name = std::to_string(eID);
-            transformC.m_position = glm::vec3(((float) i - 2) / 4.0f);
+            transformC.m_position = glm::vec3(((float) i - (numToAdd / 2)) / (float) numToAdd);
             // transformC.m_orientation = glm::quat(glm::vec3(0.0f, 0.0f, 0.0f));
-            boxC.m_color = glm::vec4(((float) i) * 0.2, 0.0, 0.0, 1.0f);
+            boxC.m_color = glm::vec4(((float) i) * (1.0f / (float) numToAdd), 0.0, 0.0, 1.0f);
         }
     }
     

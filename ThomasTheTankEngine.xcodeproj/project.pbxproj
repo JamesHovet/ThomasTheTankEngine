@@ -50,6 +50,7 @@
 		59668C6224CF9E31006744B7 /* ConsoleSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59668C6024CF9E31006744B7 /* ConsoleSystem.cpp */; };
 		596C9E9924D44438007FEAF4 /* ConsoleCommands.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 596C9E9724D44438007FEAF4 /* ConsoleCommands.cpp */; };
 		5970727524CE455C0016F78F /* InputSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5970727324CE455C0016F78F /* InputSystem.cpp */; };
+		59AA59D324D4D8D10082B201 /* componentViews.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59AA59D224D4D8D10082B201 /* componentViews.cpp */; };
 		59F7F2AA2430F3C900A673D1 /* Graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59F7F2A82430F3C900A673D1 /* Graphics.cpp */; };
 		59F7F2AE2430F9EA00A673D1 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59F7F2AC2430F9EA00A673D1 /* Camera.cpp */; };
 /* End PBXBuildFile section */
@@ -578,6 +579,7 @@
 		59A7A96124BD269400DB8CD9 /* mutex.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mutex.hpp; sourceTree = "<group>"; };
 		59A7A96224BD269400DB8CD9 /* pool_construct.ipp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pool_construct.ipp; sourceTree = "<group>"; };
 		59A7A96324BD269400DB8CD9 /* simple_segregated_storage.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = simple_segregated_storage.hpp; sourceTree = "<group>"; };
+		59AA59D224D4D8D10082B201 /* componentViews.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = componentViews.cpp; sourceTree = "<group>"; };
 		59B35EDD24CE1E0400605588 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework; sourceTree = DEVELOPER_DIR; };
 		59B35EE024CE1EAC00605588 /* libboost_filesystem.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_filesystem.dylib; path = ../../../../usr/local/Cellar/boost/1.72.0_3/lib/libboost_filesystem.dylib; sourceTree = "<group>"; };
 		59E57C4324CDC1E20076E507 /* filterEntitiesIntoStaticFamiliesInclude.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = filterEntitiesIntoStaticFamiliesInclude.cpp; sourceTree = "<group>"; };
@@ -835,8 +837,7 @@
 				594F6A2524C218FA00647AC3 /* AllSystems.hpp */,
 				594A5F2E24B4B41D00733231 /* System.cpp */,
 				594A5F2F24B4B41D00733231 /* System.hpp */,
-				590A09DC24CB3B5E00D1153A /* EditorSystem.cpp */,
-				590A09DD24CB3B5E00D1153A /* EditorSystem.hpp */,
+				59AA59D124D4D89B0082B201 /* Editor */,
 				596C9E9624D443FA007FEAF4 /* Console */,
 			);
 			path = Systems;
@@ -1397,6 +1398,16 @@
 			path = detail;
 			sourceTree = "<group>";
 		};
+		59AA59D124D4D89B0082B201 /* Editor */ = {
+			isa = PBXGroup;
+			children = (
+				590A09DC24CB3B5E00D1153A /* EditorSystem.cpp */,
+				590A09DD24CB3B5E00D1153A /* EditorSystem.hpp */,
+				59AA59D224D4D8D10082B201 /* componentViews.cpp */,
+			);
+			path = Editor;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1524,6 +1535,7 @@
 				59484F67242910030068591C /* imgui_impl_opengl3.cpp in Sources */,
 				596C9E9924D44438007FEAF4 /* ConsoleCommands.cpp in Sources */,
 				59484F68242910030068591C /* imgui_demo.cpp in Sources */,
+				59AA59D324D4D8D10082B201 /* componentViews.cpp in Sources */,
 				59484F66242910030068591C /* imgui.cpp in Sources */,
 				590F5685242CD3D300BC9DC2 /* stb_image_implementation.cpp in Sources */,
 				59484F69242910030068591C /* imgui_impl_sdl.cpp in Sources */,

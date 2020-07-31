@@ -27,7 +27,8 @@
                     "type": "glm::vec4",
                     "default" : "glm::vec4(0.5f, 0.5f, 0.5f, 1.0f)"
                 }
-            ]
+            ],
+            "editorPanel" : "manual"
         }
 	],
 	"families" : [

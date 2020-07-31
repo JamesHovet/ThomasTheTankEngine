@@ -55,10 +55,14 @@ def createAndWriteForComponentDict(c, componentID):
             f.write("\t" + m['type'] + " " + m['name'] + " = " + m['default'] + ";\n")
         else:
             f.write("\t" + m['type'] + " " + m['name'] + ";\n")
-            
-    f.write("\tvoid imDisplay(){\n")
+           
+    if 'editorPanel' in c and c['editorPanel'] == "manual":
+        f.write("\tvoid imDisplay();\n")
+    else:
+        f.write("\tvoid imDisplay(){\n")
     
-    f.write("\t}")
+        f.write("\t}\n")
+        
 
     f.write("};\n")
 

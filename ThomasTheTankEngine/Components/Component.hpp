@@ -20,7 +20,7 @@
 //class Entity;
 
 struct Component {
-    virtual void imDisplay() = 0;
+    virtual void imDisplay(){};
 };
 
 // a bit of a hack to allow lookup of a component index using <> notation.

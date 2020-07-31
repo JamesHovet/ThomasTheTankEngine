@@ -228,7 +228,7 @@ void holdWindowOpen() {
         g_admin.filterIfNeeded();
         g_admin.copyToRenderBuffer();
        
-        g_admin.updateMainThread(dt_ms);
+        g_admin.updateMainThreadSystems(dt_ms);
 #ifndef NOJOBS
         std::thread renderThread([](void){
             SDL_GL_MakeCurrent(g_window, gl_context);

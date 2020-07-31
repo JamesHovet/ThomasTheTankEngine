@@ -178,8 +178,7 @@ void EntityAdmin::setup(){
 
             nameC.m_name = std::to_string(eID);
             transformC.m_position = glm::vec3(((float) i - 2) / 4.0f);
-            transformC.m_scale = glm::vec3(1.0f, 1.2f, 1.0f);
-            transformC.m_orientation = glm::quat(glm::vec3(0.0f, 0.0f, 0.0f));
+            // transformC.m_orientation = glm::quat(glm::vec3(0.0f, 0.0f, 0.0f));
             boxC.m_color = glm::vec4(((float) i) * 0.2, 0.0, 0.0, 1.0f);
         }
     }
@@ -196,6 +195,7 @@ void EntityAdmin::filterIfNeeded(){
     if(m_entities_dirty){
         this->clearFamilies();
         filterEntitiesIntoMutableFamilies();
+        m_entities_dirty = false; 
     }
 }
 
@@ -209,7 +209,7 @@ void EntityAdmin::copyToRenderBuffer(){
     filterEntitiesIntoStaticFamilies();
 }
 
-void EntityAdmin::updateMainThread(uint64_t dt){
+void EntityAdmin::updateMainThreadSystems(uint64_t dt){
     m_InputSystem.tick(dt);
     m_ConsoleSystem.tick(dt);
 }
@@ -245,7 +245,6 @@ void EntityAdmin::clearFamilies(){
     #include "clearFamiliesInclude.cpp"
 }
 
-// TODO: Create two versions of this, that creates references to mutable state, the other that does a copy for render purposes. Maybe specifiy in each family if it is needed for the render step, the update step, or both. This would be great groundwork for a multithreaded update/render thread.
 void EntityAdmin::filterEntitiesIntoMutableFamilies(){
     for (std::pair<entityID, Entity*> pair : m_entities){
         Entity* e = pair.second;

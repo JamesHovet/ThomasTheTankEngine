@@ -51,7 +51,7 @@ public:
     void setup();
     void teardown();
     void filterIfNeeded();
-    void updateMainThread(uint64_t dt);
+    void updateMainThreadSystems(uint64_t dt);
     void update(uint64_t dt);
     void copyToRenderBuffer();
     void render();

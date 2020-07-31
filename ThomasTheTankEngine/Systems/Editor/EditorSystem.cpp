@@ -93,9 +93,7 @@ void EditorSystem::render(){
         
         if(ImGui::TreeNode(nameBuf)){
             for(auto it = m_admin.componentsBegin(eID); it != m_admin.componentsEnd(eID); ++it){
-                if(*it != nullptr){
-                    (*it)->imDisplay();
-                }
+                (*it)->imDisplay();
             }
             
             ImGui::TreePop();

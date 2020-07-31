@@ -110,10 +110,25 @@ public:
         ComponentIter(EntityAdmin& _m_admin, entityID _eID, componentID _cID) : m_admin(_m_admin){
             eID = _eID;
             cID = _cID;
+            assert(m_admin.m_entities.count(eID) != 0);
+            e = m_admin.m_entities.at(eID);
+            
+            while(cID < NUM_COMPONENTS){
+                if(e->m_mask[cID]){
+                    break;
+                }
+                cID ++;
+            }
+            
         }
 
         ComponentIter& operator++(){
-            cID ++;
+            while(cID < NUM_COMPONENTS){
+                cID ++;
+                if(e->m_mask[cID]){
+                    break;
+                }
+            }
             return *this;
         }
 
@@ -132,6 +147,7 @@ public:
         
 //    private:
         EntityAdmin& m_admin;
+        Entity* e;
         entityID eID;
         componentID cID;
     };

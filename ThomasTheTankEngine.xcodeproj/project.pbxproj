@@ -164,7 +164,7 @@
 		594A5F2624B4B17900733231 /* Entity.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Entity.cpp; sourceTree = "<group>"; };
 		594A5F2724B4B17900733231 /* Entity.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Entity.hpp; sourceTree = "<group>"; };
 		594A5F2A24B4B32A00733231 /* EntityAdmin.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EntityAdmin.cpp; sourceTree = "<group>"; };
-		594A5F2B24B4B32A00733231 /* EntityAdmin.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = EntityAdmin.hpp; sourceTree = "<group>"; };
+		594A5F2B24B4B32A00733231 /* EntityAdmin.hpp */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.cpp.h; path = EntityAdmin.hpp; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; };
 		594A5F2E24B4B41D00733231 /* System.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = System.cpp; sourceTree = "<group>"; };
 		594A5F2F24B4B41D00733231 /* System.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = System.hpp; sourceTree = "<group>"; };
 		594A5F3124B4BA6400733231 /* DebugPrintSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DebugPrintSystem.cpp; sourceTree = "<group>"; };

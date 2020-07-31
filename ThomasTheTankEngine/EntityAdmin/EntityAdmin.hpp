@@ -105,6 +105,45 @@ public:
         return *value;
     }
     
+    class ComponentIter{
+    public:
+        ComponentIter(EntityAdmin& _m_admin, entityID _eID, componentID _cID) : m_admin(_m_admin){
+            eID = _eID;
+            cID = _cID;
+        }
+
+        ComponentIter& operator++(){
+            cID ++;
+            return *this;
+        }
+
+        bool operator!=(const ComponentIter& other){
+            return (eID != other.eID) or (cID != other.cID);
+        }
+
+        Component* operator*() const {
+            assert(m_admin.m_component_maps.count(eID) != 0);
+            auto this_entity_map = m_admin.m_component_maps.at(eID);
+            if (this_entity_map.count(cID) != 0){
+                return static_cast<Component*>(this_entity_map.at(cID));
+            }
+            return nullptr;
+        }
+        
+//    private:
+        EntityAdmin& m_admin;
+        entityID eID;
+        componentID cID;
+    };
+    
+    ComponentIter componentsBegin(entityID eID){
+        return ComponentIter(*this, eID, 0);
+    }
+    
+    ComponentIter componentsEnd(entityID eID){
+        return ComponentIter(*this, eID, NUM_COMPONENTS);
+    }
+    
     template<typename T>
     void removeComponent(entityID eID){
         m_entities_dirty = true;

@@ -80,21 +80,24 @@ void EditorSystem::render(){
     char nameBuf[32];
     
     for (std::pair<entityID, Entity*> p : m_admin.m_entities){
-        DebugNameComponent* nameC = m_admin.tryGetComponent<DebugNameComponent>(p.first);
+        entityID eID = p.first;
+        DebugNameComponent* nameC = m_admin.tryGetComponent<DebugNameComponent>(eID);
         
         if(nameC != nullptr){
             snprintf(nameBuf, 32, "%s", nameC->m_name.c_str());
         } else {
-            snprintf(nameBuf, 32, "%d", p.first);
+            snprintf(nameBuf, 32, "%d", eID);
         }
         
         ImGui::PushID(&p);
         
         if(ImGui::TreeNode(nameBuf)){
-            TransformComponent* transC = m_admin.tryGetComponent<TransformComponent>(p.first);
-            if(transC != nullptr){
-                transC->imDisplay();
+            for(auto it = m_admin.componentsBegin(eID); it != m_admin.componentsEnd(eID); ++it){
+                if(*it != nullptr){
+                    (*it)->imDisplay();
+                }
             }
+            
             ImGui::TreePop();
         }
         

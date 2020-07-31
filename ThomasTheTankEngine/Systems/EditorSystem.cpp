@@ -77,17 +77,28 @@ void EditorSystem::tick(uint64_t dt){
 void EditorSystem::render(){
     ImGui::Begin("Editor");
 
+    char nameBuf[32];
+    
     for (std::pair<entityID, Entity*> p : m_admin.m_entities){
         DebugNameComponent* nameC = m_admin.tryGetComponent<DebugNameComponent>(p.first);
+        
         if(nameC != nullptr){
-            ImGui::Text("%s", nameC->m_name.c_str());
+            snprintf(nameBuf, 32, "%s", nameC->m_name.c_str());
         } else {
-            ImGui::Text("%d", p.first);
+            snprintf(nameBuf, 32, "%d", p.first);
         }
-        TransformComponent* transC = m_admin.tryGetComponent<TransformComponent>(p.first);
-        if(transC != nullptr){
-            transC->imDisplay();
+        
+        ImGui::PushID(&p);
+        
+        if(ImGui::TreeNode(nameBuf)){
+            TransformComponent* transC = m_admin.tryGetComponent<TransformComponent>(p.first);
+            if(transC != nullptr){
+                transC->imDisplay();
+            }
+            ImGui::TreePop();
         }
+        
+        ImGui::PopID();
     }
     
 //    ImGui::InputVec3("Camera forward", &cameraC->m_forward);

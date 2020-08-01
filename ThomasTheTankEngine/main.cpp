@@ -486,9 +486,9 @@ void legacyHoldWindowOpen() {
         if(ImGui::Button("Reload Shaders")){
             defaultShader.reload();
         }
-        if(ImGui::CollapsingHeader("Scene Tree")){
-            ImGui::NodeTreeViewer("Scene Tree", sceneRoot);
-        }
+//        if(ImGui::CollapsingHeader("Scene Tree")){
+//            ImGui::NodeTreeViewer("Scene Tree", sceneRoot);
+//        }
         
         ImGui::End();
         

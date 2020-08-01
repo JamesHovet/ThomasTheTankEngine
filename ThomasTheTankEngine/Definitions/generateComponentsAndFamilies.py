@@ -17,7 +17,9 @@ datatypesToImGuiControls = {
     "float"      : "ImGui::InputFloat",
     "int"        : "ImGui::InputInt",
     "bool"       : "ImGui::Checkbox",
-    "glm::vec3"  : "ImGui::InputVec3"
+    "glm::vec3"  : "ImGui::InputVec3",
+    "RGBA"       : "ImGui::InputRGBA",
+    "RGB"        : "ImGui::InputRGB"
 }
 
 def createAndWriteForComponentDict(c, componentID):

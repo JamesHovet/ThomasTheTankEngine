@@ -26,26 +26,35 @@ void ImGui::InputVec3(const char *label, glm::vec3 *v3){
     ImGui::PopID();
 }
 
-void NodeTreeViewerHelper(Node *root){
-    PushID(root);
-    glm::vec3 pos = root->getGlobalPosition();
-    if (root->hasChildren()){
-//        if(TreeNode("%s (%3f, %3f, %3f)", root->getName().c_str(), pos.x, pos.y, pos.z)){
-        if(TreeNode(root->getName().c_str(), "%s (%3.2f, %3.2f, %3.2f)", root->getName().c_str(), pos.x, pos.y, pos.z)){
-            for(auto&& nodePtr : root->getChildren()){
-                NodeTreeViewerHelper(&*nodePtr);
-            }
-            TreePop();
-        }
-    } else {
-        Text("%s (%3.2f, %3.2f, %3.2f)", root->getName().c_str(), pos.x, pos.y, pos.z);
-    }
-    PopID();
+void ImGui::InputRGBA(const char *label, glm::vec4 *v4){
+    ImGui::ColorEdit4(label, &v4->r);
 }
 
-void ImGui::NodeTreeViewer(const char *label, Node *root){
-    PushID(label);
-    NodeTreeViewerHelper(root);
-    PopID();
+void ImGui::InputRGB(const char *label, glm::vec3 *v3){
+    ImGui::ColorEdit3(label, &v3->r);
 }
 
+//
+//void NodeTreeViewerHelper(Node *root){
+//    PushID(root);
+//    glm::vec3 pos = root->getGlobalPosition();
+//    if (root->hasChildren()){
+////        if(TreeNode("%s (%3f, %3f, %3f)", root->getName().c_str(), pos.x, pos.y, pos.z)){
+//        if(TreeNode(root->getName().c_str(), "%s (%3.2f, %3.2f, %3.2f)", root->getName().c_str(), pos.x, pos.y, pos.z)){
+//            for(auto&& nodePtr : root->getChildren()){
+//                NodeTreeViewerHelper(&*nodePtr);
+//            }
+//            TreePop();
+//        }
+//    } else {
+//        Text("%s (%3.2f, %3.2f, %3.2f)", root->getName().c_str(), pos.x, pos.y, pos.z);
+//    }
+//    PopID();
+//}
+//
+//void ImGui::NodeTreeViewer(const char *label, Node *root){
+//    PushID(label);
+//    NodeTreeViewerHelper(root);
+//    PopID();
+//}
+//

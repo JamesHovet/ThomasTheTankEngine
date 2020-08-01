@@ -19,7 +19,9 @@
 
 namespace ImGui {
     void InputVec3(const char * label, glm::vec3 *v3);
-    void NodeTreeViewer(const char * label, Node *root);
+//    void NodeTreeViewer(const char * label, Node *root);
+    void InputRGBA(const char * label, glm::vec4 *v4);
+    void InputRGB(const char * label, glm::vec3 *v3);
 }
 
 #endif /* ImGuiUtils_hpp */

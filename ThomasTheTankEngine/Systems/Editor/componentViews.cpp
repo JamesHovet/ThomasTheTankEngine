@@ -10,11 +10,11 @@
 #include "libs/imgui/imgui.h"
 #include "allComponents.h"
 
-void GreyBoxComponent::imDisplay(){
-    if(ImGui::TreeNode("GreyBoxComponent")){
-        ImGui::ColorEdit4("m_color", &m_color.r);
-        
-        
-        ImGui::TreePop();
-    }
-}
+//void GreyBoxComponent::imDisplay(){
+//    if(ImGui::TreeNode("GreyBoxComponent")){
+//        ImGui::ColorEdit4("m_color", &m_color.r);
+//
+//
+//        ImGui::TreePop();
+//    }
+//}

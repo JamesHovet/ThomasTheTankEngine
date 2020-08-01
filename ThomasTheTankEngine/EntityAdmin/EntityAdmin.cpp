@@ -129,9 +129,23 @@ EntityAdmin::~EntityAdmin(){
     }
 }
 
-entityID EntityAdmin::createEntity(){
-    m_entities_dirty = true;
+bool EntityAdmin::createEntity(entityID eID){
     assert(m_entities.size() < MAX_ENTITIES);
+    m_entities_dirty = true;
+    if(m_entities.count(eID) != 0){
+        return false;
+    }
+    
+    Entity* e = m_entity_pool.construct(eID);
+    m_entities[eID] = e;
+    m_component_maps.insert(std::make_pair(eID, std::unordered_map<componentID, Component*>()));
+    
+    return true;
+}
+
+entityID EntityAdmin::createEntity(){
+    assert(m_entities.size() < MAX_ENTITIES);
+    m_entities_dirty = true;
     
     // pseudorandom entity ID
     entityID eID = rand() % MAX_ENTITIES;
@@ -319,8 +333,7 @@ bool EntityAdmin::serializeByEntity(boost::filesystem::path outAbsolute){
         for(auto it = componentsBegin(eID); it != componentsEnd(eID); ++it){
             out["entities"][eIDStr][ComponentIDToStringStruct::map.at(it.cID)] = (*it)->serialize();
         }
-        
-        
+
     }
     
     outfile << out.dump(4);

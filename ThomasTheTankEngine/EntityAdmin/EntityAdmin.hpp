@@ -61,6 +61,7 @@ public:
     void mainLoop(void);
     
     entityID createEntity();
+    bool createEntity(entityID eID);
     void destroyEntity(entityID e);
 private:
     bool serializeByEntity(boost::filesystem::path outAbsolute);

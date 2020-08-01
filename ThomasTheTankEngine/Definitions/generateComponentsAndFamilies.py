@@ -13,6 +13,13 @@ componentNamesToIDs = {
     "CameraComponent"    : 2
 }
 
+datatypesToImGuiControls = {
+    "float"      : "ImGui::InputFloat",
+    "int"        : "ImGui::InputInt",
+    "bool"       : "ImGui::Checkbox",
+    "glm::vec3"  : "ImGui::InputVec3"
+}
+
 def createAndWriteForComponentDict(c, componentID):
     fullname = c['name'] + "Component"
     componentNamesToIDs[fullname] = componentID
@@ -50,6 +57,7 @@ def createAndWriteForComponentDict(c, componentID):
     f.write("\tstatic constexpr int componentIndex{ " + str(componentID) + " };\n")
     componentID += 1
 
+    ## Editor panels
     for m in c['members']:
         if 'default' in m:
             f.write("\t" + m['type'] + " " + m['name'] + " = " + m['default'] + ";\n")
@@ -60,7 +68,16 @@ def createAndWriteForComponentDict(c, componentID):
         f.write("\tvoid imDisplay();\n")
     else:
         f.write("\tvoid imDisplay(){\n")
-    
+        
+        f.write("\t\tif(ImGui::TreeNode(\"{}\"))".format(fullname) + "{\n")
+        for m in c['members']:
+            if(not m['type'] in datatypesToImGuiControls):
+                print("Err: type {} not in dict".format(m['type']))
+            control = datatypesToImGuiControls[m['type']]
+            
+            f.write("\t\t\t{}(\"{}\", &{});\n".format(control, m['name'], m['name']))
+        
+        f.write("\t\t\tImGui::TreePop();\n\t\t}\n")
         f.write("\t}\n")
         
 

@@ -11,7 +11,7 @@
 				{
 					"name": "m_integer",
 					"type": "int",
-					"default" : "1.0"	
+					"default" : "1"	
 				},
 				{
 					"name": "m_float",

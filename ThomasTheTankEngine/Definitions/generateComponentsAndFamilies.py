@@ -22,6 +22,13 @@ datatypesToImGuiControls = {
     "RGB"        : "ImGui::InputRGB"
 }
 
+datatypesToSerializationUtils = {
+    "glm::vec3"   : "SerializationUtils::serializeVec3",
+    "glm::vec4"   : "SerializationUtils::serializeVec4",
+    "RGB"         : "SerializationUtils::serializeVec3",
+    "RGBA"        : "SerializationUtils::serializeVec4"
+}
+
 def createAndWriteForComponentDict(c, componentID):
     fullname = c['name'] + "Component"
     componentNamesToIDs[fullname] = componentID
@@ -31,6 +38,9 @@ def createAndWriteForComponentDict(c, componentID):
 
     #componetsEnum
     componentsEnum.write("\t" + fullname + " = " + str(componentID) + ",\n")
+    
+    #serialization map:
+    componentStringSerializationMapsCPP.write("\t\tm[{}] = \"{}\";\n".format(componentID, fullname))
 
     #construct component pools include
     createComponentPoolsCPP.write("\t{\n")
@@ -59,13 +69,13 @@ def createAndWriteForComponentDict(c, componentID):
     f.write("\tstatic constexpr int componentIndex{ " + str(componentID) + " };\n")
     componentID += 1
 
-    ## Editor panels
     for m in c['members']:
         if 'default' in m:
             f.write("\t" + m['type'] + " " + m['name'] + " = " + m['default'] + ";\n")
         else:
             f.write("\t" + m['type'] + " " + m['name'] + ";\n")
            
+    ## Editor panels
     if 'editorPanel' in c and c['editorPanel'] == "manual":
         f.write("\tvoid imDisplay();\n")
     else:
@@ -82,6 +92,21 @@ def createAndWriteForComponentDict(c, componentID):
         f.write("\t\t\tImGui::TreePop();\n\t\t}\n")
         f.write("\t}\n")
         
+        
+    ## Serialization
+    f.write("\tjson::object_t serialize(){\n")
+    f.write("\t\tjson::object_t obj;\n")
+    
+    for m in c['members']:
+        if (not m['type'] in datatypesToSerializationUtils):
+            f.write("\t\tobj[\"{}\"] = {};\n".format(m['name'], m['name']));
+        else:
+            util = datatypesToSerializationUtils[m['type']]
+            f.write("\t\tobj[\"{}\"] = {}({});\n".format(m['name'], util, m['name']))
+    
+    f.write("\t\treturn obj;\n")
+    f.write("\t}\n\n")
+    
 
     f.write("};\n")
 
@@ -268,6 +293,7 @@ if __name__ == "__main__":
 
     allComponents = open(OUTPUT_COMPONENTS + 'allComponents.h', mode='w')
     componentsEnum = open(OUTPUT_COMPONENTS + 'ComponentsEnum.hpp', mode='w')
+    componentStringSerializationMapsCPP = open(OUTPUT_CPP + 'componentStringSerializationMaps.hpp', mode='w')
     allFamilies = open(OUTPUT_FAMILIES + 'allFamilies.h', mode='w')
     familiesEnum = open(OUTPUT_FAMILIES + 'familiesEnum.hpp', mode='w')
     createComponentPoolsCPP = open(OUTPUT_CPP + 'populateComponentPoolsInclude.cpp', mode='w')
@@ -300,6 +326,7 @@ if __name__ == "__main__":
 enum class Components {
     TransformComponent = 0,
     DebugNameComponent = 1,
+    CameraComponent    = 2,
 """)
     
     allFamilies.write("""
@@ -316,6 +343,22 @@ enum class Components {
 
 enum class Families {
     CameraFamily = 0,
+""")
+
+    componentStringSerializationMapsCPP.write("""
+#ifndef componentStringSerializationMaps
+#define componentStringSerializationMaps
+
+#include <unordered_map>
+#include <string>
+using namespace std;
+    
+struct ComponentIDToStringStruct {
+    static unordered_map<int, std::string> create_map(){
+        unordered_map<int, std::string> m;
+        m[0] = "TransformComponent";
+        m[1] = "DebugNameComponent";
+        m[2] = "CameraComponent";
 """)
 
     for fname in os.listdir(INPUT_DIR):
@@ -339,6 +382,14 @@ enum class Families {
     componentsEnum.write("#endif \n")
     allFamilies.write("#endif \n")
     familiesEnum.write("#endif \n")
+    
+    componentStringSerializationMapsCPP.write("""       return m;
+    }
+    static const unordered_map<int, std::string> map;
+};
+
+#endif
+""")
 
     allComponents.close()
     allFamilies.close()

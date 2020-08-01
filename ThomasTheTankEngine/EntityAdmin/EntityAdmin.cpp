@@ -14,6 +14,8 @@
 #include <istream>
 #include <iostream>
 
+#include "json.hpp"
+
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/fstream.hpp>
 
@@ -22,7 +24,9 @@
 #include "allFamilies.h"
 #include "object_pool.hpp"
 #include "ECSUtils.hpp"
-#include "json.hpp"
+
+#include "componentStringSerializationMaps.hpp"
+const std::unordered_map<int, std::string> ComponentIDToStringStruct::map = ComponentIDToStringStruct::create_map();
 
 // Helpers:
 void constructComponentPools(std::array<void *, NUM_COMPONENTS>& pool,
@@ -303,10 +307,21 @@ bool EntityAdmin::serializeByEntity(boost::filesystem::path outAbsolute){
     outfile.open(outAbsolute, std::ios_base::out);
     if(not outfile.is_open()){return false;}
     
-    
-    
     json out;
-    out["hi"] = "hi";
+    
+    out["entities"] = json::object();
+    
+    for(std::pair<entityID, Entity*> p : m_entities){
+        entityID eID = p.first;
+        std::string eIDStr = std::to_string(p.first);
+        out["entities"][eIDStr] = json::object();
+        
+        for(auto it = componentsBegin(eID); it != componentsEnd(eID); ++it){
+            out["entities"][eIDStr][ComponentIDToStringStruct::map.at(it.cID)] = (*it)->serialize();
+        }
+        
+        
+    }
     
     outfile << out.dump(4);
     

@@ -11,6 +11,12 @@ struct DebugNameComponent : public Component {
 	std::string m_name = "myName";
     
     void imDisplay(){}
+    
+    json::object_t serialize(){
+        json::object_t obj = json::object();
+        obj["m_name"] = m_name;
+        return obj;
+    }
 };
 
 #endif

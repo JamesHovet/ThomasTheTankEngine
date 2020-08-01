@@ -55,6 +55,7 @@
 		59C0382824D5999600DFFA3E /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59484F4A24290C0D0068591C /* OpenGL.framework */; };
 		59C0382A24D5999800DFFA3E /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59484F4E24290C410068591C /* SDL2.framework */; };
 		59C0382B24D5999800DFFA3E /* SDL2.framework in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 59484F4E24290C410068591C /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		59C0383224D5CEFE00DFFA3E /* SerializationUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59C0383024D5CEFE00DFFA3E /* SerializationUtils.cpp */; };
 		59F7F2AA2430F3C900A673D1 /* Graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59F7F2A82430F3C900A673D1 /* Graphics.cpp */; };
 		59F7F2AE2430F9EA00A673D1 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59F7F2AC2430F9EA00A673D1 /* Camera.cpp */; };
 /* End PBXBuildFile section */
@@ -602,6 +603,9 @@
 		59B35EE024CE1EAC00605588 /* libboost_filesystem.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_filesystem.dylib; path = ../../../../usr/local/Cellar/boost/1.72.0_3/lib/libboost_filesystem.dylib; sourceTree = "<group>"; };
 		59C0382C24D59EA500DFFA3E /* json.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = json.hpp; sourceTree = "<group>"; };
 		59C0382D24D5A78B00DFFA3E /* ThomasTheTankEngineDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ThomasTheTankEngineDebug.entitlements; sourceTree = "<group>"; };
+		59C0382E24D5B97700DFFA3E /* componentStringSerializationMaps.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = componentStringSerializationMaps.hpp; sourceTree = "<group>"; };
+		59C0383024D5CEFE00DFFA3E /* SerializationUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SerializationUtils.cpp; sourceTree = "<group>"; };
+		59C0383124D5CEFE00DFFA3E /* SerializationUtils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SerializationUtils.hpp; sourceTree = "<group>"; };
 		59E57C4324CDC1E20076E507 /* filterEntitiesIntoStaticFamiliesInclude.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = filterEntitiesIntoStaticFamiliesInclude.cpp; sourceTree = "<group>"; };
 		59E57C4424CDC1F10076E507 /* populateFamilyStaticVectorsInclude.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = populateFamilyStaticVectorsInclude.cpp; sourceTree = "<group>"; };
 		59F7F2A82430F3C900A673D1 /* Graphics.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Graphics.cpp; sourceTree = "<group>"; };
@@ -657,6 +661,7 @@
 				59E57C4324CDC1E20076E507 /* filterEntitiesIntoStaticFamiliesInclude.cpp */,
 				59E57C4424CDC1F10076E507 /* populateFamilyStaticVectorsInclude.cpp */,
 				590A09D324CB33A000D1153A /* populateComponentPoolsInclude.cpp */,
+				59C0382E24D5B97700DFFA3E /* componentStringSerializationMaps.hpp */,
 				590A09D424CB33A000D1153A /* populateFamilyMapsInclude.cpp */,
 				590A09D524CB33A000D1153A /* clearFamiliesInclude.cpp */,
 				5994CE5B24CDDA2800CED70A /* clearStaticFamilyVectorsInclude.cpp */,
@@ -1314,6 +1319,8 @@
 				591D1D09243106A400AF9DC5 /* ImGuiUtils.cpp */,
 				594A5F3424B4BB7400733231 /* typedefs.h */,
 				591D1D0A243106A400AF9DC5 /* ImGuiUtils.hpp */,
+				59C0383024D5CEFE00DFFA3E /* SerializationUtils.cpp */,
+				59C0383124D5CEFE00DFFA3E /* SerializationUtils.hpp */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1565,6 +1572,7 @@
 				594A5F3324B4BA6400733231 /* DebugPrintSystem.cpp in Sources */,
 				594A5F2824B4B17900733231 /* Entity.cpp in Sources */,
 				5970727524CE455C0016F78F /* InputSystem.cpp in Sources */,
+				59C0383224D5CEFE00DFFA3E /* SerializationUtils.cpp in Sources */,
 				590F5682242CD12A00BC9DC2 /* FileUtils.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1759,6 +1767,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;

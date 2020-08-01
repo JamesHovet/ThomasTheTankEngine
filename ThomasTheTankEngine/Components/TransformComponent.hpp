@@ -18,8 +18,9 @@
 struct TransformComponent : public Component {
     static constexpr int componentIndex{ 0 };
     
-//    std::vector<entityID> m_children; // TODO: parent child relationship
+//    std::vector<entityID> m_children; // TODO: parent child relationship, but probably not here
     
+    //members:
     glm::vec3 m_position = glm::vec3(0.0f, 0.0f, 0.0f);
     glm::quat m_orientation = glm::quat(1.0f, 0.0f, 0.0f, 0.0f);
     glm::vec3 m_scale = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -59,6 +60,14 @@ struct TransformComponent : public Component {
         ImGui::PopID();
     }
     
+    json::object_t serialize(){
+        json::object_t obj;
+        obj["m_position"] = SerializationUtils::serializeVec3(m_position);
+        obj["m_orientation"] = SerializationUtils::serializeQuat(m_orientation);
+        obj["m_scale"] = SerializationUtils::serializeVec3(m_scale);
+        return obj;
+    }
+
 };
 
 #endif /* TransformComponent_hpp */

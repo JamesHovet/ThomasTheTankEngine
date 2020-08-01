@@ -13,14 +13,19 @@
 #include "typedefs.h"
 #include "libs/imgui/imgui.h"
 #include "ImGuiUtils.hpp"
+#include "SerializationUtils.hpp"
+#include "json.hpp"
 
 #define MAX_COMPONENT_TYPES 64
 
 //#include "Entity.hpp"
 //class Entity;
 
+using json = nlohmann::json;
+
 struct Component {
     virtual void imDisplay(){};
+    virtual json::object_t serialize() = 0;
 };
 
 // a bit of a hack to allow lookup of a component index using <> notation.

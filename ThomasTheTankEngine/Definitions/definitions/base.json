@@ -16,7 +16,11 @@
 				{
 					"name": "m_float",
 					"type": "float"
-				}
+				},
+                {
+                    "name": "m_RGB",
+                    "type": "RGB"
+                }
 			]
 		},
         {

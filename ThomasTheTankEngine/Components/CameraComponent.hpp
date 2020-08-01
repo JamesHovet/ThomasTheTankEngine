@@ -15,6 +15,13 @@ struct CameraComponent : public Component {
         ImGui::InputFloat("m_FOV", &m_FOV);
         ImGui::PopID();
     }
+    
+    json::object_t serialize(){
+        json::object_t obj = json::object();
+        obj["m_FOV"] = m_FOV;
+        obj["m_enabled"] = m_enabled;
+        return obj;
+    }
 };
 
 #endif

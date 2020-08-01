@@ -1,5 +1,5 @@
 // GreyBoxComponent.hpp
-// generated at: 2020-08-01 07:27:48.758037
+// generated at: 2020-08-01 12:07:25.566961
 #ifndef GreyBoxComponent_hpp
 #define GreyBoxComponent_hpp
 
@@ -13,6 +13,12 @@ struct GreyBoxComponent : public Component {
 			ImGui::TreePop();
 		}
 	}
+	json::object_t serialize(){
+		json::object_t obj;
+		obj["m_color"] = SerializationUtils::serializeVec4(m_color);
+		return obj;
+	}
+
 };
 
 #endif

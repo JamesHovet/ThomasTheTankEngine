@@ -17,6 +17,8 @@
 #include <unordered_set>
 #include "object_pool.hpp"
 #include <functional>
+#include <boost/filesystem/path.hpp>
+#include "FileUtils.hpp"
 
 #include "Component.hpp"
 #include "ComponentsEnum.hpp"
@@ -44,6 +46,7 @@
 
 class EntityAdmin {
     friend EditorSystem;
+    friend ConsoleSystem;
 public:
     EntityAdmin();
     ~EntityAdmin();
@@ -60,6 +63,9 @@ public:
     entityID createEntity();
     void destroyEntity(entityID e);
 private:
+    bool serializeByEntity(boost::filesystem::path outAbsolute);
+    bool deserializeByEntity(boost::filesystem::path inAbsolute);
+    
     void initAllSystems();
     void filterEntitiesIntoMutableFamilies();
     void filterEntitiesIntoStaticFamilies();

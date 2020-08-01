@@ -600,6 +600,8 @@
 		59AA59D224D4D8D10082B201 /* componentViews.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = componentViews.cpp; sourceTree = "<group>"; };
 		59B35EDD24CE1E0400605588 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework; sourceTree = DEVELOPER_DIR; };
 		59B35EE024CE1EAC00605588 /* libboost_filesystem.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_filesystem.dylib; path = ../../../../usr/local/Cellar/boost/1.72.0_3/lib/libboost_filesystem.dylib; sourceTree = "<group>"; };
+		59C0382C24D59EA500DFFA3E /* json.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = json.hpp; sourceTree = "<group>"; };
+		59C0382D24D5A78B00DFFA3E /* ThomasTheTankEngineDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ThomasTheTankEngineDebug.entitlements; sourceTree = "<group>"; };
 		59E57C4324CDC1E20076E507 /* filterEntitiesIntoStaticFamiliesInclude.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = filterEntitiesIntoStaticFamiliesInclude.cpp; sourceTree = "<group>"; };
 		59E57C4424CDC1F10076E507 /* populateFamilyStaticVectorsInclude.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = populateFamilyStaticVectorsInclude.cpp; sourceTree = "<group>"; };
 		59F7F2A82430F3C900A673D1 /* Graphics.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Graphics.cpp; sourceTree = "<group>"; };
@@ -757,6 +759,7 @@
 		59484F2924290AEE0068591C /* ThomasTheTankEngine */ = {
 			isa = PBXGroup;
 			children = (
+				59C0382D24D5A78B00DFFA3E /* ThomasTheTankEngineDebug.entitlements */,
 				59484F3324290AEE0068591C /* main.cpp */,
 				59484F5324290F320068591C /* main.h */,
 				594A5F2524B4B13700733231 /* EntityAdmin */,
@@ -805,6 +808,7 @@
 		59484F5524290FEE0068591C /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				59C0382C24D59EA500DFFA3E /* json.hpp */,
 				590F5683242CD3B700BC9DC2 /* stb_image.h */,
 				590F5684242CD3D300BC9DC2 /* stb_image_implementation.cpp */,
 				59A7A95824BD269400DB8CD9 /* pool */,
@@ -1780,7 +1784,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
-				CODE_SIGN_ENTITLEMENTS = ThomasTheTankEngine/ThomasTheTankEngine.entitlements;
+				CODE_SIGN_ENTITLEMENTS = ThomasTheTankEngine/ThomasTheTankEngineDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 7J7X6WVG78;

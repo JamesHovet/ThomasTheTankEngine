@@ -9,12 +9,20 @@
 #include "EntityAdmin.hpp"
 
 #include <stdlib.h>
+#include <fstream>
+#include <ostream>
+#include <istream>
+#include <iostream>
+
+#include <boost/filesystem/operations.hpp>
+#include <boost/filesystem/fstream.hpp>
 
 #include "Component.hpp"
 #include "AllComponents.h"
 #include "allFamilies.h"
 #include "object_pool.hpp"
 #include "ECSUtils.hpp"
+#include "json.hpp"
 
 // Helpers:
 void constructComponentPools(std::array<void *, NUM_COMPONENTS>& pool,
@@ -285,6 +293,32 @@ void EntityAdmin::filterEntitiesIntoStaticFamilies(){
         }
         #include "filterEntitiesIntoStaticFamiliesInclude.cpp"
     }
+}
+
+//TODO: Note that this doesn't work with the app sandbox on... I have to figure out how macos wants me to do file in the way it expects...
+
+using json = nlohmann::json;
+bool EntityAdmin::serializeByEntity(boost::filesystem::path outAbsolute){
+    boost::filesystem::ofstream outfile;
+    outfile.open(outAbsolute, std::ios_base::out);
+    if(not outfile.is_open()){return false;}
+    
+    
+    
+    json out;
+    out["hi"] = "hi";
+    
+    outfile << out.dump(4);
+    
+    
+    outfile.close();
+    return true;
+}
+
+bool EntityAdmin::deserializeByEntity(boost::filesystem::path inAbsolute){
+    
+    
+    return true;
 }
 
 float seconds(uint64_t ms){ return ((float) ms) / 1000.0f;}

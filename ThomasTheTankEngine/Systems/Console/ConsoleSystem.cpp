@@ -25,6 +25,10 @@ void ConsoleSystem::tick(uint64_t dt){
                 printf("reload shaders");
                 ConsoleCommands::cmd_reloadshaders(m_admin);
             }
+            if (strncmp(input.activeLine, "save", 4) == 0){
+                printf("saving:");
+                m_admin.serializeByEntity(boost::filesystem::path("/Users/jameshovet/Development/ThomasTheTankEngine/tmp/out.json"));
+            }
             input.resetTextInputLine();
         }
     }

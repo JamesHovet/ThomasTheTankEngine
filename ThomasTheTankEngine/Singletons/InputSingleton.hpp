@@ -10,7 +10,10 @@
 #define InputSingleton_hpp
 
 #include <SDL2/SDL.h>
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wall"
 #include <gainput/gainput.h>
+#pragma clang diagnostic pop
 
 enum class KEY_INPUT_MODE {
     GAME,

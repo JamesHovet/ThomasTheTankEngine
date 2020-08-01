@@ -29,8 +29,6 @@
 		5938690024CE214400AD33FF /* libboost_filesystem.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 59B35EE024CE1EAC00605588 /* libboost_filesystem.dylib */; };
 		59484F2E24290AEE0068591C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 59484F2D24290AEE0068591C /* Assets.xcassets */; };
 		59484F3424290AEE0068591C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59484F3324290AEE0068591C /* main.cpp */; };
-		59484F4B24290C0D0068591C /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59484F4A24290C0D0068591C /* OpenGL.framework */; };
-		59484F4F24290C410068591C /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59484F4E24290C410068591C /* SDL2.framework */; };
 		59484F65242910030068591C /* imgui_widgets.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59484F5A242910030068591C /* imgui_widgets.cpp */; };
 		59484F66242910030068591C /* imgui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59484F5E242910030068591C /* imgui.cpp */; };
 		59484F67242910030068591C /* imgui_impl_opengl3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59484F60242910030068591C /* imgui_impl_opengl3.cpp */; };
@@ -51,6 +49,12 @@
 		596C9E9924D44438007FEAF4 /* ConsoleCommands.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 596C9E9724D44438007FEAF4 /* ConsoleCommands.cpp */; };
 		5970727524CE455C0016F78F /* InputSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5970727324CE455C0016F78F /* InputSystem.cpp */; };
 		59AA59D324D4D8D10082B201 /* componentViews.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59AA59D224D4D8D10082B201 /* componentViews.cpp */; };
+		59C0382424D5999100DFFA3E /* libboost_filesystem.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 59B35EE024CE1EAC00605588 /* libboost_filesystem.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		59C0382624D5999300DFFA3E /* libgainput.1.0.0.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 592B478024CF178200EB0DC0 /* libgainput.1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		59C0382724D5999400DFFA3E /* libGLEW.2.1.0.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 59484F4C24290C2D0068591C /* libGLEW.2.1.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		59C0382824D5999600DFFA3E /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59484F4A24290C0D0068591C /* OpenGL.framework */; };
+		59C0382A24D5999800DFFA3E /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59484F4E24290C410068591C /* SDL2.framework */; };
+		59C0382B24D5999800DFFA3E /* SDL2.framework in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 59484F4E24290C410068591C /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		59F7F2AA2430F3C900A673D1 /* Graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59F7F2A82430F3C900A673D1 /* Graphics.cpp */; };
 		59F7F2AE2430F9EA00A673D1 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59F7F2AC2430F9EA00A673D1 /* Camera.cpp */; };
 /* End PBXBuildFile section */
@@ -89,6 +93,20 @@
 				59661B47242B96250088525D /* default.frag in CopyFiles */,
 				59661B48242B96250088525D /* shader_globals.glh in CopyFiles */,
 			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		59C0382524D5999100DFFA3E /* Embed Libraries */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				59C0382B24D5999800DFFA3E /* SDL2.framework in Embed Libraries */,
+				59C0382724D5999400DFFA3E /* libGLEW.2.1.0.dylib in Embed Libraries */,
+				59C0382624D5999300DFFA3E /* libgainput.1.0.0.dylib in Embed Libraries */,
+				59C0382424D5999100DFFA3E /* libboost_filesystem.dylib in Embed Libraries */,
+			);
+			name = "Embed Libraries";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -608,10 +626,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				59C0382A24D5999800DFFA3E /* SDL2.framework in Frameworks */,
 				59484F6B242911110068591C /* libGLEW.2.1.0.dylib in Frameworks */,
-				59484F4B24290C0D0068591C /* OpenGL.framework in Frameworks */,
-				59484F4F24290C410068591C /* SDL2.framework in Frameworks */,
 				5938690024CE214400AD33FF /* libboost_filesystem.dylib in Frameworks */,
+				59C0382824D5999600DFFA3E /* OpenGL.framework in Frameworks */,
 				592B478224CF181A00EB0DC0 /* libgainput.1.0.0.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1438,6 +1456,7 @@
 				59484F2524290AEE0068591C /* Resources */,
 				59661B37242962320088525D /* CopyFiles */,
 				590F5679242CCD1400BC9DC2 /* CopyFiles */,
+				59C0382524D5999100DFFA3E /* Embed Libraries */,
 			);
 			buildRules = (
 			);

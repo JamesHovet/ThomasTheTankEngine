@@ -1,0 +1,221 @@
+{
+    "entities": {
+        "1823": {
+            "DebugPrintComponent": {
+                "m_RGB": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "m_enabled": false,
+                "m_float": 0.0,
+                "m_integer": 1
+            },
+            "GreyBoxComponent": {
+                "m_color": {
+                    "w": 1.0,
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "TransformComponent": {
+                "m_orientation": {
+                    "w": 1.0,
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "m_position": {
+                    "x": -0.4000000059604645,
+                    "y": -0.4000000059604645,
+                    "z": -0.4000000059604645
+                },
+                "m_scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            }
+        },
+        "1907": {
+            "DebugPrintComponent": {
+                "m_RGB": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "m_enabled": false,
+                "m_float": 0.0,
+                "m_integer": 1
+            },
+            "GreyBoxComponent": {
+                "m_color": {
+                    "w": 1.0,
+                    "x": 0.20000000298023224,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "TransformComponent": {
+                "m_orientation": {
+                    "w": 1.0,
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "m_position": {
+                    "x": -0.20000000298023224,
+                    "y": -0.20000000298023224,
+                    "z": -0.20000000298023224
+                },
+                "m_scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            }
+        },
+        "1908": {
+            "DebugPrintComponent": {
+                "m_RGB": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "m_enabled": false,
+                "m_float": 0.0,
+                "m_integer": 1
+            },
+            "GreyBoxComponent": {
+                "m_color": {
+                    "w": 1.0,
+                    "x": 0.800000011920929,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "TransformComponent": {
+                "m_orientation": {
+                    "w": 1.0,
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "m_position": {
+                    "x": 0.4000000059604645,
+                    "y": 0.4000000059604645,
+                    "z": 0.4000000059604645
+                },
+                "m_scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            }
+        },
+        "1925": {
+            "CameraComponent": {
+                "m_FOV": 45.0,
+                "m_enabled": true
+            },
+            "DebugNameComponent": {
+                "m_name": "Main Camera"
+            },
+            "TransformComponent": {
+                "m_orientation": {
+                    "w": 1.0,
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "m_position": {
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": -3.0
+                },
+                "m_scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            }
+        },
+        "343": {
+            "DebugPrintComponent": {
+                "m_RGB": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "m_enabled": false,
+                "m_float": 0.0,
+                "m_integer": 1
+            },
+            "GreyBoxComponent": {
+                "m_color": {
+                    "w": 1.0,
+                    "x": 0.4000000059604645,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "TransformComponent": {
+                "m_orientation": {
+                    "w": 1.0,
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "m_position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "m_scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            }
+        },
+        "842": {
+            "DebugPrintComponent": {
+                "m_RGB": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "m_enabled": false,
+                "m_float": 0.0,
+                "m_integer": 1
+            },
+            "GreyBoxComponent": {
+                "m_color": {
+                    "w": 1.0,
+                    "x": 0.6000000238418579,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "TransformComponent": {
+                "m_orientation": {
+                    "w": 1.0,
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "m_position": {
+                    "x": 0.20000000298023224,
+                    "y": 0.20000000298023224,
+                    "z": 0.20000000298023224
+                },
+                "m_scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            }
+        }
+    }
+}

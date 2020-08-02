@@ -64,8 +64,8 @@ public:
     bool createEntity(entityID eID);
     void destroyEntity(entityID e);
 private:
-    bool serializeByEntity(boost::filesystem::path outAbsolute);
-    bool deserializeByEntity(boost::filesystem::path inAbsolute);
+    bool serializeByEntityCompatability(boost::filesystem::path outAbsolute);
+    bool deserializeByEntityCompatability(boost::filesystem::path inAbsolute);
     
     void initAllSystems();
     void filterEntitiesIntoMutableFamilies();
@@ -85,6 +85,13 @@ public:
         m_entities.at(eID)->m_mask.set(componentID);
         
         return *out;
+    }
+    
+    template <typename T>
+    T& addComponent(entityID eID, T toCopy){
+        T& out = addComponent<T>(eID);
+        out = toCopy;
+        return out;
     }
 
     template <typename T>

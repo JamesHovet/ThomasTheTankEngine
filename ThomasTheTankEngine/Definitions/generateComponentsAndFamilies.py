@@ -29,6 +29,13 @@ datatypesToSerializationUtils = {
     "RGBA"        : "SerializationUtils::serializeVec4"
 }
 
+datatypesToDeserializationUtils = {
+    "glm::vec3"   : "SerializationUtils::deserializeVec3",
+    "glm::vec4"   : "SerializationUtils::deserializeVec4",
+    "RGB"         : "SerializationUtils::deserializeVec3",
+    "RGBA"        : "SerializationUtils::deserializeVec4"
+}
+
 def createAndWriteForComponentDict(c, componentID):
     fullname = c['name'] + "Component"
     componentNamesToIDs[fullname] = componentID
@@ -105,6 +112,20 @@ def createAndWriteForComponentDict(c, componentID):
             f.write("\t\tobj[\"{}\"] = {}({});\n".format(m['name'], util, m['name']))
     
     f.write("\t\treturn obj;\n")
+    f.write("\t}\n\n")
+
+    ## deserialization
+    f.write("\tstatic {} deserialize(json::object_t obj)".format(fullname) + "{\n")
+    f.write("\t\t{} out;\n".format(fullname))
+    
+    for m in c['members']:
+        if (not m['type'] in datatypesToDeserializationUtils):
+            f.write("\t\tout.{} = obj[\"{}\"];\n".format(m['name'], m['name']))
+        else:
+            util = datatypesToDeserializationUtils[m['type']]
+            f.write("\t\tout.{} = {}(obj[\"{}\"]);\n".format(m['name'], util, m['name']))
+    
+    f.write("\t\treturn out;\n")
     f.write("\t}\n\n")
     
 

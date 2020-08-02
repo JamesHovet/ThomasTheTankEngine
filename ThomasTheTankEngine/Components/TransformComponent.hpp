@@ -68,6 +68,13 @@ struct TransformComponent : public Component {
         return obj;
     }
 
+    static TransformComponent deserialize(json::object_t obj){
+        TransformComponent out;
+        out.m_position = SerializationUtils::deserializeVec3(obj["m_position"]);
+        out.m_orientation = SerializationUtils::deserializeQuat(obj["m_orientation"]);
+        out.m_scale = SerializationUtils::deserializeVec3(obj["m_scale"]);
+        return out;
+    }
 };
 
 #endif /* TransformComponent_hpp */

@@ -11,9 +11,10 @@ struct CameraComponent : public Component {
     //to add: render surface? ortho vs perspective?
     
     void imDisplay(){
-        ImGui::PushID(this);
+//        ImGui::PushID(this);
         ImGui::InputFloat("m_FOV", &m_FOV);
-        ImGui::PopID();
+        ImGui::Checkbox("m_enabled", &m_enabled);
+//        ImGui::PopID();
     }
     
     json::object_t serialize(){
@@ -21,6 +22,13 @@ struct CameraComponent : public Component {
         obj["m_FOV"] = m_FOV;
         obj["m_enabled"] = m_enabled;
         return obj;
+    }
+    
+    static CameraComponent deserialize(json::object_t obj){
+        CameraComponent out;
+        out.m_FOV = obj["m_FOV"];
+        out.m_enabled = obj["m_enabled"];
+        return out;
     }
 };
 

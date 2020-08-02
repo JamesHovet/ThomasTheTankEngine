@@ -17,6 +17,12 @@ struct DebugNameComponent : public Component {
         obj["m_name"] = m_name;
         return obj;
     }
+    
+    static DebugNameComponent deserialize(json::object_t obj){
+        DebugNameComponent out;
+        out.m_name = obj["m_name"];
+        return out;
+    }
 };
 
 #endif

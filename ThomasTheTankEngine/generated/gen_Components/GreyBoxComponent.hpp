@@ -1,5 +1,5 @@
 // GreyBoxComponent.hpp
-// generated at: 2020-08-01 12:07:25.566961
+// generated at: 2020-08-01 21:21:06.908418
 #ifndef GreyBoxComponent_hpp
 #define GreyBoxComponent_hpp
 
@@ -17,6 +17,12 @@ struct GreyBoxComponent : public Component {
 		json::object_t obj;
 		obj["m_color"] = SerializationUtils::serializeVec4(m_color);
 		return obj;
+	}
+
+	static GreyBoxComponent deserialize(json::object_t obj){
+		GreyBoxComponent out;
+		out.m_color = SerializationUtils::deserializeVec4(obj["m_color"]);
+		return out;
 	}
 
 };

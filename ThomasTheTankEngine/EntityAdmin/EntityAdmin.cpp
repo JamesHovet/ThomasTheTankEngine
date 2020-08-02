@@ -316,7 +316,7 @@ void EntityAdmin::filterEntitiesIntoStaticFamilies(){
 //TODO: Note that this doesn't work with the app sandbox on... I have to figure out how macos wants me to do file in the way it expects...
 
 using json = nlohmann::json;
-bool EntityAdmin::serializeByEntity(boost::filesystem::path outAbsolute){
+bool EntityAdmin::serializeByEntityCompatability(boost::filesystem::path outAbsolute){
     boost::filesystem::ofstream outfile;
     outfile.open(outAbsolute, std::ios_base::out);
     if(not outfile.is_open()){return false;}
@@ -338,12 +338,50 @@ bool EntityAdmin::serializeByEntity(boost::filesystem::path outAbsolute){
     
     outfile << out.dump(4);
     
-    
     outfile.close();
     return true;
 }
 
-bool EntityAdmin::deserializeByEntity(boost::filesystem::path inAbsolute){
+bool EntityAdmin::deserializeByEntityCompatability(boost::filesystem::path inAbsolute){
+    
+    boost::filesystem::ifstream infile;
+    infile.open(inAbsolute, std::ios_base::in);
+    if(not infile.is_open()){return false;}
+    
+    json in;
+    
+    infile >> in;
+    
+    
+    for(json::iterator entityIt = in["entities"].begin(); entityIt != in["entities"].end(); ++entityIt){
+        entityID eID = std::stoi(entityIt.key());
+//        json::object_t components = entityIt.value();
+        
+        createEntity(eID);
+        
+        for(json::iterator componentIt = entityIt.value().begin(); componentIt != entityIt.value().end(); ++componentIt){
+            
+            std::cout << componentIt.key() << " : " << componentIt.value() << std::endl;
+            
+            // TODO: autogenerate these and add the camera
+            
+            if(componentIt.key() == "TransformComponent"){
+                addComponent<TransformComponent>(eID, TransformComponent::deserialize(componentIt.value()));
+            } else if (componentIt.key() == "DebugNameComponent"){
+                addComponent<DebugNameComponent>(eID, DebugNameComponent::deserialize(componentIt.value()));
+            } else if (componentIt.key() == "CameraComponent"){
+                addComponent<CameraComponent>(eID, CameraComponent::deserialize(componentIt.value()));
+            }
+            
+        }
+        
+        
+        
+        
+    }
+    
+    
+    infile.close();
     
     
     return true;

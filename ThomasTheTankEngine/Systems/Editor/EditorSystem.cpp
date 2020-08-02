@@ -89,7 +89,7 @@ void EditorSystem::render(){
             snprintf(nameBuf, 32, "%d", eID);
         }
         
-        ImGui::PushID(&p);
+        ImGui::PushID(p.second);
         
         if(ImGui::TreeNode(nameBuf)){
             for(auto it = m_admin.componentsBegin(eID); it != m_admin.componentsEnd(eID); ++it){

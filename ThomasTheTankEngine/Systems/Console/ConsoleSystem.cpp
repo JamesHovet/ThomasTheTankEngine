@@ -22,12 +22,16 @@ void ConsoleSystem::tick(uint64_t dt){
         if (input.lineCommitted){
             printf("committed line to console: %s\n", input.activeLine);
             if (strncmp(input.activeLine, "reloadshaders", 13) == 0){
-                printf("reload shaders");
+                printf("reload shaders\n");
                 ConsoleCommands::cmd_reloadshaders(m_admin);
             }
             if (strncmp(input.activeLine, "save", 4) == 0){
-                printf("saving:");
-                m_admin.serializeByEntity(boost::filesystem::path("/Users/jameshovet/Development/ThomasTheTankEngine/tmp/out.json"));
+                printf("saving:\n");
+                m_admin.serializeByEntityCompatability(boost::filesystem::path("/Users/jameshovet/Development/ThomasTheTankEngine/tmp/out.json"));
+            }
+            if (strncmp(input.activeLine, "load", 4) == 0){
+                printf("loading:\n");
+                m_admin.deserializeByEntityCompatability(boost::filesystem::path("/Users/jameshovet/Development/ThomasTheTankEngine/tmp/out.json"));
             }
             input.resetTextInputLine();
         }

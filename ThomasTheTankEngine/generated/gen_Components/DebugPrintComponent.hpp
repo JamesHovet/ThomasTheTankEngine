@@ -1,5 +1,5 @@
 // DebugPrintComponent.hpp
-// generated at: 2020-08-01 12:07:25.566749
+// generated at: 2020-08-01 21:21:06.908234
 #ifndef DebugPrintComponent_hpp
 #define DebugPrintComponent_hpp
 
@@ -26,6 +26,15 @@ struct DebugPrintComponent : public Component {
 		obj["m_float"] = m_float;
 		obj["m_RGB"] = SerializationUtils::serializeVec3(m_RGB);
 		return obj;
+	}
+
+	static DebugPrintComponent deserialize(json::object_t obj){
+		DebugPrintComponent out;
+		out.m_enabled = obj["m_enabled"];
+		out.m_integer = obj["m_integer"];
+		out.m_float = obj["m_float"];
+		out.m_RGB = SerializationUtils::deserializeVec3(obj["m_RGB"]);
+		return out;
 	}
 
 };

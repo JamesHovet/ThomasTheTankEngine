@@ -606,6 +606,7 @@
 		59C0382E24D5B97700DFFA3E /* componentStringSerializationMaps.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = componentStringSerializationMaps.hpp; sourceTree = "<group>"; };
 		59C0383024D5CEFE00DFFA3E /* SerializationUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SerializationUtils.cpp; sourceTree = "<group>"; };
 		59C0383124D5CEFE00DFFA3E /* SerializationUtils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SerializationUtils.hpp; sourceTree = "<group>"; };
+		59CA7DC624D6FBBE00982443 /* deserializationCompatability.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = deserializationCompatability.cpp; sourceTree = "<group>"; };
 		59E57C4324CDC1E20076E507 /* filterEntitiesIntoStaticFamiliesInclude.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = filterEntitiesIntoStaticFamiliesInclude.cpp; sourceTree = "<group>"; };
 		59E57C4424CDC1F10076E507 /* populateFamilyStaticVectorsInclude.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = populateFamilyStaticVectorsInclude.cpp; sourceTree = "<group>"; };
 		59F7F2A82430F3C900A673D1 /* Graphics.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Graphics.cpp; sourceTree = "<group>"; };
@@ -657,6 +658,7 @@
 		590A09D124CB33A000D1153A /* gen_cpp */ = {
 			isa = PBXGroup;
 			children = (
+				59CA7DC624D6FBBE00982443 /* deserializationCompatability.cpp */,
 				590A09D224CB33A000D1153A /* filterEntitiesIntoMutableFamiliesInclude.cpp */,
 				59E57C4324CDC1E20076E507 /* filterEntitiesIntoStaticFamiliesInclude.cpp */,
 				59E57C4424CDC1F10076E507 /* populateFamilyStaticVectorsInclude.cpp */,

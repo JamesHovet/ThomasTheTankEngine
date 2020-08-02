@@ -169,6 +169,24 @@ void EntityAdmin::destroyEntity(entityID eID){
     }
     Entity* e = m_entities[eID];
     m_entity_pool.destroy(e);
+    m_entities.erase(m_entities.find(eID));
+}
+
+void EntityAdmin::destroyAllEntities(){
+    m_entities_dirty = true;
+    
+    auto it = m_entities.begin();
+    while(it != m_entities.end()){
+        entityID eID = it->first;
+        for(auto componentPair : m_component_maps.at(eID)){
+            componentID cID = componentPair.first;
+            Component* cPtr = componentPair.second;
+            std::invoke(m_components_destuction_callbacks_array[cID], cPtr);
+        }
+        Entity* e = it->second;
+        m_entity_pool.destroy(e);
+        it = m_entities.erase(it);
+    }
 }
 
 void EntityAdmin::initAllSystems(){
@@ -259,10 +277,7 @@ void EntityAdmin::render(){
 }
 
 void EntityAdmin::teardown(){
-    for(auto it = m_entities.begin(); it != m_entities.end(); ++it){
-        destroyEntity(it->first);
-    }
-    
+    destroyAllEntities();
     m_InputSystem.teardown();
 }
 
@@ -336,12 +351,15 @@ bool EntityAdmin::serializeByEntityCompatability(boost::filesystem::path outAbso
 
     }
     
+    out["version"] = SERIALIZATION_VERSION;
+    
     outfile << out.dump(4);
     
     outfile.close();
     return true;
 }
 
+//TODO: make a not compatability version that is faster and doesn't have to do so many string compares
 bool EntityAdmin::deserializeByEntityCompatability(boost::filesystem::path inAbsolute){
     
     boost::filesystem::ifstream infile;
@@ -361,17 +379,19 @@ bool EntityAdmin::deserializeByEntityCompatability(boost::filesystem::path inAbs
         
         for(json::iterator componentIt = entityIt.value().begin(); componentIt != entityIt.value().end(); ++componentIt){
             
-            std::cout << componentIt.key() << " : " << componentIt.value() << std::endl;
+//            std::cout << componentIt.key() << " : " << componentIt.value() << std::endl;
             
-            // TODO: autogenerate these and add the camera
             
             if(componentIt.key() == "TransformComponent"){
                 addComponent<TransformComponent>(eID, TransformComponent::deserialize(componentIt.value()));
-            } else if (componentIt.key() == "DebugNameComponent"){
+            }
+            else if (componentIt.key() == "DebugNameComponent"){
                 addComponent<DebugNameComponent>(eID, DebugNameComponent::deserialize(componentIt.value()));
-            } else if (componentIt.key() == "CameraComponent"){
+            }
+            else if (componentIt.key() == "CameraComponent"){
                 addComponent<CameraComponent>(eID, CameraComponent::deserialize(componentIt.value()));
             }
+#include "deserializationCompatability.cpp"
             
         }
         

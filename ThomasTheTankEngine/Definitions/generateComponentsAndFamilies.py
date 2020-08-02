@@ -57,6 +57,10 @@ def createAndWriteForComponentDict(c, componentID):
     createComponentPoolsCPP.write("\t\t\tp->free((boost::object_pool<{}>::element_type *) ptr);".format(fullname) + "\n\t\t};\n")
     createComponentPoolsCPP.write("\t\tcleanup_callbacks.push_back([p](void) { delete p; });\n")
     createComponentPoolsCPP.write("\t}\n")
+    
+    #deserialization include
+    deserializationCompatabilityCPP.write("\t\t\telse if (componentIt.key() == \"{}\")".format(fullname) + "{\n")
+    deserializationCompatabilityCPP.write("\t\t\t\taddComponent<{}>(eID, {}::deserialize(componentIt.value()));".format(fullname, fullname) + "\n\t\t\t}\n")
 
     #header file
     f = open(OUTPUT_COMPONENTS + fullname + ".hpp", mode='w')
@@ -315,6 +319,7 @@ if __name__ == "__main__":
     allComponents = open(OUTPUT_COMPONENTS + 'allComponents.h', mode='w')
     componentsEnum = open(OUTPUT_COMPONENTS + 'ComponentsEnum.hpp', mode='w')
     componentStringSerializationMapsCPP = open(OUTPUT_CPP + 'componentStringSerializationMaps.hpp', mode='w')
+    deserializationCompatabilityCPP = open(OUTPUT_CPP + "deserializationCompatability.cpp", mode='w')
     allFamilies = open(OUTPUT_FAMILIES + 'allFamilies.h', mode='w')
     familiesEnum = open(OUTPUT_FAMILIES + 'familiesEnum.hpp', mode='w')
     createComponentPoolsCPP = open(OUTPUT_CPP + 'populateComponentPoolsInclude.cpp', mode='w')

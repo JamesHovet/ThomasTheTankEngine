@@ -41,6 +41,7 @@
 
 
 #define MAX_ENTITIES 2048
+#define SERIALIZATION_VERSION "0.1"
 
 //class System;
 
@@ -63,6 +64,7 @@ public:
     entityID createEntity();
     bool createEntity(entityID eID);
     void destroyEntity(entityID e);
+    void destroyAllEntities();
 private:
     bool serializeByEntityCompatability(boost::filesystem::path outAbsolute);
     bool deserializeByEntityCompatability(boost::filesystem::path inAbsolute);

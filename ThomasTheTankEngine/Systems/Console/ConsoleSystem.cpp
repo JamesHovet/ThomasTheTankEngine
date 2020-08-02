@@ -31,6 +31,7 @@ void ConsoleSystem::tick(uint64_t dt){
             }
             if (strncmp(input.activeLine, "load", 4) == 0){
                 printf("loading:\n");
+                m_admin.destroyAllEntities();
                 m_admin.deserializeByEntityCompatability(boost::filesystem::path("/Users/jameshovet/Development/ThomasTheTankEngine/tmp/out.json"));
             }
             input.resetTextInputLine();

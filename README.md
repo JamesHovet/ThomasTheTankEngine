@@ -12,10 +12,10 @@ Big milestones already reached:
 - autogeneration (via python scripts and #include directives) of components and their memory lifecycles
 - a "Family" or component tuple system for iterating over components
 - Cubes on the screen generated from the component data, as well as a basic debug camera hooked up to a game controller 
+- Serialization and deserialization of all entity data
 
 Big Milestones to come:
 - A relatively featured editor
-- Serialization
 - Mesh importing
 - True multithreading (the groundwork is there but its early days)
 - More advanced rendering

@@ -6,4 +6,5 @@
 
 #include "DebugPrintableFamily.hpp"
 #include "GreyBoxFamily.hpp"
+#include "AABBCollisionFamily.hpp"
 #endif 

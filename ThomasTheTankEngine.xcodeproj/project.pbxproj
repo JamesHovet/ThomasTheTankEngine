@@ -599,6 +599,8 @@
 		59A7A96224BD269400DB8CD9 /* pool_construct.ipp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pool_construct.ipp; sourceTree = "<group>"; };
 		59A7A96324BD269400DB8CD9 /* simple_segregated_storage.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = simple_segregated_storage.hpp; sourceTree = "<group>"; };
 		59AA59D224D4D8D10082B201 /* componentViews.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = componentViews.cpp; sourceTree = "<group>"; };
+		59B2DDA524D77C2B0050E31A /* AABBColliderComponent.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AABBColliderComponent.hpp; sourceTree = "<group>"; };
+		59B2DDA624D77CCB0050E31A /* AABBCollisionFamily.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AABBCollisionFamily.hpp; sourceTree = "<group>"; };
 		59B35EDD24CE1E0400605588 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework; sourceTree = DEVELOPER_DIR; };
 		59B35EE024CE1EAC00605588 /* libboost_filesystem.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_filesystem.dylib; path = ../../../../usr/local/Cellar/boost/1.72.0_3/lib/libboost_filesystem.dylib; sourceTree = "<group>"; };
 		59C0382C24D59EA500DFFA3E /* json.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = json.hpp; sourceTree = "<group>"; };
@@ -650,6 +652,7 @@
 				590A09CC24CB33A000D1153A /* GreyBoxComponent.hpp */,
 				590A09CD24CB33A000D1153A /* DebugPrintComponent.hpp */,
 				590A09CE24CB33A000D1153A /* ComponentsEnum.hpp */,
+				59B2DDA524D77C2B0050E31A /* AABBColliderComponent.hpp */,
 				590A09D024CB33A000D1153A /* allComponents.h */,
 			);
 			path = gen_Components;
@@ -675,6 +678,7 @@
 			isa = PBXGroup;
 			children = (
 				590A09D724CB33A000D1153A /* GreyBoxFamily.hpp */,
+				59B2DDA624D77CCB0050E31A /* AABBCollisionFamily.hpp */,
 				590A09D824CB33A000D1153A /* FamiliesEnum.hpp */,
 				590A09D924CB33A000D1153A /* DebugPrintableFamily.hpp */,
 				590A09DB24CB33A000D1153A /* allFamilies.h */,

@@ -33,6 +33,21 @@
                 }
             ],
             "editorPanel" : "auto"
+        },
+        {
+            "name" : "AABBCollider",
+            "members" : [
+                {
+                    "name" : "m_max",
+                    "type" : "glm::vec3",
+                    "default" : "glm::vec3(0.5)"
+                },
+                {
+                    "name" : "m_min",
+                    "type" : "glm::vec3",
+                    "default" : "glm::vec3(-0.5)"
+                }
+            ]
         }
 	],
 	"families" : [
@@ -45,6 +60,12 @@
         {
             "name" : "GreyBox",
             "components" : ["Transform", "GreyBox"],
+            "update" : true,
+            "render" : true
+        },
+        {
+            "name" : "AABBCollision",
+            "components" : ["Transform", "AABBCollider"],
             "update" : true,
             "render" : true
         }

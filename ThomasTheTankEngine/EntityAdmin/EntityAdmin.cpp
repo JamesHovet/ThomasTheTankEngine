@@ -220,6 +220,7 @@ void EntityAdmin::setup(){
 //            DebugNameComponent& nameC = this->addComponent<DebugNameComponent>(eID);
             TransformComponent& transformC = this->addComponent<TransformComponent>(eID);
             GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(eID);
+            AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(eID);
             DebugPrintComponent& debugPrintC = this->addComponent<DebugPrintComponent>(eID);
             
 //            debugPrintC.m_enabled = false;

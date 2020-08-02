@@ -14,6 +14,7 @@ struct ComponentIDToStringStruct {
         m[2] = "CameraComponent";
 		m[3] = "DebugPrintComponent";
 		m[4] = "GreyBoxComponent";
+		m[5] = "AABBColliderComponent";
        return m;
     }
     static const unordered_map<int, std::string> map;

@@ -1,5 +1,5 @@
 // ComponentsEnum.hpp
-// generated at: 2020-08-02 08:49:49.360893
+// generated at: 2020-08-02 17:58:43.434238
 
 #ifndef ComponentsEnum_hpp
 #define ComponentsEnum_hpp
@@ -10,8 +10,9 @@ enum class Components {
     CameraComponent    = 2,
 	DebugPrintComponent = 3,
 	GreyBoxComponent = 4,
-	ComponentsCount = 5
+	AABBColliderComponent = 5,
+	ComponentsCount = 6
 };
 
-#define NUM_COMPONENTS 5
+#define NUM_COMPONENTS 6
 #endif 

@@ -10,3 +10,9 @@ if(ECSUtils::doesPassFilter(mask, Family<GreyBoxFamily>::mask)){
 	getFamilyMap<GreyBoxFamily>().emplace(std::make_pair(eID, family));
 	}
 }
+{
+if(ECSUtils::doesPassFilter(mask, Family<AABBCollisionFamily>::mask)){
+	AABBCollisionFamily family = AABBCollisionFamily(eID, getComponent<TransformComponent>(eID), getComponent<AABBColliderComponent>(eID));
+	getFamilyMap<AABBCollisionFamily>().emplace(std::make_pair(eID, family));
+	}
+}

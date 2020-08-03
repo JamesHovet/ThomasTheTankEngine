@@ -45,3 +45,17 @@ json::object_t SerializationUtils::serializeQuat(glm::quat q){
 glm::quat SerializationUtils::deserializeQuat(json::object_t q){
     return glm::quat(q["w"], q["x"], q["y"], q["z"]);
 }
+
+json::object_t SerializationUtils::serializeAABB(AABB box){
+    json::object_t obj = json::object();
+    obj["min"] = serializeVec3(box.min);
+    obj["max"] = serializeVec3(box.max);
+    return obj;
+}
+
+AABB SerializationUtils::deserializeAABB(json::object_t box){
+    AABB out;
+    out.min = deserializeVec3(box["min"]);
+    out.max = deserializeVec3(box["max"]);
+    return out;
+}

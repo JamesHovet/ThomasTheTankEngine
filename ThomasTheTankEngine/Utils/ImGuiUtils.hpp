@@ -11,6 +11,8 @@
 
 #include "libs/imgui/imgui.h"
 
+#include "typedefs.h"
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -22,6 +24,7 @@ namespace ImGui {
 //    void NodeTreeViewer(const char * label, Node *root);
     void InputRGBA(const char * label, glm::vec4 *v4);
     void InputRGB(const char * label, glm::vec3 *v3);
+    void InputAABB(const char * label, AABB *box);
 }
 
 #endif /* ImGuiUtils_hpp */

@@ -34,6 +34,11 @@ void ImGui::InputRGB(const char *label, glm::vec3 *v3){
     ImGui::ColorEdit3(label, &v3->r);
 }
 
+void ImGui::InputAABB(const char *label, AABB *box){
+    ImGui::InputVec3("min", &box->min);
+    ImGui::InputVec3("max", &box->max);
+}
+
 //
 //void NodeTreeViewerHelper(Node *root){
 //    PushID(root);

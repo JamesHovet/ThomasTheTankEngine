@@ -19,21 +19,24 @@ datatypesToImGuiControls = {
     "bool"       : "ImGui::Checkbox",
     "glm::vec3"  : "ImGui::InputVec3",
     "RGBA"       : "ImGui::InputRGBA",
-    "RGB"        : "ImGui::InputRGB"
+    "RGB"        : "ImGui::InputRGB",
+    "AABB"       : "ImGui::InputAABB"
 }
 
 datatypesToSerializationUtils = {
     "glm::vec3"   : "SerializationUtils::serializeVec3",
     "glm::vec4"   : "SerializationUtils::serializeVec4",
     "RGB"         : "SerializationUtils::serializeVec3",
-    "RGBA"        : "SerializationUtils::serializeVec4"
+    "RGBA"        : "SerializationUtils::serializeVec4",
+    "AABB"        : "SerializationUtils::serializeAABB"
 }
 
 datatypesToDeserializationUtils = {
     "glm::vec3"   : "SerializationUtils::deserializeVec3",
     "glm::vec4"   : "SerializationUtils::deserializeVec4",
     "RGB"         : "SerializationUtils::deserializeVec3",
-    "RGBA"        : "SerializationUtils::deserializeVec4"
+    "RGBA"        : "SerializationUtils::deserializeVec4",
+    "AABB"        : "SerializationUtils::deserializeAABB"
 }
 
 def createAndWriteForComponentDict(c, componentID):

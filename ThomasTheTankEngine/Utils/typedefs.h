@@ -18,5 +18,13 @@ typedef unsigned familyID;
 typedef std::bitset<64> componentMask;
 typedef glm::vec4 RGBA;
 typedef glm::vec3 RGB;
+typedef struct AABB {
+    glm::vec3 min;
+    glm::vec3 max;
+} AABB;
+typedef struct ray {
+    glm::vec3 orig;
+    glm::vec3 dir;
+} ray;
 
 #endif /* typedefs_h */

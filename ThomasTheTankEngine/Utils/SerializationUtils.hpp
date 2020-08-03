@@ -10,6 +10,7 @@
 #define SerializationUtils_hpp
 
 #include <json.hpp>
+#include "typedefs.h"
 #include <glm/glm.hpp>
 #include "glm/gtc/quaternion.hpp"
 #include "glm/gtx/quaternion.hpp"
@@ -25,6 +26,9 @@ glm::vec4 deserializeVec4(json::object_t v4);
 
 json::object_t serializeQuat(glm::quat q);
 glm::quat deserializeQuat(json::object_t q);
+
+json::object_t serializeAABB(AABB box);
+AABB deserializeAABB(json::object_t box);
 }
 
 #endif /* SerializationUtils_hpp */

@@ -49,6 +49,7 @@
 		596C9E9924D44438007FEAF4 /* ConsoleCommands.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 596C9E9724D44438007FEAF4 /* ConsoleCommands.cpp */; };
 		5970727524CE455C0016F78F /* InputSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5970727324CE455C0016F78F /* InputSystem.cpp */; };
 		59AA59D324D4D8D10082B201 /* componentViews.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59AA59D224D4D8D10082B201 /* componentViews.cpp */; };
+		59B2DDA924D77EE00050E31A /* IntersectionUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59B2DDA724D77EE00050E31A /* IntersectionUtils.cpp */; };
 		59C0382424D5999100DFFA3E /* libboost_filesystem.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 59B35EE024CE1EAC00605588 /* libboost_filesystem.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		59C0382624D5999300DFFA3E /* libgainput.1.0.0.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 592B478024CF178200EB0DC0 /* libgainput.1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		59C0382724D5999400DFFA3E /* libGLEW.2.1.0.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 59484F4C24290C2D0068591C /* libGLEW.2.1.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -601,6 +602,8 @@
 		59AA59D224D4D8D10082B201 /* componentViews.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = componentViews.cpp; sourceTree = "<group>"; };
 		59B2DDA524D77C2B0050E31A /* AABBColliderComponent.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AABBColliderComponent.hpp; sourceTree = "<group>"; };
 		59B2DDA624D77CCB0050E31A /* AABBCollisionFamily.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AABBCollisionFamily.hpp; sourceTree = "<group>"; };
+		59B2DDA724D77EE00050E31A /* IntersectionUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = IntersectionUtils.cpp; sourceTree = "<group>"; };
+		59B2DDA824D77EE00050E31A /* IntersectionUtils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = IntersectionUtils.hpp; sourceTree = "<group>"; };
 		59B35EDD24CE1E0400605588 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework; sourceTree = DEVELOPER_DIR; };
 		59B35EE024CE1EAC00605588 /* libboost_filesystem.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_filesystem.dylib; path = ../../../../usr/local/Cellar/boost/1.72.0_3/lib/libboost_filesystem.dylib; sourceTree = "<group>"; };
 		59C0382C24D59EA500DFFA3E /* json.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = json.hpp; sourceTree = "<group>"; };
@@ -1327,6 +1330,8 @@
 				591D1D0A243106A400AF9DC5 /* ImGuiUtils.hpp */,
 				59C0383024D5CEFE00DFFA3E /* SerializationUtils.cpp */,
 				59C0383124D5CEFE00DFFA3E /* SerializationUtils.hpp */,
+				59B2DDA724D77EE00050E31A /* IntersectionUtils.cpp */,
+				59B2DDA824D77EE00050E31A /* IntersectionUtils.hpp */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1554,6 +1559,7 @@
 			files = (
 				59484F3424290AEE0068591C /* main.cpp in Sources */,
 				590A09DE24CB3B5E00D1153A /* EditorSystem.cpp in Sources */,
+				59B2DDA924D77EE00050E31A /* IntersectionUtils.cpp in Sources */,
 				59668C6224CF9E31006744B7 /* ConsoleSystem.cpp in Sources */,
 				59374D5424D367E100A75B7E /* ShaderCatalogSingleton.cpp in Sources */,
 				5937528824C25FBC00A0EC78 /* ECSUtils.cpp in Sources */,

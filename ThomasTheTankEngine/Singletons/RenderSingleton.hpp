@@ -27,6 +27,10 @@ struct RenderSingleton {
     glm::mat4 view;
     glm::mat4 projection;
     
+    glm::mat4 screenToWorld() const {
+        return glm::inverse(view * projection);
+    }
+    
     CameraComponent* currentCameraC;
     TransformComponent* currentCameraTransformC;
     

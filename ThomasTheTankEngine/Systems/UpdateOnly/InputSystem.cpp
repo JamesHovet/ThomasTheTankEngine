@@ -123,6 +123,22 @@ void InputSystem::tick(uint64_t dt){
             }
         }
         
+        //mouse input
+        if(e.type == SDL_MOUSEBUTTONUP){
+            if(e.button.button == SDL_BUTTON_LEFT){
+                input.hasPendingClick = true;
+                input.clickWindowSpace = glm::vec2(e.button.x, e.button.y);
+                float fx      = (float) e.button.x;
+                float fy      = (float) e.button.y;
+                float fwidth  = (float) m_admin.m_RenderSingleton.SCREEN_WIDTH;
+                float fheight = (float) m_admin.m_RenderSingleton.SCREEN_HEIGHT;
+                input.clickViewportSpace = glm::vec2((fx * 2.0f / fwidth) - 1.0f,
+                                                     1.0f - (fy * 2.0f / fheight));
+//                printf("window space: %f, %f\n", input.clickWindowSpace.x, input.clickWindowSpace.y);
+//                printf("viewport space: %f, %f\n", input.clickViewportSpace.x, input.clickViewportSpace.y);
+            }
+        }
+        
         // window resizing
         if(e.type == SDL_WINDOWEVENT){
             if (e.window.event == SDL_WINDOWEVENT_RESIZED){

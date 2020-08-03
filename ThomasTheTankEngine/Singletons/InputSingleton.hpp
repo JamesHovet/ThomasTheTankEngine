@@ -58,6 +58,14 @@ struct InputSingleton {
         activeLine[0] = '\0';
     }
     
+    bool hasPendingClick = false;
+    glm::vec2 clickWindowSpace;
+    glm::vec2 clickViewportSpace;
+    
+    void resetClick(){
+        hasPendingClick = false;
+    }
+    
     bool A      = false;
     bool B      = false;
     bool X      = false;

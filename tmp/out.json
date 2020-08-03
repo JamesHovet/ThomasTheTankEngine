@@ -1,214 +1,6 @@
 {
     "entities": {
-        "1568": {
-            "AABBColliderComponent": {
-                "m_AABB": {
-                    "max": {
-                        "x": 0.5,
-                        "y": 0.5,
-                        "z": 0.5
-                    },
-                    "min": {
-                        "x": -0.5,
-                        "y": -0.5,
-                        "z": -0.5
-                    }
-                }
-            },
-            "DebugPrintComponent": {
-                "m_RGB": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "m_enabled": false,
-                "m_float": 0.0,
-                "m_integer": 1
-            },
-            "GreyBoxComponent": {
-                "m_color": {
-                    "w": 1.0,
-                    "x": 0.4000000059604645,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "TransformComponent": {
-                "m_orientation": {
-                    "w": 1.0,
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "m_position": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "m_scale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                }
-            }
-        },
-        "381": {
-            "AABBColliderComponent": {
-                "m_AABB": {
-                    "max": {
-                        "x": 0.5,
-                        "y": 0.5,
-                        "z": 0.5
-                    },
-                    "min": {
-                        "x": -0.5,
-                        "y": -0.5,
-                        "z": -0.5
-                    }
-                }
-            },
-            "DebugPrintComponent": {
-                "m_RGB": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "m_enabled": false,
-                "m_float": 0.0,
-                "m_integer": 1
-            },
-            "GreyBoxComponent": {
-                "m_color": {
-                    "w": 1.0,
-                    "x": 0.052941180765628815,
-                    "y": 0.20000000298023224,
-                    "z": 0.0
-                }
-            },
-            "TransformComponent": {
-                "m_orientation": {
-                    "w": 1.0,
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "m_position": {
-                    "x": 1.0,
-                    "y": -0.20000000298023224,
-                    "z": -0.20000000298023224
-                },
-                "m_scale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                }
-            }
-        },
-        "587": {
-            "AABBColliderComponent": {
-                "m_AABB": {
-                    "max": {
-                        "x": 0.5,
-                        "y": 0.5,
-                        "z": 0.5
-                    },
-                    "min": {
-                        "x": -0.5,
-                        "y": -0.5,
-                        "z": -0.5
-                    }
-                }
-            },
-            "DebugPrintComponent": {
-                "m_RGB": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "m_enabled": false,
-                "m_float": 0.0,
-                "m_integer": 1
-            },
-            "GreyBoxComponent": {
-                "m_color": {
-                    "w": 1.0,
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "TransformComponent": {
-                "m_orientation": {
-                    "w": 1.0,
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "m_position": {
-                    "x": -0.4000000059604645,
-                    "y": -0.4000000059604645,
-                    "z": -0.4000000059604645
-                },
-                "m_scale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                }
-            }
-        },
-        "754": {
-            "AABBColliderComponent": {
-                "m_AABB": {
-                    "max": {
-                        "x": 0.5,
-                        "y": 0.5,
-                        "z": 0.5
-                    },
-                    "min": {
-                        "x": -0.5,
-                        "y": -0.5,
-                        "z": -0.5
-                    }
-                }
-            },
-            "DebugPrintComponent": {
-                "m_RGB": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "m_enabled": false,
-                "m_float": 0.0,
-                "m_integer": 1
-            },
-            "GreyBoxComponent": {
-                "m_color": {
-                    "w": 1.0,
-                    "x": 0.800000011920929,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "TransformComponent": {
-                "m_orientation": {
-                    "w": 1.0,
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "m_position": {
-                    "x": 0.4000000059604645,
-                    "y": 0.4000000059604645,
-                    "z": 0.4000000059604645
-                },
-                "m_scale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                }
-            }
-        },
-        "908": {
+        "1101": {
             "CameraComponent": {
                 "m_FOV": 45.0,
                 "m_enabled": true
@@ -235,7 +27,7 @@
                 }
             }
         },
-        "957": {
+        "132": {
             "AABBColliderComponent": {
                 "m_AABB": {
                     "max": {
@@ -263,9 +55,9 @@
             "GreyBoxComponent": {
                 "m_color": {
                     "w": 1.0,
-                    "x": 0.08823509514331818,
+                    "x": 0.0,
                     "y": 0.0,
-                    "z": 0.6000000238418579
+                    "z": 0.0
                 }
             },
             "TransformComponent": {
@@ -276,9 +68,237 @@
                     "z": 0.0
                 },
                 "m_position": {
-                    "x": 0.4000000059604645,
-                    "y": 2.0,
-                    "z": 0.20000000298023224
+                    "x": -2.0,
+                    "y": -0.3333333432674408,
+                    "z": -0.3333333432674408
+                },
+                "m_scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            }
+        },
+        "1478": {
+            "DebugNameComponent": {
+                "m_name": "myName"
+            },
+            "GreyBoxComponent": {
+                "m_color": {
+                    "w": 1.0,
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 1.0
+                }
+            },
+            "TransformComponent": {
+                "m_orientation": {
+                    "w": 1.0,
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "m_position": {
+                    "x": 0.15732987225055695,
+                    "y": 0.30219796299934387,
+                    "z": -7.259824752807617
+                },
+                "m_scale": {
+                    "x": 0.10000000149011612,
+                    "y": 0.10000000149011612,
+                    "z": 0.10000000149011612
+                }
+            }
+        },
+        "1596": {
+            "DebugNameComponent": {
+                "m_name": "myName"
+            },
+            "GreyBoxComponent": {
+                "m_color": {
+                    "w": 1.0,
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 1.0
+                }
+            },
+            "TransformComponent": {
+                "m_orientation": {
+                    "w": 1.0,
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "m_position": {
+                    "x": 0.6293194890022278,
+                    "y": 1.2087918519973755,
+                    "z": -4.439308166503906
+                },
+                "m_scale": {
+                    "x": 0.10000000149011612,
+                    "y": 0.10000000149011612,
+                    "z": 0.10000000149011612
+                }
+            }
+        },
+        "1953": {
+            "DebugNameComponent": {
+                "m_name": "myName"
+            },
+            "GreyBoxComponent": {
+                "m_color": {
+                    "w": 1.0,
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 1.0
+                }
+            },
+            "TransformComponent": {
+                "m_orientation": {
+                    "w": 1.0,
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "m_position": {
+                    "x": 0.3146597445011139,
+                    "y": 0.6043959259986877,
+                    "z": -6.319652557373047
+                },
+                "m_scale": {
+                    "x": 0.10000000149011612,
+                    "y": 0.10000000149011612,
+                    "z": 0.10000000149011612
+                }
+            }
+        },
+        "642": {
+            "DebugNameComponent": {
+                "m_name": "myName"
+            },
+            "GreyBoxComponent": {
+                "m_color": {
+                    "w": 1.0,
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 1.0
+                }
+            },
+            "TransformComponent": {
+                "m_orientation": {
+                    "w": 1.0,
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "m_position": {
+                    "x": 0.47198963165283203,
+                    "y": 0.906593918800354,
+                    "z": -5.379480361938477
+                },
+                "m_scale": {
+                    "x": 0.10000000149011612,
+                    "y": 0.10000000149011612,
+                    "z": 0.10000000149011612
+                }
+            }
+        },
+        "965": {
+            "AABBColliderComponent": {
+                "m_AABB": {
+                    "max": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "z": 0.5
+                    },
+                    "min": {
+                        "x": -0.5,
+                        "y": -0.5,
+                        "z": -0.5
+                    }
+                }
+            },
+            "DebugPrintComponent": {
+                "m_RGB": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "m_enabled": false,
+                "m_float": 0.0,
+                "m_integer": 1
+            },
+            "GreyBoxComponent": {
+                "m_color": {
+                    "w": 1.0,
+                    "x": 0.3333333432674408,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "TransformComponent": {
+                "m_orientation": {
+                    "w": 1.0,
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "m_position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "m_scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            }
+        },
+        "999": {
+            "AABBColliderComponent": {
+                "m_AABB": {
+                    "max": {
+                        "x": 0.5,
+                        "y": 0.5,
+                        "z": 0.5
+                    },
+                    "min": {
+                        "x": -0.5,
+                        "y": -0.5,
+                        "z": -0.5
+                    }
+                }
+            },
+            "DebugPrintComponent": {
+                "m_RGB": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "m_enabled": false,
+                "m_float": 0.0,
+                "m_integer": 1
+            },
+            "GreyBoxComponent": {
+                "m_color": {
+                    "w": 1.0,
+                    "x": 0.0,
+                    "y": 1.0,
+                    "z": 0.0
+                }
+            },
+            "TransformComponent": {
+                "m_orientation": {
+                    "w": 1.0,
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "m_position": {
+                    "x": 2.0,
+                    "y": 0.3333333432674408,
+                    "z": 0.3333333432674408
                 },
                 "m_scale": {
                     "x": 1.0,

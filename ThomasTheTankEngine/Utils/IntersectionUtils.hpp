@@ -13,10 +13,15 @@
 
 namespace Intersection {
 
-bool RayAABB(ray r, AABB box, float * d, glm::vec3* hit);
-bool RayAABB(ray r, AABB box, glm::vec3* hit);
-bool RayAABB(ray r, AABB box, float * d);
-bool RayAABB(ray r, AABB box);
+bool RayAABBAbsolute(ray r, AABB box, float * d, glm::vec3* hit);
+bool RayAABBAbsolute(ray r, AABB box, glm::vec3* hit);
+bool RayAABBAbsolute(ray r, AABB box, float * d);
+bool RayAABBAbsolute(ray r, AABB box);
+
+bool RayAABB(ray r, AABB box, glm::mat4 model, float * d, glm::vec3* hit);
+bool RayAABB(ray r, AABB box, glm::mat4 model, glm::vec3* hit);
+bool RayAABB(ray r, AABB box, glm::mat4 model, float * d);
+bool RayAABB(ray r, AABB box, glm::mat4 model);
 
 }
 

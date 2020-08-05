@@ -102,31 +102,26 @@ void EditorSystem::tick(uint64_t dt){
             for(std::pair<entityID, AABBCollisionFamily> p : m_admin.getFamilyMap<AABBCollisionFamily>()){
                 AABBCollisionFamily f = p.second;
                 AABB box = f.m_AABBColliderComponent.m_AABB;
-                glm::vec3 pos = f.m_TransformComponent.m_position;
+//                glm::vec3 pos = f.m_TransformComponent.m_position;
                 
 //                glm::mat4 model = glm::mat4(1.0f);
                 glm::mat4 model = f.m_TransformComponent.getLocalModelMatrix();
                 
-                auto min4 = model * glm::vec4(box.min.x, box.min.y, box.min.z, 1.0f);
-                auto max4 = model * glm::vec4(box.max.x, box.max.y, box.max.z, 1.0f);
-                
-//                box = {
-//                    box.min + pos,
-//                    box.max + pos
-//                };
-                
-                box = {
-                    glm::vec3(min4.x, min4.y, min4.z),
-                    glm::vec3(max4.x, max4.y, max4.z)
-                };
-                
                 {
+                    auto min4 = model * glm::vec4(box.min.x, box.min.y, box.min.z, 1.0f);
+                    auto max4 = model * glm::vec4(box.max.x, box.max.y, box.max.z, 1.0f);
+                    
+                    AABB targetBox = {
+                        glm::vec3(min4.x, min4.y, min4.z),
+                        glm::vec3(max4.x, max4.y, max4.z)
+                    };
+                    
                     entityID minMarker = m_admin.createEntity();
                     entityID maxMarker = m_admin.createEntity();
                     TransformComponent& minTrans = m_admin.addComponent<TransformComponent>(minMarker);
                     TransformComponent& maxTrans = m_admin.addComponent<TransformComponent>(maxMarker);
-                    minTrans.m_position = box.min;
-                    maxTrans.m_position = box.max;
+                    minTrans.m_position = targetBox.min;
+                    maxTrans.m_position = targetBox.max;
                     minTrans.m_scale = glm::vec3(0.2f);
                     maxTrans.m_scale = glm::vec3(0.2f);
                     GreyBoxComponent& minBox = m_admin.addComponent<GreyBoxComponent>(minMarker);
@@ -137,7 +132,7 @@ void EditorSystem::tick(uint64_t dt){
                 
                 
                 float d;
-                bool didIntersect = Intersection::RayAABB(r, box, &d);
+                bool didIntersect = Intersection::RayAABB(r, box, model, &d);
                 if(didIntersect){
                     if(d < closestD){
                         closest = p.first;

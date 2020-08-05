@@ -9,7 +9,7 @@
 #include "IntersectionUtils.hpp"
 
 // Adapted from Tavian Barnes at https://tavianator.com/2011/ray_box.html
-bool Intersection::RayAABB(ray r, AABB box, float * d, glm::vec3* hit){
+bool Intersection::RayAABBAbsolute(ray r, AABB box, float * d, glm::vec3* hit){
 
     float tx1 = (box.min.x - r.orig.x) / r.dir.x;
     float tx2 = (box.max.x - r.orig.x) / r.dir.x;
@@ -36,18 +36,48 @@ bool Intersection::RayAABB(ray r, AABB box, float * d, glm::vec3* hit){
     return tmax >= fmax(0.0, tmin);
 }
 
-bool Intersection::RayAABB(ray r, AABB box, glm::vec3 *hit){
-    float * dummyf;
-    return RayAABB(r, box, dummyf, hit);
+bool Intersection::RayAABBAbsolute(ray r, AABB box, glm::vec3 *hit){
+    float dummyf;
+    return RayAABBAbsolute(r, box, &dummyf, hit);
 }
 
-bool Intersection::RayAABB(ray r, AABB box, float * d){
+bool Intersection::RayAABBAbsolute(ray r, AABB box, float * d){
     glm::vec3 dummyv3;
-    return RayAABB(r, box, d, &dummyv3);
+    return RayAABBAbsolute(r, box, d, &dummyv3);
 }
 
-bool Intersection::RayAABB(ray r, AABB box){
+bool Intersection::RayAABBAbsolute(ray r, AABB box){
     glm::vec3 dummyv3;
     float dummyf;
-    return RayAABB(r, box, &dummyf, &dummyv3);
+    return RayAABBAbsolute(r, box, &dummyf, &dummyv3);
 }
+
+bool Intersection::RayAABB(ray r, AABB box, glm::mat4 model, float *d, glm::vec3 *hit){
+    glm::vec4 min4 = model * glm::vec4(box.min.x, box.min.y, box.min.z, 1.0f);
+    glm::vec4 max4 = model * glm::vec4(box.max.x, box.max.y, box.max.z, 1.0f);
+    
+    AABB transformedBox = {
+        glm::vec3(min4.x, min4.y, min4.z),
+        glm::vec3(max4.x, max4.y, max4.z)
+    };
+    
+    return RayAABBAbsolute(r, transformedBox, d, hit);
+}
+
+bool Intersection::RayAABB(ray r, AABB box, glm::mat4 model, glm::vec3 *hit){
+    float dummyf;
+    return RayAABB(r, box, model, &dummyf, hit);
+}
+
+bool Intersection::RayAABB(ray r, AABB box, glm::mat4 model, float *d){
+    glm::vec3 dummyv3;
+    return RayAABB(r, box, model, d, &dummyv3);
+}
+
+bool Intersection::RayAABB(ray r, AABB box, glm::mat4 model){
+    glm::vec3 dummyv3;
+    float dummyf;
+    return RayAABB(r, box, model, &dummyf, &dummyv3);
+}
+
+

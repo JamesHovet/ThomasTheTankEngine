@@ -107,33 +107,33 @@ void EditorSystem::tick(uint64_t dt){
 //                glm::mat4 model = glm::mat4(1.0f);
                 glm::mat4 model = f.m_TransformComponent.getLocalModelMatrix();
                 
-                {
-                    
-                    glm::vec4 positions[8] = {
-                        model * glm::vec4(box.min.x, box.min.y, box.min.z, 1.0f),
-                        model * glm::vec4(box.min.x, box.min.y, box.max.z, 1.0f),
-                        model * glm::vec4(box.min.x, box.max.y, box.min.z, 1.0f),
-                        model * glm::vec4(box.min.x, box.max.y, box.max.z, 1.0f),
-                        model * glm::vec4(box.max.x, box.min.y, box.min.z, 1.0f),
-                        model * glm::vec4(box.max.x, box.min.y, box.max.z, 1.0f),
-                        model * glm::vec4(box.max.x, box.max.y, box.min.z, 1.0f),
-                        model * glm::vec4(box.max.x, box.max.y, box.max.z, 1.0f),
-                    };
-                    
-                    for(auto p : positions){
-                        entityID e = m_admin.createEntity();
-                        TransformComponent& trans = m_admin.addComponent<TransformComponent>(e);
-                        trans.m_position = p;
-                        trans.m_scale = glm::vec3(0.2f);
-                        GreyBoxComponent& box = m_admin.addComponent<GreyBoxComponent>(e);
-                        box.m_color = RGBA(1.0F, 0.0f, 1.0f, 1.0f);
-                        
-                    }
-                }
-                
+//                {
+//
+//                    glm::vec4 positions[8] = {
+//                        model * glm::vec4(box.min.x, box.min.y, box.min.z, 1.0f),
+//                        model * glm::vec4(box.min.x, box.min.y, box.max.z, 1.0f),
+//                        model * glm::vec4(box.min.x, box.max.y, box.min.z, 1.0f),
+//                        model * glm::vec4(box.min.x, box.max.y, box.max.z, 1.0f),
+//                        model * glm::vec4(box.max.x, box.min.y, box.min.z, 1.0f),
+//                        model * glm::vec4(box.max.x, box.min.y, box.max.z, 1.0f),
+//                        model * glm::vec4(box.max.x, box.max.y, box.min.z, 1.0f),
+//                        model * glm::vec4(box.max.x, box.max.y, box.max.z, 1.0f),
+//                    };
+//
+//                    for(auto p : positions){
+//                        entityID e = m_admin.createEntity();
+//                        TransformComponent& trans = m_admin.addComponent<TransformComponent>(e);
+//                        trans.m_position = p;
+//                        trans.m_scale = glm::vec3(0.2f);
+//                        GreyBoxComponent& box = m_admin.addComponent<GreyBoxComponent>(e);
+//                        box.m_color = RGBA(1.0F, 0.0f, 1.0f, 1.0f);
+//
+//                    }
+//                }
+//
                 
                 float d;
-                bool didIntersect = Intersection::RayAABB(r, box, model, &d);
+                bool didIntersect = Intersection::RayOBB(r, box, model, &d);
                 if(didIntersect){
                     if(d < closestD){
                         closest = p.first;

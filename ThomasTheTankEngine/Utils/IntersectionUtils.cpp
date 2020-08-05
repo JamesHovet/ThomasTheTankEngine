@@ -80,4 +80,207 @@ bool Intersection::RayAABB(ray r, AABB box, glm::mat4 model){
     return RayAABB(r, box, model, &dummyf, &dummyv3);
 }
 
+bool Intersection::RayOBB(ray r, AABB box, glm::mat4 model, float *d, glm::vec3 *hit){
+    float tMin = 0.0f;
+    float tMax = INFINITY;
+    
+    glm::vec3 OBBposition_worldspace(model[3].x, model[3].y, model[3].z);
+
+    glm::vec3 delta = OBBposition_worldspace - r.orig;
+
+    {
+        glm::vec3 xaxis = glm::normalize(glm::vec3(model[0].x, model[0].y, model[0].z));
+        float e = glm::dot(xaxis, delta);
+        float f = glm::dot(r.dir, xaxis);
+
+
+        float t1 = (e+(box.min.x * model[0].x))/f;
+        float t2 = (e+(box.max.x* model[0].x))/f;
+
+        if (t1>t2){
+            float w=t1;t1=t2;t2=w;
+        }
+//
+        if ( t2 < tMax )
+            tMax = t2;
+        if ( t1 > tMin )
+            tMin = t1;
+
+        if (tMax < tMin )
+            return false;
+
+
+    }
+
+
+    {
+        glm::vec3 yaxis = glm::normalize(glm::vec3(model[1].x, model[1].y, model[1].z));
+        float e = glm::dot(yaxis, delta);
+        float f = glm::dot(r.dir, yaxis);
+
+        float t1 = (e+(box.min.y * model[1].y))/f;
+        float t2 = (e+(box.max.y* model[1].y))/f;
+
+        if (t1>t2){
+            float w=t1;t1=t2;t2=w;
+        }
+//
+        if ( t2 < tMax )
+            tMax = t2;
+        if ( t1 > tMin )
+            tMin = t1;
+
+        if (tMax < tMin )
+            return false;
+       
+    }
+
+
+    {
+        
+        glm::vec3 zaxis = glm::normalize(glm::vec3(model[2].x, model[2].y, model[2].z));
+        float e = glm::dot(zaxis, delta);
+        float f = glm::dot(r.dir, zaxis);
+
+
+        float t1 = (e+(box.min.z * model[2].z))/f;
+        float t2 = (e+(box.max.z * model[2].z))/f;
+
+        if (t1>t2){
+            float w=t1;t1=t2;t2=w;
+        }
+//
+        if ( t2 < tMax )
+            tMax = t2;
+        if ( t1 > tMin )
+            tMin = t1;
+
+        if (tMax < tMin )
+            return false;
+
+        
+    }
+
+    *d = tMin;
+    *hit = r.orig + (r.dir * tMin);
+    return true;
+}
+
+bool Intersection::RayOBB(ray r, AABB box, glm::mat4 model, glm::vec3 *hit){
+    float dummyf;
+    return RayOBB(r, box, model, &dummyf, hit);
+}
+
+bool Intersection::RayOBB(ray r, AABB box, glm::mat4 model, float *d){
+    glm::vec3 dummyv3;
+    return RayOBB(r, box, model, d, &dummyv3);
+}
+
+bool Intersection::RayOBB(ray r, AABB box, glm::mat4 model){
+    glm::vec3 dummyv3;
+    float dummyf;
+    return RayOBB(r, box, model, &dummyf, &dummyv3);
+}
+
+/*
+ bool Intersection::RayOBB(ray r, AABB box, glm::mat4 model, float *d, glm::vec3 *hit){
+     float tMin = 0.0f;
+     float tMax = 100000.0f;
+
+     glm::vec4 min4 = model * glm::vec4(box.min.x, box.min.y, box.min.z, 1.0f);
+     glm::vec4 max4 = model * glm::vec4(box.max.x, box.max.y, box.max.z, 1.0f);
+     
+     box = {
+         glm::vec3(min4.x, min4.y, min4.z),
+         glm::vec3(max4.x, max4.y, max4.z)
+     };
+     
+     glm::vec3 OBBposition_worldspace(model[3].x, model[3].y, model[3].z);
+
+     glm::vec3 delta = OBBposition_worldspace - r.orig;
+
+     {
+         glm::vec3 xaxis(model[0].x, model[0].y, model[0].z);
+         float e = glm::dot(xaxis, delta);
+         float f = glm::dot(r.dir, xaxis);
+
+         if ( fabs(f) > 0.001f ){
+
+             float t1 = (e+box.min.x)/f;
+             float t2 = (e+box.max.x)/f;
+
+             if (t1>t2){
+                 float w=t1;t1=t2;t2=w;
+             }
+ //
+             if ( t2 < tMax )
+                 tMax = t2;
+             if ( t1 > tMin )
+                 tMin = t1;
+
+             if (tMax < tMin )
+                 return false;
+
+         }else{
+             if(-e+box.min.x > 0.0f || -e+box.max.x < 0.0f)
+                 return false;
+         }
+     }
+
+
+     {
+         glm::vec3 yaxis(model[1].x, model[1].y, model[1].z);
+         float e = glm::dot(yaxis, delta);
+         float f = glm::dot(r.dir, yaxis);
+
+         if ( fabs(f) > 0.001f ){
+
+             float t1 = (e+box.min.y)/f;
+             float t2 = (e+box.max.y)/f;
+
+             if (t1>t2){float w=t1;t1=t2;t2=w;}
+
+             if ( t2 < tMax )
+                 tMax = t2;
+             if ( t1 > tMin )
+                 tMin = t1;
+             if (tMin > tMax)
+                 return false;
+
+         }else{
+             if(-e+box.min.y > 0.0f || -e+box.max.y < 0.0f)
+                 return false;
+         }
+     }
+
+
+     {
+         glm::vec3 zaxis(model[2].x, model[2].y, model[2].z);
+         float e = glm::dot(zaxis, delta);
+         float f = glm::dot(r.dir, zaxis);
+
+         if ( fabs(f) > 0.001f ){
+
+             float t1 = (e+box.min.z)/f;
+             float t2 = (e+box.max.z)/f;
+
+             if (t1>t2){float w=t1;t1=t2;t2=w;}
+
+             if ( t2 < tMax )
+                 tMax = t2;
+             if ( t1 > tMin )
+                 tMin = t1;
+             if (tMin > tMax)
+                 return false;
+
+         }else{
+             if(-e+box.min.z > 0.0f || -e+box.max.z < 0.0f)
+                 return false;
+         }
+     }
+
+     *d = tMin;
+     return true;
+ }
+ */
 

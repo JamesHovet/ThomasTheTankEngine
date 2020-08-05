@@ -23,6 +23,11 @@ bool RayAABB(ray r, AABB box, glm::mat4 model, glm::vec3* hit);
 bool RayAABB(ray r, AABB box, glm::mat4 model, float * d);
 bool RayAABB(ray r, AABB box, glm::mat4 model);
 
+bool RayOBB(ray r, AABB box, glm::mat4 model, float * d, glm::vec3* hit);
+bool RayOBB(ray r, AABB box, glm::mat4 model, glm::vec3* hit);
+bool RayOBB(ray r, AABB box, glm::mat4 model, float * d);
+bool RayOBB(ray r, AABB box, glm::mat4 model);
+
 }
 
 #endif /* IntersectionUtils_hpp */

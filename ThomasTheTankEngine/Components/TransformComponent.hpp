@@ -13,6 +13,7 @@
 #include "glm.hpp"
 #include "glm/gtc/quaternion.hpp"
 #include "glm/gtx/quaternion.hpp"
+#include "glm/gtx/transform.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include <vector>
 
@@ -38,9 +39,9 @@ struct TransformComponent : public Component {
 //    bool dirty = true;
     
     glm::mat4 getLocalModelMatrix() {
-        glm::mat4 translation = glm::translate(glm::mat4(1.0f), m_position);
+        glm::mat4 translation = glm::translate(m_position);
         glm::mat4 rotation    = glm::toMat4(m_orientation);
-        glm::mat4 scale       = glm::scale(glm::mat4(1.0f), m_scale);
+        glm::mat4 scale       = glm::scale(m_scale);
         
         return translation * rotation * scale;
     }

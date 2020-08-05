@@ -29,37 +29,62 @@ void EditorSystem::tick(uint64_t dt){
     
     if(input.shouldSendKeysTo == KEY_INPUT_MODE::EDITOR){
         //TODO: @Cleanup: abstract away the gainput stuff here with a function call
-        if(input.keyboard->GetBool(gainput::KeyR)){ // reset camera
+        if(input.rawSDLState[SDL_SCANCODE_R]){
             edit.editorCameraComponent = edit.defaultEditorCameraComponent;
             edit.editorCameraTransform = edit.defaultEditorCameraTransform;
         }
         
         
+        
         // Keyboard editor camera movement
-        if(input.keyboard->GetBool(gainput::KeyW)){
+        if(input.rawSDLState[SDL_SCANCODE_W]){
             camTransformC.m_position = camTransformC.m_position + (camTransformC.getForward() * keyboardEditorMovementSpeed);
         }
-        if(input.keyboard->GetBool(gainput::KeyS)){
+        if(input.rawSDLState[SDL_SCANCODE_S]){
             camTransformC.m_position = camTransformC.m_position - (camTransformC.getForward() * keyboardEditorMovementSpeed);
         }
-        if(input.keyboard->GetBool(gainput::KeyD)){
+        if(input.rawSDLState[SDL_SCANCODE_D]){
             camTransformC.m_position = camTransformC.m_position - camTransformC.getRight() * keyboardEditorMovementSpeed;
         }
-        if(input.keyboard->GetBool(gainput::KeyA)){
+        if(input.rawSDLState[SDL_SCANCODE_A]){
             camTransformC.m_position = camTransformC.m_position + camTransformC.getRight() * keyboardEditorMovementSpeed;
         }
-        if(input.keyboard->GetBool(gainput::KeyShiftL)){
+        if(input.rawSDLState[SDL_SCANCODE_LSHIFT]){
             camTransformC.m_position = camTransformC.m_position + (camTransformC.getUp() * keyboardEditorMovementSpeed);
         }
-        if(input.keyboard->GetBool(gainput::KeyCtrlL)){
+        if(input.rawSDLState[SDL_SCANCODE_LCTRL]){
             camTransformC.m_position = camTransformC.m_position - (camTransformC.getUp() * keyboardEditorMovementSpeed);
         }
-        if(input.keyboard->GetBool(gainput::KeyQ)){
+        if(input.rawSDLState[SDL_SCANCODE_Q]){
             camTransformC.m_orientation = glm::rotate(camTransformC.m_orientation, 1.0f * seconds(dt), camTransformC.getUp());
         }
-        if(input.keyboard->GetBool(gainput::KeyE)){
+        if(input.rawSDLState[SDL_SCANCODE_E]){
             camTransformC.m_orientation = glm::rotate(camTransformC.m_orientation, -1.0f * seconds(dt), camTransformC.getUp());
         }
+//        if(input.keyboard->GetBool(gainput::KeyW)){
+//            camTransformC.m_position = camTransformC.m_position + (camTransformC.getForward() * keyboardEditorMovementSpeed);
+//        }
+//        if(input.keyboard->GetBool(gainput::KeyS)){
+//            camTransformC.m_position = camTransformC.m_position - (camTransformC.getForward() * keyboardEditorMovementSpeed);
+//        }
+//        if(input.keyboard->GetBool(gainput::KeyD)){
+//            camTransformC.m_position = camTransformC.m_position - camTransformC.getRight() * keyboardEditorMovementSpeed;
+//        }
+//        if(input.keyboard->GetBool(gainput::KeyA)){
+//            camTransformC.m_position = camTransformC.m_position + camTransformC.getRight() * keyboardEditorMovementSpeed;
+//        }
+//        if(input.keyboard->GetBool(gainput::KeyShiftL)){
+//            camTransformC.m_position = camTransformC.m_position + (camTransformC.getUp() * keyboardEditorMovementSpeed);
+//        }
+//        if(input.keyboard->GetBool(gainput::KeyCtrlL)){
+//            camTransformC.m_position = camTransformC.m_position - (camTransformC.getUp() * keyboardEditorMovementSpeed);
+//        }
+//        if(input.keyboard->GetBool(gainput::KeyQ)){
+//            camTransformC.m_orientation = glm::rotate(camTransformC.m_orientation, 1.0f * seconds(dt), camTransformC.getUp());
+//        }
+//        if(input.keyboard->GetBool(gainput::KeyE)){
+//            camTransformC.m_orientation = glm::rotate(camTransformC.m_orientation, -1.0f * seconds(dt), camTransformC.getUp());
+//        }
     }
    
     //TODO: @Remove forced always true once I add player control

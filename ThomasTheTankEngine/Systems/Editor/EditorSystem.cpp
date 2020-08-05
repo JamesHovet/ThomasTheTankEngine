@@ -16,8 +16,11 @@
 
 void EditorSystem::init(){
     EditorSingleton& edit = m_admin.m_EditorSingleton;
-    edit.defaultEditorCameraComponent = edit.editorCameraComponent;
-    edit.defaultEditorCameraTransform = edit.editorCameraTransform;
+    edit.defaultEditorCameraComponent = CameraComponent();
+    edit.defaultEditorCameraTransform = TransformComponent();
+    edit.defaultEditorCameraTransform.m_orientation = glm::rotation(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 0.0f, -1.0f));
+    edit.editorCameraComponent = edit.defaultEditorCameraComponent;
+    edit.editorCameraTransform = edit.defaultEditorCameraTransform;
 }
 
 const float keyboardEditorMovementSpeed = 0.2f;
@@ -99,10 +102,37 @@ void EditorSystem::tick(uint64_t dt){
             for(std::pair<entityID, AABBCollisionFamily> p : m_admin.getFamilyMap<AABBCollisionFamily>()){
                 AABBCollisionFamily f = p.second;
                 AABB box = f.m_AABBColliderComponent.m_AABB;
+                glm::vec3 pos = f.m_TransformComponent.m_position;
+                
+                glm::mat4 model = glm::mat4(1.0f);
+                
+                auto min4 = glm::vec4(box.min.x, box.min.y, box.min.z, 1.0f) * model;
+                auto max4 = glm::vec4(box.max.x, box.max.y, box.max.z, 1.0f) * model;
+                
                 box = {
-                    box.min + f.m_TransformComponent.m_position,
-                    box.max + f.m_TransformComponent.m_position
+                    box.min + pos,
+                    box.max + pos
                 };
+                
+//                box = {
+//                    glm::vec3(min4.x, min4.y, min4.z) + pos,
+//                    glm::vec3(max4.x, max4.y, max4.z) + pos
+//                };
+                
+                {
+                    entityID minMarker = m_admin.createEntity();
+                    entityID maxMarker = m_admin.createEntity();
+                    TransformComponent& minTrans = m_admin.addComponent<TransformComponent>(minMarker);
+                    TransformComponent& maxTrans = m_admin.addComponent<TransformComponent>(maxMarker);
+                    minTrans.m_position = box.min;
+                    maxTrans.m_position = box.max;
+                    minTrans.m_scale = glm::vec3(0.2f);
+                    maxTrans.m_scale = glm::vec3(0.2f);
+                    GreyBoxComponent& minBox = m_admin.addComponent<GreyBoxComponent>(minMarker);
+                    GreyBoxComponent& maxBox = m_admin.addComponent<GreyBoxComponent>(maxMarker);
+                    minBox.m_color = RGBA(1.0f, 0.0f, 1.0f, 1.0f);
+                    maxBox.m_color = RGBA(1.0f, 0.0f, 1.0f, 1.0f);
+                }
                 
                 
                 float d;

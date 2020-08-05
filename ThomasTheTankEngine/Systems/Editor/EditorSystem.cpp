@@ -104,20 +104,21 @@ void EditorSystem::tick(uint64_t dt){
                 AABB box = f.m_AABBColliderComponent.m_AABB;
                 glm::vec3 pos = f.m_TransformComponent.m_position;
                 
-                glm::mat4 model = glm::mat4(1.0f);
+//                glm::mat4 model = glm::mat4(1.0f);
+                glm::mat4 model = f.m_TransformComponent.getLocalModelMatrix();
                 
-                auto min4 = glm::vec4(box.min.x, box.min.y, box.min.z, 1.0f) * model;
-                auto max4 = glm::vec4(box.max.x, box.max.y, box.max.z, 1.0f) * model;
-                
-                box = {
-                    box.min + pos,
-                    box.max + pos
-                };
+                auto min4 = model * glm::vec4(box.min.x, box.min.y, box.min.z, 1.0f);
+                auto max4 = model * glm::vec4(box.max.x, box.max.y, box.max.z, 1.0f);
                 
 //                box = {
-//                    glm::vec3(min4.x, min4.y, min4.z) + pos,
-//                    glm::vec3(max4.x, max4.y, max4.z) + pos
+//                    box.min + pos,
+//                    box.max + pos
 //                };
+                
+                box = {
+                    glm::vec3(min4.x, min4.y, min4.z),
+                    glm::vec3(max4.x, max4.y, max4.z)
+                };
                 
                 {
                     entityID minMarker = m_admin.createEntity();

@@ -13,6 +13,7 @@
 #include "glm.hpp"
 #include "glm/gtc/quaternion.hpp"
 #include "glm/gtx/quaternion.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 #include <vector>
 
 struct TransformComponent : public Component {
@@ -36,17 +37,16 @@ struct TransformComponent : public Component {
     
 //    bool dirty = true;
     
-    glm::mat4 getLocalModelMatrix() const {
-        glm::mat4 modelMatrix = glm::mat4(1.0f);
-        modelMatrix = glm::translate(modelMatrix, m_position);
-        modelMatrix = glm::scale(modelMatrix, m_scale);
-        modelMatrix = modelMatrix * glm::toMat4(m_orientation);
+    glm::mat4 getLocalModelMatrix() {
+        glm::mat4 translation = glm::translate(glm::mat4(1.0f), m_position);
+        glm::mat4 rotation    = glm::toMat4(m_orientation);
+        glm::mat4 scale       = glm::scale(glm::mat4(1.0f), m_scale);
         
-        return modelMatrix;
+        return translation * rotation * scale;
     }
     
     // @Placeholder for when I implement the parent system, which I think will be in this struct, but could possibly go in a different one, to allow for parent relationships between things that do not have a transform.
-    glm::mat4 getMat4() const {
+    glm::mat4 getMat4() {
         return getLocalModelMatrix();
     }
     

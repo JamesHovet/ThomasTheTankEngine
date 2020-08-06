@@ -214,7 +214,7 @@ void EntityAdmin::setup(){
     }
     { // create testing boxes
         //@Remove: temporary test entities
-        int numToAdd = 20;
+        int numToAdd = 15;
         for(int i = 0; i < numToAdd; i++){
             entityID eID = this->createEntity();
 //            DebugNameComponent& nameC = this->addComponent<DebugNameComponent>(eID);

@@ -98,6 +98,7 @@ void EditorSystem::tick(uint64_t dt){
             
             float closestD = INFINITY;
             entityID closest = -1;
+            glm::vec3 hit;
             
             for(std::pair<entityID, AABBCollisionFamily> p : m_admin.getFamilyMap<AABBCollisionFamily>()){
                 AABBCollisionFamily f = p.second;
@@ -131,13 +132,14 @@ void EditorSystem::tick(uint64_t dt){
 //                    }
 //                }
 //
-                
+                glm::vec3 thisHit;
                 float d;
-                bool didIntersect = Intersection::RayOBB(r, box, model, &d);
+                bool didIntersect = Intersection::RayOBB(r, box, model, &d, &thisHit);
                 if(didIntersect){
                     if(d < closestD){
                         closest = p.first;
                         closestD = d;
+                        hit = thisHit;
                     }
                 }
             }
@@ -147,6 +149,12 @@ void EditorSystem::tick(uint64_t dt){
                 if(box != nullptr){
                     box->m_color = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
                 }
+                entityID e = m_admin.createEntity();
+                TransformComponent& t = m_admin.addComponent<TransformComponent>(e);
+                t.m_position = hit;
+                t.m_scale = glm::vec3(0.2f);
+                GreyBoxComponent& b = m_admin.addComponent<GreyBoxComponent>(e);
+                b.m_color = RGBA(1.0f, 0.0f, 1.0f, 1.0f);
             }
             
         }

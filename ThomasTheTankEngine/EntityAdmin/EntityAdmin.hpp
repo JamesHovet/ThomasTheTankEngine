@@ -61,6 +61,8 @@ public:
     void render();
     void mainLoop(void);
     
+    void loadTestScene();
+    
     entityID createEntity();
     bool createEntity(entityID eID);
     void destroyEntity(entityID e);

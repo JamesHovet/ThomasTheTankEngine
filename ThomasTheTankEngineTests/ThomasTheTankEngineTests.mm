@@ -6,10 +6,14 @@
 //  Copyright © 2020 James Hovet. All rights reserved.
 //
 
+
+
+#include "main.h"
+#include "EntityAdmin.hpp"
+
 #import <XCTest/XCTest.h>
 
-
-#include "EntityAdmin.hpp"
+EntityAdmin* g_admin;
 
 @interface ThomasTheTankEngineTests : XCTestCase
 
@@ -18,15 +22,19 @@
 @implementation ThomasTheTankEngineTests
 
 - (void)setUp {
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+    g_admin = new EntityAdmin();
 }
 
 - (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
+    delete g_admin;
 }
 
 - (void)testExample {
-//    XCTAssert(true);
+    g_admin->setup();
+    entityID e = g_admin->createEntity();
+    TransformComponent& trans = g_admin->addComponent<TransformComponent>(e);
+    trans.m_position = glm::vec3(42.0, 69105.0, -3.14);
+    XCTAssert(trans.m_position == g_admin->getComponent<TransformComponent>(e).m_position);
 }
 
 

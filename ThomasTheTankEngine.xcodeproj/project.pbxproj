@@ -61,7 +61,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		5901D13A24E0860E003A8C18 /* PBXContainerItemProxy */ = {
+		5901D13C24E08CA7003A8C18 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 59484F1F24290AEE0068591C /* Project object */;
 			proxyType = 1;
@@ -1465,7 +1465,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				5901D13B24E0860E003A8C18 /* PBXTargetDependency */,
+				5901D13D24E08CA7003A8C18 /* PBXTargetDependency */,
 			);
 			name = ThomasTheTankEngineTests;
 			productName = ThomasTheTankEngineTests;
@@ -1596,10 +1596,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		5901D13B24E0860E003A8C18 /* PBXTargetDependency */ = {
+		5901D13D24E08CA7003A8C18 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 59484F2624290AEE0068591C /* ThomasTheTankEngine */;
-			targetProxy = 5901D13A24E0860E003A8C18 /* PBXContainerItemProxy */;
+			targetProxy = 5901D13C24E08CA7003A8C18 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

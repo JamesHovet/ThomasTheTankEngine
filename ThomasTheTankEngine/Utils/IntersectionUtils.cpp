@@ -52,6 +52,7 @@ bool Intersection::RayAABBAbsolute(ray r, AABB box){
     return RayAABBAbsolute(r, box, &dummyf, &dummyv3);
 }
 
+// pre: model must only translate and scale
 bool Intersection::RayAABB(ray r, AABB box, glm::mat4 model, float *d, glm::vec3 *hit){
     glm::vec4 min4 = model * glm::vec4(box.min.x, box.min.y, box.min.z, 1.0f);
     glm::vec4 max4 = model * glm::vec4(box.max.x, box.max.y, box.max.z, 1.0f);
@@ -95,19 +96,12 @@ bool Intersection::RayOBB(ray r, AABB box, glm::mat4 model, float *d, glm::vec3 
         float e = glm::dot(xaxis_dir, delta);
         float f = glm::dot(r.dir, xaxis_dir);
 
-
         float t1 = (e+(box.min.x * xaxis_length))/f;
         float t2 = (e+(box.max.x * xaxis_length))/f;
-
-        if (t1>t2){
-            float w=t1;t1=t2;t2=w;
-        }
-
-        if ( t2 < tMax )
-            tMax = t2;
-        if ( t1 > tMin )
-            tMin = t1;
-
+        
+        tMin = fmin(t1, t2);
+        tMax = fmax(t1, t2);
+        
         if (tMax < tMin )
             return false;
     }
@@ -120,18 +114,11 @@ bool Intersection::RayOBB(ray r, AABB box, glm::mat4 model, float *d, glm::vec3 
         float e = glm::dot(yaxis_dir, delta);
         float f = glm::dot(r.dir, yaxis_dir);
 
-
         float t1 = (e+(box.min.x * yaxis_length))/f;
         float t2 = (e+(box.max.x * yaxis_length))/f;
-
-        if (t1>t2){
-            float w=t1;t1=t2;t2=w;
-        }
-
-        if ( t2 < tMax )
-            tMax = t2;
-        if ( t1 > tMin )
-            tMin = t1;
+        
+        tMin = fmax(tMin, fmin(t1, t2));
+        tMax = fmin(tMax, fmax(t1, t2));
 
         if (tMax < tMin )
             return false;
@@ -145,18 +132,11 @@ bool Intersection::RayOBB(ray r, AABB box, glm::mat4 model, float *d, glm::vec3 
         float e = glm::dot(zaxis_dir, delta);
         float f = glm::dot(r.dir, zaxis_dir);
 
-
         float t1 = (e+(box.min.x * zaxis_length))/f;
         float t2 = (e+(box.max.x * zaxis_length))/f;
-
-        if (t1>t2){
-            float w=t1;t1=t2;t2=w;
-        }
-
-        if ( t2 < tMax )
-            tMax = t2;
-        if ( t1 > tMin )
-            tMin = t1;
+       
+        tMin = fmax(tMin, fmin(t1, t2));
+        tMax = fmin(tMax, fmax(t1, t2));
 
         if (tMax < tMin )
             return false;

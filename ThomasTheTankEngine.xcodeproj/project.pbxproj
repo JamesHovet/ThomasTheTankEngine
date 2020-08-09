@@ -48,6 +48,7 @@
 		59668C6224CF9E31006744B7 /* ConsoleSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59668C6024CF9E31006744B7 /* ConsoleSystem.cpp */; };
 		596C9E9924D44438007FEAF4 /* ConsoleCommands.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 596C9E9724D44438007FEAF4 /* ConsoleCommands.cpp */; };
 		5970727524CE455C0016F78F /* InputSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5970727324CE455C0016F78F /* InputSystem.cpp */; };
+		597C6AAC24E0583E002CB5D8 /* Trace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 597C6AAA24E0583E002CB5D8 /* Trace.cpp */; };
 		59AA59D324D4D8D10082B201 /* componentViews.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59AA59D224D4D8D10082B201 /* componentViews.cpp */; };
 		59B2DDA924D77EE00050E31A /* IntersectionUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59B2DDA724D77EE00050E31A /* IntersectionUtils.cpp */; };
 		59C0382424D5999100DFFA3E /* libboost_filesystem.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 59B35EE024CE1EAC00605588 /* libboost_filesystem.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -588,6 +589,8 @@
 		5970727224CE452C0016F78F /* InputSingleton.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = InputSingleton.hpp; sourceTree = "<group>"; };
 		5970727324CE455C0016F78F /* InputSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = InputSystem.cpp; sourceTree = "<group>"; };
 		5970727424CE455C0016F78F /* InputSystem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = InputSystem.hpp; sourceTree = "<group>"; };
+		597C6AAA24E0583E002CB5D8 /* Trace.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Trace.cpp; sourceTree = "<group>"; };
+		597C6AAB24E0583E002CB5D8 /* Trace.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Trace.hpp; sourceTree = "<group>"; };
 		5994CE5B24CDDA2800CED70A /* clearStaticFamilyVectorsInclude.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = clearStaticFamilyVectorsInclude.cpp; sourceTree = "<group>"; };
 		59A7A95924BD269400DB8CD9 /* poolfwd.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = poolfwd.hpp; sourceTree = "<group>"; };
 		59A7A95A24BD269400DB8CD9 /* pool_alloc.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pool_alloc.hpp; sourceTree = "<group>"; };
@@ -600,6 +603,7 @@
 		59A7A96224BD269400DB8CD9 /* pool_construct.ipp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pool_construct.ipp; sourceTree = "<group>"; };
 		59A7A96324BD269400DB8CD9 /* simple_segregated_storage.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = simple_segregated_storage.hpp; sourceTree = "<group>"; };
 		59AA59D224D4D8D10082B201 /* componentViews.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = componentViews.cpp; sourceTree = "<group>"; };
+		59AF4BE624DCB39D00D24E71 /* liblog_signpost.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = liblog_signpost.tbd; path = usr/lib/log/liblog_signpost.tbd; sourceTree = SDKROOT; };
 		59B2DDA524D77C2B0050E31A /* AABBColliderComponent.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AABBColliderComponent.hpp; sourceTree = "<group>"; };
 		59B2DDA624D77CCB0050E31A /* AABBCollisionFamily.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AABBCollisionFamily.hpp; sourceTree = "<group>"; };
 		59B2DDA724D77EE00050E31A /* IntersectionUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = IntersectionUtils.cpp; sourceTree = "<group>"; };
@@ -797,6 +801,7 @@
 		59484F4924290C0C0068591C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				59AF4BE624DCB39D00D24E71 /* liblog_signpost.tbd */,
 				592B478024CF178200EB0DC0 /* libgainput.1.0.0.dylib */,
 				59B35EE024CE1EAC00605588 /* libboost_filesystem.dylib */,
 				59B35EDD24CE1E0400605588 /* OpenGL.framework */,
@@ -1320,6 +1325,8 @@
 		59661B34242960E80088525D /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				597C6AAA24E0583E002CB5D8 /* Trace.cpp */,
+				597C6AAB24E0583E002CB5D8 /* Trace.hpp */,
 				5937528624C25FBC00A0EC78 /* ECSUtils.cpp */,
 				5937528724C25FBC00A0EC78 /* ECSUtils.hpp */,
 				59661B35242960EF0088525D /* GL */,
@@ -1566,6 +1573,7 @@
 				591D1D0E243123CE00AF9DC5 /* Node.cpp in Sources */,
 				59484F6A242910030068591C /* imgui_draw.cpp in Sources */,
 				591D1D0B243106A400AF9DC5 /* ImGuiUtils.cpp in Sources */,
+				597C6AAC24E0583E002CB5D8 /* Trace.cpp in Sources */,
 				594A5F3024B4B41D00733231 /* System.cpp in Sources */,
 				59661B44242B93900088525D /* Shader.cpp in Sources */,
 				59F7F2AA2430F3C900A673D1 /* Graphics.cpp in Sources */,
@@ -1829,6 +1837,7 @@
 					/usr/local/Cellar/boost/1.71.0/lib,
 					/usr/local/lib,
 					/usr/local/Cellar/boost/1.72.0_3/lib,
+					"$(SDKROOT)/usr/lib/log",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jamesHovet.ThomasTheTankEngine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1864,6 +1873,7 @@
 					/usr/local/Cellar/boost/1.71.0/lib,
 					/usr/local/lib,
 					/usr/local/Cellar/boost/1.72.0_3/lib,
+					"$(SDKROOT)/usr/lib/log",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jamesHovet.ThomasTheTankEngine;
 				PRODUCT_NAME = "$(TARGET_NAME)";

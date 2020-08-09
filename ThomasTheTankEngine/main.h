@@ -30,6 +30,17 @@
 
 #pragma clang diagnostic pop
 
+// Tracing backends
+#include "Trace.hpp"
+#ifdef TRACE_BACKEND_INSTRUMENTS
+#include <os/signpost.h>
+os_log_t POI = os_log_create("com.james.POI", OS_LOG_CATEGORY_POINTS_OF_INTEREST);
+#endif
+//#define TRACE_BACKEND_JSON
+#ifdef TRACE_BACKEND_JSON
+
+#endif
+
 // Mine
 #include "Utils/GL/Shader.hpp"
 #include "src/graphics_globals.hpp"

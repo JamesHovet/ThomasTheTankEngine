@@ -24,6 +24,7 @@
 #include "allFamilies.h"
 #include "object_pool.hpp"
 #include "ECSUtils.hpp"
+#include "Trace.hpp"
 
 #include "componentStringSerializationMaps.hpp"
 const std::unordered_map<int, std::string> ComponentIDToStringStruct::map = ComponentIDToStringStruct::create_map();
@@ -214,7 +215,7 @@ void EntityAdmin::setup(){
     }
     { // create testing boxes
         //@Remove: temporary test entities
-        int numToAdd = 15;
+        int numToAdd = 2000;
         for(int i = 0; i < numToAdd; i++){
             entityID eID = this->createEntity();
 //            DebugNameComponent& nameC = this->addComponent<DebugNameComponent>(eID);
@@ -269,13 +270,19 @@ void EntityAdmin::update(uint64_t dt){
     
 //    m_DebugPrintSystem.tick(dt);
 //    m_ConsoleSystem.tick(dt);
+    TRACE_BEGIN("editor update", &m_EditorSystem);
     m_EditorSystem.tick(dt);
+    TRACE_END("editor update", &m_EditorSystem);
     
 }
 
 void EntityAdmin::render(){
+    TRACE_BEGIN("greybox render", &m_GreyBoxRenderSystem);
     m_GreyBoxRenderSystem.render();
+    TRACE_END("greybox render", &m_GreyBoxRenderSystem);
+    TRACE_BEGIN("editor render", &m_EditorSystem);
     m_EditorSystem.render();
+    TRACE_END("editor render", &m_EditorSystem);
     m_ConsoleSystem.render();
 }
 

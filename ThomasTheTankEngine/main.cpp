@@ -15,6 +15,7 @@
 #include <gainput/gainput.h>
 
 #include <thread>
+#include "Trace.hpp"
 
 const int SCREEN_WIDTH = 500;
 const int SCREEN_HEIGHT = 500;
@@ -28,16 +29,24 @@ Shader defaultShader;
 
 EntityAdmin g_admin;
 
+os_log_t my_log = os_log_create("com.james.ThomasTheTankEngine", OS_LOG_CATEGORY_POINTS_OF_INTEREST);
+
 int main(int argc, const char * argv[]) {
     
+    TRACE_EVENT("Setup Begin");
+    
     window_init();
-
+    
     g_admin.setup();
+    
+    TRACE_EVENT("Setup End");
     
     holdWindowOpen();
 //    legacyHoldWindowOpen();
     
+    TRACE_EVENT("Teardown Start");
     g_admin.teardown();
+    TRACE_EVENT("Teardown End");
     
     window_close();
     
@@ -46,6 +55,8 @@ int main(int argc, const char * argv[]) {
 
 bool window_init()
 {
+    //https://developer.apple.com/documentation/os/os_signpost_event_emit?language=occ
+    //https://developer.apple.com/documentation/os/logging/recording_performance_data?language=occ
     //Initialization flag
     bool success = true;
     
@@ -196,6 +207,7 @@ void holdWindowOpen() {
     std::vector<SDL_Event> myEventStack;
     bool quit = false;
     while (!quit){
+        TRACE_BEGIN("FRAME", &g_admin);
         uint64_t currentFrame = SDL_GetTicks();
         dt_ms = currentFrame - lastFrame;
         dt_s = ((float) dt_ms) / 1000.0f;
@@ -228,11 +240,17 @@ void holdWindowOpen() {
         
         
         // Main loop:
-        
+        TRACE_BEGIN_EXCLUSIVE("Filter Entities");
         g_admin.filterIfNeeded();
+        TRACE_END_EXCLUSIVE("Filter Entities");
+        TRACE_BEGIN_EXCLUSIVE("Copy to render buffer");
         g_admin.copyToRenderBuffer();
+        TRACE_END_EXCLUSIVE("Copy to render buffer");
        
+        TRACE_BEGIN_EXCLUSIVE("update main thread");
         g_admin.updateMainThreadSystems(dt_ms);
+        TRACE_END_EXCLUSIVE("update main thread");
+        
 #ifndef NOJOBS
         std::thread renderThread([](void){
             SDL_GL_MakeCurrent(g_window, gl_context);
@@ -261,6 +279,8 @@ void holdWindowOpen() {
         
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        
+        TRACE_END("FRAME", &g_admin);
         
         SDL_GL_SwapWindow(g_window);
     }

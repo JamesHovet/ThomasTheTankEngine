@@ -64,13 +64,16 @@ public:
     void loadTestScene();
     
     entityID createEntity();
-    bool createEntity(entityID eID);
+    Entity* tryCreateEntity(entityID eID);
     void destroyEntity(entityID e);
+    Entity* tryGetEntity(entityID e);
+    Entity& getEntity(entityID e);
     void destroyAllEntities();
-private:
+
     bool serializeByEntityCompatability(boost::filesystem::path outAbsolute);
     bool deserializeByEntityCompatability(boost::filesystem::path inAbsolute);
     
+private:
     void initAllSystems();
     void filterEntitiesIntoMutableFamilies();
     void filterEntitiesIntoStaticFamilies();
@@ -101,8 +104,10 @@ public:
     template <typename T>
     T* tryGetComponent(entityID eID){
         constexpr componentID cID = ComponentIndexTable::RetrieveComponentIndex<T>::componentIndex;
-        assert(m_component_maps.count(eID) != 0);
-        auto this_entity_map = m_component_maps.at(eID);
+        if(m_component_maps.count(eID) == 0){
+            return nullptr;
+        }
+        auto& this_entity_map = m_component_maps.at(eID);
         if (this_entity_map.count(cID) != 0){
             return static_cast<T*>(this_entity_map.at(cID));
         }
@@ -183,11 +188,12 @@ public:
         m_entities_dirty = true;
         
         componentID cID = ComponentIndexTable::RetrieveComponentIndex<T>::componentIndex;
-        auto this_entity_map = m_component_maps.at(eID);
+        auto& this_entity_map = m_component_maps.at(eID);
         ECSComponent* componentPtr = this_entity_map.at(cID);
         
         std::invoke(m_components_destuction_callbacks_array[cID], componentPtr);
         this_entity_map.erase(cID);
+        
         
         m_entities.at(eID)->m_mask.reset(cID); // clear entity flag
     }

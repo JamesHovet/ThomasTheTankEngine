@@ -130,18 +130,18 @@ EntityAdmin::~EntityAdmin(){
     }
 }
 
-bool EntityAdmin::createEntity(entityID eID){
+Entity* EntityAdmin::tryCreateEntity(entityID eID){
     assert(m_entities.size() < MAX_ENTITIES);
     m_entities_dirty = true;
     if(m_entities.count(eID) != 0){
-        return false;
+        return nullptr;
     }
     
     Entity* e = m_entity_pool.construct(eID);
     m_entities[eID] = e;
     m_component_maps.insert(std::make_pair(eID, std::unordered_map<componentID, ECSComponent*>()));
     
-    return true;
+    return e;
 }
 
 entityID EntityAdmin::createEntity(){
@@ -161,6 +161,19 @@ entityID EntityAdmin::createEntity(){
     return eID;
 }
 
+Entity* EntityAdmin::tryGetEntity(entityID e){
+    if(m_entities.count(e)){
+        return m_entities.at(e);
+    }
+    return nullptr;
+}
+
+Entity& EntityAdmin::getEntity(entityID e){
+    Entity* entity = tryGetEntity(e);
+    assert(entity != nullptr);
+    return *entity;
+}
+
 void EntityAdmin::destroyEntity(entityID eID){
     m_entities_dirty = true;
     for(auto pair : m_component_maps.at(eID)){
@@ -168,6 +181,7 @@ void EntityAdmin::destroyEntity(entityID eID){
         auto componentPtr = pair.second;
         std::invoke(m_components_destuction_callbacks_array[componentID], componentPtr);
     }
+    m_component_maps.erase(eID);
     Entity* e = m_entities[eID];
     m_entity_pool.destroy(e);
     m_entities.erase(m_entities.find(eID));
@@ -184,6 +198,7 @@ void EntityAdmin::destroyAllEntities(){
             ECSComponent* cPtr = componentPair.second;
             std::invoke(m_components_destuction_callbacks_array[cID], cPtr);
         }
+        m_component_maps.erase(eID);
         Entity* e = it->second;
         m_entity_pool.destroy(e);
         it = m_entities.erase(it);
@@ -387,7 +402,7 @@ bool EntityAdmin::deserializeByEntityCompatability(boost::filesystem::path inAbs
         entityID eID = std::stoi(entityIt.key());
 //        json::object_t components = entityIt.value();
         
-        createEntity(eID);
+        tryCreateEntity(eID);
         
         for(json::iterator componentIt = entityIt.value().begin(); componentIt != entityIt.value().end(); ++componentIt){
             

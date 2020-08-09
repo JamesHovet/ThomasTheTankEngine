@@ -23,7 +23,7 @@
 
 using json = nlohmann::json;
 
-struct Component {
+struct ECSComponent {
     virtual void imDisplay(){};
     virtual json::object_t serialize() = 0;
 };

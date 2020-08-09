@@ -4,7 +4,7 @@
 #define CameraComponent_hpp
 
 #include "Component.hpp"
-struct CameraComponent : public Component {
+struct CameraComponent : public ECSComponent {
 	static constexpr int componentIndex{ 2 };
 	float m_FOV = 45.0f;
 	bool m_enabled = true;

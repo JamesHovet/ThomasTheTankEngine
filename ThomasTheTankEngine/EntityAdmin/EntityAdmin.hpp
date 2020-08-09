@@ -152,11 +152,11 @@ public:
             return (eID != other.eID) or (cID != other.cID);
         }
 
-        Component* operator*() const {
+        ECSComponent* operator*() const {
             assert(m_admin.m_component_maps.count(eID) != 0);
             auto this_entity_map = m_admin.m_component_maps.at(eID);
             if (this_entity_map.count(cID) != 0){
-                return static_cast<Component*>(this_entity_map.at(cID));
+                return static_cast<ECSComponent*>(this_entity_map.at(cID));
             }
             return nullptr;
         }
@@ -182,7 +182,7 @@ public:
         
         componentID cID = ComponentIndexTable::RetrieveComponentIndex<T>::componentIndex;
         auto this_entity_map = m_component_maps.at(eID);
-        Component* componentPtr = this_entity_map.at(cID);
+        ECSComponent* componentPtr = this_entity_map.at(cID);
         
         std::invoke(m_components_destuction_callbacks_array[cID], componentPtr);
         this_entity_map.erase(cID);
@@ -219,7 +219,7 @@ private:
     GreyBoxRenderSystem    m_GreyBoxRenderSystem;
     
 private:
-    std::unordered_map<entityID, std::unordered_map<componentID, Component *>> m_component_maps;
+    std::unordered_map<entityID, std::unordered_map<componentID, ECSComponent *>> m_component_maps;
     std::unordered_map<entityID, Entity*> m_entities;
     boost::object_pool<Entity> m_entity_pool;
     bool m_entities_dirty = true;

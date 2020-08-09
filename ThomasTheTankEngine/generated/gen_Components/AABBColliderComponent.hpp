@@ -1,10 +1,10 @@
 // AABBColliderComponent.hpp
-// generated at: 2020-08-02 18:40:13.883400
+// generated at: 2020-08-09 14:38:30.298967
 #ifndef AABBColliderComponent_hpp
 #define AABBColliderComponent_hpp
 
 #include "Component.hpp"
-struct AABBColliderComponent : public Component {
+struct AABBColliderComponent : public ECSComponent {
 	static constexpr int componentIndex{ 5 };
 	AABB m_AABB = {glm::vec3(-0.5, -0.5, -0.5), glm::vec3(0.5, 0.5, 0.5)};
 	void imDisplay(){

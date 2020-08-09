@@ -17,7 +17,7 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include <vector>
 
-struct TransformComponent : public Component {
+struct TransformComponent : public ECSComponent {
     static constexpr int componentIndex{ 0 };
     
 //    std::vector<entityID> m_children; // TODO: parent child relationship, but probably not here

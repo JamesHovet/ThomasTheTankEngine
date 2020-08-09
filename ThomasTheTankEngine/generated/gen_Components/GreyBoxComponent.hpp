@@ -1,10 +1,10 @@
 // GreyBoxComponent.hpp
-// generated at: 2020-08-02 18:40:13.883244
+// generated at: 2020-08-09 14:38:30.298783
 #ifndef GreyBoxComponent_hpp
 #define GreyBoxComponent_hpp
 
 #include "Component.hpp"
-struct GreyBoxComponent : public Component {
+struct GreyBoxComponent : public ECSComponent {
 	static constexpr int componentIndex{ 4 };
 	RGBA m_color = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
 	void imDisplay(){

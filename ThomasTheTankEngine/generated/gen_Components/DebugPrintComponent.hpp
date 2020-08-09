@@ -1,10 +1,10 @@
 // DebugPrintComponent.hpp
-// generated at: 2020-08-02 18:40:13.883032
+// generated at: 2020-08-09 14:38:30.298584
 #ifndef DebugPrintComponent_hpp
 #define DebugPrintComponent_hpp
 
 #include "Component.hpp"
-struct DebugPrintComponent : public Component {
+struct DebugPrintComponent : public ECSComponent {
 	static constexpr int componentIndex{ 3 };
 	bool m_enabled = false;
 	int m_integer = 1;

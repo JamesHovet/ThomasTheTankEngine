@@ -6,7 +6,7 @@
 #include "Component.hpp"
 #include <string>
 
-struct DebugNameComponent : public Component {
+struct DebugNameComponent : public ECSComponent {
 	static constexpr int componentIndex{ 1 };
 	std::string m_name = "myName";
     

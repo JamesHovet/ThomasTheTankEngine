@@ -8,6 +8,9 @@
 
 #import <XCTest/XCTest.h>
 
+
+#include "EntityAdmin.hpp"
+
 @interface ThomasTheTankEngineTests : XCTestCase
 
 @end
@@ -23,7 +26,7 @@
 }
 
 - (void)testExample {
-    XCTAssert(true);
+//    XCTAssert(true);
 }
 
 

@@ -139,7 +139,7 @@ bool EntityAdmin::createEntity(entityID eID){
     
     Entity* e = m_entity_pool.construct(eID);
     m_entities[eID] = e;
-    m_component_maps.insert(std::make_pair(eID, std::unordered_map<componentID, Component*>()));
+    m_component_maps.insert(std::make_pair(eID, std::unordered_map<componentID, ECSComponent*>()));
     
     return true;
 }
@@ -156,7 +156,7 @@ entityID EntityAdmin::createEntity(){
     
     Entity* e = m_entity_pool.construct(eID);
     m_entities[eID] = e;
-    m_component_maps.insert(std::make_pair(eID, std::unordered_map<componentID, Component*>()));
+    m_component_maps.insert(std::make_pair(eID, std::unordered_map<componentID, ECSComponent*>()));
     
     return eID;
 }
@@ -181,7 +181,7 @@ void EntityAdmin::destroyAllEntities(){
         entityID eID = it->first;
         for(auto componentPair : m_component_maps.at(eID)){
             componentID cID = componentPair.first;
-            Component* cPtr = componentPair.second;
+            ECSComponent* cPtr = componentPair.second;
             std::invoke(m_components_destuction_callbacks_array[cID], cPtr);
         }
         Entity* e = it->second;

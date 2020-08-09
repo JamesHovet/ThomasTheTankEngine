@@ -29,8 +29,6 @@ Shader defaultShader;
 
 EntityAdmin g_admin;
 
-os_log_t my_log = os_log_create("com.james.ThomasTheTankEngine", OS_LOG_CATEGORY_POINTS_OF_INTEREST);
-
 int main(int argc, const char * argv[]) {
     
     TRACE_EVENT("Setup Begin");
@@ -55,8 +53,6 @@ int main(int argc, const char * argv[]) {
 
 bool window_init()
 {
-    //https://developer.apple.com/documentation/os/os_signpost_event_emit?language=occ
-    //https://developer.apple.com/documentation/os/logging/recording_performance_data?language=occ
     //Initialization flag
     bool success = true;
     
@@ -285,6 +281,22 @@ void holdWindowOpen() {
         SDL_GL_SwapWindow(g_window);
     }
     
+}
+
+void window_close()
+{
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplSDL2_Shutdown();
+    ImGui::DestroyContext();
+    
+    SDL_GL_DeleteContext(gl_context);
+    
+    //Destroy window
+    SDL_DestroyWindow( g_window );
+    g_window = NULL;
+    
+    //Quit SDL subsystems
+    SDL_Quit();
 }
 
 void legacyHoldWindowOpen() {
@@ -524,20 +536,4 @@ void legacyHoldWindowOpen() {
     }
     
     delete sceneRoot;
-}
-
-void window_close()
-{
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplSDL2_Shutdown();
-    ImGui::DestroyContext();
-    
-    SDL_GL_DeleteContext(gl_context);
-    
-    //Destroy window
-    SDL_DestroyWindow( g_window );
-    g_window = NULL;
-    
-    //Quit SDL subsystems
-    SDL_Quit();
 }

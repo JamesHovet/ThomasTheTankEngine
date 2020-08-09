@@ -13,6 +13,8 @@
 
 #ifdef TRACE_BACKEND_INSTRUMENTS
 #include <os/signpost.h>
+//https://developer.apple.com/documentation/os/os_signpost_event_emit?language=occ
+//https://developer.apple.com/documentation/os/logging/recording_performance_data?language=occ
 
 extern os_log_t POI;
 

@@ -17,8 +17,6 @@
 		590F5687242CD9B300BC9DC2 /* awesomeface.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 590F5686242CD9B300BC9DC2 /* awesomeface.png */; };
 		591D1D0B243106A400AF9DC5 /* ImGuiUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 591D1D09243106A400AF9DC5 /* ImGuiUtils.cpp */; };
 		591D1D0E243123CE00AF9DC5 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 591D1D0C243123CE00AF9DC5 /* Node.cpp */; };
-		592B478124CF178200EB0DC0 /* libgainput.1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 592B478024CF178200EB0DC0 /* libgainput.1.0.0.dylib */; };
-		592B478224CF181A00EB0DC0 /* libgainput.1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 592B478024CF178200EB0DC0 /* libgainput.1.0.0.dylib */; };
 		59374D5424D367E100A75B7E /* ShaderCatalogSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59374D5224D367E100A75B7E /* ShaderCatalogSingleton.cpp */; };
 		5937528824C25FBC00A0EC78 /* ECSUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5937528624C25FBC00A0EC78 /* ECSUtils.cpp */; };
 		593868F524CE1F6E00AD33FF /* ThomasTheTankEngineTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 593868F424CE1F6E00AD33FF /* ThomasTheTankEngineTests.mm */; };
@@ -634,7 +632,6 @@
 				593868FD24CE201C00AD33FF /* OpenGL.framework in Frameworks */,
 				593868FE24CE202100AD33FF /* SDL2.framework in Frameworks */,
 				593868FF24CE213C00AD33FF /* libboost_filesystem.dylib in Frameworks */,
-				592B478124CF178200EB0DC0 /* libgainput.1.0.0.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -646,7 +643,6 @@
 				59484F6B242911110068591C /* libGLEW.2.1.0.dylib in Frameworks */,
 				5938690024CE214400AD33FF /* libboost_filesystem.dylib in Frameworks */,
 				59C0382824D5999600DFFA3E /* OpenGL.framework in Frameworks */,
-				592B478224CF181A00EB0DC0 /* libgainput.1.0.0.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

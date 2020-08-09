@@ -10,10 +10,6 @@
 #define InputSingleton_hpp
 
 #include <SDL2/SDL.h>
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wall"
-#include <gainput/gainput.h>
-#pragma clang diagnostic pop
 
 enum class KEY_INPUT_MODE {
     GAME,
@@ -30,16 +26,10 @@ enum class PAD_INPUT_MODE {
 
 struct InputSingleton {
 
-    gainput::InputManager* manager;
-    gainput::InputMap* map;
     int padID = -1;
     int keyboardID = -1;
     int mouseID = -1;
-    
-    gainput::InputDeviceKeyboard* keyboard;
-    gainput::InputDevicePad*      pad;
-    gainput::InputDeviceMouse*    mouse;
-    
+
     const Uint8 * rawSDLState;
     
     KEY_INPUT_MODE shouldSendKeysTo = KEY_INPUT_MODE::GAME;

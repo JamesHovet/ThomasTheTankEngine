@@ -75,7 +75,6 @@ void EditorSystem::tick(uint64_t dt){
     CameraComponent& camC = m_admin.m_EditorSingleton.editorCameraComponent;
     
     if(input.shouldSendKeysTo == KEY_INPUT_MODE::EDITOR){
-        //TODO: @Cleanup: abstract away the gainput stuff here with a function call
         processEditorCameraKeyInput(camTransformC, dt, edit, input);
         
         if(input.hasPendingClick){

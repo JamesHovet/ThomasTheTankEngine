@@ -99,8 +99,8 @@ bool Intersection::RayOBB(ray r, AABB box, glm::mat4 model, float *d, glm::vec3 
         float t1 = (e+(box.min.x * xaxis_length))/f;
         float t2 = (e+(box.max.x * xaxis_length))/f;
         
-        tMin = fmin(t1, t2);
-        tMax = fmax(t1, t2);
+        tMin = fmax(tMin, fmin(t1, t2));
+        tMax = fmin(tMax, fmax(t1, t2));
         
         if (tMax < tMin )
             return false;

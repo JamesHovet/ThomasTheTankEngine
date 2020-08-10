@@ -25,6 +25,7 @@
 		593868FE24CE202100AD33FF /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59484F4E24290C410068591C /* SDL2.framework */; };
 		593868FF24CE213C00AD33FF /* libboost_filesystem.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 59B35EE024CE1EAC00605588 /* libboost_filesystem.dylib */; };
 		5938690024CE214400AD33FF /* libboost_filesystem.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 59B35EE024CE1EAC00605588 /* libboost_filesystem.dylib */; };
+		593AB3B524E198E7008A0CEF /* IntersectionTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 593AB3B424E198E7008A0CEF /* IntersectionTests.mm */; };
 		59484F2E24290AEE0068591C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 59484F2D24290AEE0068591C /* Assets.xcassets */; };
 		59484F3424290AEE0068591C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59484F3324290AEE0068591C /* main.cpp */; };
 		59484F65242910030068591C /* imgui_widgets.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59484F5A242910030068591C /* imgui_widgets.cpp */; };
@@ -157,6 +158,7 @@
 		593868F224CE1F6E00AD33FF /* ThomasTheTankEngineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ThomasTheTankEngineTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		593868F424CE1F6E00AD33FF /* ThomasTheTankEngineTests.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = ThomasTheTankEngineTests.mm; sourceTree = "<group>"; };
 		593868F624CE1F6E00AD33FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		593AB3B424E198E7008A0CEF /* IntersectionTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = IntersectionTests.mm; sourceTree = "<group>"; };
 		59484F2724290AEE0068591C /* ThomasTheTankEngine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ThomasTheTankEngine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		59484F2D24290AEE0068591C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		59484F3224290AEE0068591C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -747,6 +749,7 @@
 			children = (
 				593868F424CE1F6E00AD33FF /* ThomasTheTankEngineTests.mm */,
 				593868F624CE1F6E00AD33FF /* Info.plist */,
+				593AB3B424E198E7008A0CEF /* IntersectionTests.mm */,
 			);
 			path = ThomasTheTankEngineTests;
 			sourceTree = "<group>";
@@ -1552,6 +1555,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				593AB3B524E198E7008A0CEF /* IntersectionTests.mm in Sources */,
 				593868F524CE1F6E00AD33FF /* ThomasTheTankEngineTests.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

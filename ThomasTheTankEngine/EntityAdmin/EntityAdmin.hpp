@@ -233,6 +233,7 @@ private:
     ConsoleSystem          m_ConsoleSystem;
     DebugPrintSystem       m_DebugPrintSystem;
     GreyBoxRenderSystem    m_GreyBoxRenderSystem;
+    RenderSetupSystem      m_RenderSetupSystem;
     
 private:
     std::unordered_map<entityID, std::unordered_map<componentID, ECSComponent *>> m_component_maps;

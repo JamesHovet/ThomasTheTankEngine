@@ -12,8 +12,47 @@
 #include "ImGuiUtils.hpp"
 #include "EntityAdmin.hpp"
 #include "DebugNameComponent.hpp"
+#include <glm/gtc/matrix_transform.hpp>
 
 #include "IntersectionUtils.hpp"
+
+GLuint EditorSystem::stem_VBO = 0;
+GLuint EditorSystem::stem_VAO = 0;
+Shader* gizmoShader;
+
+float arrowStemVertsNoIndices[] = {
+    0.0f,  0.0f,  1.0f,
+    0.0f,  0.86603f,  -0.5f,
+    0.0f, -0.86603f,  -0.5f,
+
+    0.0f,  0.0f,  1.0f,
+    0.0f, -0.86603f,  -0.5f,
+    1.0f, -0.86603f,  -0.5f,
+
+    0.0f,  0.0f,  1.0f,
+    1.0f, -0.86603f,  -0.5f,
+    1.0f,  0.0f,  1.0f,
+
+    0.0f,  0.0f,  1.0f,
+    1.0f,  0.0f,  1.0f,
+    0.0f,  0.86603f,  -0.5f,
+
+    1.0f,  0.0f,  1.0f,
+    1.0f,  0.86603f,  -0.5f,
+    0.0f,  0.86603f,  -0.5f,
+
+    0.0f,  0.86603f,  -0.5f,
+    1.0f,  0.86603f,  -0.5f,
+    0.0f, -0.86603f,  -0.5f,
+
+    1.0f,  0.86603f,  -0.5f,
+    1.0f, -0.86603f,  -0.5f,
+    0.0f, -0.86603f,  -0.5f,
+
+    0.0f,  0.0f,  1.0f,
+    0.0f, -0.86603f,  -0.5f,
+    0.0f,  0.86603f,  -0.5f
+};
 
 void EditorSystem::init(){
     EditorSingleton& edit = m_admin.m_EditorSingleton;
@@ -22,6 +61,22 @@ void EditorSystem::init(){
     edit.defaultEditorCameraTransform.m_orientation = glm::rotation(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 0.0f, -1.0f));
     edit.editorCameraComponent = edit.defaultEditorCameraComponent;
     edit.editorCameraTransform = edit.defaultEditorCameraTransform;
+    
+    initRendering();
+}
+
+void EditorSystem::initRendering(){
+    gizmoShader = &m_admin.m_ShaderCatalogSingleton.getShader("unlitOpaque");
+    
+    glGenVertexArrays(1, &stem_VAO);
+    glBindVertexArray(stem_VAO);
+    
+    glGenBuffers(1, &stem_VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, stem_VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(arrowStemVertsNoIndices), &arrowStemVertsNoIndices[0], GL_STATIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (3) * sizeof(float), (void*) 0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 const float keyboardEditorMovementSpeed = 0.2f;
@@ -97,6 +152,45 @@ void EditorSystem::tick(uint64_t dt){
 
 // pre: Imgui must be running
 void EditorSystem::render(){
+    renderImGui();
+    renderGizmos();
+}
+
+void EditorSystem::renderGizmos(){
+    RenderSingleton& renderSingleton = m_admin.m_RenderSingleton;
+    gizmoShader->begin();
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    
+    GLuint viewLoc  = glGetUniformLocation(gizmoShader->ID, "view");
+    GLuint projectionLoc  = glGetUniformLocation(gizmoShader->ID, "projection");
+    
+    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(renderSingleton.view));
+    glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(renderSingleton.projection));
+    glBindVertexArray(stem_VAO);
+    GLuint modelLoc  = glGetUniformLocation(gizmoShader->ID, "model");
+
+    // draw the three arrows
+    glm::mat4 modelX = glm::scale(glm::rotate(glm::mat4(1.0f), glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(1.0f, 0.1f, 0.1f));
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelX));
+    gizmoShader->set4f("color", 1.0f, 0.0f, 0.0f, 1.0f);
+    glDrawArrays(GL_TRIANGLES, 0, 24);
+    
+    glm::mat4 modelY = glm::scale(glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f)), glm::vec3(1.0f, 0.1f, 0.1f));
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelY));
+    gizmoShader->set4f("color", 0.0f, 1.0f, 0.0f, 1.0f);
+    glDrawArrays(GL_TRIANGLES, 0, 24);
+
+    glm::mat4 modelZ = glm::scale(glm::rotate(glm::mat4(1.0f), glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)), glm::vec3(1.0f, 0.1f, 0.1f));
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelZ));
+    gizmoShader->set4f("color", 0.0f, 0.0f, 1.0f, 1.0f);
+    glDrawArrays(GL_TRIANGLES, 0, 24);
+    
+    
+    glBindVertexArray(0);
+    gizmoShader->end();
+}
+
+void EditorSystem::renderImGui(){
     ImGui::Begin("Editor");
 
     char nameBuf[32];
@@ -112,20 +206,14 @@ void EditorSystem::render(){
         }
         
         ImGui::PushID(p.second);
-        
         if(ImGui::TreeNode(nameBuf)){
             for(auto it = m_admin.componentsBegin(eID); it != m_admin.componentsEnd(eID); ++it){
                 (*it)->imDisplay();
             }
-            
             ImGui::TreePop();
         }
-        
         ImGui::PopID();
     }
-    
-//    ImGui::InputVec3("Camera forward", &cameraC->m_forward);
-    
     ImGui::End();
 }
 

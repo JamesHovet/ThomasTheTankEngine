@@ -10,7 +10,7 @@
 #define EditorSystem_hpp
 
 #include "System.hpp"
-
+#include <glew.h>
 
 class EditorSystem : public System {
 public:
@@ -22,7 +22,15 @@ public:
     void render();
     
 private:
+    void initRendering();
+    void renderImGui();
+    void renderGizmos();
     bool getClosestOBBIntersectionEntity(ray r, entityID* eID, glm::vec3* hitOutput);
+    
+    //Gizmo Rendering
+    static GLuint stem_VBO;
+    static GLuint stem_VAO;
+    
 };
 
 #endif /* EditorSystem_hpp */

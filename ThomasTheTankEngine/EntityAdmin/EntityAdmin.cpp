@@ -109,6 +109,7 @@ EntityAdmin::EntityAdmin()
     m_EditorSystem(*this),
     m_InputSystem(*this),
     m_ConsoleSystem(*this),
+    m_RenderSetupSystem(*this),
     m_InputSingleton(*this)
 {
     constructComponentPools(m_components_pool_array,
@@ -208,6 +209,7 @@ void EntityAdmin::destroyAllEntities(){
 
 void EntityAdmin::initAllSystems(){
     m_InputSystem.init();
+    m_RenderSetupSystem.init();
     m_EditorSystem.init();
     m_ConsoleSystem.init();
     m_DebugPrintSystem.init();
@@ -239,7 +241,7 @@ void EntityAdmin::loadTestScene(){
         }
         { // create testing boxes
             //@Remove: temporary test entities
-            int numToAdd = 8;
+            int numToAdd = 2;
             for(int i = 0; i < numToAdd; i++){
                 entityID eID = this->createEntity();
     //            DebugNameComponent& nameC = this->addComponent<DebugNameComponent>(eID);
@@ -252,7 +254,7 @@ void EntityAdmin::loadTestScene(){
 
     //            nameC.m_name = std::to_string(eID);
                 transformC.m_position = glm::vec3(4.0f * ((float) i - (numToAdd / 2)) / (float) numToAdd);
-                transformC.m_scale = glm::vec3(1.0f, 3.0f, 1.0f);
+                transformC.m_scale = glm::vec3(1.0f, 1.5f, 1.0f);
                 transformC.m_orientation = glm::quat(glm::vec3(0.0f, glm::radians(0.0f), glm::radians((float) random())));
     //            transformC.m_orientation = glm::quat(glm::vec3(0.0f, 0.0f, 0.0f));
                 boxC.m_color = glm::vec4(((float) i) * (1.0f / (float) numToAdd), 0.0, 0.0, 1.0f);
@@ -295,6 +297,7 @@ void EntityAdmin::update(uint64_t dt){
 }
 
 void EntityAdmin::render(){
+    m_RenderSetupSystem.render();
     TRACE_BEGIN("greybox render", &m_GreyBoxRenderSystem);
     m_GreyBoxRenderSystem.render();
     TRACE_END("greybox render", &m_GreyBoxRenderSystem);

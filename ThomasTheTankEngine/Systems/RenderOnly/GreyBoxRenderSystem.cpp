@@ -69,8 +69,6 @@ struct greyBoxRenderData {
 #pragma pack(pop)
 
 void GreyBoxRenderSystem::init(){
-    m_admin.m_ShaderCatalogSingleton.registerShader("greybox", "Shaders/greybox.vert", "Shaders/greybox.frag");
-    
     greyBoxShader = &m_admin.m_ShaderCatalogSingleton.getShader("greybox");
     
     glGenVertexArrays(1, &cube_VAO);
@@ -79,6 +77,7 @@ void GreyBoxRenderSystem::init(){
     glGenBuffers(1, &cube_VBO);
     glBindBuffer(GL_ARRAY_BUFFER, cube_VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(greyBoxVertsNoIndices), &greyBoxVertsNoIndices[0], GL_STATIC_DRAW);
+    
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (3) * sizeof(float), (void *)0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -106,6 +105,12 @@ void GreyBoxRenderSystem::init(){
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     
     
+}
+
+void GreyBoxRenderSystem::render(){
+    RenderSingleton& renderSingleton = m_admin.m_RenderSingleton;
+    
+    greyBoxShader->begin();
     bool shouldDrawWireframe = false;
     if(shouldDrawWireframe){
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -113,43 +118,6 @@ void GreyBoxRenderSystem::init(){
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     }
     
-}
-
-void GreyBoxRenderSystem::setupCamera(){
-    RenderSingleton& renderSingleton = m_admin.m_RenderSingleton;
-    
-    if (m_admin.m_EditorSingleton.shouldUseEditorCamera){
-        EditorSingleton& editorSingleton = m_admin.m_EditorSingleton;
-        CameraComponent& cameraC = editorSingleton.editorCameraComponent;
-        TransformComponent& transC = editorSingleton.editorCameraTransform;
-        
-        renderSingleton.view = glm::lookAt(transC.m_position, transC.m_position + transC.getForward(), transC.getUp());
-        renderSingleton.projection = glm::perspective(glm::radians(cameraC.m_FOV), (float)renderSingleton.SCREEN_WIDTH / (float)renderSingleton.SCREEN_HEIGHT, 0.1f, 100.0f);
-        renderSingleton.currentCameraC = &cameraC;
-        renderSingleton.currentCameraTransformC = &transC;
-    } else {
-        std::unordered_map<entityID, CameraFamily>& cameraFamilies = m_admin.getFamilyMap<CameraFamily>();
-        for(auto it = cameraFamilies.begin(); it != cameraFamilies.end(); it++){
-            CameraComponent& cameraC = it->second.m_CameraComponent;
-            TransformComponent& transC = it->second.m_TransformComponent;
-            if(cameraC.m_enabled){
-                renderSingleton.currentCameraC = &cameraC;
-                renderSingleton.currentCameraTransformC = &transC;
-                
-                renderSingleton.view = glm::lookAt(transC.m_position, transC.m_position + transC.getForward(), transC.getUp());
-                renderSingleton.projection = glm::perspective(glm::radians(cameraC.m_FOV), (float)renderSingleton.SCREEN_WIDTH / (float)renderSingleton.SCREEN_HEIGHT, 0.1f, 100.0f);
-                break;
-            }
-        }
-    }
-}
-
-void GreyBoxRenderSystem::render(){
-    RenderSingleton& renderSingleton = m_admin.m_RenderSingleton;
-    
-    setupCamera();
-    greyBoxShader->begin();
-
     GLuint viewLoc  = glGetUniformLocation(greyBoxShader->ID, "view");
     GLuint projectionLoc  = glGetUniformLocation(greyBoxShader->ID, "projection");
     

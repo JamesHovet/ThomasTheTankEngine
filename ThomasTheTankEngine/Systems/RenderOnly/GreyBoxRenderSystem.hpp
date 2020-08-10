@@ -35,7 +35,6 @@ public:
     GreyBoxRenderSystem(EntityAdmin& admin) : System(admin) {};
     ~GreyBoxRenderSystem(){};
 private:
-    void setupCamera();
 };
 
 #endif /* GreyBoxRenderSystem_hpp */

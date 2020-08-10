@@ -7,15 +7,18 @@
 //
 
 
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdocumentation"
 #include "main.h"
 #include "EntityAdmin.hpp"
 #include "TransformComponent.hpp"
 #include "DebugNameComponent.hpp"
+#pragma clang diagnostic pop
 
 #import <XCTest/XCTest.h>
 
 EntityAdmin* g_admin;
+using json = nlohmann::json;
 
 @interface ThomasTheTankEngineTests : XCTestCase
 
@@ -140,6 +143,31 @@ EntityAdmin* g_admin;
     auto item = cameraFamilyStaticVector.at(0);
     XCTAssert(item.m_TransformComponent.serialize() == trans.serialize());
     XCTAssert(item.m_CameraComponent.serialize() == cam.serialize());
+}
+
+- (void)testSerializeByEntityInternal {
+    for(int i = 0; i < 3; i++){
+        g_admin->tryCreateEntity(i);
+        g_admin->addComponent<TransformComponent>(i);
+        DebugNameComponent& name = g_admin->addComponent<DebugNameComponent>(i);
+        name.m_name = std::to_string(i);
+    }
+    
+    json::object_t world_obj = g_admin->serializeByEntityInternal();
+    
+    EntityAdmin* new_world = new EntityAdmin();
+    
+    new_world->deserializeByEntityInternal(world_obj);
+    
+    for(int i = 0; i < 3; i++){
+        XCTAssert(new_world->tryGetEntity(i) != nullptr);
+        XCTAssert(new_world->tryGetComponent<TransformComponent>(i) != nullptr);
+        XCTAssert(new_world->tryGetComponent<DebugNameComponent>(i) != nullptr);
+        XCTAssert(new_world->tryGetComponent<TransformComponent>(i)->m_position == g_admin->tryGetComponent<TransformComponent>(i)->m_position);
+        XCTAssert(new_world->tryGetComponent<DebugNameComponent>(i)->m_name     == g_admin->tryGetComponent<DebugNameComponent>(i)->m_name);
+    }
+    
+    delete new_world;
 }
 
 @end

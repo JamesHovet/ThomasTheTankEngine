@@ -34,8 +34,9 @@ int main(int argc, const char * argv[]) {
     window_init();
     
     g_admin.setup();
-    
     TRACE_EVENT("Setup End");
+    g_admin.loadTestScene();
+    TRACE_EVENT("Finished loading test scene");
     
     holdWindowOpen();
 //    legacyHoldWindowOpen();

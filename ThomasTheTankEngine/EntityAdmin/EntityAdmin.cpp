@@ -363,6 +363,15 @@ bool EntityAdmin::serializeByEntityCompatability(boost::filesystem::path outAbso
     outfile.open(outAbsolute, std::ios_base::out);
     if(not outfile.is_open()){return false;}
     
+    json out = serializeByEntityInternal();
+    
+    outfile << out.dump(4);
+    
+    outfile.close();
+    return true;
+}
+
+json::object_t EntityAdmin::serializeByEntityInternal(){
     json out;
     
     out["entities"] = json::object();
@@ -379,25 +388,12 @@ bool EntityAdmin::serializeByEntityCompatability(boost::filesystem::path outAbso
     }
     
     out["version"] = SERIALIZATION_VERSION;
-    
-    outfile << out.dump(4);
-    
-    outfile.close();
-    return true;
+    return out;
 }
 
 //TODO: make a not compatability version that is faster and doesn't have to do so many string compares
-bool EntityAdmin::deserializeByEntityCompatability(boost::filesystem::path inAbsolute){
-    
-    boost::filesystem::ifstream infile;
-    infile.open(inAbsolute, std::ios_base::in);
-    if(not infile.is_open()){return false;}
-    
-    json in;
-    
-    infile >> in;
-    
-    
+
+bool EntityAdmin::deserializeByEntityInternal(nlohmann::json::object_t in){
     for(json::iterator entityIt = in["entities"].begin(); entityIt != in["entities"].end(); ++entityIt){
         entityID eID = std::stoi(entityIt.key());
 //        json::object_t components = entityIt.value();
@@ -421,17 +417,26 @@ bool EntityAdmin::deserializeByEntityCompatability(boost::filesystem::path inAbs
 #include "deserializationCompatability.cpp"
             
         }
-        
-        
-        
-        
     }
+    return true;
+}
+
+bool EntityAdmin::deserializeByEntityCompatability(boost::filesystem::path inAbsolute){
     
+    boost::filesystem::ifstream infile;
+    infile.open(inAbsolute, std::ios_base::in);
+    if(not infile.is_open()){return false;}
+    
+    json in;
+    
+    infile >> in;
+    
+    bool out = deserializeByEntityInternal(in);
     
     infile.close();
     
     
-    return true;
+    return out;
 }
 
 float seconds(uint64_t ms){ return ((float) ms) / 1000.0f;}

@@ -71,7 +71,9 @@ public:
     void destroyAllEntities();
 
     bool serializeByEntityCompatability(boost::filesystem::path outAbsolute);
+    nlohmann::json::object_t serializeByEntityInternal();
     bool deserializeByEntityCompatability(boost::filesystem::path inAbsolute);
+    bool deserializeByEntityInternal(nlohmann::json::object_t obj);
     
 private:
     void initAllSystems();

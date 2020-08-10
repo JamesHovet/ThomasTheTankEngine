@@ -10,6 +10,7 @@
 #define InputSingleton_hpp
 
 #include <SDL2/SDL.h>
+#include "typedefs.h"
 
 enum class KEY_INPUT_MODE {
     GAME,
@@ -25,7 +26,11 @@ enum class PAD_INPUT_MODE {
 #define MAX_INPUT_TEXT_LENGTH 256
 
 struct InputSingleton {
-
+protected:
+    EntityAdmin& m_admin;
+public:
+    InputSingleton(EntityAdmin& _m_admin) : m_admin(_m_admin){}
+    
     int padID = -1;
     int keyboardID = -1;
     int mouseID = -1;
@@ -51,6 +56,8 @@ struct InputSingleton {
     bool hasPendingClick = false;
     glm::vec2 clickWindowSpace;
     glm::vec2 clickViewportSpace;
+    
+    ray getClickRaycast();
     
     void resetClick(){
         hasPendingClick = false;

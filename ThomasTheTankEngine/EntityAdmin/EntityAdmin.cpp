@@ -108,7 +108,8 @@ EntityAdmin::EntityAdmin()
     m_GreyBoxRenderSystem(*this),
     m_EditorSystem(*this),
     m_InputSystem(*this),
-    m_ConsoleSystem(*this)
+    m_ConsoleSystem(*this),
+    m_InputSingleton(*this)
 {
     constructComponentPools(m_components_pool_array,
                             m_components_destuction_callbacks_array,

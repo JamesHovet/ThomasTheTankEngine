@@ -10,7 +10,6 @@
 #define EditorSystem_hpp
 
 #include "System.hpp"
-#include "allFamilies.h"
 
 
 class EditorSystem : public System {
@@ -21,6 +20,9 @@ public:
     void init();
     void tick(uint64_t dt);
     void render();
+    
+private:
+    bool getClosestOBBIntersectionEntity(ray r, entityID* eID, glm::vec3* hitOutput);
 };
 
 #endif /* EditorSystem_hpp */

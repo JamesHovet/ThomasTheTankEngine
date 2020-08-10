@@ -7,6 +7,7 @@
 //
 
 #include "EditorSystem.hpp"
+#include "allFamilies.h"
 #include "libs/imgui/imgui.h"
 #include "ImGuiUtils.hpp"
 #include "EntityAdmin.hpp"
@@ -31,8 +32,6 @@ static void processEditorCameraKeyInput(TransformComponent &camTransformC, uint6
         edit.editorCameraComponent = edit.defaultEditorCameraComponent;
         edit.editorCameraTransform = edit.defaultEditorCameraTransform;
     }
-    
-    
     
     // Keyboard editor camera movement
     if(input.rawSDLState[SDL_SCANCODE_W]){
@@ -78,84 +77,13 @@ void EditorSystem::tick(uint64_t dt){
         processEditorCameraKeyInput(camTransformC, dt, edit, input);
         
         if(input.hasPendingClick){
-            ray r;
-            glm::vec4 mouse = glm::vec4(input.clickViewportSpace.x, input.clickViewportSpace.y, -1.0f, 1.0f);
-//            glm::vec4 pos = mouse * m_admin.m_RenderSingleton.screenToWorld();
-            glm::vec4 pos = glm::inverse(m_admin.m_RenderSingleton.projection * m_admin.m_RenderSingleton.view) * mouse;
-//
-            pos.x /= pos.w;
-            pos.y /= pos.w;
-            pos.z /= pos.w;
-            
-            r.orig = m_admin.m_EditorSingleton.editorCameraTransform.m_position;
-            r.dir = glm::normalize(glm::vec3(pos.x, pos.y, pos.z) - r.orig);
-            
-//            printf("%f, %f, %f\n", r.dir.x, r.dir.y, r.dir.z);
-            
-//            printf("%f, %f, %f, %f\n", mouse.x, mouse.y, mouse.z, mouse.w);
-            input.resetClick();
-            
-            float closestD = INFINITY;
-            entityID closest = -1;
+            ray r = input.getClickRaycast();
+            entityID targetEID;
             glm::vec3 hit;
-            
-            for(std::pair<entityID, AABBCollisionFamily> p : m_admin.getFamilyMap<AABBCollisionFamily>()){
-                AABBCollisionFamily f = p.second;
-                AABB box = f.m_AABBColliderComponent.m_AABB;
-//                glm::vec3 pos = f.m_TransformComponent.m_position;
-                
-//                glm::mat4 model = glm::mat4(1.0f);
-                glm::mat4 model = f.m_TransformComponent.getLocalModelMatrix();
-                
-//                {
-//
-//                    glm::vec4 positions[8] = {
-//                        model * glm::vec4(box.min.x, box.min.y, box.min.z, 1.0f),
-//                        model * glm::vec4(box.min.x, box.min.y, box.max.z, 1.0f),
-//                        model * glm::vec4(box.min.x, box.max.y, box.min.z, 1.0f),
-//                        model * glm::vec4(box.min.x, box.max.y, box.max.z, 1.0f),
-//                        model * glm::vec4(box.max.x, box.min.y, box.min.z, 1.0f),
-//                        model * glm::vec4(box.max.x, box.min.y, box.max.z, 1.0f),
-//                        model * glm::vec4(box.max.x, box.max.y, box.min.z, 1.0f),
-//                        model * glm::vec4(box.max.x, box.max.y, box.max.z, 1.0f),
-//                    };
-//
-//                    for(auto p : positions){
-//                        entityID e = m_admin.createEntity();
-//                        TransformComponent& trans = m_admin.addComponent<TransformComponent>(e);
-//                        trans.m_position = p;
-//                        trans.m_scale = glm::vec3(0.2f);
-//                        GreyBoxComponent& box = m_admin.addComponent<GreyBoxComponent>(e);
-//                        box.m_color = RGBA(1.0F, 0.0f, 1.0f, 1.0f);
-//
-//                    }
-//                }
-//
-                glm::vec3 thisHit;
-                float d;
-                bool didIntersect = Intersection::RayOBB(r, box, model, &d, &thisHit);
-                if(didIntersect){
-                    if(d < closestD){
-                        closest = p.first;
-                        closestD = d;
-                        hit = thisHit;
-                    }
-                }
+            if (getClosestOBBIntersectionEntity(r, &targetEID, &hit)){
+                GreyBoxComponent * box = m_admin.tryGetComponent<GreyBoxComponent>(targetEID);
+                box->m_color = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
             }
-            
-            if(closest != -1){
-                GreyBoxComponent * box = m_admin.tryGetComponent<GreyBoxComponent>(closest);
-                if(box != nullptr){
-                    box->m_color = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
-                }
-                entityID e = m_admin.createEntity();
-                TransformComponent& t = m_admin.addComponent<TransformComponent>(e);
-                t.m_position = hit;
-                t.m_scale = glm::vec3(0.2f);
-                GreyBoxComponent& b = m_admin.addComponent<GreyBoxComponent>(e);
-                b.m_color = RGBA(1.0f, 0.0f, 1.0f, 1.0f);
-            }
-            
         }
     }
    
@@ -199,4 +127,33 @@ void EditorSystem::render(){
 //    ImGui::InputVec3("Camera forward", &cameraC->m_forward);
     
     ImGui::End();
+}
+
+bool EditorSystem::getClosestOBBIntersectionEntity(ray r, entityID *eID, glm::vec3 *hitOutput){
+    float closestD = INFINITY;
+    entityID closest = -1;
+    glm::vec3 hit;
+    
+    for(std::pair<entityID, AABBCollisionFamily> p : m_admin.getFamilyMap<AABBCollisionFamily>()){
+        AABBCollisionFamily f = p.second;
+        AABB box = f.m_AABBColliderComponent.m_AABB;
+        glm::mat4 model = f.m_TransformComponent.getLocalModelMatrix();
+        glm::vec3 thisHit;
+        float d;
+        bool didIntersect = Intersection::RayOBB(r, box, model, &d, &thisHit);
+        if(didIntersect){
+            if(d < closestD){
+                closest = p.first;
+                closestD = d;
+                hit = thisHit;
+            }
+        }
+    }
+    
+    if(closest != -1){
+        *eID = closest;
+        *hitOutput = hit;
+        return true;
+    }
+    return false;
 }

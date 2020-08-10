@@ -41,6 +41,7 @@
 		594A5F3324B4BA6400733231 /* DebugPrintSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 594A5F3124B4BA6400733231 /* DebugPrintSystem.cpp */; };
 		594A5F3A24B4E99000733231 /* Component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 594A5F3824B4E99000733231 /* Component.cpp */; };
 		595B22FD24E1C73B002F74FF /* TypeSerializationTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 595B22FC24E1C73B002F74FF /* TypeSerializationTests.mm */; };
+		595B22FF24E1E273002F74FF /* InputSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 595B22FE24E1E273002F74FF /* InputSingleton.cpp */; };
 		59661B44242B93900088525D /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59661B43242B93900088525D /* Shader.cpp */; };
 		59661B46242B96250088525D /* default.vert in CopyFiles */ = {isa = PBXBuildFile; fileRef = 59661B3B242962B70088525D /* default.vert */; };
 		59661B47242B96250088525D /* default.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 59661B3C242962CA0088525D /* default.frag */; };
@@ -198,6 +199,7 @@
 		594F6A2324C1D71300647AC3 /* TransformComponent.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TransformComponent.hpp; sourceTree = "<group>"; };
 		594F6A2524C218FA00647AC3 /* AllSystems.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AllSystems.hpp; sourceTree = "<group>"; };
 		595B22FC24E1C73B002F74FF /* TypeSerializationTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = TypeSerializationTests.mm; sourceTree = "<group>"; };
+		595B22FE24E1E273002F74FF /* InputSingleton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = InputSingleton.cpp; sourceTree = "<group>"; };
 		596619B3242926BF0088525D /* vec4.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = vec4.hpp; sourceTree = "<group>"; };
 		596619B4242926BF0088525D /* integer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = integer.hpp; sourceTree = "<group>"; };
 		596619B5242926BF0088525D /* vector_relational.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = vector_relational.hpp; sourceTree = "<group>"; };
@@ -1398,6 +1400,7 @@
 				59668C6324CFA472006744B7 /* ConsoleSingleton.hpp */,
 				59374D5224D367E100A75B7E /* ShaderCatalogSingleton.cpp */,
 				59374D5324D367E100A75B7E /* ShaderCatalogSingleton.hpp */,
+				595B22FE24E1E273002F74FF /* InputSingleton.cpp */,
 			);
 			path = Singletons;
 			sourceTree = "<group>";
@@ -1575,6 +1578,7 @@
 				59374D5424D367E100A75B7E /* ShaderCatalogSingleton.cpp in Sources */,
 				5937528824C25FBC00A0EC78 /* ECSUtils.cpp in Sources */,
 				591D1D0E243123CE00AF9DC5 /* Node.cpp in Sources */,
+				595B22FF24E1E273002F74FF /* InputSingleton.cpp in Sources */,
 				59484F6A242910030068591C /* imgui_draw.cpp in Sources */,
 				591D1D0B243106A400AF9DC5 /* ImGuiUtils.cpp in Sources */,
 				597C6AAC24E0583E002CB5D8 /* Trace.cpp in Sources */,

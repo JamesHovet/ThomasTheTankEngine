@@ -125,6 +125,8 @@ void GreyBoxRenderSystem::setupCamera(){
         
         renderSingleton.view = glm::lookAt(transC.m_position, transC.m_position + transC.getForward(), transC.getUp());
         renderSingleton.projection = glm::perspective(glm::radians(cameraC.m_FOV), (float)renderSingleton.SCREEN_WIDTH / (float)renderSingleton.SCREEN_HEIGHT, 0.1f, 100.0f);
+        renderSingleton.currentCameraC = &cameraC;
+        renderSingleton.currentCameraTransformC = &transC;
     } else {
         std::unordered_map<entityID, CameraFamily>& cameraFamilies = m_admin.getFamilyMap<CameraFamily>();
         for(auto it = cameraFamilies.begin(); it != cameraFamilies.end(); it++){

@@ -170,6 +170,35 @@ using json = nlohmann::json;
     delete new_world;
 }
 
+- (void)testPrototypes {
+    entityID eID = g_admin->createEntity();
+    CameraComponent& cam = g_admin->addComponent<CameraComponent>(eID);
+    TransformComponent& trans = g_admin->addComponent<TransformComponent>(eID);
+    trans.m_position = glm::vec3(42.0, 69105.0, -3.14);
+    prototype output = g_admin->createPrototypeFromEntity(eID);
+    
+    EntityAdmin* new_world = new EntityAdmin();
+    entityID newEID = new_world->createEntityFromPrototype(output);
+    
+    XCTAssert(new_world->tryGetComponent<TransformComponent>(newEID) != nullptr);
+    XCTAssert(new_world->tryGetComponent<CameraComponent>(newEID) != nullptr);
+    XCTAssert(new_world->tryGetComponent<TransformComponent>(newEID)->m_position == g_admin->tryGetComponent<TransformComponent>(eID)->m_position);
+    
+    delete new_world;
+}
+
+- (void)testDuplicateEntity {
+    entityID eID = g_admin->createEntity();
+    CameraComponent& cam = g_admin->addComponent<CameraComponent>(eID);
+    TransformComponent& trans = g_admin->addComponent<TransformComponent>(eID);
+    trans.m_position = glm::vec3(42.0, 69105.0, -3.14);
+    entityID dupe = g_admin->duplicateEntity(eID);
+    XCTAssert(g_admin->tryGetEntity(dupe) != nullptr);
+    XCTAssert(g_admin->tryGetComponent<TransformComponent>(dupe) != nullptr);
+    XCTAssert(g_admin->tryGetComponent<CameraComponent>(dupe) != nullptr);
+    XCTAssert(g_admin->tryGetComponent<TransformComponent>(eID)->m_position == g_admin->tryGetComponent<TransformComponent>(dupe)->m_position);
+}
+
 @end
 
 //- (void)testPerformanceExample {

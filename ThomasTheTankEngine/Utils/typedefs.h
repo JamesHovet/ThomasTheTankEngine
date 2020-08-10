@@ -11,10 +11,12 @@
 
 #include <bitset>
 #include <glm/glm.hpp>
+#include <json.hpp>
 
 typedef unsigned entityID;
 typedef unsigned componentID;
 typedef unsigned familyID;
+typedef nlohmann::json::object_t prototype;
 typedef std::bitset<64> componentMask;
 typedef glm::vec4 RGBA;
 typedef glm::vec3 RGB;

@@ -20,6 +20,8 @@
 #include <boost/filesystem/path.hpp>
 #include "FileUtils.hpp"
 
+#include "typedefs.h"
+
 #include "Component.hpp"
 #include "ComponentsEnum.hpp"
 
@@ -64,6 +66,9 @@ public:
     void loadTestScene();
     
     entityID createEntity();
+    entityID createEntityFromPrototype(prototype proto);
+    prototype createPrototypeFromEntity(entityID eID);
+    entityID duplicateEntity(entityID eID);
     Entity* tryCreateEntity(entityID eID);
     void destroyEntity(entityID e);
     Entity* tryGetEntity(entityID e);
@@ -81,6 +86,7 @@ private:
     void filterEntitiesIntoStaticFamilies();
     void clearFamilies();
     void clearStaticFamilyVectors();
+    void populateEntityFromJson(entityID eID, nlohmann::json j);
 public:
     template <typename T>
     T& addComponent(entityID eID){

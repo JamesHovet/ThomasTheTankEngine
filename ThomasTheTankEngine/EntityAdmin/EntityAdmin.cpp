@@ -391,20 +391,17 @@ json::object_t EntityAdmin::serializeByEntityInternal(){
     return out;
 }
 
-//TODO: make a not compatability version that is faster and doesn't have to do so many string compares
+prototype EntityAdmin::createPrototypeFromEntity(entityID eID){
+    prototype out;
+    for(auto it = componentsBegin(eID); it != componentsEnd(eID); ++it){
+        out[ComponentIDToStringStruct::map.at(it.cID)] = (*it)->serialize();
+    }
+    return out;
+}
 
-bool EntityAdmin::deserializeByEntityInternal(nlohmann::json::object_t in){
-    for(json::iterator entityIt = in["entities"].begin(); entityIt != in["entities"].end(); ++entityIt){
-        entityID eID = std::stoi(entityIt.key());
-//        json::object_t components = entityIt.value();
-        
-        tryCreateEntity(eID);
-        
-        for(json::iterator componentIt = entityIt.value().begin(); componentIt != entityIt.value().end(); ++componentIt){
-            
-//            std::cout << componentIt.key() << " : " << componentIt.value() << std::endl;
-            
-            
+//TODO: make a not compatability version that is faster and doesn't have to do so many string compares
+void EntityAdmin::populateEntityFromJson(entityID eID, json j){
+    for(json::iterator componentIt = j.begin(); componentIt != j.end(); ++componentIt){
             if(componentIt.key() == "TransformComponent"){
                 addComponent<TransformComponent>(eID, TransformComponent::deserialize(componentIt.value()));
             }
@@ -415,8 +412,29 @@ bool EntityAdmin::deserializeByEntityInternal(nlohmann::json::object_t in){
                 addComponent<CameraComponent>(eID, CameraComponent::deserialize(componentIt.value()));
             }
 #include "deserializationCompatability.cpp"
-            
         }
+}
+
+entityID EntityAdmin::createEntityFromPrototype(prototype proto){
+    entityID eID = createEntity();
+    populateEntityFromJson(eID, proto);
+    return eID;
+}
+
+entityID EntityAdmin::duplicateEntity(entityID eID){
+    entityID dupe = createEntity();
+    populateEntityFromJson(dupe, createPrototypeFromEntity(eID));
+    return dupe;
+}
+
+bool EntityAdmin::deserializeByEntityInternal(nlohmann::json::object_t in){
+    for(json::iterator entityIt = in["entities"].begin(); entityIt != in["entities"].end(); ++entityIt){
+        entityID eID = std::stoi(entityIt.key());
+        bool couldCreateEntity = tryCreateEntity(eID);
+        if(couldCreateEntity == false){
+            return false;
+        }
+        populateEntityFromJson(eID, entityIt.value());
     }
     return true;
 }

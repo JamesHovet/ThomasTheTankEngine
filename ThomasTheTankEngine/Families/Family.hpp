@@ -6,6 +6,7 @@
 //  Copyright © 2020 James Hovet. All rights reserved.
 //
 
+#pragma once
 #ifndef Family_hpp
 #define Family_hpp
 #include "typedefs.h"

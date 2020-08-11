@@ -6,6 +6,7 @@
 //  Copyright © 2020 James Hovet. All rights reserved.
 //
 
+#pragma once
 #ifndef TransformComponent_hpp
 #define TransformComponent_hpp
 

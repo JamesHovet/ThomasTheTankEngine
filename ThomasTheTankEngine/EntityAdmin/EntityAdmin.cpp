@@ -9,6 +9,7 @@
 #include "EntityAdmin.hpp"
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <fstream>
 #include <ostream>
 #include <istream>
@@ -16,8 +17,10 @@
 
 #include "json.hpp"
 
+#include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/fstream.hpp>
+#include "FileUtils.hpp"
 
 #include "Component.hpp"
 #include "AllComponents.h"

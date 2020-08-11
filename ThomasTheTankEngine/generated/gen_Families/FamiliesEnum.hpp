@@ -1,6 +1,7 @@
 // familiesEnum.hpp
-// generated at: 2020-08-09 14:38:30.298282
+// generated at: 2020-08-11 07:29:03.070299
 
+#pragma once
 #ifndef familiesEnum_hpp
 #define familiesEnum_hpp
 

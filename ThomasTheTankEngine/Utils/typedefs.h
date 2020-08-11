@@ -6,6 +6,7 @@
 //  Copyright © 2020 James Hovet. All rights reserved.
 //
 
+#pragma once
 #ifndef typedefs_h
 #define typedefs_h
 
@@ -16,6 +17,7 @@
 typedef unsigned entityID;
 typedef unsigned componentID;
 typedef unsigned familyID;
+typedef unsigned GLuint;
 typedef nlohmann::json::object_t prototype;
 typedef std::bitset<64> componentMask;
 typedef glm::vec4 RGBA;

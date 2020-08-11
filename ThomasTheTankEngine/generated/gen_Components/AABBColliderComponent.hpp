@@ -1,5 +1,6 @@
 // AABBColliderComponent.hpp
-// generated at: 2020-08-09 14:38:30.298967
+// generated at: 2020-08-11 07:29:03.072347
+#pragma once
 #ifndef AABBColliderComponent_hpp
 #define AABBColliderComponent_hpp
 

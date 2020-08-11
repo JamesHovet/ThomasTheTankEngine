@@ -7,6 +7,7 @@
 //  https://learnopengl.com/code_viewer_gh.php?code=includes/learnopengl/shader_s.h
 //
 
+#pragma once
 #ifndef Shader_h
 #define Shader_h
 

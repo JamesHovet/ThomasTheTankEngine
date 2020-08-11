@@ -1,5 +1,6 @@
 // AABBCollisionFamily.hpp
-// generated at: 2020-08-09 14:38:30.299503
+// generated at: 2020-08-11 07:29:03.073235
+#pragma once
 #ifndef AABBCollisionFamily_hpp
 #define AABBCollisionFamily_hpp
 

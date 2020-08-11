@@ -8,6 +8,9 @@
 
 #include "ConsoleCommands.hpp"
 #include "EntityAdmin.hpp"
+#include "ShaderCatalogSingleton.hpp"
+#include "RenderSingleton.hpp"
+#include "ConsoleSingleton.hpp"
 
 void ConsoleCommands::cmd_reloadshaders(EntityAdmin& admin){
     admin.m_ShaderCatalogSingleton.reloadDirtyShaders();

@@ -6,6 +6,7 @@
 //  Copyright © 2020 James Hovet. All rights reserved.
 //
 
+#pragma once
 #ifndef ShaderCatalogSingleton_hpp
 #define ShaderCatalogSingleton_hpp
 

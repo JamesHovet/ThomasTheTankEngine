@@ -5,7 +5,7 @@
 //  Created by James Hovet on 3/23/20.
 //  Copyright © 2020 James Hovet. All rights reserved.
 //
-
+#pragma once
 #ifndef main_h
 #define main_h
 
@@ -43,10 +43,6 @@ os_log_t POI = os_log_create("com.james.POI", OS_LOG_CATEGORY_POINTS_OF_INTEREST
 
 // Mine
 #include "Utils/GL/Shader.hpp"
-#include "src/graphics_globals.hpp"
-#include "src/Node.hpp"
-#include "src/Rendering/Graphics.hpp"
-#include "src/Rendering/Camera.hpp"
 
 // ECS
 #include "EntityAdmin/EntityAdmin.hpp"

@@ -6,6 +6,7 @@
 //  Copyright © 2020 James Hovet. All rights reserved.
 //
 
+#pragma once
 #ifndef RenderSetupSystem_hpp
 #define RenderSetupSystem_hpp
 #include "System.hpp"

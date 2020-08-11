@@ -5,20 +5,15 @@
 //  Created by James Hovet on 7/7/20.
 //  Copyright © 2020 James Hovet. All rights reserved.
 //
-
+#pragma once
 #ifndef EntityAdmin_hpp
 #define EntityAdmin_hpp
 
-#include <stdio.h>
 #include <vector>
-#include <map>
 #include <unordered_map>
 #include <array>
-#include <unordered_set>
 #include "object_pool.hpp"
-#include <functional>
 #include <boost/filesystem/path.hpp>
-#include "FileUtils.hpp"
 
 #include "typedefs.h"
 
@@ -36,7 +31,7 @@
 #include "ConsoleSingleton.hpp"
 #include "ShaderCatalogSingleton.hpp"
 
-//#include "System.hpp"
+#include "System.hpp"
 #include "AllSystems.hpp"
 
 
@@ -46,6 +41,8 @@
 #define SERIALIZATION_VERSION "0.1"
 
 //class System;
+
+// TODO: maybe create a forward declaration header for this to speed up compile time? I don't know exactly how that would work, but it might be worthwhile because of how interdependant everything is on this one header file. 
 
 class EntityAdmin {
     friend EditorSystem;

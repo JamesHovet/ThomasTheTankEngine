@@ -1,5 +1,6 @@
 // DebugPrintableFamily.hpp
-// generated at: 2020-08-09 14:38:30.299149
+// generated at: 2020-08-11 07:29:03.072545
+#pragma once
 #ifndef DebugPrintableFamily_hpp
 #define DebugPrintableFamily_hpp
 

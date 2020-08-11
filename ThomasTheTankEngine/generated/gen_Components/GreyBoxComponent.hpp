@@ -1,5 +1,6 @@
 // GreyBoxComponent.hpp
-// generated at: 2020-08-09 14:38:30.298783
+// generated at: 2020-08-11 07:29:03.072141
+#pragma once
 #ifndef GreyBoxComponent_hpp
 #define GreyBoxComponent_hpp
 

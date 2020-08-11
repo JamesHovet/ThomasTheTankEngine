@@ -7,6 +7,10 @@
 //
 
 #include "FileUtils.hpp"
+#include <limits.h>
+#include <boost/filesystem/path.hpp>
+#include <boost/filesystem/operations.hpp>
+#include <mach-o/dyld.h>
 
 std::string FileUtils::getResourceAbsoluteFilePath(const char *resourcePathCStr){
     char executablePathBuf [PATH_MAX];

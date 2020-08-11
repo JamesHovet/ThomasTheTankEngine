@@ -6,12 +6,9 @@
 //  Copyright © 2020 James Hovet. All rights reserved.
 //
 
+#pragma once
 #ifndef ConsoleCommands_hpp
 #define ConsoleCommands_hpp
-
-#include "ShaderCatalogSingleton.hpp"
-#include "RenderSingleton.hpp"
-#include "ConsoleSingleton.hpp"
 
 class EntityAdmin;
 

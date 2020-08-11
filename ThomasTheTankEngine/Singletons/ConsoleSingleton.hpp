@@ -6,6 +6,7 @@
 //  Copyright © 2020 James Hovet. All rights reserved.
 //
 
+#pragma once
 #ifndef ConsoleSingleton_hpp
 #define ConsoleSingleton_hpp
 

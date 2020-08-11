@@ -1,5 +1,6 @@
 // DebugNameComponent.hpp
 // generated at: 2020-07-17 07:59:44.423739
+#pragma once
 #ifndef DebugNameComponent_hpp
 #define DebugNameComponent_hpp
 

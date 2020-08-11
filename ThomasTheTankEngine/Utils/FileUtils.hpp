@@ -6,14 +6,10 @@
 //  Copyright © 2020 James Hovet. All rights reserved.
 //
 
+#pragma once
 #ifndef FileUtils_h
 #define FileUtils_h
 #include <string>
-#include <limits.h>
-#include <boost/filesystem/path.hpp>
-#include <boost/filesystem/operations.hpp>
-#include <mach-o/dyld.h>
-
 
 namespace FileUtils
 {

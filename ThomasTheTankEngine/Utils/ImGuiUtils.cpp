@@ -7,6 +7,7 @@
 //
 
 #include "ImGuiUtils.hpp"
+#include "imgui.h"
 
 using namespace ImGui;
 

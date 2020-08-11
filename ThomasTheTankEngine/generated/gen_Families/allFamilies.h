@@ -1,6 +1,7 @@
 
 // AllFamilies.hpp
 
+#pragma once
 #ifndef AllFamilies_hpp
 #define AllFamilies_hpp
 

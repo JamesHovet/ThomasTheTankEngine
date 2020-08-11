@@ -69,6 +69,7 @@ def createAndWriteForComponentDict(c, componentID):
     f = open(OUTPUT_COMPONENTS + fullname + ".hpp", mode='w')
     f.write("// " + fullname + ".hpp\n")
     f.write("// generated at: " + str(datetime.now()) + "\n")
+    f.write("#pragma once\n")
     f.write("#ifndef " + fullname + "_hpp\n") 
     f.write("#define " + fullname + "_hpp\n\n") 
 
@@ -225,6 +226,7 @@ def createAndWriteForFamilyDict(c, familyID):
     f = open(OUTPUT_FAMILIES + fullname + ".hpp", mode='w')
     f.write("// " + fullname + ".hpp\n")
     f.write("// generated at: " + str(datetime.now()) + "\n")
+    f.write("#pragma once\n")
     f.write("#ifndef " + fullname + "_hpp\n") 
     f.write("#define " + fullname + "_hpp\n\n")
     f.write("#include \"Family.hpp\"\n\n")
@@ -339,6 +341,7 @@ if __name__ == "__main__":
     allComponents.write("// AllComponents.hpp\n")
     allComponents.write("// generated at: " + str(datetime.now()) + "\n")
     allComponents.write("""
+#pragma once
 #ifndef AllComponents_hpp
 #define AllComponents_hpp\n
 
@@ -349,6 +352,7 @@ if __name__ == "__main__":
     componentsEnum.write("// ComponentsEnum.hpp\n")
     componentsEnum.write("// generated at: " + str(datetime.now()) + "\n")
     componentsEnum.write("""
+#pragma once
 #ifndef ComponentsEnum_hpp
 #define ComponentsEnum_hpp
 
@@ -360,6 +364,7 @@ enum class Components {
     
     allFamilies.write("""
 // AllFamilies.hpp\n
+#pragma once
 #ifndef AllFamilies_hpp
 #define AllFamilies_hpp\n
 """)
@@ -367,6 +372,7 @@ enum class Components {
     familiesEnum.write("// familiesEnum.hpp\n")
     familiesEnum.write("// generated at: " + str(datetime.now()) + "\n")
     familiesEnum.write("""
+#pragma once
 #ifndef familiesEnum_hpp
 #define familiesEnum_hpp\n
 
@@ -375,6 +381,7 @@ enum class Families {
 """)
 
     componentStringSerializationMapsCPP.write("""
+#pragma once
 #ifndef componentStringSerializationMaps
 #define componentStringSerializationMaps
 

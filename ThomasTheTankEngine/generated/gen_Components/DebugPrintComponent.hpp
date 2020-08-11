@@ -1,5 +1,6 @@
 // DebugPrintComponent.hpp
-// generated at: 2020-08-09 14:38:30.298584
+// generated at: 2020-08-11 07:29:03.071636
+#pragma once
 #ifndef DebugPrintComponent_hpp
 #define DebugPrintComponent_hpp
 

@@ -6,6 +6,7 @@
 //  Copyright © 2020 James Hovet. All rights reserved.
 //
 
+#pragma once
 #ifndef ConsoleSystem_hpp
 #define ConsoleSystem_hpp
 #include "System.hpp"

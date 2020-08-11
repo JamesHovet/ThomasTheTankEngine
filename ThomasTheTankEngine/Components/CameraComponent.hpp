@@ -1,5 +1,6 @@
 // CameraComponent.hpp
 // generated at: 2020-07-24 10:40:50.122297
+#pragma once
 #ifndef CameraComponent_hpp
 #define CameraComponent_hpp
 

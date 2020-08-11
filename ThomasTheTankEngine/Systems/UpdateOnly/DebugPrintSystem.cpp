@@ -8,6 +8,7 @@
 
 #include "EntityAdmin.hpp"
 #include "DebugPrintSystem.hpp"
+#include "GreyBoxFamily.hpp"
 #include <stdio.h>
 
 void DebugPrintSystem::tick(uint64_t dt){

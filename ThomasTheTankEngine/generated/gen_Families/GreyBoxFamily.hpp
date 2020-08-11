@@ -1,5 +1,6 @@
 // GreyBoxFamily.hpp
-// generated at: 2020-08-09 14:38:30.299327
+// generated at: 2020-08-11 07:29:03.073024
+#pragma once
 #ifndef GreyBoxFamily_hpp
 #define GreyBoxFamily_hpp
 

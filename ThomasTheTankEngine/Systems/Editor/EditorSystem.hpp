@@ -6,11 +6,12 @@
 //  Copyright © 2020 James Hovet. All rights reserved.
 //
 
+#pragma once
 #ifndef EditorSystem_hpp
 #define EditorSystem_hpp
 
 #include "System.hpp"
-#include <glew.h>
+#include "typedefs.h"
 
 class EditorSystem : public System {
 public:

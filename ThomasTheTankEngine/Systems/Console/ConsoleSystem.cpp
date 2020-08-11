@@ -25,6 +25,7 @@ void ConsoleSystem::tick(uint64_t dt){
                 printf("reload shaders\n");
                 ConsoleCommands::cmd_reloadshaders(m_admin);
             }
+            //TODO: move these into the console command file, even though they are so short
             if (strncmp(input.activeLine, "save", 4) == 0){
                 printf("saving:\n");
                 m_admin.serializeByEntityCompatability(boost::filesystem::path("/Users/jameshovet/Development/ThomasTheTankEngine/tmp/out.json"));

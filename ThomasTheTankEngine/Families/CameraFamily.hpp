@@ -1,5 +1,6 @@
 // CameraFamily.hpp
 // generated at: 2020-07-24 10:40:50.122804
+#pragma once
 #ifndef CameraFamily_hpp
 #define CameraFamily_hpp
 

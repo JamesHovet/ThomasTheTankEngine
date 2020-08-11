@@ -1,6 +1,7 @@
 // ComponentsEnum.hpp
-// generated at: 2020-08-09 14:38:30.298278
+// generated at: 2020-08-11 07:29:03.070295
 
+#pragma once
 #ifndef ComponentsEnum_hpp
 #define ComponentsEnum_hpp
 

@@ -6,8 +6,20 @@
 //  Copyright © 2020 James Hovet. All rights reserved.
 //
 
+#include <glew.h>
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+#include "Shader.hpp"
+
+#include "GreyBoxFamily.hpp"
+#include "CameraFamily.hpp"
+
 #include "GreyBoxRenderSystem.hpp"
 #include "EntityAdmin.hpp"
+
 #include <vector>
 
 unsigned int GreyBoxRenderSystem::cube_VBO    = 0;
@@ -128,7 +140,7 @@ void GreyBoxRenderSystem::render(){
     // populate the instance positions array
     std::vector<GreyBoxFamilyStatic>& boxes = m_admin.getFamilyStaticVector<GreyBoxFamilyStatic>();
     
-    auto numBoxes = boxes.size();
+    int numBoxes = boxes.size();
 //    numBoxes = 3;
     
     greyBoxRenderData instanceData[numBoxes];

@@ -126,8 +126,7 @@ void EditorSystem::tick(uint64_t dt){
     EditorSingleton& edit = m_admin.m_EditorSingleton;
     InputSingleton& input = m_admin.m_InputSingleton;
     TransformComponent& camTransformC = m_admin.m_EditorSingleton.editorCameraTransform;
-    CameraComponent& camC = m_admin.m_EditorSingleton.editorCameraComponent;
-    
+
     if(input.shouldSendKeysTo == KEY_INPUT_MODE::EDITOR){
         processEditorCameraKeyInput(camTransformC, dt, edit, input);
         

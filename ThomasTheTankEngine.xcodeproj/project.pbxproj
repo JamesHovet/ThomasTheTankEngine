@@ -16,7 +16,6 @@
 		590F5685242CD3D300BC9DC2 /* stb_image_implementation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 590F5684242CD3D300BC9DC2 /* stb_image_implementation.cpp */; };
 		590F5687242CD9B300BC9DC2 /* awesomeface.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 590F5686242CD9B300BC9DC2 /* awesomeface.png */; };
 		591D1D0B243106A400AF9DC5 /* ImGuiUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 591D1D09243106A400AF9DC5 /* ImGuiUtils.cpp */; };
-		591D1D0E243123CE00AF9DC5 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 591D1D0C243123CE00AF9DC5 /* Node.cpp */; };
 		59374D5424D367E100A75B7E /* ShaderCatalogSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59374D5224D367E100A75B7E /* ShaderCatalogSingleton.cpp */; };
 		5937528824C25FBC00A0EC78 /* ECSUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5937528624C25FBC00A0EC78 /* ECSUtils.cpp */; };
 		593868F524CE1F6E00AD33FF /* ThomasTheTankEngineTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 593868F424CE1F6E00AD33FF /* ThomasTheTankEngineTests.mm */; };
@@ -56,14 +55,11 @@
 		59AA59D324D4D8D10082B201 /* componentViews.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59AA59D224D4D8D10082B201 /* componentViews.cpp */; };
 		59B2DDA924D77EE00050E31A /* IntersectionUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59B2DDA724D77EE00050E31A /* IntersectionUtils.cpp */; };
 		59C0382424D5999100DFFA3E /* libboost_filesystem.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 59B35EE024CE1EAC00605588 /* libboost_filesystem.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		59C0382624D5999300DFFA3E /* libgainput.1.0.0.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 592B478024CF178200EB0DC0 /* libgainput.1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		59C0382724D5999400DFFA3E /* libGLEW.2.1.0.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 59484F4C24290C2D0068591C /* libGLEW.2.1.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		59C0382824D5999600DFFA3E /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59484F4A24290C0D0068591C /* OpenGL.framework */; };
 		59C0382A24D5999800DFFA3E /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59484F4E24290C410068591C /* SDL2.framework */; };
 		59C0382B24D5999800DFFA3E /* SDL2.framework in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 59484F4E24290C410068591C /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		59C0383224D5CEFE00DFFA3E /* SerializationUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59C0383024D5CEFE00DFFA3E /* SerializationUtils.cpp */; };
-		59F7F2AA2430F3C900A673D1 /* Graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59F7F2A82430F3C900A673D1 /* Graphics.cpp */; };
-		59F7F2AE2430F9EA00A673D1 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59F7F2AC2430F9EA00A673D1 /* Camera.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,7 +108,6 @@
 			files = (
 				59C0382B24D5999800DFFA3E /* SDL2.framework in Embed Libraries */,
 				59C0382724D5999400DFFA3E /* libGLEW.2.1.0.dylib in Embed Libraries */,
-				59C0382624D5999300DFFA3E /* libgainput.1.0.0.dylib in Embed Libraries */,
 				59C0382424D5999100DFFA3E /* libboost_filesystem.dylib in Embed Libraries */,
 			);
 			name = "Embed Libraries";
@@ -154,8 +149,6 @@
 		5919A0F724C0E701009F97F8 /* DebugNameComponent.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DebugNameComponent.hpp; sourceTree = "<group>"; };
 		591D1D09243106A400AF9DC5 /* ImGuiUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ImGuiUtils.cpp; sourceTree = "<group>"; };
 		591D1D0A243106A400AF9DC5 /* ImGuiUtils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ImGuiUtils.hpp; sourceTree = "<group>"; };
-		591D1D0C243123CE00AF9DC5 /* Node.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Node.cpp; sourceTree = "<group>"; };
-		591D1D0D243123CE00AF9DC5 /* Node.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Node.hpp; sourceTree = "<group>"; };
 		592B478024CF178200EB0DC0 /* libgainput.1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgainput.1.0.0.dylib; path = ../../../../usr/local/lib/libgainput.1.0.0.dylib; sourceTree = "<group>"; };
 		59374D5224D367E100A75B7E /* ShaderCatalogSingleton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderCatalogSingleton.cpp; sourceTree = "<group>"; };
 		59374D5324D367E100A75B7E /* ShaderCatalogSingleton.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ShaderCatalogSingleton.hpp; sourceTree = "<group>"; };
@@ -205,8 +198,8 @@
 		594F6A2524C218FA00647AC3 /* AllSystems.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AllSystems.hpp; sourceTree = "<group>"; };
 		595B22FC24E1C73B002F74FF /* TypeSerializationTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = TypeSerializationTests.mm; sourceTree = "<group>"; };
 		595B22FE24E1E273002F74FF /* InputSingleton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = InputSingleton.cpp; sourceTree = "<group>"; };
-		595B230024E1F376002F74FF /* RenderSetupSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = RenderSetupSystem.cpp; path = ThomasTheTankEngine/Systems/RenderOnly/RenderSetupSystem.cpp; sourceTree = "<group>"; };
-		595B230124E1F376002F74FF /* RenderSetupSystem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = RenderSetupSystem.hpp; path = ThomasTheTankEngine/Systems/RenderOnly/RenderSetupSystem.hpp; sourceTree = "<group>"; };
+		595B230024E1F376002F74FF /* RenderSetupSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RenderSetupSystem.cpp; sourceTree = "<group>"; };
+		595B230124E1F376002F74FF /* RenderSetupSystem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RenderSetupSystem.hpp; sourceTree = "<group>"; };
 		595B230324E201A1002F74FF /* unlitOpaque.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = unlitOpaque.vert; sourceTree = "<group>"; };
 		595B230424E201B7002F74FF /* unlitOpaque.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = unlitOpaque.frag; sourceTree = "<group>"; };
 		596619B3242926BF0088525D /* vec4.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = vec4.hpp; sourceTree = "<group>"; };
@@ -631,11 +624,6 @@
 		59CA7DC624D6FBBE00982443 /* deserializationCompatability.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = deserializationCompatability.cpp; sourceTree = "<group>"; };
 		59E57C4324CDC1E20076E507 /* filterEntitiesIntoStaticFamiliesInclude.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = filterEntitiesIntoStaticFamiliesInclude.cpp; sourceTree = "<group>"; };
 		59E57C4424CDC1F10076E507 /* populateFamilyStaticVectorsInclude.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = populateFamilyStaticVectorsInclude.cpp; sourceTree = "<group>"; };
-		59F7F2A82430F3C900A673D1 /* Graphics.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Graphics.cpp; sourceTree = "<group>"; };
-		59F7F2A92430F3C900A673D1 /* Graphics.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Graphics.hpp; sourceTree = "<group>"; };
-		59F7F2AB2430F56500A673D1 /* graphics_globals.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = graphics_globals.hpp; sourceTree = "<group>"; };
-		59F7F2AC2430F9EA00A673D1 /* Camera.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
-		59F7F2AD2430F9EA00A673D1 /* Camera.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Camera.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -771,8 +759,6 @@
 		59484F1E24290AEE0068591C = {
 			isa = PBXGroup;
 			children = (
-				595B230024E1F376002F74FF /* RenderSetupSystem.cpp */,
-				595B230124E1F376002F74FF /* RenderSetupSystem.hpp */,
 				59484F2924290AEE0068591C /* ThomasTheTankEngine */,
 				593868F324CE1F6E00AD33FF /* ThomasTheTankEngineTests */,
 				59484F2824290AEE0068591C /* Products */,
@@ -831,9 +817,6 @@
 		59484F5424290FCE0068591C /* src */ = {
 			isa = PBXGroup;
 			children = (
-				59F7F2AB2430F56500A673D1 /* graphics_globals.hpp */,
-				591D1D0C243123CE00AF9DC5 /* Node.cpp */,
-				591D1D0D243123CE00AF9DC5 /* Node.hpp */,
 				59661B39242962810088525D /* Rendering */,
 			);
 			path = src;
@@ -1371,10 +1354,6 @@
 			isa = PBXGroup;
 			children = (
 				59661B3A242962890088525D /* Shaders */,
-				59F7F2A82430F3C900A673D1 /* Graphics.cpp */,
-				59F7F2A92430F3C900A673D1 /* Graphics.hpp */,
-				59F7F2AC2430F9EA00A673D1 /* Camera.cpp */,
-				59F7F2AD2430F9EA00A673D1 /* Camera.hpp */,
 			);
 			path = Rendering;
 			sourceTree = "<group>";
@@ -1421,6 +1400,8 @@
 		5994CE5C24CDDA9700CED70A /* RenderOnly */ = {
 			isa = PBXGroup;
 			children = (
+				595B230024E1F376002F74FF /* RenderSetupSystem.cpp */,
+				595B230124E1F376002F74FF /* RenderSetupSystem.hpp */,
 				590A09B224CA34B800D1153A /* GreyBoxRenderSystem.cpp */,
 				590A09B324CA34B800D1153A /* GreyBoxRenderSystem.hpp */,
 			);
@@ -1590,18 +1571,15 @@
 				59668C6224CF9E31006744B7 /* ConsoleSystem.cpp in Sources */,
 				59374D5424D367E100A75B7E /* ShaderCatalogSingleton.cpp in Sources */,
 				5937528824C25FBC00A0EC78 /* ECSUtils.cpp in Sources */,
-				591D1D0E243123CE00AF9DC5 /* Node.cpp in Sources */,
 				595B22FF24E1E273002F74FF /* InputSingleton.cpp in Sources */,
 				59484F6A242910030068591C /* imgui_draw.cpp in Sources */,
 				591D1D0B243106A400AF9DC5 /* ImGuiUtils.cpp in Sources */,
 				597C6AAC24E0583E002CB5D8 /* Trace.cpp in Sources */,
 				594A5F3024B4B41D00733231 /* System.cpp in Sources */,
 				59661B44242B93900088525D /* Shader.cpp in Sources */,
-				59F7F2AA2430F3C900A673D1 /* Graphics.cpp in Sources */,
 				590A09B424CA34B800D1153A /* GreyBoxRenderSystem.cpp in Sources */,
 				594A5F2C24B4B32A00733231 /* EntityAdmin.cpp in Sources */,
 				594A5F3A24B4E99000733231 /* Component.cpp in Sources */,
-				59F7F2AE2430F9EA00A673D1 /* Camera.cpp in Sources */,
 				59484F65242910030068591C /* imgui_widgets.cpp in Sources */,
 				59484F67242910030068591C /* imgui_impl_opengl3.cpp in Sources */,
 				596C9E9924D44438007FEAF4 /* ConsoleCommands.cpp in Sources */,

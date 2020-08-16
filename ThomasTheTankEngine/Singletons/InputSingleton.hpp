@@ -46,6 +46,7 @@ public:
     PAD_INPUT_MODE shouldSendPadTo = PAD_INPUT_MODE::GAME;
     PAD_INPUT_MODE priorShouldSendPadTo = PAD_INPUT_MODE::GAME;
     
+    //typing stuff
     bool textInputMode = false;
     char activeLine[MAX_INPUT_TEXT_LENGTH];
     unsigned activeLineCursor = 0;
@@ -57,12 +58,17 @@ public:
         activeLine[0] = '\0';
     }
     
+    // mouse stuff
+    glm::vec2 windowSpaceToViewportSpace(glm::vec2 windowSpace);
+    
     bool hasPendingClick = false;
     bool mouseDown = false;
     bool isDragging = false;
     
-    glm::vec2 mouseDownPosition;
-    glm::vec2 mouseDragPosition;
+    glm::vec2 mouseDownPositionWindowSpace;
+    glm::vec2 mouseDownPositionViewportSpace;
+    glm::vec2 mouseDragPositionWindowSpace;
+    glm::vec2 mouseDragPositionViewportSpace;
     glm::vec2 clickWindowSpace;
     glm::vec2 clickViewportSpace;
     

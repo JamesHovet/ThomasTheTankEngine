@@ -24,3 +24,10 @@ ray InputSingleton::getClickRaycast(){
     return r;
 }
 
+glm::vec2 InputSingleton::windowSpaceToViewportSpace(glm::vec2 windowSpace){
+    float fwidth  = (float) m_admin.m_RenderSingleton.SCREEN_WIDTH;
+    float fheight = (float) m_admin.m_RenderSingleton.SCREEN_HEIGHT;
+    return glm::vec2((windowSpace.x * 2.0f / fwidth) - 1.0f,
+                     1.0f - (windowSpace.y * 2.0f / fheight));
+}
+

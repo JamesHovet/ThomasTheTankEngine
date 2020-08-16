@@ -82,14 +82,16 @@ void InputSystem::tick(uint64_t dt){
         if(e.type == SDL_MOUSEBUTTONDOWN){
             if(e.button.button == SDL_BUTTON_LEFT){
                 input.mouseDown = true;
-                input.mouseDownPosition = glm::vec2(e.button.x, e.button.y);
+                input.mouseDownPositionWindowSpace = glm::vec2(e.button.x, e.button.y);
+                input.mouseDownPositionViewportSpace = input.windowSpaceToViewportSpace(input.mouseDownPositionWindowSpace);
             }
         }
         
         if(e.type == SDL_MOUSEMOTION){
             if(input.mouseDown){
-                input.mouseDragPosition = glm::vec2(e.motion.x, e.motion.y);
-                if (glm::distance2(input.mouseDragPosition, input.mouseDownPosition) > DRAG_ACTIVATION_RADIUS){
+                input.mouseDragPositionWindowSpace = glm::vec2(e.motion.x, e.motion.y);
+                input.mouseDragPositionViewportSpace = input.windowSpaceToViewportSpace(input.mouseDragPositionWindowSpace);
+                if (glm::distance2(input.mouseDragPositionWindowSpace, input.mouseDownPositionWindowSpace) > DRAG_ACTIVATION_RADIUS){
                     input.isDragging = true;
                 }
             }
@@ -99,12 +101,7 @@ void InputSystem::tick(uint64_t dt){
             if(e.button.button == SDL_BUTTON_LEFT && not input.isDragging){
                 input.hasPendingClick = true;
                 input.clickWindowSpace = glm::vec2(e.button.x, e.button.y);
-                float fx      = (float) e.button.x;
-                float fy      = (float) e.button.y;
-                float fwidth  = (float) m_admin.m_RenderSingleton.SCREEN_WIDTH;
-                float fheight = (float) m_admin.m_RenderSingleton.SCREEN_HEIGHT;
-                input.clickViewportSpace = glm::vec2((fx * 2.0f / fwidth) - 1.0f,
-                                                     1.0f - (fy * 2.0f / fheight));
+                input.clickViewportSpace = input.windowSpaceToViewportSpace(input.clickWindowSpace);
             }
             
             if(e.button.button == SDL_BUTTON_LEFT){

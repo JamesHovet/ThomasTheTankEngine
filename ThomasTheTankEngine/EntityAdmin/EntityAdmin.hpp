@@ -40,9 +40,6 @@
 #define MAX_ENTITIES 2048
 #define SERIALIZATION_VERSION "0.1"
 
-//class System;
-
-// TODO: maybe create a forward declaration header for this to speed up compile time? I don't know exactly how that would work, but it might be worthwhile because of how interdependant everything is on this one header file. 
 
 class EntityAdmin {
     friend EditorSystem;

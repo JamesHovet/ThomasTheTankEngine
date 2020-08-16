@@ -18,6 +18,8 @@
 
 GLuint EditorSystem::stem_VBO = 0;
 GLuint EditorSystem::stem_VAO = 0;
+GLuint EditorSystem::head_VBO = 0;
+GLuint EditorSystem::head_VAO = 0;
 Shader* gizmoShader;
 
 float arrowStemVertsNoIndices[] = {
@@ -54,6 +56,24 @@ float arrowStemVertsNoIndices[] = {
     0.0f,  0.86603f,  -0.5f
 };
 
+float arrowVertsNoIndices[] = {
+    0.0, 0.0, 2.0,
+    0.0, 1.7321, -1,
+    0.0, -1.7321, -1,
+
+    0.0, 0.0, 2.0,
+    0.0, -1.7321, -1,
+    4.0, 0.0, 0.0,
+
+    0.0, 0.0, 2.0,
+    4.0, 0.0, 0.0,
+    0.0, 1.7321, -1,
+
+    4.0, 0.0, 0.0,
+    0.0, -1.7321, -1,
+    0.0, 1.7321, -1
+};
+
 void EditorSystem::init(){
     EditorSingleton& edit = m_admin.m_EditorSingleton;
     edit.defaultEditorCameraComponent = CameraComponent();
@@ -74,6 +94,16 @@ void EditorSystem::initRendering(){
     glGenBuffers(1, &stem_VBO);
     glBindBuffer(GL_ARRAY_BUFFER, stem_VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(arrowStemVertsNoIndices), &arrowStemVertsNoIndices[0], GL_STATIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (3) * sizeof(float), (void*) 0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    glGenVertexArrays(1, &head_VAO);
+    glBindVertexArray(head_VAO);
+    
+    glGenBuffers(1, &head_VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, head_VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(arrowVertsNoIndices), &arrowVertsNoIndices[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (3) * sizeof(float), (void*) 0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -155,7 +185,50 @@ void EditorSystem::render(){
     renderGizmos();
 }
 
+void EditorSystem::renderAxesAtModelMat(glm::mat4 modelBase){
+    GLuint modelLoc  = glGetUniformLocation(gizmoShader->ID, "model");
+    
+    // draw the three arrows
+    glBindVertexArray(stem_VAO);
+    glm::mat4 modelX = glm::scale(glm::rotate(modelBase, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(1.0f, 0.05f, 0.05f));
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelX));
+    gizmoShader->set4f("color", 1.0f, 0.0f, 0.0f, 0.8f);
+    glDrawArrays(GL_TRIANGLES, 0, 24);
+    
+    glBindVertexArray(head_VAO);
+    glm::mat4 headModelX = glm::scale(glm::translate(glm::rotate(modelBase, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(0.1f, 0.05f, 0.05f));
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(headModelX));
+    gizmoShader->set4f("color", 1.0f, 0.0f, 0.0f, 0.8f);
+    glDrawArrays(GL_TRIANGLES, 0, 12);
+
+    glBindVertexArray(stem_VAO);
+    glm::mat4 modelY = glm::scale(glm::rotate(modelBase, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f)), glm::vec3(1.0f, 0.05f, 0.05f));
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelY));
+    gizmoShader->set4f("color", 0.0f, 1.0f, 0.0f, 0.8f);
+    glDrawArrays(GL_TRIANGLES, 0, 24);
+    
+    glBindVertexArray(head_VAO);
+    glm::mat4 headModelY = glm::scale(glm::translate(glm::rotate(modelBase, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f)), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(0.1f, 0.05f, 0.05f));
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(headModelY));
+    gizmoShader->set4f("color", 0.0f, 1.0f, 0.0f, 0.8f);
+    glDrawArrays(GL_TRIANGLES, 0, 12);
+
+    glBindVertexArray(stem_VAO);
+    glm::mat4 modelZ = glm::scale(glm::rotate(modelBase, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)), glm::vec3(1.0f, 0.05f, 0.05f));
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelZ));
+    gizmoShader->set4f("color", 0.0f, 0.0f, 1.0f, 0.8f);
+    glDrawArrays(GL_TRIANGLES, 0, 24);
+    
+    glBindVertexArray(head_VAO);
+    glm::mat4 headModelZ = glm::scale(glm::translate(glm::rotate(modelBase, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(0.1f, 0.05f, 0.05f));
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(headModelZ));
+    gizmoShader->set4f("color", 0.0f, 0.0f, 1.0f, 0.8f);
+    glDrawArrays(GL_TRIANGLES, 0, 12);
+    glBindVertexArray(0);
+}
+
 void EditorSystem::renderGizmos(){
+    glDisable(GL_DEPTH_TEST);
     RenderSingleton& renderSingleton = m_admin.m_RenderSingleton;
     gizmoShader->begin();
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -165,28 +238,13 @@ void EditorSystem::renderGizmos(){
     
     glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(renderSingleton.view));
     glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(renderSingleton.projection));
-    glBindVertexArray(stem_VAO);
-    GLuint modelLoc  = glGetUniformLocation(gizmoShader->ID, "model");
+    
+    for(GreyBoxFamilyStatic f : m_admin.getFamilyStaticVector<GreyBoxFamilyStatic>()){
+        renderAxesAtModelMat(f.m_TransformComponent.getMat4());
+    }
 
-    // draw the three arrows
-    glm::mat4 modelX = glm::scale(glm::rotate(glm::mat4(1.0f), glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(1.0f, 0.1f, 0.1f));
-    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelX));
-    gizmoShader->set4f("color", 1.0f, 0.0f, 0.0f, 1.0f);
-    glDrawArrays(GL_TRIANGLES, 0, 24);
-    
-    glm::mat4 modelY = glm::scale(glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f)), glm::vec3(1.0f, 0.1f, 0.1f));
-    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelY));
-    gizmoShader->set4f("color", 0.0f, 1.0f, 0.0f, 1.0f);
-    glDrawArrays(GL_TRIANGLES, 0, 24);
-
-    glm::mat4 modelZ = glm::scale(glm::rotate(glm::mat4(1.0f), glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)), glm::vec3(1.0f, 0.1f, 0.1f));
-    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelZ));
-    gizmoShader->set4f("color", 0.0f, 0.0f, 1.0f, 1.0f);
-    glDrawArrays(GL_TRIANGLES, 0, 24);
-    
-    
-    glBindVertexArray(0);
     gizmoShader->end();
+    glEnable(GL_DEPTH_TEST);
 }
 
 void EditorSystem::renderImGui(){

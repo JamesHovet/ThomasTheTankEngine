@@ -26,11 +26,15 @@ private:
     void initRendering();
     void renderImGui();
     void renderGizmos();
+    void renderAxesAtModelMat(glm::mat4 modelBase);
     bool getClosestOBBIntersectionEntity(ray r, entityID* eID, glm::vec3* hitOutput);
     
     //Gizmo Rendering
     static GLuint stem_VBO;
     static GLuint stem_VAO;
+    static GLuint head_VBO;
+    static GLuint head_VAO;
+    
     
 };
 

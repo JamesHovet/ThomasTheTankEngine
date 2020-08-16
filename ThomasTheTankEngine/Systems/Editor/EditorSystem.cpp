@@ -165,8 +165,12 @@ void EditorSystem::tick(uint64_t dt){
             entityID targetEID;
             glm::vec3 hit;
             if (getClosestOBBIntersectionEntity(r, &targetEID, &hit)){
-                GreyBoxComponent * box = m_admin.tryGetComponent<GreyBoxComponent>(targetEID);
-                box->m_color = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
+                edit.hasSelectedEntity = true;
+                edit.selectedEntity = targetEID;
+//                GreyBoxComponent * box = m_admin.tryGetComponent<GreyBoxComponent>(targetEID);
+//                box->m_color = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
+            } else {
+                edit.hasSelectedEntity = false;
             }
         }
     }
@@ -230,6 +234,8 @@ void EditorSystem::renderAxesAtModelMat(glm::mat4 modelBase){
 void EditorSystem::renderGizmos(){
     glDisable(GL_DEPTH_TEST);
     RenderSingleton& renderSingleton = m_admin.m_RenderSingleton;
+    EditorSingleton& edit = m_admin.m_EditorSingleton;
+    
     gizmoShader->begin();
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     
@@ -239,8 +245,17 @@ void EditorSystem::renderGizmos(){
     glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(renderSingleton.view));
     glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(renderSingleton.projection));
     
-    for(GreyBoxFamilyStatic f : m_admin.getFamilyStaticVector<GreyBoxFamilyStatic>()){
-        renderAxesAtModelMat(f.m_TransformComponent.getMat4());
+    if (edit.hasSelectedEntity){
+        TransformComponent* t = m_admin.tryGetComponent<TransformComponent>(edit.selectedEntity);
+        if(t != nullptr){
+            if(edit.usingLocalWorldSpace){
+                renderAxesAtModelMat(t->getLocalMat4Unscaled());
+            } else {
+                renderAxesAtModelMat(glm::translate(t->m_position));
+            }
+            
+        }
+        
     }
 
     gizmoShader->end();

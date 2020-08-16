@@ -138,6 +138,9 @@ void InputSystem::tick(uint64_t dt){
                         console.consoleActive = true;
                         // printf("console should pop up\n");
                     }
+                    if(e.key.keysym.scancode == SDL_SCANCODE_G){
+                        edit.usingLocalWorldSpace = !edit.usingLocalWorldSpace;
+                    }
                     break;
                 case KEY_INPUT_MODE::CONSOLE:
                     if(e.key.keysym.scancode == SDL_SCANCODE_GRAVE){

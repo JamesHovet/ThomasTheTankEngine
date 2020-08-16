@@ -22,6 +22,11 @@ struct EditorSingleton {
     TransformComponent defaultEditorCameraTransform;
     CameraComponent    defaultEditorCameraComponent;
     
+    bool hasSelectedEntity;
+    entityID selectedEntity;
+    
+    bool usingLocalWorldSpace {true};
+    
     
     
 };

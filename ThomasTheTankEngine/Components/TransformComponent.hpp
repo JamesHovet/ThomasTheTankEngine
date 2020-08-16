@@ -39,6 +39,7 @@ struct TransformComponent : public ECSComponent {
     
 //    bool dirty = true;
     
+    
     glm::mat4 getLocalModelMatrix() {
         glm::mat4 translation = glm::translate(m_position);
         glm::mat4 rotation    = glm::toMat4(m_orientation);
@@ -47,9 +48,20 @@ struct TransformComponent : public ECSComponent {
         return translation * rotation * scale;
     }
     
+    glm::mat4 getLocalMat4Unscaled() {
+        glm::mat4 translation = glm::translate(m_position);
+        glm::mat4 rotation    = glm::toMat4(m_orientation);
+        
+        return translation * rotation;
+    }
+    
     // @Placeholder for when I implement the parent system, which I think will be in this struct, but could possibly go in a different one, to allow for parent relationships between things that do not have a transform.
     glm::mat4 getMat4() {
         return getLocalModelMatrix();
+    }
+    
+    glm::mat4 getMat4Unscaled(){
+        return getLocalMat4Unscaled();
     }
     
     void imDisplay(){

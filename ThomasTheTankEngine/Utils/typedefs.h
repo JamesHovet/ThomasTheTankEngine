@@ -30,5 +30,10 @@ typedef struct ray {
     glm::vec3 orig;
     glm::vec3 dir;
 } ray;
+typedef enum AXIS {
+    X,
+    Y,
+    Z
+} AXIS;
 
 #endif /* typedefs_h */

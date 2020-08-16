@@ -12,6 +12,9 @@
 
 #include <SDL2/SDL.h>
 #include "typedefs.h"
+#include <glm/gtx/norm.hpp>
+
+#define DRAG_ACTIVATION_RADIUS 10.0f
 
 enum class KEY_INPUT_MODE {
     GAME,
@@ -55,6 +58,11 @@ public:
     }
     
     bool hasPendingClick = false;
+    bool mouseDown = false;
+    bool isDragging = false;
+    
+    glm::vec2 mouseDownPosition;
+    glm::vec2 mouseDragPosition;
     glm::vec2 clickWindowSpace;
     glm::vec2 clickViewportSpace;
     

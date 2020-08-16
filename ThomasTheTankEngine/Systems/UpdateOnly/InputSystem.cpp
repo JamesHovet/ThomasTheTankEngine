@@ -79,8 +79,24 @@ void InputSystem::tick(uint64_t dt){
         }
         
         //mouse input
-        if(e.type == SDL_MOUSEBUTTONUP){
+        if(e.type == SDL_MOUSEBUTTONDOWN){
             if(e.button.button == SDL_BUTTON_LEFT){
+                input.mouseDown = true;
+                input.mouseDownPosition = glm::vec2(e.button.x, e.button.y);
+            }
+        }
+        
+        if(e.type == SDL_MOUSEMOTION){
+            if(input.mouseDown){
+                input.mouseDragPosition = glm::vec2(e.motion.x, e.motion.y);
+                if (glm::distance2(input.mouseDragPosition, input.mouseDownPosition) > DRAG_ACTIVATION_RADIUS){
+                    input.isDragging = true;
+                }
+            }
+        }
+        
+        if(e.type == SDL_MOUSEBUTTONUP){
+            if(e.button.button == SDL_BUTTON_LEFT && not input.isDragging){
                 input.hasPendingClick = true;
                 input.clickWindowSpace = glm::vec2(e.button.x, e.button.y);
                 float fx      = (float) e.button.x;
@@ -89,8 +105,11 @@ void InputSystem::tick(uint64_t dt){
                 float fheight = (float) m_admin.m_RenderSingleton.SCREEN_HEIGHT;
                 input.clickViewportSpace = glm::vec2((fx * 2.0f / fwidth) - 1.0f,
                                                      1.0f - (fy * 2.0f / fheight));
-//                printf("window space: %f, %f\n", input.clickWindowSpace.x, input.clickWindowSpace.y);
-//                printf("viewport space: %f, %f\n", input.clickViewportSpace.x, input.clickViewportSpace.y);
+            }
+            
+            if(e.button.button == SDL_BUTTON_LEFT){
+                input.mouseDown = false;
+                input.isDragging = false;
             }
         }
         

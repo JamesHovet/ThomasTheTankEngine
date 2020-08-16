@@ -27,7 +27,8 @@ struct EditorSingleton {
     
     bool usingLocalWorldSpace {true};
     
-    
+    bool isDraggingMoveAxes {false};
+    AXIS draggedAxis;
     
 };
 

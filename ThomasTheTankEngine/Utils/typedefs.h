@@ -26,6 +26,11 @@ typedef struct AABB {
     glm::vec3 min;
     glm::vec3 max;
 } AABB;
+typedef struct Cylinder {
+    glm::vec3 p0;
+    glm::vec3 p1;
+    float radius;
+} Cylinder;
 typedef struct ray {
     glm::vec3 orig;
     glm::vec3 dir;

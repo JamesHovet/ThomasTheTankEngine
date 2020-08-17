@@ -29,6 +29,16 @@ bool RayOBB(ray r, AABB box, glm::mat4 model, glm::vec3* hit);
 bool RayOBB(ray r, AABB box, glm::mat4 model, float * d);
 bool RayOBB(ray r, AABB box, glm::mat4 model);
 
+bool RayCylAbsolute(ray r, Cylinder cyl, float * d, glm::vec3* hit);
+bool RayCylAbsolute(ray r, Cylinder cyl, glm::vec3* hit);
+bool RayCylAbsolute(ray r, Cylinder cyl, float * d);
+bool RayCylAbsolute(ray r, Cylinder cyl);
+
+bool RayCyl(ray r, Cylinder cyl, glm::mat4 model, float * d, glm::vec3* hit);
+bool RayCyl(ray r, Cylinder cyl, glm::mat4 model, glm::vec3* hit);
+bool RayCyl(ray r, Cylinder cyl, glm::mat4 model, float * d);
+bool RayCyl(ray r, Cylinder cyl, glm::mat4 model);
+
 }
 
 #endif /* IntersectionUtils_hpp */

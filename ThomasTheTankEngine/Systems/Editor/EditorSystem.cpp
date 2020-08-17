@@ -314,10 +314,36 @@ void EditorSystem::renderImGui(){
 }
 
 bool EditorSystem::getShouldDragMoveAxis(AXIS* axisToDrag){
-    // TODO: raycast the mouse down position and see if it intersects with any of the three axes, taking into account if we are in local or global mode.
-    // I really want to make these cylinders, but we'll see if that is done in this first draft.
-    *axisToDrag = AXIS::X;
-    return true;
+    InputSingleton& input = m_admin.m_InputSingleton;
+    EditorSingleton& edit = m_admin.m_EditorSingleton;
+    TransformComponent& selectedTransform = m_admin.getComponent<TransformComponent>(edit.selectedEntity);
+    
+    ray r = input.getRaycast(input.mouseDownPositionViewportSpace);
+    Cylinder collider = {glm::vec3(0.0), glm::vec3(1.5f, 0.0f, 0.0f), 0.1f};
+    glm::mat4 mat;
+    
+    if(edit.usingLocalWorldSpace){
+        mat = selectedTransform.getMat4Unscaled();
+    } else {
+        mat = glm::translate(selectedTransform.m_position);
+    }
+    
+    if(Intersection::RayCyl(r, collider, mat)){
+        *axisToDrag = AXIS::X;
+        return true;
+    }
+    glm::mat4 matY = glm::rotate(mat, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    if(Intersection::RayCyl(r, collider, matY)){
+        *axisToDrag = AXIS::Y;
+        return true;
+    }
+    glm::mat4 matZ = glm::rotate(mat, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    if(Intersection::RayCyl(r, collider, matZ)){
+        *axisToDrag = AXIS::Z;
+        return true;
+    }
+    
+    return false;
 }
 
 glm::vec3 EditorSystem::getWorldspaceAxisToDrag(){

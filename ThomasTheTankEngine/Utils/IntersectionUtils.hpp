@@ -34,6 +34,7 @@ bool RayCylAbsolute(ray r, Cylinder cyl, glm::vec3* hit);
 bool RayCylAbsolute(ray r, Cylinder cyl, float * d);
 bool RayCylAbsolute(ray r, Cylinder cyl);
 
+// Note that this math does not obey scaling the radius
 bool RayCyl(ray r, Cylinder cyl, glm::mat4 model, float * d, glm::vec3* hit);
 bool RayCyl(ray r, Cylinder cyl, glm::mat4 model, glm::vec3* hit);
 bool RayCyl(ray r, Cylinder cyl, glm::mat4 model, float * d);

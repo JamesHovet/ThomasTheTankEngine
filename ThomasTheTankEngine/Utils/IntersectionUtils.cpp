@@ -167,6 +167,7 @@ bool Intersection::RayOBB(ray r, AABB box, glm::mat4 model){
 
 //From https://www.iquilezles.org/www/articles/intersectors/intersectors.htm
 bool Intersection::RayCylAbsolute(ray r, Cylinder cyl, float *d, glm::vec3 *hit){
+    r.dir = glm::normalize(r.dir);
     v3 ca = cyl.p1 - cyl.p0;
     v3 oc = r.orig - cyl.p0;
     float caca = glm::dot(ca, ca);
@@ -183,16 +184,21 @@ bool Intersection::RayCylAbsolute(ray r, Cylinder cyl, float *d, glm::vec3 *hit)
     float t = (-b - h)/a;
     //body
     float y = caoc + t*card;
-    if (y > 0.0 && y < caca){
+    if (t > 0.0 && y > 0.0 && y < caca){
         *d = t;
-        *hit = (oc + t * r.dir - ca * y/caca)/cyl.radius;
+//        *hit = (oc + t * r.dir - ca * y/caca)/cyl.radius;
+        *hit = r.orig + r.dir * t;
+        printf("side: ");
         return true;
     }
     //caps
-    t = (((y < 0.0)?0.0:caca) - caoc)/card;
-    if(abs(b + a * t) < h){
+//    t = (((y<0.0)?0.0:caca) - caoc)/card;
+    t = (fmin(0.0f, caca) - caoc)/card;
+    if(t > 0.0 && abs(b+a*t)<=h){
         *d = t;
-        *hit = ca*glm::sign(y)/caca;
+        *hit = r.orig + r.dir * t;
+//        *hit = ca*glm::sign(y)/caca;
+        printf("cap:  ");
         return true;
     }
     return false;
@@ -214,6 +220,7 @@ bool Intersection::RayCylAbsolute(ray r, Cylinder cyl){
     return RayCylAbsolute(r, cyl, &dummyf, &dummyv3);
 }
 
+// Note that this math does not obey scaling the radius
 bool Intersection::RayCyl(ray r, Cylinder cyl, glm::mat4 model, float *d, glm::vec3 *hit){
     v4 p0 = model * v4(cyl.p0.x, cyl.p0.y, cyl.p0.z, 1.0f);
     v4 p1 = model * v4(cyl.p1.x, cyl.p1.y, cyl.p1.z, 1.0f);

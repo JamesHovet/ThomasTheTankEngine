@@ -9,10 +9,9 @@
 #include "EntityAdmin.hpp"
 #include "InputSingleton.hpp"
 
-ray InputSingleton::getClickRaycast(){
-    resetClick();
+ray InputSingleton::getRaycast(glm::vec2 mouseViewportSpace){
     ray r;
-    glm::vec4 mouse = glm::vec4(clickViewportSpace.x, clickViewportSpace.y, -1.0f, 1.0f);
+    glm::vec4 mouse = glm::vec4(mouseViewportSpace.x, mouseViewportSpace.y, -1.0f, 1.0f);
     glm::vec4 pos = glm::inverse(m_admin.m_RenderSingleton.projection * m_admin.m_RenderSingleton.view) * mouse;
 
     pos.x /= pos.w;

@@ -72,7 +72,7 @@ public:
     glm::vec2 clickWindowSpace;
     glm::vec2 clickViewportSpace;
     
-    ray getClickRaycast();
+    ray getRaycast(glm::vec2 mouseViewportSpace);
     
     void resetClick(){
         hasPendingClick = false;

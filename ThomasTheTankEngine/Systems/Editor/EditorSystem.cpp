@@ -159,16 +159,40 @@ void EditorSystem::tick(uint64_t dt){
 
     if(input.shouldSendKeysTo == KEY_INPUT_MODE::EDITOR){
         processEditorCameraKeyInput(camTransformC, dt, edit, input);
+       
+        // TODO: Use new drag stuff from the input system to drag objects in world space along axes
+        if(edit.hasSelectedEntity){
+            if(input.isDragging){
+                TransformComponent* trans = m_admin.tryGetComponent<TransformComponent>(edit.selectedEntity);
+                if(trans != nullptr){
+                    if(not edit.isDraggingMoveAxes){
+                        edit.isDraggingMoveAxes = getShouldDragMoveAxis(&edit.draggedAxis);
+                    }
+                    if(edit.isDraggingMoveAxes){
+                        //TODO: make this math actually correct
+                        ray raycast0 = input.getRaycast(input.mouseDownPositionViewportSpace);
+                        ray raycast1 = input.getRaycast(input.mouseDragPositionViewportSpace);
+                        glm::vec3 delta = raycast1.dir - raycast0.dir;
+                        glm::vec3 axis = getWorldspaceAxisToDrag();
+                        glm::vec3 projected = axis * glm::dot(delta, axis);
+        //                printf("axis: (%f, %f, %f)\nprojected: (%f, %f, %f)", axis.x, axis.y, axis.z, projected.x, projected.y, projected.z);
+                        trans->m_position = trans->m_position + projected;
+                    }
+                }
+                
+            } else {
+                edit.isDraggingMoveAxes = false;
+            }
+        }
         
         if(input.hasPendingClick){
-            ray r = input.getClickRaycast();
+            ray r = input.getRaycast(input.clickViewportSpace);
+            input.resetClick();
             entityID targetEID;
             glm::vec3 hit;
             if (getClosestOBBIntersectionEntity(r, &targetEID, &hit)){
                 edit.hasSelectedEntity = true;
                 edit.selectedEntity = targetEID;
-//                GreyBoxComponent * box = m_admin.tryGetComponent<GreyBoxComponent>(targetEID);
-//                box->m_color = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
             } else {
                 edit.hasSelectedEntity = false;
             }
@@ -188,7 +212,7 @@ void EditorSystem::render(){
     renderImGui();
     renderGizmos();
 }
-
+// TODO: don't have these scale depending on how far away you are from them. I'm not exactly sure the math on that, I would either have to construct a VP matrix special to this procedure or just scale inversely proportional to the distance from the camera... I'm guessing it is the first but that's maybe not a step for the first draft. 
 void EditorSystem::renderAxesAtModelMat(glm::mat4 modelBase){
     GLuint modelLoc  = glGetUniformLocation(gizmoShader->ID, "model");
     
@@ -287,6 +311,45 @@ void EditorSystem::renderImGui(){
         ImGui::PopID();
     }
     ImGui::End();
+}
+
+bool EditorSystem::getShouldDragMoveAxis(AXIS* axisToDrag){
+    // TODO: raycast the mouse down position and see if it intersects with any of the three axes, taking into account if we are in local or global mode.
+    // I really want to make these cylinders, but we'll see if that is done in this first draft.
+    *axisToDrag = AXIS::X;
+    return true;
+}
+
+glm::vec3 EditorSystem::getWorldspaceAxisToDrag(){
+    EditorSingleton& edit = m_admin.m_EditorSingleton;
+    glm::vec3 out;
+    if(edit.usingLocalWorldSpace){
+        TransformComponent& trans = m_admin.getComponent<TransformComponent>(edit.selectedEntity);
+        switch (edit.draggedAxis) {
+            case AXIS::X:
+                out = trans.getRight();
+                break;
+            case AXIS::Y:
+                out = trans.getUp();
+                break;
+            case AXIS::Z:
+                out = trans.getForward();
+                break;
+        }
+    } else {
+        switch (edit.draggedAxis) {
+            case AXIS::X:
+                out = glm::vec3(1.0f, 0.0f, 0.0f);
+                break;
+            case AXIS::Y:
+                out = glm::vec3(0.0f, 1.0f, 0.0f);
+                break;
+            case AXIS::Z:
+                out = glm::vec3(0.0f, 0.0f, 1.0f);
+                break;
+        }
+    }
+    return out;
 }
 
 bool EditorSystem::getClosestOBBIntersectionEntity(ray r, entityID *eID, glm::vec3 *hitOutput){

@@ -27,6 +27,8 @@ private:
     void renderImGui();
     void renderGizmos();
     void renderAxesAtModelMat(glm::mat4 modelBase);
+    glm::vec3 getWorldspaceAxisToDrag();
+    bool getShouldDragMoveAxis(AXIS* axisToDrag);
     bool getClosestOBBIntersectionEntity(ray r, entityID* eID, glm::vec3* hitOutput);
     
     //Gizmo Rendering

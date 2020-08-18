@@ -18,8 +18,10 @@
 
 GLuint EditorSystem::stem_VBO = 0;
 GLuint EditorSystem::stem_VAO = 0;
-GLuint EditorSystem::head_VBO = 0;
-GLuint EditorSystem::head_VAO = 0;
+GLuint EditorSystem::arrowhead_VBO = 0;
+GLuint EditorSystem::arrowhead_VAO = 0;
+GLuint EditorSystem::cube_VBO = 0;
+GLuint EditorSystem::cube_VAO = 0;
 Shader* gizmoShader;
 
 float arrowStemVertsNoIndices[] = {
@@ -74,6 +76,50 @@ float arrowVertsNoIndices[] = {
     0.0, 1.7321, -1
 };
 
+float cubeVertsNoIndices[] = {
+    -0.5f, -0.5f, -0.5f,
+    0.5f, -0.5f, -0.5f,
+    0.5f,  0.5f, -0.5f,
+    0.5f,  0.5f, -0.5f,
+    -0.5f,  0.5f, -0.5f,
+    -0.5f, -0.5f, -0.5f,
+    
+    -0.5f, -0.5f,  0.5f,
+    0.5f, -0.5f,  0.5f,
+    0.5f,  0.5f,  0.5f,
+    0.5f,  0.5f,  0.5f,
+    -0.5f,  0.5f,  0.5f,
+    -0.5f, -0.5f,  0.5f,
+    
+    -0.5f,  0.5f,  0.5f,
+    -0.5f,  0.5f, -0.5f,
+    -0.5f, -0.5f, -0.5f,
+    -0.5f, -0.5f, -0.5f,
+    -0.5f, -0.5f,  0.5f,
+    -0.5f,  0.5f,  0.5f,
+    
+    0.5f,  0.5f,  0.5f,
+    0.5f,  0.5f, -0.5f,
+    0.5f, -0.5f, -0.5f,
+    0.5f, -0.5f, -0.5f,
+    0.5f, -0.5f,  0.5f,
+    0.5f,  0.5f,  0.5f,
+    
+    -0.5f, -0.5f, -0.5f,
+    0.5f, -0.5f, -0.5f,
+    0.5f, -0.5f,  0.5f,
+    0.5f, -0.5f,  0.5f,
+    -0.5f, -0.5f,  0.5f,
+    -0.5f, -0.5f, -0.5f,
+    
+    -0.5f,  0.5f, -0.5f,
+    0.5f,  0.5f, -0.5f,
+    0.5f,  0.5f,  0.5f,
+    0.5f,  0.5f,  0.5f,
+    -0.5f,  0.5f,  0.5f,
+    -0.5f,  0.5f, -0.5f
+};
+
 void EditorSystem::init(){
     EditorSingleton& edit = m_admin.m_EditorSingleton;
     edit.defaultEditorCameraComponent = CameraComponent();
@@ -81,6 +127,7 @@ void EditorSystem::init(){
     edit.defaultEditorCameraTransform.m_orientation = glm::rotation(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 0.0f, -1.0f));
     edit.editorCameraComponent = edit.defaultEditorCameraComponent;
     edit.editorCameraTransform = edit.defaultEditorCameraTransform;
+    edit.currentEditMode = EditMode::MOVE;
     
     initRendering();
 }
@@ -98,12 +145,22 @@ void EditorSystem::initRendering(){
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (3) * sizeof(float), (void*) 0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     
-    glGenVertexArrays(1, &head_VAO);
-    glBindVertexArray(head_VAO);
+    glGenVertexArrays(1, &arrowhead_VAO);
+    glBindVertexArray(arrowhead_VAO);
     
-    glGenBuffers(1, &head_VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, head_VBO);
+    glGenBuffers(1, &arrowhead_VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, arrowhead_VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(arrowVertsNoIndices), &arrowVertsNoIndices[0], GL_STATIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (3) * sizeof(float), (void*) 0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    glGenVertexArrays(1, &cube_VAO);
+    glBindVertexArray(cube_VAO);
+    
+    glGenBuffers(1, &cube_VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, cube_VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertsNoIndices), &cubeVertsNoIndices[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (3) * sizeof(float), (void*) 0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -165,23 +222,28 @@ void EditorSystem::tick(uint64_t dt){
             if(input.isDragging){
                 TransformComponent* trans = m_admin.tryGetComponent<TransformComponent>(edit.selectedEntity);
                 if(trans != nullptr){
-                    if(not edit.isDraggingMoveAxes){
-                        edit.isDraggingMoveAxes = getShouldDragMoveAxis(&edit.draggedAxis);
+                    if(not edit.isDraggingAxis){
+                        edit.isDraggingAxis = getShouldDragMoveAxis(&edit.draggedAxis);
                     }
-                    if(edit.isDraggingMoveAxes){
+                    if(edit.isDraggingAxis){
                         //TODO: make this math actually correct
                         ray raycast0 = input.getRaycast(input.mouseDownPositionViewportSpace);
                         ray raycast1 = input.getRaycast(input.mouseDragPositionViewportSpace);
                         glm::vec3 delta = raycast1.dir - raycast0.dir;
                         glm::vec3 axis = getWorldspaceAxisToDrag();
                         glm::vec3 projected = axis * glm::dot(delta, axis);
-        //                printf("axis: (%f, %f, %f)\nprojected: (%f, %f, %f)", axis.x, axis.y, axis.z, projected.x, projected.y, projected.z);
-                        trans->m_position = trans->m_position + projected;
+                        if (edit.currentEditMode == EditMode::MOVE){
+                            trans->m_position = trans->m_position + projected;
+                        } else if (edit.currentEditMode == EditMode::SCALE){
+                            //TODO: MATH
+                            printf("(%f, %f, %f) * (%f, %f, %f)\n", trans->m_scale.x, trans->m_scale.y, trans->m_scale.z, projected.x, projected.y, projected.z);
+                            trans->m_scale = trans->m_scale * (glm::vec3(1.0) + glm::vec3(-1.0f, -1.0f, 1.0f) * projected);
+                        }
                     }
                 }
                 
             } else {
-                edit.isDraggingMoveAxes = false;
+                edit.isDraggingAxis = false;
             }
         }
         
@@ -213,7 +275,7 @@ void EditorSystem::render(){
     renderGizmos();
 }
 // TODO: don't have these scale depending on how far away you are from them. I'm not exactly sure the math on that, I would either have to construct a VP matrix special to this procedure or just scale inversely proportional to the distance from the camera... I'm guessing it is the first but that's maybe not a step for the first draft. 
-void EditorSystem::renderAxesAtModelMat(glm::mat4 modelBase){
+void EditorSystem::renderMoveAxesAtModelMat(glm::mat4 modelBase){
     GLuint modelLoc  = glGetUniformLocation(gizmoShader->ID, "model");
     
     // draw the three arrows
@@ -223,7 +285,7 @@ void EditorSystem::renderAxesAtModelMat(glm::mat4 modelBase){
     gizmoShader->set4f("color", 1.0f, 0.0f, 0.0f, 0.8f);
     glDrawArrays(GL_TRIANGLES, 0, 24);
     
-    glBindVertexArray(head_VAO);
+    glBindVertexArray(arrowhead_VAO);
     glm::mat4 headModelX = glm::scale(glm::translate(glm::rotate(modelBase, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(0.1f, 0.05f, 0.05f));
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(headModelX));
     gizmoShader->set4f("color", 1.0f, 0.0f, 0.0f, 0.8f);
@@ -235,7 +297,7 @@ void EditorSystem::renderAxesAtModelMat(glm::mat4 modelBase){
     gizmoShader->set4f("color", 0.0f, 1.0f, 0.0f, 0.8f);
     glDrawArrays(GL_TRIANGLES, 0, 24);
     
-    glBindVertexArray(head_VAO);
+    glBindVertexArray(arrowhead_VAO);
     glm::mat4 headModelY = glm::scale(glm::translate(glm::rotate(modelBase, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f)), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(0.1f, 0.05f, 0.05f));
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(headModelY));
     gizmoShader->set4f("color", 0.0f, 1.0f, 0.0f, 0.8f);
@@ -247,11 +309,52 @@ void EditorSystem::renderAxesAtModelMat(glm::mat4 modelBase){
     gizmoShader->set4f("color", 0.0f, 0.0f, 1.0f, 0.8f);
     glDrawArrays(GL_TRIANGLES, 0, 24);
     
-    glBindVertexArray(head_VAO);
+    glBindVertexArray(arrowhead_VAO);
     glm::mat4 headModelZ = glm::scale(glm::translate(glm::rotate(modelBase, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(0.1f, 0.05f, 0.05f));
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(headModelZ));
     gizmoShader->set4f("color", 0.0f, 0.0f, 1.0f, 0.8f);
     glDrawArrays(GL_TRIANGLES, 0, 12);
+    glBindVertexArray(0);
+}
+
+void EditorSystem::renderScaleAxesAtModelMat(glm::mat4 modelBase){
+    GLuint modelLoc  = glGetUniformLocation(gizmoShader->ID, "model");
+    
+    glBindVertexArray(stem_VAO);
+    glm::mat4 modelX = glm::scale(glm::rotate(modelBase, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(1.0f, 0.05f, 0.05f));
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelX));
+    gizmoShader->set4f("color", 1.0f, 0.0f, 0.0f, 0.8f);
+    glDrawArrays(GL_TRIANGLES, 0, 24);
+    
+    glBindVertexArray(cube_VAO);
+    glm::mat4 headModelX = glm::scale(glm::translate(glm::rotate(modelBase, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(0.2f));
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(headModelX));
+    gizmoShader->set4f("color", 1.0f, 0.0f, 0.0f, 0.8f);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+
+    glBindVertexArray(stem_VAO);
+    glm::mat4 modelY = glm::scale(glm::rotate(modelBase, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f)), glm::vec3(1.0f, 0.05f, 0.05f));
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelY));
+    gizmoShader->set4f("color", 0.0f, 1.0f, 0.0f, 0.8f);
+    glDrawArrays(GL_TRIANGLES, 0, 24);
+    
+    glBindVertexArray(cube_VAO);
+    glm::mat4 headModelY = glm::scale(glm::translate(glm::rotate(modelBase, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f)), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(0.2f));
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(headModelY));
+    gizmoShader->set4f("color", 0.0f, 1.0f, 0.0f, 0.8f);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+
+    glBindVertexArray(stem_VAO);
+    glm::mat4 modelZ = glm::scale(glm::rotate(modelBase, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)), glm::vec3(1.0f, 0.05f, 0.05f));
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelZ));
+    gizmoShader->set4f("color", 0.0f, 0.0f, 1.0f, 0.8f);
+    glDrawArrays(GL_TRIANGLES, 0, 24);
+    
+    glBindVertexArray(cube_VAO);
+    glm::mat4 headModelZ = glm::scale(glm::translate(glm::rotate(modelBase, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(0.2f));
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(headModelZ));
+    gizmoShader->set4f("color", 0.0f, 0.0f, 1.0f, 0.8f);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
     glBindVertexArray(0);
 }
 
@@ -272,12 +375,25 @@ void EditorSystem::renderGizmos(){
     if (edit.hasSelectedEntity){
         TransformComponent* t = m_admin.tryGetComponent<TransformComponent>(edit.selectedEntity);
         if(t != nullptr){
+            glm::mat4 baseMatrix;
             if(edit.usingLocalWorldSpace){
-                renderAxesAtModelMat(t->getLocalMat4Unscaled());
+                baseMatrix = t->getLocalMat4Unscaled();
             } else {
-                renderAxesAtModelMat(glm::translate(t->m_position));
+                baseMatrix = glm::translate(t->m_position);
             }
             
+            switch (edit.currentEditMode) {
+                case EditMode::MOVE:
+                    renderMoveAxesAtModelMat(baseMatrix);
+                    break;
+                case EditMode::SCALE:
+                    renderScaleAxesAtModelMat(baseMatrix);
+                    break;
+                    
+                case EditMode::ROTATE:
+                    
+                    break;
+            }
         }
         
     }
@@ -320,24 +436,24 @@ bool EditorSystem::getShouldDragMoveAxis(AXIS* axisToDrag){
     
     ray r = input.getRaycast(input.mouseDownPositionViewportSpace);
     Cylinder collider = {glm::vec3(0.0), glm::vec3(1.5f, 0.0f, 0.0f), 0.1f};
-    glm::mat4 mat;
+    glm::mat4 baseMatrix;
     
     if(edit.usingLocalWorldSpace){
-        mat = selectedTransform.getMat4Unscaled();
+        baseMatrix = selectedTransform.getMat4Unscaled();
     } else {
-        mat = glm::translate(selectedTransform.m_position);
+        baseMatrix = glm::translate(selectedTransform.m_position);
     }
     
-    if(Intersection::RayCyl(r, collider, mat)){
+    if(Intersection::RayCyl(r, collider, baseMatrix)){
         *axisToDrag = AXIS::X;
         return true;
     }
-    glm::mat4 matY = glm::rotate(mat, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    glm::mat4 matY = glm::rotate(baseMatrix, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
     if(Intersection::RayCyl(r, collider, matY)){
         *axisToDrag = AXIS::Y;
         return true;
     }
-    glm::mat4 matZ = glm::rotate(mat, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    glm::mat4 matZ = glm::rotate(baseMatrix, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
     if(Intersection::RayCyl(r, collider, matZ)){
         *axisToDrag = AXIS::Z;
         return true;
@@ -348,32 +464,66 @@ bool EditorSystem::getShouldDragMoveAxis(AXIS* axisToDrag){
 
 glm::vec3 EditorSystem::getWorldspaceAxisToDrag(){
     EditorSingleton& edit = m_admin.m_EditorSingleton;
+    TransformComponent& trans = m_admin.getComponent<TransformComponent>(edit.selectedEntity);
     glm::vec3 out;
-    if(edit.usingLocalWorldSpace){
-        TransformComponent& trans = m_admin.getComponent<TransformComponent>(edit.selectedEntity);
-        switch (edit.draggedAxis) {
-            case AXIS::X:
-                out = trans.getRight();
-                break;
-            case AXIS::Y:
-                out = trans.getUp();
-                break;
-            case AXIS::Z:
-                out = trans.getForward();
-                break;
-        }
-    } else {
-        switch (edit.draggedAxis) {
-            case AXIS::X:
-                out = glm::vec3(1.0f, 0.0f, 0.0f);
-                break;
-            case AXIS::Y:
-                out = glm::vec3(0.0f, 1.0f, 0.0f);
-                break;
-            case AXIS::Z:
-                out = glm::vec3(0.0f, 0.0f, 1.0f);
-                break;
-        }
+    switch (edit.currentEditMode) {
+        case EditMode::MOVE:
+            if(edit.usingLocalWorldSpace){
+                switch (edit.draggedAxis) {
+                    case AXIS::X:
+                        out = trans.getRight();
+                        break;
+                    case AXIS::Y:
+                        out = trans.getUp();
+                        break;
+                    case AXIS::Z:
+                        out = trans.getForward();
+                        break;
+                }
+            } else {
+                switch (edit.draggedAxis) {
+                    case AXIS::X:
+                        out = glm::vec3(1.0f, 0.0f, 0.0f);
+                        break;
+                    case AXIS::Y:
+                        out = glm::vec3(0.0f, 1.0f, 0.0f);
+                        break;
+                    case AXIS::Z:
+                        out = glm::vec3(0.0f, 0.0f, 1.0f);
+                        break;
+                }
+            }
+            break;
+           
+        case EditMode::SCALE:
+            if(edit.usingLocalWorldSpace){
+                switch (edit.draggedAxis) {
+                    case AXIS::X:
+                        out = glm::vec3(1.0f, 0.0f, 0.0f);
+                        break;
+                    case AXIS::Y:
+                        out = glm::vec3(0.0f, 1.0f, 0.0f);
+                        break;
+                    case AXIS::Z:
+                        out = glm::vec3(0.0f, 0.0f, 1.0f);
+                        break;
+                }
+            } else {
+                switch (edit.draggedAxis) {
+                    case AXIS::X:
+                        out = trans.getRight();
+                        break;
+                    case AXIS::Y:
+                        out = trans.getUp();
+                        break;
+                    case AXIS::Z:
+                        out = trans.getForward();
+                        break;
+                }
+            }
+            break;
+        default:
+            break;
     }
     return out;
 }

@@ -145,21 +145,26 @@ void InputSystem::tick(uint64_t dt){
                         
                         edit.shouldUseEditorCamera = false;
                         // printf("leave editor\n");
-                    }
-                    if(e.key.keysym.scancode == SDL_SCANCODE_GRAVE){
+                    } else if(e.key.keysym.scancode == SDL_SCANCODE_GRAVE){
                         input.priorShouldSendKeysTo = KEY_INPUT_MODE::EDITOR;
                         input.shouldSendKeysTo = KEY_INPUT_MODE::CONSOLE;
                        
                         beginTextInput();
                         console.consoleActive = true;
                         // printf("console should pop up\n");
-                    }
-                    if(e.key.keysym.scancode == SDL_SCANCODE_G){
+                    } else if(e.key.keysym.scancode == SDL_SCANCODE_G){
                         edit.usingLocalWorldSpace = !edit.usingLocalWorldSpace;
+                    } else if(e.key.keysym.scancode == SDL_SCANCODE_M){
+                        edit.currentEditMode = EditMode::MOVE;
+                    } else if(e.key.keysym.scancode == SDL_SCANCODE_L){
+                        edit.currentEditMode = EditMode::SCALE;
+                    } else if(e.key.keysym.scancode == SDL_SCANCODE_ESCAPE){
+                        edit.hasSelectedEntity = false;
                     }
+                    
                     break;
                 case KEY_INPUT_MODE::CONSOLE:
-                    if(e.key.keysym.scancode == SDL_SCANCODE_GRAVE){
+                    if(e.key.keysym.scancode == SDL_SCANCODE_GRAVE or e.key.keysym.scancode == SDL_SCANCODE_ESCAPE){
                         input.shouldSendKeysTo = input.priorShouldSendKeysTo;
                         
                         console.consoleActive = false;

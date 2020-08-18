@@ -128,7 +128,7 @@ unsigned int indices[] = {
     1, 2, 3
 };
 
-float cubeVertsNoIndices[] = {
+float cubeVertsNoIndicesOld[] = {
     -0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
     0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f,
     0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,

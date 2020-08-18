@@ -188,7 +188,6 @@ bool Intersection::RayCylAbsolute(ray r, Cylinder cyl, float *d, glm::vec3 *hit)
         *d = t;
 //        *hit = (oc + t * r.dir - ca * y/caca)/cyl.radius;
         *hit = r.orig + r.dir * t;
-        printf("side: ");
         return true;
     }
     //caps
@@ -198,7 +197,6 @@ bool Intersection::RayCylAbsolute(ray r, Cylinder cyl, float *d, glm::vec3 *hit)
         *d = t;
         *hit = r.orig + r.dir * t;
 //        *hit = ca*glm::sign(y)/caca;
-        printf("cap:  ");
         return true;
     }
     return false;

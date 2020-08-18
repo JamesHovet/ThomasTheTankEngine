@@ -12,6 +12,12 @@
 
 #include "CameraFamily.hpp"
 
+enum class EditMode {
+    MOVE,
+    SCALE,
+    ROTATE
+};
+
 struct EditorSingleton {
     bool shouldUseEditorCamera {false};
     bool shouldTakeEditorInput {false};
@@ -25,9 +31,11 @@ struct EditorSingleton {
     bool hasSelectedEntity;
     entityID selectedEntity;
     
+    EditMode currentEditMode {EditMode::MOVE};
+    
     bool usingLocalWorldSpace {true};
     
-    bool isDraggingMoveAxes {false};
+    bool isDraggingAxis {false};
     AXIS draggedAxis;
     
 };

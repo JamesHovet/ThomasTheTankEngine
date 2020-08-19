@@ -277,83 +277,118 @@ void EditorSystem::render(){
 // TODO: don't have these scale depending on how far away you are from them. I'm not exactly sure the math on that, I would either have to construct a VP matrix special to this procedure or just scale inversely proportional to the distance from the camera... I'm guessing it is the first but that's maybe not a step for the first draft. 
 void EditorSystem::renderMoveAxesAtModelMat(glm::mat4 modelBase){
     GLuint modelLoc  = glGetUniformLocation(gizmoShader->ID, "model");
+    EditorSingleton& edit = m_admin.m_EditorSingleton;
+    RGBA red   = RGBA(0.8f, 0.0f, 0.0f, 1.0f);
+    RGBA green = RGBA(0.0f, 0.8f, 0.0f, 1.0f);
+    RGBA blue  = RGBA(0.0f, 0.0f, 0.8f, 1.0f);
+    if(edit.isDraggingAxis){
+        switch (edit.draggedAxis) {
+            case AXIS::X:
+                red = RGBA(1.0f, 0.0f, 0.0f, 1.0f);
+                break;
+            case AXIS::Y:
+                green = RGBA(0.0f, 1.0f, 0.0f, 1.0f);
+                break;
+            case AXIS::Z:
+                blue  = RGBA(0.0f, 0.0f, 1.0f, 1.0f);
+                break;
+        }
+    }
+    
     
     // draw the three arrows
     glBindVertexArray(stem_VAO);
     glm::mat4 modelX = glm::scale(glm::rotate(modelBase, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(1.0f, 0.05f, 0.05f));
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelX));
-    gizmoShader->set4f("color", 1.0f, 0.0f, 0.0f, 0.8f);
+    gizmoShader->set4f("color", red);
     glDrawArrays(GL_TRIANGLES, 0, 24);
     
     glBindVertexArray(arrowhead_VAO);
     glm::mat4 headModelX = glm::scale(glm::translate(glm::rotate(modelBase, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(0.1f, 0.05f, 0.05f));
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(headModelX));
-    gizmoShader->set4f("color", 1.0f, 0.0f, 0.0f, 0.8f);
+    gizmoShader->set4f("color", red);
     glDrawArrays(GL_TRIANGLES, 0, 12);
 
     glBindVertexArray(stem_VAO);
     glm::mat4 modelY = glm::scale(glm::rotate(modelBase, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f)), glm::vec3(1.0f, 0.05f, 0.05f));
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelY));
-    gizmoShader->set4f("color", 0.0f, 1.0f, 0.0f, 0.8f);
+    gizmoShader->set4f("color", green);
     glDrawArrays(GL_TRIANGLES, 0, 24);
     
     glBindVertexArray(arrowhead_VAO);
     glm::mat4 headModelY = glm::scale(glm::translate(glm::rotate(modelBase, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f)), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(0.1f, 0.05f, 0.05f));
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(headModelY));
-    gizmoShader->set4f("color", 0.0f, 1.0f, 0.0f, 0.8f);
+    gizmoShader->set4f("color", green);
     glDrawArrays(GL_TRIANGLES, 0, 12);
 
     glBindVertexArray(stem_VAO);
     glm::mat4 modelZ = glm::scale(glm::rotate(modelBase, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)), glm::vec3(1.0f, 0.05f, 0.05f));
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelZ));
-    gizmoShader->set4f("color", 0.0f, 0.0f, 1.0f, 0.8f);
+    gizmoShader->set4f("color", blue);
     glDrawArrays(GL_TRIANGLES, 0, 24);
     
     glBindVertexArray(arrowhead_VAO);
     glm::mat4 headModelZ = glm::scale(glm::translate(glm::rotate(modelBase, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(0.1f, 0.05f, 0.05f));
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(headModelZ));
-    gizmoShader->set4f("color", 0.0f, 0.0f, 1.0f, 0.8f);
+    gizmoShader->set4f("color", blue);
     glDrawArrays(GL_TRIANGLES, 0, 12);
     glBindVertexArray(0);
 }
 
 void EditorSystem::renderScaleAxesAtModelMat(glm::mat4 modelBase){
     GLuint modelLoc  = glGetUniformLocation(gizmoShader->ID, "model");
+    EditorSingleton& edit = m_admin.m_EditorSingleton;
+    RGBA red   = RGBA(0.8f, 0.0f, 0.0f, 1.0f);
+    RGBA green = RGBA(0.0f, 0.8f, 0.0f, 1.0f);
+    RGBA blue  = RGBA(0.0f, 0.0f, 0.8f, 1.0f);
+    if(edit.isDraggingAxis){
+        switch (edit.draggedAxis) {
+            case AXIS::X:
+                red = RGBA(1.0f, 0.0f, 0.0f, 1.0f);
+                break;
+            case AXIS::Y:
+                green = RGBA(0.0f, 1.0f, 0.0f, 1.0f);
+                break;
+            case AXIS::Z:
+                blue  = RGBA(0.0f, 0.0f, 1.0f, 1.0f);
+                break;
+        }
+    }
     
     glBindVertexArray(stem_VAO);
     glm::mat4 modelX = glm::scale(glm::rotate(modelBase, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(1.0f, 0.05f, 0.05f));
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelX));
-    gizmoShader->set4f("color", 1.0f, 0.0f, 0.0f, 0.8f);
+    gizmoShader->set4f("color", red);
     glDrawArrays(GL_TRIANGLES, 0, 24);
     
     glBindVertexArray(cube_VAO);
     glm::mat4 headModelX = glm::scale(glm::translate(glm::rotate(modelBase, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(0.2f));
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(headModelX));
-    gizmoShader->set4f("color", 1.0f, 0.0f, 0.0f, 0.8f);
+    gizmoShader->set4f("color", red);
     glDrawArrays(GL_TRIANGLES, 0, 36);
 
     glBindVertexArray(stem_VAO);
     glm::mat4 modelY = glm::scale(glm::rotate(modelBase, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f)), glm::vec3(1.0f, 0.05f, 0.05f));
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelY));
-    gizmoShader->set4f("color", 0.0f, 1.0f, 0.0f, 0.8f);
+    gizmoShader->set4f("color", green);
     glDrawArrays(GL_TRIANGLES, 0, 24);
     
     glBindVertexArray(cube_VAO);
     glm::mat4 headModelY = glm::scale(glm::translate(glm::rotate(modelBase, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f)), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(0.2f));
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(headModelY));
-    gizmoShader->set4f("color", 0.0f, 1.0f, 0.0f, 0.8f);
+    gizmoShader->set4f("color", green);
     glDrawArrays(GL_TRIANGLES, 0, 36);
 
     glBindVertexArray(stem_VAO);
     glm::mat4 modelZ = glm::scale(glm::rotate(modelBase, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)), glm::vec3(1.0f, 0.05f, 0.05f));
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelZ));
-    gizmoShader->set4f("color", 0.0f, 0.0f, 1.0f, 0.8f);
+    gizmoShader->set4f("color", blue);
     glDrawArrays(GL_TRIANGLES, 0, 24);
     
     glBindVertexArray(cube_VAO);
     glm::mat4 headModelZ = glm::scale(glm::translate(glm::rotate(modelBase, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)), glm::vec3(1.0f, 0.0f, 0.0f)), glm::vec3(0.2f));
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(headModelZ));
-    gizmoShader->set4f("color", 0.0f, 0.0f, 1.0f, 0.8f);
+    gizmoShader->set4f("color", blue);
     glDrawArrays(GL_TRIANGLES, 0, 36);
     glBindVertexArray(0);
 }

@@ -23,6 +23,7 @@
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
 #include "Utils/FileUtils.hpp"
+#include "typedefs.h"
 
 namespace fs = boost::filesystem;
 
@@ -68,15 +69,27 @@ public:
     {
         glUniform2f(glGetUniformLocation(ID, name.c_str()), v0, v1);
     }
+    void set2f(const std::string &name, glm::vec2 v2) const
+    {
+        glUniform2f(glGetUniformLocation(ID, name.c_str()), v2.x, v2.y);
+    }
     // ------------------------------------------------------------------------
     void set3f(const std::string &name, float v0, float v1, float v2) const
     {
         glUniform3f(glGetUniformLocation(ID, name.c_str()), v0, v1, v2);
     }
+    void set3f(const std::string &name, glm::vec3 v3) const
+    {
+        glUniform3f(glGetUniformLocation(ID, name.c_str()), v3.x, v3.y, v3.z);
+    }
     // ------------------------------------------------------------------------
     void set4f(const std::string &name, float v0, float v1, float v2, float v3) const
     {
         glUniform4f(glGetUniformLocation(ID, name.c_str()), v0, v1, v2, v3);
+    }
+    void set4f(const std::string &name, glm::vec4 v4) const
+    {
+        glUniform4f(glGetUniformLocation(ID, name.c_str()), v4.x, v4.y, v4.z, v4.w);
     }
 private:
     GLuint vertexID;

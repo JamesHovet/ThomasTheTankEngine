@@ -69,6 +69,7 @@ struct TransformComponent : public ECSComponent {
         if(ImGui::TreeNode("Transform")){
             ImGui::InputVec3("m_position", &m_position);
             ImGui::InputVec3("m_scale", &m_scale);
+            ImGui::InputQuat("m_orientation", &m_orientation);
             ImGui::TreePop();
         }
         ImGui::PopID();

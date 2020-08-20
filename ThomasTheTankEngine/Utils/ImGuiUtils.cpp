@@ -8,6 +8,8 @@
 
 #include "ImGuiUtils.hpp"
 #include "imgui.h"
+#include "glm/gtc/quaternion.hpp"
+#include "glm/gtx/quaternion.hpp"
 
 using namespace ImGui;
 
@@ -25,6 +27,12 @@ void ImGui::InputVec3(const char *label, glm::vec3 *v3){
 
     ImGui::Columns();
     ImGui::PopID();
+}
+
+void ImGui::InputQuat(const char *label, glm::quat *q){
+    glm::vec3 euler = glm::degrees(glm::eulerAngles(*q));
+    InputVec3(label, &euler);
+    *q = glm::quat(glm::radians(euler));
 }
 
 void ImGui::InputRGBA(const char *label, glm::vec4 *v4){

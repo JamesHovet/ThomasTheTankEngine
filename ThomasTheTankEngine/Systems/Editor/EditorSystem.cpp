@@ -271,8 +271,9 @@ void EditorSystem::tick(uint64_t dt){
 
 // pre: Imgui must be running
 void EditorSystem::render(){
-    renderImGui();
     renderGizmos();
+    renderSceneGraphEditor();
+    renderInspector();
 }
 // TODO: don't have these scale depending on how far away you are from them. I'm not exactly sure the math on that, I would either have to construct a VP matrix special to this procedure or just scale inversely proportional to the distance from the camera... I'm guessing it is the first but that's maybe not a step for the first draft. 
 void EditorSystem::renderMoveAxesAtModelMat(glm::mat4 modelBase){
@@ -437,7 +438,7 @@ void EditorSystem::renderGizmos(){
     glEnable(GL_DEPTH_TEST);
 }
 
-void EditorSystem::renderImGui(){
+void EditorSystem::renderSceneGraphEditor(){
     ImGui::Begin("Editor");
 
     char nameBuf[32];
@@ -452,12 +453,36 @@ void EditorSystem::renderImGui(){
             snprintf(nameBuf, 32, "%d", eID);
         }
         
-        ImGui::PushID(p.second);
+        ImGui::PushID(eID);
         if(ImGui::TreeNode(nameBuf)){
             for(auto it = m_admin.componentsBegin(eID); it != m_admin.componentsEnd(eID); ++it){
                 (*it)->imDisplay();
             }
             ImGui::TreePop();
+        }
+        ImGui::PopID();
+    }
+    ImGui::End();
+}
+
+void EditorSystem::renderInspector(){
+    EditorSingleton& edit = m_admin.m_EditorSingleton;
+    entityID eID = edit.selectedEntity;
+    
+    ImGui::Begin("Inspector");
+    if(edit.hasSelectedEntity){
+        ImGui::PushID(eID); // if two items from two different "worlds" have the same ID, then the ImGui state from one (like, which tree nodes are open) could carry over, but I'm just not sure I care. 
+        DebugNameComponent* nameC = m_admin.tryGetComponent<DebugNameComponent>(eID);
+        
+        if(nameC != nullptr){
+            ImGui::Text("%s", nameC->m_name.c_str());
+        } else {
+            ImGui::Text("%d", eID);
+        }
+        
+        for(auto it = m_admin.componentsBegin(eID); it != m_admin.componentsEnd(eID); ++it){
+            ImGui::SetNextItemOpen(true, ImGuiCond_Once); // Ahhh I love imGui -- it just works! And "extending" it is so easy.
+            (*it)->imDisplay();
         }
         ImGui::PopID();
     }

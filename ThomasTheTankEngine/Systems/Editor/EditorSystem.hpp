@@ -24,7 +24,8 @@ public:
     
 private:
     void initRendering();
-    void renderImGui();
+    void renderSceneGraphEditor();
+    void renderInspector();
     void renderGizmos();
     void renderMoveAxesAtModelMat(glm::mat4 modelBase);
     void renderScaleAxesAtModelMat(glm::mat4 modelBase);

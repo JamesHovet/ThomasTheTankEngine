@@ -29,8 +29,10 @@ private:
     void renderGizmos();
     void renderMoveAxesAtModelMat(glm::mat4 modelBase);
     void renderScaleAxesAtModelMat(glm::mat4 modelBase);
+    void renderRotationWheelAtModelMat(glm::mat4 modelBase);
     glm::vec3 getWorldspaceAxisToDrag();
     bool getShouldDragMoveAxis(AXIS* axisToDrag);
+    bool getShouldDragRotateAxis(AXIS* axisToDrag);
     bool getClosestOBBIntersectionEntity(ray r, entityID* eID, glm::vec3* hitOutput);
     
     //Gizmo Rendering
@@ -40,6 +42,8 @@ private:
     static GLuint arrowhead_VAO;
     static GLuint cube_VBO;
     static GLuint cube_VAO;
+    static GLuint circle_VBO;
+    static GLuint circle_VAO;
     
     
 };

@@ -22,7 +22,335 @@ GLuint EditorSystem::arrowhead_VBO = 0;
 GLuint EditorSystem::arrowhead_VAO = 0;
 GLuint EditorSystem::cube_VBO = 0;
 GLuint EditorSystem::cube_VAO = 0;
+GLuint EditorSystem::circle_VBO = 0;
+GLuint EditorSystem::circle_VAO = 0;
 Shader* gizmoShader;
+
+float circleVertsNoIndices[] = {
+    0.0f, 0.0000f, 1.0000f,
+    0.0f, 0.0000f, 0.9000f,
+    0.0f, 0.1736f, 0.9848f,
+
+    0.0f, 0.1736f, 0.9848f,
+    0.0f, 0.1563f, 0.8863f,
+    0.0f, 0.0000f, 0.9000f,
+
+    0.0f, 0.1736f, 0.9848f,
+    0.0f, 0.1563f, 0.8863f,
+    0.0f, 0.3420f, 0.9397f,
+
+    0.0f, 0.3420f, 0.9397f,
+    0.0f, 0.3078f, 0.8457f,
+    0.0f, 0.1563f, 0.8863f,
+
+    0.0f, 0.3420f, 0.9397f,
+    0.0f, 0.3078f, 0.8457f,
+    0.0f, 0.5000f, 0.8660f,
+
+    0.0f, 0.5000f, 0.8660f,
+    0.0f, 0.4500f, 0.7794f,
+    0.0f, 0.3078f, 0.8457f,
+
+    0.0f, 0.5000f, 0.8660f,
+    0.0f, 0.4500f, 0.7794f,
+    0.0f, 0.6428f, 0.7660f,
+
+    0.0f, 0.6428f, 0.7660f,
+    0.0f, 0.5785f, 0.6894f,
+    0.0f, 0.4500f, 0.7794f,
+
+    0.0f, 0.6428f, 0.7660f,
+    0.0f, 0.5785f, 0.6894f,
+    0.0f, 0.7660f, 0.6428f,
+
+    0.0f, 0.7660f, 0.6428f,
+    0.0f, 0.6894f, 0.5785f,
+    0.0f, 0.5785f, 0.6894f,
+
+    0.0f, 0.7660f, 0.6428f,
+    0.0f, 0.6894f, 0.5785f,
+    0.0f, 0.8660f, 0.5000f,
+
+    0.0f, 0.8660f, 0.5000f,
+    0.0f, 0.7794f, 0.4500f,
+    0.0f, 0.6894f, 0.5785f,
+
+    0.0f, 0.8660f, 0.5000f,
+    0.0f, 0.7794f, 0.4500f,
+    0.0f, 0.9397f, 0.3420f,
+
+    0.0f, 0.9397f, 0.3420f,
+    0.0f, 0.8457f, 0.3078f,
+    0.0f, 0.7794f, 0.4500f,
+
+    0.0f, 0.9397f, 0.3420f,
+    0.0f, 0.8457f, 0.3078f,
+    0.0f, 0.9848f, 0.1736f,
+
+    0.0f, 0.9848f, 0.1736f,
+    0.0f, 0.8863f, 0.1563f,
+    0.0f, 0.8457f, 0.3078f,
+
+    0.0f, 0.9848f, 0.1736f,
+    0.0f, 0.8863f, 0.1563f,
+    0.0f, 1.0000f, 0.0000f,
+
+    0.0f, 1.0000f, 0.0000f,
+    0.0f, 0.9000f, 0.0000f,
+    0.0f, 0.8863f, 0.1563f,
+
+    0.0f, 1.0000f, 0.0000f,
+    0.0f, 0.9000f, 0.0000f,
+    0.0f, 0.9848f, -0.1736f,
+
+    0.0f, 0.9848f, -0.1736f,
+    0.0f, 0.8863f, -0.1563f,
+    0.0f, 0.9000f, 0.0000f,
+
+    0.0f, 0.9848f, -0.1736f,
+    0.0f, 0.8863f, -0.1563f,
+    0.0f, 0.9397f, -0.3420f,
+
+    0.0f, 0.9397f, -0.3420f,
+    0.0f, 0.8457f, -0.3078f,
+    0.0f, 0.8863f, -0.1563f,
+
+    0.0f, 0.9397f, -0.3420f,
+    0.0f, 0.8457f, -0.3078f,
+    0.0f, 0.8660f, -0.5000f,
+
+    0.0f, 0.8660f, -0.5000f,
+    0.0f, 0.7794f, -0.4500f,
+    0.0f, 0.8457f, -0.3078f,
+
+    0.0f, 0.8660f, -0.5000f,
+    0.0f, 0.7794f, -0.4500f,
+    0.0f, 0.7660f, -0.6428f,
+
+    0.0f, 0.7660f, -0.6428f,
+    0.0f, 0.6894f, -0.5785f,
+    0.0f, 0.7794f, -0.4500f,
+
+    0.0f, 0.7660f, -0.6428f,
+    0.0f, 0.6894f, -0.5785f,
+    0.0f, 0.6428f, -0.7660f,
+
+    0.0f, 0.6428f, -0.7660f,
+    0.0f, 0.5785f, -0.6894f,
+    0.0f, 0.6894f, -0.5785f,
+
+    0.0f, 0.6428f, -0.7660f,
+    0.0f, 0.5785f, -0.6894f,
+    0.0f, 0.5000f, -0.8660f,
+
+    0.0f, 0.5000f, -0.8660f,
+    0.0f, 0.4500f, -0.7794f,
+    0.0f, 0.5785f, -0.6894f,
+
+    0.0f, 0.5000f, -0.8660f,
+    0.0f, 0.4500f, -0.7794f,
+    0.0f, 0.3420f, -0.9397f,
+
+    0.0f, 0.3420f, -0.9397f,
+    0.0f, 0.3078f, -0.8457f,
+    0.0f, 0.4500f, -0.7794f,
+
+    0.0f, 0.3420f, -0.9397f,
+    0.0f, 0.3078f, -0.8457f,
+    0.0f, 0.1736f, -0.9848f,
+
+    0.0f, 0.1736f, -0.9848f,
+    0.0f, 0.1563f, -0.8863f,
+    0.0f, 0.3078f, -0.8457f,
+
+    0.0f, 0.1736f, -0.9848f,
+    0.0f, 0.1563f, -0.8863f,
+    0.0f, 0.0000f, -1.0000f,
+
+    0.0f, 0.0000f, -1.0000f,
+    0.0f, 0.0000f, -0.9000f,
+    0.0f, 0.1563f, -0.8863f,
+
+    0.0f, 0.0000f, -1.0000f,
+    0.0f, 0.0000f, -0.9000f,
+    0.0f, -0.1736f, -0.9848f,
+
+    0.0f, -0.1736f, -0.9848f,
+    0.0f, -0.1563f, -0.8863f,
+    0.0f, 0.0000f, -0.9000f,
+
+    0.0f, -0.1736f, -0.9848f,
+    0.0f, -0.1563f, -0.8863f,
+    0.0f, -0.3420f, -0.9397f,
+
+    0.0f, -0.3420f, -0.9397f,
+    0.0f, -0.3078f, -0.8457f,
+    0.0f, -0.1563f, -0.8863f,
+
+    0.0f, -0.3420f, -0.9397f,
+    0.0f, -0.3078f, -0.8457f,
+    0.0f, -0.5000f, -0.8660f,
+
+    0.0f, -0.5000f, -0.8660f,
+    0.0f, -0.4500f, -0.7794f,
+    0.0f, -0.3078f, -0.8457f,
+
+    0.0f, -0.5000f, -0.8660f,
+    0.0f, -0.4500f, -0.7794f,
+    0.0f, -0.6428f, -0.7660f,
+
+    0.0f, -0.6428f, -0.7660f,
+    0.0f, -0.5785f, -0.6894f,
+    0.0f, -0.4500f, -0.7794f,
+
+    0.0f, -0.6428f, -0.7660f,
+    0.0f, -0.5785f, -0.6894f,
+    0.0f, -0.7660f, -0.6428f,
+
+    0.0f, -0.7660f, -0.6428f,
+    0.0f, -0.6894f, -0.5785f,
+    0.0f, -0.5785f, -0.6894f,
+
+    0.0f, -0.7660f, -0.6428f,
+    0.0f, -0.6894f, -0.5785f,
+    0.0f, -0.8660f, -0.5000f,
+
+    0.0f, -0.8660f, -0.5000f,
+    0.0f, -0.7794f, -0.4500f,
+    0.0f, -0.6894f, -0.5785f,
+
+    0.0f, -0.8660f, -0.5000f,
+    0.0f, -0.7794f, -0.4500f,
+    0.0f, -0.9397f, -0.3420f,
+
+    0.0f, -0.9397f, -0.3420f,
+    0.0f, -0.8457f, -0.3078f,
+    0.0f, -0.7794f, -0.4500f,
+
+    0.0f, -0.9397f, -0.3420f,
+    0.0f, -0.8457f, -0.3078f,
+    0.0f, -0.9848f, -0.1736f,
+
+    0.0f, -0.9848f, -0.1736f,
+    0.0f, -0.8863f, -0.1563f,
+    0.0f, -0.8457f, -0.3078f,
+
+    0.0f, -0.9848f, -0.1736f,
+    0.0f, -0.8863f, -0.1563f,
+    0.0f, -1.0000f, -0.0000f,
+
+    0.0f, -1.0000f, -0.0000f,
+    0.0f, -0.9000f, -0.0000f,
+    0.0f, -0.8863f, -0.1563f,
+
+    0.0f, -1.0000f, -0.0000f,
+    0.0f, -0.9000f, -0.0000f,
+    0.0f, -0.9848f, 0.1736f,
+
+    0.0f, -0.9848f, 0.1736f,
+    0.0f, -0.8863f, 0.1563f,
+    0.0f, -0.9000f, -0.0000f,
+
+    0.0f, -0.9848f, 0.1736f,
+    0.0f, -0.8863f, 0.1563f,
+    0.0f, -0.9397f, 0.3420f,
+
+    0.0f, -0.9397f, 0.3420f,
+    0.0f, -0.8457f, 0.3078f,
+    0.0f, -0.8863f, 0.1563f,
+
+    0.0f, -0.9397f, 0.3420f,
+    0.0f, -0.8457f, 0.3078f,
+    0.0f, -0.8660f, 0.5000f,
+
+    0.0f, -0.8660f, 0.5000f,
+    0.0f, -0.7794f, 0.4500f,
+    0.0f, -0.8457f, 0.3078f,
+
+    0.0f, -0.8660f, 0.5000f,
+    0.0f, -0.7794f, 0.4500f,
+    0.0f, -0.7660f, 0.6428f,
+
+    0.0f, -0.7660f, 0.6428f,
+    0.0f, -0.6894f, 0.5785f,
+    0.0f, -0.7794f, 0.4500f,
+
+    0.0f, -0.7660f, 0.6428f,
+    0.0f, -0.6894f, 0.5785f,
+    0.0f, -0.6428f, 0.7660f,
+
+    0.0f, -0.6428f, 0.7660f,
+    0.0f, -0.5785f, 0.6894f,
+    0.0f, -0.6894f, 0.5785f,
+
+    0.0f, -0.6428f, 0.7660f,
+    0.0f, -0.5785f, 0.6894f,
+    0.0f, -0.5000f, 0.8660f,
+
+    0.0f, -0.5000f, 0.8660f,
+    0.0f, -0.4500f, 0.7794f,
+    0.0f, -0.5785f, 0.6894f,
+
+    0.0f, -0.5000f, 0.8660f,
+    0.0f, -0.4500f, 0.7794f,
+    0.0f, -0.3420f, 0.9397f,
+
+    0.0f, -0.3420f, 0.9397f,
+    0.0f, -0.3078f, 0.8457f,
+    0.0f, -0.4500f, 0.7794f,
+
+    0.0f, -0.3420f, 0.9397f,
+    0.0f, -0.3078f, 0.8457f,
+    0.0f, -0.1736f, 0.9848f,
+
+    0.0f, -0.1736f, 0.9848f,
+    0.0f, -0.1563f, 0.8863f,
+    0.0f, -0.3078f, 0.8457f,
+
+    0.0f, -0.1736f, 0.9848f,
+    0.0f, -0.1563f, 0.8863f,
+    0.0f, -0.0000f, 1.0000f,
+
+    0.0f, -0.0000f, 1.0000f,
+    0.0f, -0.0000f, 0.9000f,
+    0.0f, -0.1563f, 0.8863f
+};
+
+float circleEdgeVerts[] = {
+    0.0f, 0.0f, 1.0f,
+    0.0f, 0.1951f, 0.9808f,
+    0.0f, 0.3827f, 0.9239f,
+    0.0f, 0.5556f, 0.8315f,
+    0.0f, 0.7071f, 0.7071f,
+    0.0f, 0.8315f, 0.5556f,
+    0.0f, 0.9239f, 0.3827f,
+    0.0f, 0.9808f, 0.1951f,
+    0.0f, 1.0000f, 0.0000f,
+    0.0f, 0.9808f, -0.1951f,
+    0.0f, 0.9239f, -0.3827f,
+    0.0f, 0.8315f, -0.5556f,
+    0.0f, 0.7071f, -0.7071f,
+    0.0f, 0.5556f, -0.8315f,
+    0.0f, 0.3827f, -0.9239f,
+    0.0f, 0.1951f, -0.9808f,
+    0.0f, 0.0f, -1.0f,
+    0.0f, -0.1951f, -0.9808f,
+    0.0f, -0.3827f, -0.9239f,
+    0.0f, -0.5556f, -0.8315f,
+    0.0f, -0.7071f, -0.7071f,
+    0.0f, -0.8315f, -0.5556f,
+    0.0f, -0.9239f, -0.3827f,
+    0.0f, -0.9808f, -0.1951f,
+    0.0f, -1.0000f, -0.0000f,
+    0.0f, -0.9808f, 0.1951f,
+    0.0f, -0.9239f, 0.3827f,
+    0.0f, -0.8315f, 0.5556f,
+    0.0f, -0.7071f, 0.7071f,
+    0.0f, -0.5556f, 0.8315f,
+    0.0f, -0.3827f, 0.9239f,
+    0.0f, -0.1951f, 0.9808f,
+    0.0f, 0.0f, 1.0f
+};
 
 float arrowStemVertsNoIndices[] = {
     0.0f,  0.0f,  1.0f,
@@ -164,6 +492,16 @@ void EditorSystem::initRendering(){
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (3) * sizeof(float), (void*) 0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    glGenVertexArrays(1, &circle_VAO);
+    glBindVertexArray(circle_VAO);
+    
+    glGenBuffers(1, &circle_VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, circle_VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(circleVertsNoIndices), &circleVertsNoIndices[0], GL_STATIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (3) * sizeof(float), (void*) 0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 const float keyboardEditorMovementSpeed = 0.2f;
@@ -223,7 +561,15 @@ void EditorSystem::tick(uint64_t dt){
                 TransformComponent* trans = m_admin.tryGetComponent<TransformComponent>(edit.selectedEntity);
                 if(trans != nullptr){
                     if(not edit.isDraggingAxis){
-                        edit.isDraggingAxis = getShouldDragMoveAxis(&edit.draggedAxis);
+                        switch (edit.currentEditMode){
+                            case EditMode::MOVE:
+                            case EditMode::SCALE:
+                                edit.isDraggingAxis = getShouldDragMoveAxis(&edit.draggedAxis);
+                                break;
+                            case EditMode::ROTATE:
+                                edit.isDraggingAxis = getShouldDragRotateAxis(&edit.draggedAxis);
+                                break;
+                        }
                     }
                     if(edit.isDraggingAxis){
                         //TODO: make this math actually correct
@@ -236,8 +582,10 @@ void EditorSystem::tick(uint64_t dt){
                             trans->m_position = trans->m_position + projected;
                         } else if (edit.currentEditMode == EditMode::SCALE){
                             //TODO: MATH
-                            printf("(%f, %f, %f) * (%f, %f, %f)\n", trans->m_scale.x, trans->m_scale.y, trans->m_scale.z, projected.x, projected.y, projected.z);
+                            printf("s (%f, %f, %f) * (%f, %f, %f)\n", trans->m_scale.x, trans->m_scale.y, trans->m_scale.z, projected.x, projected.y, projected.z);
                             trans->m_scale = trans->m_scale * (glm::vec3(1.0) + glm::vec3(-1.0f, -1.0f, 1.0f) * projected);
+                        } else if (edit.currentEditMode == EditMode::ROTATE){
+                            printf("r (%f, %f, %f) * (%f, %f, %f)\n", trans->m_scale.x, trans->m_scale.y, trans->m_scale.z, projected.x, projected.y, projected.z);
                         }
                     }
                 }
@@ -394,6 +742,48 @@ void EditorSystem::renderScaleAxesAtModelMat(glm::mat4 modelBase){
     glBindVertexArray(0);
 }
 
+// TODO: redo this model with indices -- its a shortcut that worked so far but is getting a bit absurd.
+void EditorSystem::renderRotationWheelAtModelMat(glm::mat4 modelBase){
+    GLuint modelLoc  = glGetUniformLocation(gizmoShader->ID, "model");
+    EditorSingleton& edit = m_admin.m_EditorSingleton;
+    RGBA red   = RGBA(0.8f, 0.0f, 0.0f, 1.0f);
+    RGBA green = RGBA(0.0f, 0.8f, 0.0f, 1.0f);
+    RGBA blue  = RGBA(0.0f, 0.0f, 0.8f, 1.0f);
+    if(edit.isDraggingAxis){
+        switch (edit.draggedAxis) {
+            case AXIS::X:
+                red = RGBA(1.0f, 0.0f, 0.0f, 1.0f);
+                break;
+            case AXIS::Y:
+                green = RGBA(0.0f, 1.0f, 0.0f, 1.0f);
+                break;
+            case AXIS::Z:
+                blue  = RGBA(0.0f, 0.0f, 1.0f, 1.0f);
+                break;
+        }
+    }
+        
+    glBindVertexArray(circle_VAO);
+    
+    glm::mat4 modelX = modelBase;
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelX));
+    gizmoShader->set4f("color", red);
+    glDrawArrays(GL_TRIANGLES, 0, 36 * 6);
+    
+    glm::mat4 modelY = glm::rotate(modelBase, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelY));
+    gizmoShader->set4f("color", green);
+    glDrawArrays(GL_TRIANGLES, 0, 36 * 6);
+    
+    glm::mat4 modelZ = glm::rotate(modelBase, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelZ));
+    gizmoShader->set4f("color", blue);
+    glDrawArrays(GL_TRIANGLES, 0, 36 * 6);
+    
+    glBindVertexArray(0);
+    
+}
+//TODO: Give the gizmos a separate depth buffer for them to play around in.
 void EditorSystem::renderGizmos(){
     glDisable(GL_DEPTH_TEST);
     RenderSingleton& renderSingleton = m_admin.m_RenderSingleton;
@@ -427,7 +817,7 @@ void EditorSystem::renderGizmos(){
                     break;
                     
                 case EditMode::ROTATE:
-                    
+                    renderRotationWheelAtModelMat(baseMatrix);
                     break;
             }
         }
@@ -520,6 +910,62 @@ bool EditorSystem::getShouldDragMoveAxis(AXIS* axisToDrag){
     }
     
     return false;
+}
+
+bool EditorSystem::getShouldDragRotateAxis(AXIS* axisToDrag){
+    InputSingleton& input = m_admin.m_InputSingleton;
+    EditorSingleton& edit = m_admin.m_EditorSingleton;
+    TransformComponent& selectedTransform = m_admin.getComponent<TransformComponent>(edit.selectedEntity);
+    
+    ray r = input.getRaycast(input.mouseDownPositionViewportSpace);
+    const float half_width = 0.15f;
+    Cylinder collider = {glm::vec3(-half_width, 0.0f, 0.0f), glm::vec3(half_width, 0.0f, 0.0f), 1.0f};
+    glm::mat4 baseMatrix;
+    
+    if(edit.usingLocalWorldSpace){
+        baseMatrix = selectedTransform.getMat4Unscaled();
+    } else {
+        baseMatrix = glm::translate(selectedTransform.m_position);
+    }
+    
+    bool didHit = false;
+    const float threshold = 0.8f;
+    
+    glm::vec3 hitX;
+    glm::vec3 hitY;
+    glm::vec3 hitZ;
+    
+    float distanceFromCenterX = 0.0f;
+    float distanceFromCenterY = 0.0f;
+    float distanceFromCenterZ = 0.0f;
+    
+    bool didHitX = Intersection::RayCyl(r, collider, baseMatrix, &hitX);
+    bool didHitY = Intersection::RayCyl(r, collider, glm::rotate(baseMatrix, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f)), &hitY);
+    bool didHitZ = Intersection::RayCyl(r, collider, glm::rotate(baseMatrix, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)), &hitZ);
+    
+    if(didHitX){
+        distanceFromCenterX = glm::distance(selectedTransform.m_position, hitX);
+        if(distanceFromCenterX > threshold){
+            didHit = true;
+            *axisToDrag = AXIS::X;
+        }
+    }
+    if (didHitY) {
+        distanceFromCenterY = glm::distance(selectedTransform.m_position, hitY);
+        if(distanceFromCenterY > threshold and distanceFromCenterY > distanceFromCenterX){
+            didHit = true;
+            *axisToDrag = AXIS::Y;
+        }
+    }
+    if(didHitZ){
+        distanceFromCenterZ = glm::distance(selectedTransform.m_position, hitZ);
+        if(distanceFromCenterZ > threshold and distanceFromCenterZ > distanceFromCenterX and distanceFromCenterZ > distanceFromCenterY){
+            didHit = true;
+            *axisToDrag = AXIS::Z;
+        }
+    }
+    
+    return didHit;
 }
 
 glm::vec3 EditorSystem::getWorldspaceAxisToDrag(){

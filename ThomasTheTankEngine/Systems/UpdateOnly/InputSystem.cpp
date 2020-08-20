@@ -158,6 +158,8 @@ void InputSystem::tick(uint64_t dt){
                         edit.currentEditMode = EditMode::MOVE;
                     } else if(e.key.keysym.scancode == SDL_SCANCODE_L){
                         edit.currentEditMode = EditMode::SCALE;
+                    } else if (e.key.keysym.scancode == SDL_SCANCODE_K){
+                        edit.currentEditMode = EditMode::ROTATE;
                     } else if(e.key.keysym.scancode == SDL_SCANCODE_ESCAPE){
                         edit.hasSelectedEntity = false;
                     }

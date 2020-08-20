@@ -22,6 +22,10 @@ typedef nlohmann::json::object_t prototype;
 typedef std::bitset<64> componentMask;
 typedef glm::vec4 RGBA;
 typedef glm::vec3 RGB;
+typedef struct Plane {
+    glm::vec3 origin;
+    glm::vec3 normal;
+};
 typedef struct AABB {
     glm::vec3 min;
     glm::vec3 max;

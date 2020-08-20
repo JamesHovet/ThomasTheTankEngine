@@ -7,9 +7,36 @@
 //
 
 #include "IntersectionUtils.hpp"
+#include <glm/gtx/intersect.hpp>
+
 using v3 = glm::vec3;
 using v4 = glm::vec4;
 using m4 = glm::mat4;
+
+bool Intersection::RayPlaneAbsolute(ray r, Plane p, float *d, glm::vec3 *hit){
+    float distance;
+    bool out = glm::intersectRayPlane(r.orig, glm::normalize(r.dir), p.origin, p.normal, distance);
+    *d = distance;
+    *hit = r.orig + r.dir * distance;
+    return out;
+}
+
+bool Intersection::RayPlaneAbsolute(ray r, Plane p, glm::vec3 *hit){
+    float dummyf;
+    return Intersection::RayPlaneAbsolute(r, p, &dummyf, hit);
+}
+
+bool Intersection::RayPlaneAbsolute(ray r, Plane p, float *d){
+    v3 dummyv3;
+    return Intersection::RayPlaneAbsolute(r, p, d, &dummyv3);
+}
+
+bool Intersection::RayPlaneAbsolute(ray r, Plane p){
+    v3 dummyv3;
+    float dummyf;
+    return Intersection::RayPlaneAbsolute(r, p, &dummyf, &dummyv3);
+}
+
 // Adapted from Tavian Barnes at https://tavianator.com/2011/ray_box.html
 bool Intersection::RayAABBAbsolute(ray r, AABB box, float * d, glm::vec3* hit){
 

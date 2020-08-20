@@ -14,6 +14,16 @@
 
 namespace Intersection {
 
+bool RayPlaneAbsolute(ray r, Plane p, float * d, glm::vec3* hit);
+bool RayPlaneAbsolute(ray r, Plane p, glm::vec3* hit);
+bool RayPlaneAbsolute(ray r, Plane p, float * d);
+bool RayPlaneAbsolute(ray r, Plane p);
+
+bool RayPlane(ray r, Plane p, float * d, glm::vec3* hit);
+bool RayPlane(ray r, Plane p, glm::vec3* hit);
+bool RayPlane(ray r, Plane p, float * d);
+bool RayPlane(ray r, Plane p);
+
 bool RayAABBAbsolute(ray r, AABB box, float * d, glm::vec3* hit);
 bool RayAABBAbsolute(ray r, AABB box, glm::vec3* hit);
 bool RayAABBAbsolute(ray r, AABB box, float * d);

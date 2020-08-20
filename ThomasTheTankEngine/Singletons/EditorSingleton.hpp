@@ -30,6 +30,7 @@ struct EditorSingleton {
     
     bool hasSelectedEntity;
     entityID selectedEntity;
+    TransformComponent selectedTransformCopyAtSelectionTime;
     
     EditMode currentEditMode {EditMode::MOVE};
     
@@ -37,6 +38,9 @@ struct EditorSingleton {
     
     bool isDraggingAxis {false};
     AXIS draggedAxis;
+    glm::vec3 draggedAxisWorldspace;
+    glm::vec3 draggedAxisWorldspaceTangent;
+    glm::vec3 draggedAxisWorldspaceBinormal;
     
 };
 

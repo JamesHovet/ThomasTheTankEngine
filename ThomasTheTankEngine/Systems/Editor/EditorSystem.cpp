@@ -13,6 +13,8 @@
 #include "EntityAdmin.hpp"
 #include "DebugNameComponent.hpp"
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/intersect.hpp>
+#include <glm/gtx/vector_angle.hpp>
 
 #include "IntersectionUtils.hpp"
 
@@ -455,7 +457,7 @@ void EditorSystem::init(){
     edit.defaultEditorCameraTransform.m_orientation = glm::rotation(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 0.0f, -1.0f));
     edit.editorCameraComponent = edit.defaultEditorCameraComponent;
     edit.editorCameraTransform = edit.defaultEditorCameraTransform;
-    edit.currentEditMode = EditMode::MOVE;
+    edit.currentEditMode = EditMode::ROTATE;
     
     initRendering();
 }
@@ -570,22 +572,42 @@ void EditorSystem::tick(uint64_t dt){
                                 edit.isDraggingAxis = getShouldDragRotateAxis(&edit.draggedAxis);
                                 break;
                         }
+                        edit.selectedTransformCopyAtSelectionTime = *trans;
+                        edit.draggedAxisWorldspace = getWorldspaceAxisToDrag(&edit.draggedAxisWorldspaceTangent, &edit.draggedAxisWorldspaceBinormal);
                     }
                     if(edit.isDraggingAxis){
                         //TODO: make this math actually correct
                         ray raycast0 = input.getRaycast(input.mouseDownPositionViewportSpace);
                         ray raycast1 = input.getRaycast(input.mouseDragPositionViewportSpace);
                         glm::vec3 delta = raycast1.dir - raycast0.dir;
-                        glm::vec3 axis = getWorldspaceAxisToDrag();
+                        glm::vec3 axis = edit.draggedAxisWorldspace;
                         glm::vec3 projected = axis * glm::dot(delta, axis);
                         if (edit.currentEditMode == EditMode::MOVE){
                             trans->m_position = trans->m_position + projected;
                         } else if (edit.currentEditMode == EditMode::SCALE){
-                            //TODO: MATH
-                            printf("s (%f, %f, %f) * (%f, %f, %f)\n", trans->m_scale.x, trans->m_scale.y, trans->m_scale.z, projected.x, projected.y, projected.z);
+//                            //TODO: MATH
+//                            printf("s (%f, %f, %f) * (%f, %f, %f)\n", trans->m_scale.x, trans->m_scale.y, trans->m_scale.z, projected.x, projected.y, projected.z);
                             trans->m_scale = trans->m_scale * (glm::vec3(1.0) + glm::vec3(-1.0f, -1.0f, 1.0f) * projected);
                         } else if (edit.currentEditMode == EditMode::ROTATE){
-                            printf("r (%f, %f, %f) * (%f, %f, %f)\n", trans->m_scale.x, trans->m_scale.y, trans->m_scale.z, projected.x, projected.y, projected.z);
+                            Plane rotationPlane = {trans->m_position, axis};
+                            
+//                            if(glm::dot(rotationPlane.normal,(rotationPlane.origin - edit.editorCameraTransform.m_position)) < 0.0f){
+//                                axis = -axis;
+//                                printf("flip!: ");
+//                            }
+                            
+                            glm::vec3 hit0;
+                            Intersection::RayPlaneAbsolute(raycast0, rotationPlane, &hit0);
+                            glm::vec3 hit1;
+                            Intersection::RayPlaneAbsolute(raycast1, rotationPlane, &hit1);
+                            
+                            glm::vec3 dir0 = glm::normalize(hit0 - trans->m_position);
+                            glm::vec3 dir1 = glm::normalize(hit1 - trans->m_position);
+                            
+                            float angle = glm::orientedAngle(dir0, dir1, axis);
+                            printf("angle: %1.5f, axis: (%4.4f, %4.4f, %4.4f)\n", angle, axis.x, axis.y, axis.z);
+                            
+                            trans->m_orientation = glm::rotate(edit.selectedTransformCopyAtSelectionTime.m_orientation, angle, axis);
                         }
                     }
                 }
@@ -918,6 +940,13 @@ bool EditorSystem::getShouldDragRotateAxis(AXIS* axisToDrag){
     TransformComponent& selectedTransform = m_admin.getComponent<TransformComponent>(edit.selectedEntity);
     
     ray r = input.getRaycast(input.mouseDownPositionViewportSpace);
+    
+    //Early out -- can't intersect the cylinder colliders without intersecting the sphere (within a small margin of error)
+    float dummyf;
+    if(not glm::intersectRaySphere(r.orig, r.dir, selectedTransform.m_position, 1, dummyf)){
+        return false;
+    }
+    
     const float half_width = 0.15f;
     Cylinder collider = {glm::vec3(-half_width, 0.0f, 0.0f), glm::vec3(half_width, 0.0f, 0.0f), 1.0f};
     glm::mat4 baseMatrix;
@@ -968,7 +997,7 @@ bool EditorSystem::getShouldDragRotateAxis(AXIS* axisToDrag){
     return didHit;
 }
 
-glm::vec3 EditorSystem::getWorldspaceAxisToDrag(){
+glm::vec3 EditorSystem::getWorldspaceAxisToDrag(glm::vec3* tangent, glm::vec3* binormal){
     EditorSingleton& edit = m_admin.m_EditorSingleton;
     TransformComponent& trans = m_admin.getComponent<TransformComponent>(edit.selectedEntity);
     glm::vec3 out;
@@ -977,25 +1006,37 @@ glm::vec3 EditorSystem::getWorldspaceAxisToDrag(){
             if(edit.usingLocalWorldSpace){
                 switch (edit.draggedAxis) {
                     case AXIS::X:
-                        out = trans.getRight();
+                        out       = trans.getRight();
+                        *tangent  = trans.getUp();
+                        *binormal = trans.getForward();
                         break;
                     case AXIS::Y:
-                        out = trans.getUp();
+                        out       = trans.getUp();
+                        *tangent  = trans.getForward();
+                        *binormal = trans.getRight();
                         break;
                     case AXIS::Z:
-                        out = trans.getForward();
+                        out       = trans.getForward();
+                        *tangent  = trans.getRight();
+                        *binormal = trans.getForward();
                         break;
                 }
             } else {
                 switch (edit.draggedAxis) {
                     case AXIS::X:
-                        out = glm::vec3(1.0f, 0.0f, 0.0f);
+                        out       = glm::vec3(1.0f, 0.0f, 0.0f);
+                        *tangent  = glm::vec3(0.0f, 1.0f, 0.0f);
+                        *binormal = glm::vec3(0.0f, 0.0f, 1.0f);
                         break;
                     case AXIS::Y:
-                        out = glm::vec3(0.0f, 1.0f, 0.0f);
+                        out       = glm::vec3(0.0f, 1.0f, 0.0f);
+                        *tangent  = glm::vec3(0.0f, 0.0f, 1.0f);
+                        *binormal = glm::vec3(1.0f, 0.0f, 0.0f);
                         break;
                     case AXIS::Z:
-                        out = glm::vec3(0.0f, 0.0f, 1.0f);
+                        out       = glm::vec3(0.0f, 0.0f, 1.0f);
+                        *tangent  = glm::vec3(1.0f, 0.0f, 0.0f);
+                        *binormal = glm::vec3(0.0f, 0.0f, 1.0f);
                         break;
                 }
             }
@@ -1005,30 +1046,80 @@ glm::vec3 EditorSystem::getWorldspaceAxisToDrag(){
             if(edit.usingLocalWorldSpace){
                 switch (edit.draggedAxis) {
                     case AXIS::X:
-                        out = glm::vec3(1.0f, 0.0f, 0.0f);
+                        out       = glm::vec3(1.0f, 0.0f, 0.0f);
+                        *tangent  = glm::vec3(0.0f, 1.0f, 0.0f);
+                        *binormal = glm::vec3(0.0f, 0.0f, 1.0f);
                         break;
                     case AXIS::Y:
-                        out = glm::vec3(0.0f, 1.0f, 0.0f);
+                        out       = glm::vec3(0.0f, 1.0f, 0.0f);
+                        *tangent  = glm::vec3(0.0f, 0.0f, 1.0f);
+                        *binormal = glm::vec3(1.0f, 0.0f, 0.0f);
                         break;
                     case AXIS::Z:
-                        out = glm::vec3(0.0f, 0.0f, 1.0f);
+                        out       = glm::vec3(0.0f, 0.0f, 1.0f);
+                        *tangent  = glm::vec3(1.0f, 0.0f, 0.0f);
+                        *binormal = glm::vec3(0.0f, 0.0f, 1.0f);
                         break;
                 }
             } else {
                 switch (edit.draggedAxis) {
                     case AXIS::X:
-                        out = trans.getRight();
+                        out       = trans.getRight();
+                        *tangent  = trans.getUp();
+                        *binormal = trans.getForward();
                         break;
                     case AXIS::Y:
-                        out = trans.getUp();
+                        out       = trans.getUp();
+                        *tangent  = trans.getForward();
+                        *binormal = trans.getRight();
                         break;
                     case AXIS::Z:
-                        out = trans.getForward();
+                        out       = trans.getForward();
+                        *tangent  = trans.getRight();
+                        *binormal = trans.getForward();
                         break;
                 }
             }
             break;
-        default:
+        case EditMode::ROTATE:
+            if(edit.usingLocalWorldSpace){
+                switch (edit.draggedAxis) {
+                    case AXIS::X:
+                        out       = glm::vec3(1.0f, 0.0f, 0.0f);
+                        *tangent  = glm::vec3(0.0f, 1.0f, 0.0f);
+                        *binormal = glm::vec3(0.0f, 0.0f, 1.0f);
+                        break;
+                    case AXIS::Y:
+                        out       = glm::vec3(0.0f, 1.0f, 0.0f);
+                        *tangent  = glm::vec3(0.0f, 0.0f, 1.0f);
+                        *binormal = glm::vec3(1.0f, 0.0f, 0.0f);
+                        break;
+                    case AXIS::Z:
+                        out       = glm::vec3(0.0f, 0.0f, 1.0f);
+                        *tangent  = glm::vec3(1.0f, 0.0f, 0.0f);
+                        *binormal = glm::vec3(0.0f, 0.0f, 1.0f);
+                        break;
+                }
+            } else {
+                switch (edit.draggedAxis) {
+                    case AXIS::X:
+                        out       = trans.getRight();
+                        *tangent  = trans.getUp();
+                        *binormal = trans.getForward();
+                        break;
+                    case AXIS::Y:
+                        out       = trans.getUp();
+                        *tangent  = trans.getForward();
+                        *binormal = trans.getRight();
+                        break;
+                    case AXIS::Z:
+                        out       = trans.getForward();
+                        *tangent  = trans.getRight();
+                        *binormal = trans.getForward();
+                        break;
+                }
+                
+            }
             break;
     }
     return out;

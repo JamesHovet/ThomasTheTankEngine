@@ -706,6 +706,7 @@ void EditorSystem::renderGizmos(){
 }
 
 void EditorSystem::renderSceneGraphEditor(){
+    EditorSingleton& edit = m_admin.m_EditorSingleton;
     ImGui::Begin("Editor");
 
     char nameBuf[32];
@@ -721,6 +722,21 @@ void EditorSystem::renderSceneGraphEditor(){
         }
         
         ImGui::PushID(eID);
+        bool styled = false;
+        if(edit.hasSelectedEntity && edit.selectedEntity == eID){
+            styled = true;
+            ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor(255, 0, 0));
+            if(ImGui::Button("*")){
+                edit.hasSelectedEntity = false;
+            }
+            ImGui::PopStyleColor();
+        } else {
+            if(ImGui::Button("*")){
+                edit.hasSelectedEntity = true;
+                edit.selectedEntity = eID;
+            }
+        }
+        ImGui::SameLine();
         if(ImGui::TreeNode(nameBuf)){
             for(auto it = m_admin.componentsBegin(eID); it != m_admin.componentsEnd(eID); ++it){
                 (*it)->imDisplay();

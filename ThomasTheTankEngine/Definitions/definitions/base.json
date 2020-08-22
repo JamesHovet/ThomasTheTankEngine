@@ -1,28 +1,5 @@
 {
 	"components" : [
-		{ 
-			"name" : "DebugPrint" ,
-			"members" : [
-				{
-					"name": "m_enabled", 
-					"type": "bool",
-					"default" : "false"
-				},
-				{
-					"name": "m_integer",
-					"type": "int",
-					"default" : "1"	
-				},
-				{
-					"name": "m_float",
-					"type": "float"
-				},
-                {
-                    "name": "m_RGB",
-                    "type": "RGB"
-                }
-			]
-		},
         {
             "name" : "GreyBox" ,
             "members" : [
@@ -46,12 +23,6 @@
         }
 	],
 	"families" : [
-		{
-			"name" : "DebugPrintable",
-			"components" : [ "DebugPrint" ],
-            "update" : true,
-            "render" : false
-		},
         {
             "name" : "GreyBox",
             "components" : ["Transform", "GreyBox"],

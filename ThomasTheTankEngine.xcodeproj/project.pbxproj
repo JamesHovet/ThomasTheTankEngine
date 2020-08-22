@@ -122,7 +122,6 @@
 		590A09B624CA3F4200D1153A /* greybox.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = greybox.frag; sourceTree = "<group>"; };
 		590A09B924CB286700D1153A /* RenderSingleton.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RenderSingleton.hpp; sourceTree = "<group>"; };
 		590A09CC24CB33A000D1153A /* GreyBoxComponent.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GreyBoxComponent.hpp; sourceTree = "<group>"; };
-		590A09CD24CB33A000D1153A /* DebugPrintComponent.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DebugPrintComponent.hpp; sourceTree = "<group>"; };
 		590A09CE24CB33A000D1153A /* ComponentsEnum.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ComponentsEnum.hpp; sourceTree = "<group>"; };
 		590A09D024CB33A000D1153A /* allComponents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = allComponents.h; sourceTree = "<group>"; };
 		590A09D224CB33A000D1153A /* filterEntitiesIntoMutableFamiliesInclude.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = filterEntitiesIntoMutableFamiliesInclude.cpp; sourceTree = "<group>"; };
@@ -131,7 +130,6 @@
 		590A09D524CB33A000D1153A /* clearFamiliesInclude.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = clearFamiliesInclude.cpp; sourceTree = "<group>"; };
 		590A09D724CB33A000D1153A /* GreyBoxFamily.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GreyBoxFamily.hpp; sourceTree = "<group>"; };
 		590A09D824CB33A000D1153A /* FamiliesEnum.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FamiliesEnum.hpp; sourceTree = "<group>"; };
-		590A09D924CB33A000D1153A /* DebugPrintableFamily.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DebugPrintableFamily.hpp; sourceTree = "<group>"; };
 		590A09DB24CB33A000D1153A /* allFamilies.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = allFamilies.h; sourceTree = "<group>"; };
 		590A09DC24CB3B5E00D1153A /* EditorSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EditorSystem.cpp; sourceTree = "<group>"; };
 		590A09DD24CB3B5E00D1153A /* EditorSystem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = EditorSystem.hpp; sourceTree = "<group>"; };
@@ -656,7 +654,6 @@
 			isa = PBXGroup;
 			children = (
 				590A09CC24CB33A000D1153A /* GreyBoxComponent.hpp */,
-				590A09CD24CB33A000D1153A /* DebugPrintComponent.hpp */,
 				590A09CE24CB33A000D1153A /* ComponentsEnum.hpp */,
 				59B2DDA524D77C2B0050E31A /* AABBColliderComponent.hpp */,
 				590A09D024CB33A000D1153A /* allComponents.h */,
@@ -686,7 +683,6 @@
 				590A09D724CB33A000D1153A /* GreyBoxFamily.hpp */,
 				59B2DDA624D77CCB0050E31A /* AABBCollisionFamily.hpp */,
 				590A09D824CB33A000D1153A /* FamiliesEnum.hpp */,
-				590A09D924CB33A000D1153A /* DebugPrintableFamily.hpp */,
 				590A09DB24CB33A000D1153A /* allFamilies.h */,
 			);
 			path = gen_Families;

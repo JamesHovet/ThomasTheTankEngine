@@ -1,5 +1,5 @@
 // AABBCollisionFamily.hpp
-// generated at: 2020-08-11 07:29:03.073235
+// generated at: 2020-08-22 08:46:42.649158
 #pragma once
 #ifndef AABBCollisionFamily_hpp
 #define AABBCollisionFamily_hpp
@@ -9,7 +9,7 @@
 #include "TransformComponent.hpp"
 #include "AABBColliderComponent.hpp"
 struct AABBCollisionFamily : public Family<AABBCollisionFamily> {
-	static constexpr int familyIndex{ 3 };
+	static constexpr int familyIndex{ 2 };
 	TransformComponent& m_TransformComponent;
 	AABBColliderComponent& m_AABBColliderComponent;
 
@@ -20,7 +20,7 @@ struct AABBCollisionFamily : public Family<AABBCollisionFamily> {
 };
 
 struct AABBCollisionFamilyStatic : public Family<AABBCollisionFamilyStatic> {
-	static constexpr int familyIndex{ 3 };
+	static constexpr int familyIndex{ 2 };
 	TransformComponent m_TransformComponent;
 	AABBColliderComponent m_AABBColliderComponent;
 

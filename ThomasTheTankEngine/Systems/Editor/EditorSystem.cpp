@@ -457,7 +457,7 @@ void EditorSystem::init(){
     edit.defaultEditorCameraTransform.m_orientation = glm::rotation(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 0.0f, -1.0f));
     edit.editorCameraComponent = edit.defaultEditorCameraComponent;
     edit.editorCameraTransform = edit.defaultEditorCameraTransform;
-    edit.currentEditMode = EditMode::ROTATE;
+    edit.currentEditMode = EditMode::MOVE;
     
     initRendering();
 }
@@ -882,6 +882,25 @@ void EditorSystem::renderInspector(){
     entityID eID = edit.selectedEntity;
     
     ImGui::Begin("Inspector");
+    if(ImGui::Button("Duplicate") && edit.hasSelectedEntity){
+        edit.selectedEntity = m_admin.duplicateEntity(edit.selectedEntity);
+    }
+    ImGui::Checkbox("Local Space", &edit.usingLocalWorldSpace);
+    ImGui::SameLine();
+    if(ImGui::Button("Move")){
+        edit.currentEditMode = EditMode::MOVE;
+    }
+    ImGui::SameLine();
+    if(ImGui::Button("Scale")){
+        edit.currentEditMode = EditMode::SCALE;
+    }
+    ImGui::SameLine();
+    if(ImGui::Button("Rotate")){
+        edit.currentEditMode = EditMode::ROTATE;
+    }
+    
+    
+    
     if(edit.hasSelectedEntity){
         ImGui::PushID(eID); // if two items from two different "worlds" have the same ID, then the ImGui state from one (like, which tree nodes are open) could carry over, but I'm just not sure I care. 
         DebugNameComponent* nameC = m_admin.tryGetComponent<DebugNameComponent>(eID);

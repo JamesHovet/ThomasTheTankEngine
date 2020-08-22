@@ -1,5 +1,5 @@
 // AllComponents.hpp
-// generated at: 2020-08-11 07:29:03.070276
+// generated at: 2020-08-22 08:46:42.648160
 
 #pragma once
 #ifndef AllComponents_hpp
@@ -8,7 +8,6 @@
 
 #include "TransformComponent.hpp"
 #include "DebugNameComponent.hpp"
-#include "DebugPrintComponent.hpp"
 #include "GreyBoxComponent.hpp"
 #include "AABBColliderComponent.hpp"
 #endif 

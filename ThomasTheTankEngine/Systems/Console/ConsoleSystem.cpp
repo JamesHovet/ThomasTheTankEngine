@@ -18,9 +18,16 @@ void ConsoleSystem::init(){
 void ConsoleSystem::tick(uint64_t dt){
     InputSingleton& input = m_admin.m_InputSingleton;
     ConsoleSingleton& console = m_admin.m_ConsoleSingleton;
+    EditorSingleton& edit = m_admin.m_EditorSingleton;
     if(console.consoleActive){
         if (input.lineCommitted){
-            printf("committed line to console: %s\n", input.activeLine);
+            if (strncmp(input.activeLine, "dupe", 4) == 0){
+                entityID entityToDupe = atoi(&input.activeLine[4]);
+                if(m_admin.tryGetEntity(entityToDupe) != nullptr){
+                    edit.selectedEntity = m_admin.duplicateEntity(entityToDupe);
+                    printf("dupe %i to %i\n", entityToDupe, edit.selectedEntity);
+                }
+            }
             if (strncmp(input.activeLine, "reloadshaders", 13) == 0){
                 printf("reload shaders\n");
                 ConsoleCommands::cmd_reloadshaders(m_admin);

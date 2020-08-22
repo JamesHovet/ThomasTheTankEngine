@@ -1,5 +1,5 @@
 // familiesEnum.hpp
-// generated at: 2020-08-11 07:29:03.070299
+// generated at: 2020-08-22 08:46:42.648206
 
 #pragma once
 #ifndef familiesEnum_hpp
@@ -8,11 +8,10 @@
 
 enum class Families {
     CameraFamily = 0,
-	DebugPrintableFamily = 1,
-	GreyBoxFamily = 2,
-	AABBCollisionFamily = 3,
-	FamiliesCount = 4
+	GreyBoxFamily = 1,
+	AABBCollisionFamily = 2,
+	FamiliesCount = 3
 };
 
-#define NUM_FAMILIES 4
+#define NUM_FAMILIES 3
 #endif 

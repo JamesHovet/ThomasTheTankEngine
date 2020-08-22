@@ -11,8 +11,8 @@
 #include <thread>
 #include "Trace.hpp"
 
-const int SCREEN_WIDTH = 500;
-const int SCREEN_HEIGHT = 500;
+const int SCREEN_WIDTH = 1024;
+const int SCREEN_HEIGHT = 768;
 
 SDL_Window* g_window = NULL;
 SDL_GLContext gl_context;

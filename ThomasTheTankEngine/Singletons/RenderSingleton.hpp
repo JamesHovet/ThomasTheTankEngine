@@ -22,8 +22,8 @@
 struct RenderSingleton {
     
     //TODO: @Improve : populate this at some point with the actual values
-    int SCREEN_WIDTH {500};
-    int SCREEN_HEIGHT {500};
+    int SCREEN_WIDTH {1024};
+    int SCREEN_HEIGHT {768};
     
     glm::mat4 view;
     glm::mat4 projection;

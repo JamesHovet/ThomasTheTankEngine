@@ -1,3 +1,5 @@
+![Demo of ThomasTheTankEngine editor](./ThomasDemo.gif)
+
 Inspired by the excellent GDC talk by the Overwatch team on their Entity Component System game engine ([link](https://youtu.be/W3aieHjyNvw)), 
 reading some of the source code of Chucklefish's ECS engine that they used for WarGroove ([link](https://github.com/amzeratul/halley) and [link](https://wargroove.com/)),
 and watching some of Jonathan Blow's livestreams where he works on his own game engine ([link](https://www.youtube.com/playlist?list=PLmV5I2fxaiCI9IAdFmGChKbIbenqRMi6Z)), I decided that writing my own ECS game engine would be a great big project for me to take on in the summer of 2020. 
@@ -11,11 +13,10 @@ Big milestones already reached:
 - The Entity Component System architecture itself
 - autogeneration (via python scripts and #include directives) of components and their memory lifecycles
 - a "Family" or component tuple system for iterating over components
-- Cubes on the screen generated from the component data, as well as a basic debug camera hooked up to a game controller 
 - Serialization and deserialization of all entity data
+- A somewhat useful editor
 
 Big Milestones to come:
-- A relatively featured editor
 - Mesh importing
 - True multithreading (the groundwork is there but its early days)
 - More advanced rendering

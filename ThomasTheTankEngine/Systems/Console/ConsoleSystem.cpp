@@ -34,13 +34,33 @@ void ConsoleSystem::tick(uint64_t dt){
             }
             //TODO: move these into the console command file, even though they are so short
             if (strncmp(input.activeLine, "save", 4) == 0){
-                printf("saving:\n");
-                m_admin.serializeByEntityCompatability(boost::filesystem::path("/Users/jameshovet/Development/ThomasTheTankEngine/tmp/out.json"));
+                std::string line(&input.activeLine[5]);
+                if (line.find(" ") == std::string::npos){
+                    printf("saving: %s.json\n", line.c_str());
+                    bool success = m_admin.serializeByEntityCompatability(boost::filesystem::path("/Users/jameshovet/Development/ThomasTheTankEngine/tmp/" + line + ".json"));
+                    if(success){
+                        printf("Success: saved to %s.json\n", line.c_str());
+                    } else {
+                        printf("Error saving to %s.json\n", line.c_str());
+                    }
+                } else {
+                    printf("invalid file name\n");
+                }
             }
             if (strncmp(input.activeLine, "load", 4) == 0){
-                printf("loading:\n");
-                m_admin.destroyAllEntities();
-                m_admin.deserializeByEntityCompatability(boost::filesystem::path("/Users/jameshovet/Development/ThomasTheTankEngine/tmp/out.json"));
+                std::string line(&input.activeLine[5]);
+                if (line.find(" ") == std::string::npos){
+                    printf("loading: %s\n", line.c_str());
+                    m_admin.destroyAllEntities();
+                    bool success = m_admin.deserializeByEntityCompatability(boost::filesystem::path("/Users/jameshovet/Development/ThomasTheTankEngine/tmp/" + line + ".json"));
+                    if(success){
+                        printf("Success: loaded from %s.json\n", line.c_str());
+                    } else {
+                        printf("Error loading from %s.json\n", line.c_str());
+                    }
+                } else {
+                    printf("invalid file name\n");
+                }
             }
             input.resetTextInputLine();
         }

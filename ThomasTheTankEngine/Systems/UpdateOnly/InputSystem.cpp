@@ -9,7 +9,7 @@
 #include "EntityAdmin.hpp"
 #include "InputSystem.hpp"
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 //enum Buttons {
 //    A,

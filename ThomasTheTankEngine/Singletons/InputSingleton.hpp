@@ -10,7 +10,7 @@
 #ifndef InputSingleton_hpp
 #define InputSingleton_hpp
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include "typedefs.h"
 #include <glm/gtx/norm.hpp>
 

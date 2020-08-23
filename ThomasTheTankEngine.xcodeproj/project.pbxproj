@@ -1826,6 +1826,7 @@
 					/usr/local/include/GL,
 					/usr/local/Cellar/boost/1.71.0/include,
 					/usr/local/include/,
+					/Library/Frameworks/SDL2.framework/Headers/,
 				);
 				INFOPLIST_FILE = ThomasTheTankEngine/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1862,6 +1863,7 @@
 					/usr/local/include/GL,
 					/usr/local/Cellar/boost/1.71.0/include,
 					/usr/local/include/,
+					/Library/Frameworks/SDL2.framework/Headers/,
 				);
 				INFOPLIST_FILE = ThomasTheTankEngine/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

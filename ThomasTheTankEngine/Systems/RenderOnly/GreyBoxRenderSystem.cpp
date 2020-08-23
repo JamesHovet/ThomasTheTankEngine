@@ -6,7 +6,7 @@
 //  Copyright © 2020 James Hovet. All rights reserved.
 //
 
-#include <glew.h>
+#include <GL/glew.h>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>

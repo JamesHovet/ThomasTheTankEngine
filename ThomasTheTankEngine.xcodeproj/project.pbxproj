@@ -710,8 +710,8 @@
 		5919A0EE24C0E544009F97F8 /* generated */ = {
 			isa = PBXGroup;
 			children = (
-				590A09CB24CB33A000D1153A /* gen_Components */,
 				590A09D124CB33A000D1153A /* gen_cpp */,
+				590A09CB24CB33A000D1153A /* gen_Components */,
 				590A09D624CB33A000D1153A /* gen_Families */,
 			);
 			path = generated;
@@ -787,7 +787,7 @@
 				59661B34242960E80088525D /* Utils */,
 				5919A0F224C0E63E009F97F8 /* Definitions */,
 				5919A0EE24C0E544009F97F8 /* generated */,
-				59484F5424290FCE0068591C /* src */,
+				59661B3A242962890088525D /* Shaders */,
 				59484F5524290FEE0068591C /* libs */,
 				590F567C242CCD7500BC9DC2 /* Assets */,
 				59484F3224290AEE0068591C /* Info.plist */,
@@ -810,14 +810,6 @@
 				59484F4A24290C0D0068591C /* OpenGL.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		59484F5424290FCE0068591C /* src */ = {
-			isa = PBXGroup;
-			children = (
-				59661B39242962810088525D /* Rendering */,
-			);
-			path = src;
 			sourceTree = "<group>";
 		};
 		59484F5524290FEE0068591C /* libs */ = {
@@ -1346,14 +1338,6 @@
 				59661B43242B93900088525D /* Shader.cpp */,
 			);
 			path = GL;
-			sourceTree = "<group>";
-		};
-		59661B39242962810088525D /* Rendering */ = {
-			isa = PBXGroup;
-			children = (
-				59661B3A242962890088525D /* Shaders */,
-			);
-			path = Rendering;
 			sourceTree = "<group>";
 		};
 		59661B3A242962890088525D /* Shaders */ = {

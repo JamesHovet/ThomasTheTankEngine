@@ -149,7 +149,6 @@
 		591D1D09243106A400AF9DC5 /* ImGuiUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ImGuiUtils.cpp; sourceTree = "<group>"; };
 		591D1D0A243106A400AF9DC5 /* ImGuiUtils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ImGuiUtils.hpp; sourceTree = "<group>"; };
 		592257AE24F1D132009F1BB0 /* EditorSystemRendering.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EditorSystemRendering.cpp; sourceTree = "<group>"; };
-		5924F96F24F2E44F00B52D9F /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = CMakeLists.txt; path = build/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		592B478024CF178200EB0DC0 /* libgainput.1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgainput.1.0.0.dylib; path = ../../../../usr/local/lib/libgainput.1.0.0.dylib; sourceTree = "<group>"; };
 		59374D5224D367E100A75B7E /* ShaderCatalogSingleton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderCatalogSingleton.cpp; sourceTree = "<group>"; };
 		59374D5324D367E100A75B7E /* ShaderCatalogSingleton.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ShaderCatalogSingleton.hpp; sourceTree = "<group>"; };
@@ -785,7 +784,6 @@
 		59484F2924290AEE0068591C /* ThomasTheTankEngine */ = {
 			isa = PBXGroup;
 			children = (
-				5924F96F24F2E44F00B52D9F /* CMakeLists.txt */,
 				59C0382D24D5A78B00DFFA3E /* ThomasTheTankEngineDebug.entitlements */,
 				59484F3324290AEE0068591C /* main.cpp */,
 				59484F5324290F320068591C /* main.h */,

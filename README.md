@@ -26,3 +26,15 @@ Stretch goals:
 - Animation system
 - In-Engine CPU profiler
 - extracting the engine into a dylib 
+
+## Build instructions (macOS)
+- install these dependencies, probably using brew: `cmake`, `sdl2`, `glew`, `boost` (or alternatively, just boost filesystem). 
+- clone this repo and `cd` into it. 
+- exectue these commands, one after another
+```
+mkdir build
+cp CMakeLists.txt build/
+cd build
+cmake .
+make
+``` 

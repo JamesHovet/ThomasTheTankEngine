@@ -15,8 +15,14 @@
 std::string FileUtils::getResourceAbsoluteFilePath(const char *resourcePathCStr){
     char executablePathBuf [PATH_MAX];
     uint32_t bufsize = PATH_MAX;
+#ifdef BUILD_CMAKE
+    if(!_NSGetExecutablePath(executablePathBuf, &bufsize)){
+        return boost::filesystem::path(std::string(executablePathBuf)).remove_filename().append("../ThomasTheTankEngine/Resources/").append(resourcePathCStr).string();
+    }
+#else
     if(!_NSGetExecutablePath(executablePathBuf, &bufsize)){
         return boost::filesystem::path(std::string(executablePathBuf)).remove_filename().append("../Resources/").append(resourcePathCStr).string();
     }
+#endif
     return nullptr;
 }

@@ -28,5 +28,7 @@ DerivedData/
 *.DS_STORE
 build/CMakeFiles/
 build/CMakeCache.txt
+build/ThomasTheTankEngine*
 cmake_install.cmake
 Makefile
+*/imgui.ini

@@ -149,6 +149,7 @@
 		591D1D09243106A400AF9DC5 /* ImGuiUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ImGuiUtils.cpp; sourceTree = "<group>"; };
 		591D1D0A243106A400AF9DC5 /* ImGuiUtils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ImGuiUtils.hpp; sourceTree = "<group>"; };
 		592257AE24F1D132009F1BB0 /* EditorSystemRendering.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EditorSystemRendering.cpp; sourceTree = "<group>"; };
+		5924F96F24F2E44F00B52D9F /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = CMakeLists.txt; path = build/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		592B478024CF178200EB0DC0 /* libgainput.1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgainput.1.0.0.dylib; path = ../../../../usr/local/lib/libgainput.1.0.0.dylib; sourceTree = "<group>"; };
 		59374D5224D367E100A75B7E /* ShaderCatalogSingleton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderCatalogSingleton.cpp; sourceTree = "<group>"; };
 		59374D5324D367E100A75B7E /* ShaderCatalogSingleton.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ShaderCatalogSingleton.hpp; sourceTree = "<group>"; };
@@ -734,6 +735,14 @@
 			path = definitions;
 			sourceTree = "<group>";
 		};
+		5924F96E24F2E24D00B52D9F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				59661B3A242962890088525D /* Shaders */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		5937528424C23D7900A0EC78 /* Families */ = {
 			isa = PBXGroup;
 			children = (
@@ -776,6 +785,7 @@
 		59484F2924290AEE0068591C /* ThomasTheTankEngine */ = {
 			isa = PBXGroup;
 			children = (
+				5924F96F24F2E44F00B52D9F /* CMakeLists.txt */,
 				59C0382D24D5A78B00DFFA3E /* ThomasTheTankEngineDebug.entitlements */,
 				59484F3324290AEE0068591C /* main.cpp */,
 				59484F5324290F320068591C /* main.h */,
@@ -787,8 +797,8 @@
 				59661B34242960E80088525D /* Utils */,
 				5919A0F224C0E63E009F97F8 /* Definitions */,
 				5919A0EE24C0E544009F97F8 /* generated */,
-				59661B3A242962890088525D /* Shaders */,
 				59484F5524290FEE0068591C /* libs */,
+				5924F96E24F2E24D00B52D9F /* Resources */,
 				590F567C242CCD7500BC9DC2 /* Assets */,
 				59484F3224290AEE0068591C /* Info.plist */,
 				59484F5224290E0D0068591C /* ThomasTheTankEngine.entitlements */,
@@ -1431,6 +1441,23 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXLegacyTarget section */
+		5924F96A24F2DB8300B52D9F /* ThomasTheTankEngineCMake */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "-j $(ACTION)";
+			buildConfigurationList = 5924F96B24F2DB8300B52D9F /* Build configuration list for PBXLegacyTarget "ThomasTheTankEngineCMake" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = /Users/jameshovet/Development/ThomasTheTankEngine/build;
+			dependencies = (
+			);
+			name = ThomasTheTankEngineCMake;
+			passBuildSettingsInEnvironment = 1;
+			productName = ThomasTheTankEngineCMake;
+		};
+/* End PBXLegacyTarget section */
+
 /* Begin PBXNativeTarget section */
 		593868F124CE1F6E00AD33FF /* ThomasTheTankEngineTests */ = {
 			isa = PBXNativeTarget;
@@ -1479,6 +1506,9 @@
 				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = "James Hovet";
 				TargetAttributes = {
+					5924F96A24F2DB8300B52D9F = {
+						CreatedOnToolsVersion = 11.5;
+					};
 					593868F124CE1F6E00AD33FF = {
 						CreatedOnToolsVersion = 11.6;
 						TestTargetID = 59484F2624290AEE0068591C;
@@ -1503,6 +1533,7 @@
 			targets = (
 				59484F2624290AEE0068591C /* ThomasTheTankEngine */,
 				593868F124CE1F6E00AD33FF /* ThomasTheTankEngineTests */,
+				5924F96A24F2DB8300B52D9F /* ThomasTheTankEngineCMake */,
 			);
 		};
 /* End PBXProject section */
@@ -1584,6 +1615,37 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		5924F96C24F2DB8300B52D9F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUGGING_SYMBOLS = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 7J7X6WVG78;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		5924F96D24F2DB8300B52D9F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 7J7X6WVG78;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		593868F924CE1F6E00AD33FF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1861,6 +1923,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		5924F96B24F2DB8300B52D9F /* Build configuration list for PBXLegacyTarget "ThomasTheTankEngineCMake" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5924F96C24F2DB8300B52D9F /* Debug */,
+				5924F96D24F2DB8300B52D9F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		593868FB24CE1F6E00AD33FF /* Build configuration list for PBXNativeTarget "ThomasTheTankEngineTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

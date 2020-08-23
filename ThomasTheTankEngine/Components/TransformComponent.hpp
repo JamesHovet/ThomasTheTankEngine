@@ -11,7 +11,7 @@
 #define TransformComponent_hpp
 
 #include "Component.hpp"
-#include "glm.hpp"
+#include "glm/glm.hpp"
 #include "glm/gtc/quaternion.hpp"
 #include "glm/gtx/quaternion.hpp"
 #include "glm/gtx/transform.hpp"

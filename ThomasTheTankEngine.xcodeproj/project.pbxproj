@@ -1317,7 +1317,8 @@
 				597C6AAB24E0583E002CB5D8 /* Trace.hpp */,
 				5937528624C25FBC00A0EC78 /* ECSUtils.cpp */,
 				5937528724C25FBC00A0EC78 /* ECSUtils.hpp */,
-				59661B35242960EF0088525D /* GL */,
+				59661B362429610C0088525D /* Shader.hpp */,
+				59661B43242B93900088525D /* Shader.cpp */,
 				590F5680242CCDD600BC9DC2 /* FileUtils.hpp */,
 				590F5681242CD12A00BC9DC2 /* FileUtils.cpp */,
 				591D1D09243106A400AF9DC5 /* ImGuiUtils.cpp */,
@@ -1329,15 +1330,6 @@
 				59B2DDA824D77EE00050E31A /* IntersectionUtils.hpp */,
 			);
 			path = Utils;
-			sourceTree = "<group>";
-		};
-		59661B35242960EF0088525D /* GL */ = {
-			isa = PBXGroup;
-			children = (
-				59661B362429610C0088525D /* Shader.hpp */,
-				59661B43242B93900088525D /* Shader.cpp */,
-			);
-			path = GL;
 			sourceTree = "<group>";
 		};
 		59661B3A242962890088525D /* Shaders */ = {

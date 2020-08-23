@@ -8,7 +8,7 @@
 
 #include "ConsoleSystem.hpp"
 #include "EntityAdmin.hpp"
-#include "libs/imgui/imgui.h"
+#include "imgui/imgui.h"
 
 
 void ConsoleSystem::init(){

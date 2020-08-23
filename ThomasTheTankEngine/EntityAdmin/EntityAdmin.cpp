@@ -25,7 +25,7 @@
 #include "Component.hpp"
 #include "AllComponents.h"
 #include "allFamilies.h"
-#include "object_pool.hpp"
+#include "pool/object_pool.hpp"
 #include "ECSUtils.hpp"
 #include "Trace.hpp"
 

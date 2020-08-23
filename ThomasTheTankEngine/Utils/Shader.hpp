@@ -22,7 +22,7 @@
 #include <limits.h>
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
-#include "Utils/FileUtils.hpp"
+#include "FileUtils.hpp"
 #include "typedefs.h"
 
 namespace fs = boost::filesystem;

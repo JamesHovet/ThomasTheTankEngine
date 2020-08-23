@@ -10,7 +10,10 @@
 #ifndef Trace_hpp
 #define Trace_hpp
 
+// One of these must be uncommented (json was intended to be cross-platform but it is not yet implimented)
+
 #define TRACE_BACKEND_INSTRUMENTS
+//#define TRACE_BACKEND_JSON
 
 #ifdef TRACE_BACKEND_INSTRUMENTS
 #include <os/signpost.h>
@@ -39,6 +42,21 @@ os_signpost_interval_end(POI, os_signpost_id_make_with_pointer(POI, ptr), text);
 
 #ifdef TRACE_BACKEND_JSON
 #include <json.hpp>
+
+#define TRACE_EVENT(text) \
+;
+
+#define TRACE_BEGIN_EXCLUSIVE(text) \
+;
+
+#define TRACE_END_EXCLUSIVE(text) \
+;
+
+#define TRACE_BEGIN(text, ptr) \
+;
+
+#define TRACE_END(text, ptr) \
+;
 #endif
 
 //namespace Trace {

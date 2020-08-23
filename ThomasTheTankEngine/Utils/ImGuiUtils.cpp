@@ -6,8 +6,8 @@
 //  Copyright © 2020 James Hovet. All rights reserved.
 //
 
+#include "imgui/imgui.h"
 #include "ImGuiUtils.hpp"
-#include "imgui.h"
 #include "glm/gtc/quaternion.hpp"
 #include "glm/gtx/quaternion.hpp"
 

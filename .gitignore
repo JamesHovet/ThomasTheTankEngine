@@ -10,7 +10,6 @@ xcuserdata/
 *.xccheckout
 
 ## compatibility with Xcode 3 and earlier (ignoring not required starting Xcode 4)
-build/
 DerivedData/
 *.moved-aside
 *.pbxuser
@@ -27,3 +26,7 @@ DerivedData/
 
 .DS_STORE
 *.DS_STORE
+build/CMakeFiles/
+build/CMakeCache.txt
+cmake_install.cmake
+Makefile

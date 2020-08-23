@@ -12,7 +12,7 @@
 
 
 #include "typedefs.h"
-#include "libs/imgui/imgui.h"
+#include "imgui/imgui.h"
 #include "ImGuiUtils.hpp"
 #include "SerializationUtils.hpp"
 #include "json.hpp"

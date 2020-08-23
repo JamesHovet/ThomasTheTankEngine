@@ -22,9 +22,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "libs/imgui/imgui.h"
-#include "libs/imgui/imgui_impl_sdl.h"
-#include "libs/imgui/imgui_impl_opengl3.h"
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_sdl.h"
+#include "imgui/imgui_impl_opengl3.h"
 
 #include "libs/stb_image.h"
 
@@ -42,7 +42,7 @@ os_log_t POI = os_log_create("com.james.POI", OS_LOG_CATEGORY_POINTS_OF_INTEREST
 #endif
 
 // Mine
-#include "Utils/GL/Shader.hpp"
+#include "Shader.hpp"
 
 // ECS
 #include "EntityAdmin/EntityAdmin.hpp"

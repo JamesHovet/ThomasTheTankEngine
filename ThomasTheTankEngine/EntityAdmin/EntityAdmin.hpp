@@ -12,7 +12,7 @@
 #include <vector>
 #include <unordered_map>
 #include <array>
-#include "object_pool.hpp"
+#include "pool/object_pool.hpp"
 #include <boost/filesystem/path.hpp>
 
 #include "typedefs.h"

@@ -25,7 +25,7 @@ typedef glm::vec3 RGB;
 typedef struct Plane {
     glm::vec3 origin;
     glm::vec3 normal;
-};
+} Plane;
 typedef struct AABB {
     glm::vec3 min;
     glm::vec3 max;

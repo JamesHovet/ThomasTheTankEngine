@@ -6,8 +6,12 @@ add_compile_definitions(BUILD_CMAKE)
 
 find_package(OpenGL REQUIRED)
 find_package(SDL2 REQUIRED)
-find_package(GLEW 2.0 REQUIRED)
-find_package(Boost COMPONENTS filesystem REQUIRED)
+
+if(APPLE) 
+	find_package(GLEW 2.0 REQUIRED)
+	find_package(Boost COMPONENTS system filesystem REQUIRED)
+endif()
+## Windows: set GLEW_INCLUDE_DIRS, GLEW_LIBRARIES, Boost_FILESYSTEM_LIBRARY  manually using the -D option
 
 ## src
 include_directories(../ThomasTheTankEngine/EntityAdmin)
@@ -75,10 +79,20 @@ target_compile_features(ThomasTheTankEngineDebug PRIVATE cxx_std_17)
 
 target_link_libraries(ThomasTheTankEngine ${OPENGL_LIBRARIES})
 target_link_libraries(ThomasTheTankEngine SDL2::Main)
+if(APPLE)
 target_link_libraries(ThomasTheTankEngine GLEW::GLEW)
+endif()
+if(WIN32)
+target_link_libraries(ThomasTheTankEngine ${GLEW_LIBRARIES}) 
+endif()
 target_link_libraries(ThomasTheTankEngine ${Boost_FILESYSTEM_LIBRARY})
 
 target_link_libraries(ThomasTheTankEngineDebug ${OPENGL_LIBRARIES})
 target_link_libraries(ThomasTheTankEngineDebug SDL2::Main)
+if(APPLE)
 target_link_libraries(ThomasTheTankEngineDebug GLEW::GLEW)
+endif()
+if(WIN32)
+target_link_libraries(ThomasTheTankEngineDebug ${GLEW_LIBRARIES}) 
+endif()
 target_link_libraries(ThomasTheTankEngineDebug ${Boost_FILESYSTEM_LIBRARY})

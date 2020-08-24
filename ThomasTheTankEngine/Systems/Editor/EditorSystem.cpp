@@ -156,7 +156,7 @@ void EditorSystem::tick(uint64_t dt){
     }
    
     //TODO: @Remove forced always true once I add player control
-    if(input.shouldSendPadTo == PAD_INPUT_MODE::EDITOR or true){
+    if(input.shouldSendPadTo == PAD_INPUT_MODE::EDITOR || true){
         // Controller editor camera movement
         processEditorCameraPadInput(camTransformC, input);
     }
@@ -244,14 +244,14 @@ bool EditorSystem::getShouldDragRotateAxis(AXIS* axisToDrag){
     }
     if (didHitY) {
         distanceFromCenterY = glm::distance(selectedTransform.m_position, hitY);
-        if(distanceFromCenterY > threshold and distanceFromCenterY > distanceFromCenterX){
+        if(distanceFromCenterY > threshold && distanceFromCenterY > distanceFromCenterX){
             didHit = true;
             *axisToDrag = AXIS::Y;
         }
     }
     if(didHitZ){
         distanceFromCenterZ = glm::distance(selectedTransform.m_position, hitZ);
-        if(distanceFromCenterZ > threshold and distanceFromCenterZ > distanceFromCenterX and distanceFromCenterZ > distanceFromCenterY){
+        if(distanceFromCenterZ > threshold && distanceFromCenterZ > distanceFromCenterX && distanceFromCenterZ > distanceFromCenterY){
             didHit = true;
             *axisToDrag = AXIS::Z;
         }

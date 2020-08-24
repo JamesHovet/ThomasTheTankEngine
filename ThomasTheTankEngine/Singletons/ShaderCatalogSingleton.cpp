@@ -46,7 +46,7 @@ void ShaderCatalogSingleton::reloadDirtyShaders(){
         ShaderCatalogEntry& entry = p.second;
         std::time_t vertexModifiedTime = boost::filesystem::last_write_time(entry.vertexPathAbsolute);
         std::time_t fragmentModifiedTime = boost::filesystem::last_write_time(entry.fragmentPathAbsolute);
-        if(vertexModifiedTime > entry.lastTimeModified or fragmentModifiedTime > entry.lastTimeModified){
+        if(vertexModifiedTime > entry.lastTimeModified || fragmentModifiedTime > entry.lastTimeModified){
             entry.lastTimeModified = (vertexModifiedTime > fragmentModifiedTime) ? vertexModifiedTime : fragmentModifiedTime;
             entry.m_shader.reload();
         }

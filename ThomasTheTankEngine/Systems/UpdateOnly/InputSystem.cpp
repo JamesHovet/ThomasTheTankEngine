@@ -166,7 +166,7 @@ void InputSystem::tick(uint64_t dt){
                     
                     break;
                 case KEY_INPUT_MODE::CONSOLE:
-                    if(e.key.keysym.scancode == SDL_SCANCODE_GRAVE or e.key.keysym.scancode == SDL_SCANCODE_ESCAPE){
+                    if(e.key.keysym.scancode == SDL_SCANCODE_GRAVE || e.key.keysym.scancode == SDL_SCANCODE_ESCAPE){
                         input.shouldSendKeysTo = input.priorShouldSendKeysTo;
                         
                         console.consoleActive = false;

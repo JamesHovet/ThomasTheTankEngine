@@ -218,7 +218,7 @@ void holdWindowOpen() {
                 quit = true;
             }
             //TODO: Not sure if this works 100%
-            if (!ImGui::GetIO().WantCaptureKeyboard and !ImGui::GetIO().WantCaptureMouse){
+            if (!ImGui::GetIO().WantCaptureKeyboard && !ImGui::GetIO().WantCaptureMouse){
                 myEventStack.push_back(e);
             }
         }

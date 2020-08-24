@@ -29,3 +29,4 @@ DerivedData/
 */imgui.ini
 build/*
 !build/CMakeLists.txt
+!build/cmake/

@@ -29,7 +29,6 @@ include_directories(../ThomasTheTankEngine/generated/gen_Families)
 include_directories(../ThomasTheTankEngine/libs)
 
 ## external
-include_directories(/usr/local/include)
 include_directories(${SDL2_INCLUDE_DIRS})
 include_directories(${GLEW_INCLUDE_DIRS})
 include_directories(${OPENGL_LIBRARIES})

@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.17.3)
 project(ThomasTheTankEngine)
+
+if(WIN32)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
+endif()
 
 add_compile_definitions(BUILD_CMAKE)
 
@@ -74,11 +77,21 @@ target_compile_features(ThomasTheTankEngine PRIVATE cxx_std_17)
 target_compile_features(ThomasTheTankEngineDebug PRIVATE cxx_std_17)
 
 target_link_libraries(ThomasTheTankEngine ${OPENGL_LIBRARIES})
+if(APPLE)
+target_link_libraries(ThomasTheTankEngine ${SDL2_LIBRARIES})
+endif()
+if(WIN32)
 target_link_libraries(ThomasTheTankEngine SDL2::Main)
+endif()
 target_link_libraries(ThomasTheTankEngine GLEW::GLEW)
 target_link_libraries(ThomasTheTankEngine ${Boost_FILESYSTEM_LIBRARY})
 
 target_link_libraries(ThomasTheTankEngineDebug ${OPENGL_LIBRARIES})
+if(APPLE)
+target_link_libraries(ThomasTheTankEngineDebug ${SDL2_LIBRARIES})
+endif()
+if(WIN32)
 target_link_libraries(ThomasTheTankEngineDebug SDL2::Main)
+endif()
 target_link_libraries(ThomasTheTankEngineDebug GLEW::GLEW)
 target_link_libraries(ThomasTheTankEngineDebug ${Boost_FILESYSTEM_LIBRARY})

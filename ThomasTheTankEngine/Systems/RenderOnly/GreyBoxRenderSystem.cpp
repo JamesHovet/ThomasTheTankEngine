@@ -145,7 +145,7 @@ void GreyBoxRenderSystem::render(){
     
     //greyBoxRenderData instanceData[numBoxes];
     std::vector<greyBoxRenderData> instanceData;
-    instanceData.reserve(numBoxes);
+    instanceData.resize(numBoxes);
     
     for(int i = 0; i < numBoxes; i++){
         

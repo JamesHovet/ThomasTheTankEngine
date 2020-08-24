@@ -25,7 +25,7 @@ std::string FileUtils::getResourceAbsoluteFilePath(const char *resourcePathCStr)
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__)
     WCHAR pathBuf[MAX_PATH];
     GetModuleFileNameW(NULL, pathBuf, MAX_PATH);
-    boost::filesystem::path path = boost::filesystem::path(std::wstring(pathBuf)).remove_filename().append("../ThomasTheTankEngine/Resources/").append(resourcePathCStr);
+    boost::filesystem::path path = boost::filesystem::path(std::wstring(pathBuf)).remove_filename().append("../../ThomasTheTankEngine/Resources/").append(resourcePathCStr);
     return path.string();
     //return boost::filesystem::path(std::string(buffer).substr(0, pos)).append("../ThomasTheTankEngine/Resources/").append(resourcePathCStr).string();
 #elif __APPLE__

@@ -23,10 +23,11 @@
 
 std::string FileUtils::getResourceAbsoluteFilePath(const char *resourcePathCStr){
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__)
-    TCHAR buffer[MAX_PATH] = { 0 };
-    GetModuleFileName( NULL, buffer, MAX_PATH );
-    std::wstring::size_type pos = std::wstring(buffer).find_last_of(L"\\/");
-    return boost::filesystem::path(std::wstring(buffer).substr(0, pos)).append("../ThomasTheTankEngine/Resources/").append(resourcePathCStr).string();
+    WCHAR pathBuf[MAX_PATH];
+    GetModuleFileNameW(NULL, pathBuf, MAX_PATH);
+    boost::filesystem::path path = boost::filesystem::path(std::wstring(pathBuf)).remove_filename().append("../ThomasTheTankEngine/Resources/").append(resourcePathCStr);
+    return path.string();
+    //return boost::filesystem::path(std::string(buffer).substr(0, pos)).append("../ThomasTheTankEngine/Resources/").append(resourcePathCStr).string();
 #elif __APPLE__
     char executablePathBuf [PATH_MAX];
     uint32_t bufsize = PATH_MAX;

@@ -449,7 +449,7 @@ bool EntityAdmin::deserializeByEntityCompatability(boost::filesystem::path inAbs
     
     boost::filesystem::ifstream infile;
     infile.open(inAbsolute, std::ios_base::in);
-    if(not infile.is_open()){return false;}
+    if(! infile.is_open()){return false;}
     
     json in;
     

@@ -68,7 +68,7 @@ void ConsoleSystem::tick(uint64_t dt){
 }
 
 void ConsoleSystem::render(){
-    if(not m_admin.m_ConsoleSingleton.consoleActive){return;}
+    if(! m_admin.m_ConsoleSingleton.consoleActive){return;}
     
     InputSingleton& input = m_admin.m_InputSingleton;
     ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoMouseInputs | ImGuiWindowFlags_NoResize;

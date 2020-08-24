@@ -86,7 +86,7 @@ void EditorSystem::tick(uint64_t dt){
             if(input.isDragging){
                 TransformComponent* trans = m_admin.tryGetComponent<TransformComponent>(edit.selectedEntity);
                 if(trans != nullptr){
-                    if(not edit.isDraggingAxis){
+                    if(! edit.isDraggingAxis){
                         switch (edit.currentEditMode){
                             case EditMode::MOVE:
                             case EditMode::SCALE:
@@ -206,7 +206,7 @@ bool EditorSystem::getShouldDragRotateAxis(AXIS* axisToDrag){
     
     //Early out -- can't intersect the cylinder colliders without intersecting the sphere (within a small margin of error)
     float dummyf;
-    if(not glm::intersectRaySphere(r.orig, r.dir, selectedTransform.m_position, 1, dummyf)){
+    if(! glm::intersectRaySphere(r.orig, r.dir, selectedTransform.m_position, 1, dummyf)){
         return false;
     }
     

@@ -98,7 +98,7 @@ void InputSystem::tick(uint64_t dt){
         }
         
         if(e.type == SDL_MOUSEBUTTONUP){
-            if(e.button.button == SDL_BUTTON_LEFT && not input.isDragging){
+            if(e.button.button == SDL_BUTTON_LEFT && ! input.isDragging){
                 input.hasPendingClick = true;
                 input.clickWindowSpace = glm::vec2(e.button.x, e.button.y);
                 input.clickViewportSpace = input.windowSpaceToViewportSpace(input.clickWindowSpace);

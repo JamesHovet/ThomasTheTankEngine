@@ -17,7 +17,6 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
-#include <mach-o/dyld.h>
 #include <limits.h>
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>

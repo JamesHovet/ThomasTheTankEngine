@@ -367,7 +367,7 @@ using json = nlohmann::json;
 bool EntityAdmin::serializeByEntityCompatability(boost::filesystem::path outAbsolute){
     boost::filesystem::ofstream outfile;
     outfile.open(outAbsolute, std::ios_base::out);
-    if(not outfile.is_open()){return false;}
+    if(! outfile.is_open()){return false;}
     
     json out = serializeByEntityInternal();
     

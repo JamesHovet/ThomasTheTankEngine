@@ -158,7 +158,7 @@ public:
         }
 
         bool operator!=(const ComponentIter& other){
-            return (eID != other.eID) or (cID != other.cID);
+            return (eID != other.eID) || (cID != other.cID);
         }
 
         ECSComponent* operator*() const {

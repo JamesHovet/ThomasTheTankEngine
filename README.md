@@ -32,8 +32,6 @@ Stretch goals:
 - clone this repo and `cd` into it. 
 - exectue these commands, one after another
 ```
-mkdir build
-cp CMakeLists.txt build/
 cd build
 cmake .
 make

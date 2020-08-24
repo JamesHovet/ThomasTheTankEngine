@@ -14,7 +14,10 @@ if(APPLE)
 	find_package(GLEW 2.0 REQUIRED)
 	find_package(Boost COMPONENTS system filesystem REQUIRED)
 endif()
-## Windows: set GLEW_INCLUDE_DIRS, GLEW_LIBRARIES, Boost_FILESYSTEM_LIBRARY  manually using the -D option
+if(WIN32)
+	find_package(Boost REQUIRED)
+endif()
+## Windows: set GLEW_INCLUDE_DIRS, GLEW_LIBRARIES, Boost_FILESYSTEM_LIBRARY, BOOST_ROOT  manually using the -D option
 
 ## src
 include_directories(../ThomasTheTankEngine/EntityAdmin)
@@ -40,6 +43,9 @@ include_directories(../ThomasTheTankEngine/libs)
 include_directories(${SDL2_INCLUDE_DIRS})
 include_directories(${GLEW_INCLUDE_DIRS})
 include_directories(${OPENGL_LIBRARIES})
+if(WIN32)
+include_directories(${Boost_INCLUDE_DIRS})
+endif()
 
 ## Sources
 set(SOURCES 

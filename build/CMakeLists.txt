@@ -1,18 +1,22 @@
 cmake_minimum_required(VERSION 3.17.3)
 project(ThomasTheTankEngine)
 
+
+## On windows: set SDL2_PATH, GLEW_LOCATION, BOOST_ROOT
+## for me it is: > cmake . -D SDL2_PATH="C:\Libraries\SDL2-2.0.12" -D GLEW_LOCATION="C:\Libraries\glew-2.1.0" -D BOOST_ROOT="C:\Libraries\boost_1_73_0"
 if(WIN32)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
+set(Boost_USE_STATIC_LIBS ON)
 endif()
 
 add_compile_definitions(BUILD_CMAKE)
 
 find_package(OpenGL REQUIRED)
 find_package(SDL2 REQUIRED)
+find_package(Boost REQUIRED COMPONENTS filesystem)
 
 if(APPLE) 
 	find_package(GLEW 2.0 REQUIRED)
-	find_package(Boost COMPONENTS system filesystem REQUIRED)
 endif()
 if(WIN32)
 	set(CMAKE_LIBRARY_PATH ${GLEW_ROOT}) 
@@ -20,9 +24,7 @@ if(WIN32)
 	add_compile_definitions(GLEW_STATIC)
 	set(GLEW_USE_STATIC_LIBS TRUE)
 	find_package(GLEW 2.0 REQUIRED)
-	find_package(Boost REQUIRED)
 endif()
-## Windows: set GLEW_INCLUDE_DIRS, GLEW_LIBRARIES, Boost_FILESYSTEM_LIBRARY, BOOST_ROOT  manually using the -D option
 
 ## src
 include_directories(../ThomasTheTankEngine/EntityAdmin)
@@ -107,7 +109,7 @@ if(APPLE)
 target_link_libraries(ThomasTheTankEngine ${Boost_FILESYSTEM_LIBRARY})
 endif()
 if(WIN32)
-target_link_libraries(ThomasTheTankEngine C:/Libraries/boost_1_74_0/stage/lib/libboost_filesystem-vc142-mt-gd-x64-1_74.lib)
+target_link_libraries(ThomasTheTankEngine Boost::filesystem)
 endif()
 
 if(APPLE)

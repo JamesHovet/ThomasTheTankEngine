@@ -118,3 +118,11 @@ endif()
 if(WIN32)
 target_link_libraries(ThomasTheTankEngine ${GLEW_LIBRARY})
 endif()
+
+if(WIN32)
+# see https://stackoverflow.com/a/10672739/6141684
+add_custom_command(TARGET ThomasTheTankEngine POST_BUILD        # Adds a post-build event to MyTest
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different  # which executes "cmake - E copy_if_different..."
+        "${SDL2_PATH}/lib/X64/SDL2.dll"            # <--this is in-file
+        $<TARGET_FILE_DIR:ThomasTheTankEngine>)    # <--this is out-file path
+endif()

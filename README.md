@@ -36,3 +36,21 @@ cd build
 cmake .
 make
 ``` 
+
+## Build instructions (Windows 10 64 bit, tested on a VM only)
+- install these dependencies and place them somewhere you can keep track of: Visual Studio (Community works just fine), cmake, SDL2 (The development download, not just the .dll), GLEW, and Boost (which you will also need to build). 
+
+- cd into `build` and run cmake, specifying where to find the dependencies like so:
+```
+> cmake . -D SDL2_PATH="<Location>\SDL2-2.0.12" 
+-D GLEW_LOCATION="<Location>\glew-2.1.0" 
+-D BOOST_ROOT="<Location>\boost_1_73_0"
+```
+For me, it looks like:
+```
+> cmake . -D SDL2_PATH="C:\Libraries\SDL2-2.0.12" 
+-D GLEW_LOCATION="C:\Libraries\glew-2.1.0" 
+-D BOOST_ROOT="C:\Libraries\boost_1_73_0"
+```
+
+- Open up the resulting ThomasTheTankEngine.vcxproj and compile away. 

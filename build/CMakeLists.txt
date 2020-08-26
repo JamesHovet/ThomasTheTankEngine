@@ -14,6 +14,7 @@ add_compile_definitions(BUILD_CMAKE)
 find_package(OpenGL REQUIRED)
 find_package(SDL2 REQUIRED)
 find_package(Boost REQUIRED COMPONENTS filesystem)
+find_package(ASSIMP REQUIRED)
 
 if(APPLE) 
 	find_package(GLEW 2.0 REQUIRED)
@@ -118,6 +119,8 @@ endif()
 if(WIN32)
 target_link_libraries(ThomasTheTankEngine ${GLEW_LIBRARY})
 endif()
+
+target_link_libraries(ThomasTheTankEngine ${ASSIMP_LIBRARY_DIRS}/${ASSIMP_LIBRARIES})
 
 if(WIN32)
 # see https://stackoverflow.com/a/10672739/6141684

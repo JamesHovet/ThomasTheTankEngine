@@ -11,6 +11,9 @@
 #include <thread>
 #include "Trace.hpp"
 
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+
 const int SCREEN_WIDTH = 1024;
 const int SCREEN_HEIGHT = 768;
 
@@ -22,6 +25,8 @@ Shader defaultShader;
 EntityAdmin g_admin;
 
 int main(int argc, const char * argv[]) {
+    
+    Assimp::Importer importer;
     
     TRACE_EVENT("Setup Begin");
     

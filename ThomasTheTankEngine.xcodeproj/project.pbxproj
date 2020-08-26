@@ -55,6 +55,7 @@
 		597C6AAC24E0583E002CB5D8 /* Trace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 597C6AAA24E0583E002CB5D8 /* Trace.cpp */; };
 		59AA59D324D4D8D10082B201 /* componentViews.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59AA59D224D4D8D10082B201 /* componentViews.cpp */; };
 		59B2DDA924D77EE00050E31A /* IntersectionUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59B2DDA724D77EE00050E31A /* IntersectionUtils.cpp */; };
+		59BBFE8A24F6BD09007552FA /* libassimp.5.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 59BBFE8924F6BD09007552FA /* libassimp.5.0.0.dylib */; };
 		59C0382424D5999100DFFA3E /* libboost_filesystem.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 59B35EE024CE1EAC00605588 /* libboost_filesystem.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		59C0382724D5999400DFFA3E /* libGLEW.2.1.0.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 59484F4C24290C2D0068591C /* libGLEW.2.1.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		59C0382824D5999600DFFA3E /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59484F4A24290C0D0068591C /* OpenGL.framework */; };
@@ -616,6 +617,7 @@
 		59B2DDA824D77EE00050E31A /* IntersectionUtils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = IntersectionUtils.hpp; sourceTree = "<group>"; };
 		59B35EDD24CE1E0400605588 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework; sourceTree = DEVELOPER_DIR; };
 		59B35EE024CE1EAC00605588 /* libboost_filesystem.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_filesystem.dylib; path = ../../../../usr/local/Cellar/boost/1.72.0_3/lib/libboost_filesystem.dylib; sourceTree = "<group>"; };
+		59BBFE8924F6BD09007552FA /* libassimp.5.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.5.0.0.dylib; path = ../../../../usr/local/Cellar/assimp/5.0.1/lib/libassimp.5.0.0.dylib; sourceTree = "<group>"; };
 		59C0382C24D59EA500DFFA3E /* json.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = json.hpp; sourceTree = "<group>"; };
 		59C0382D24D5A78B00DFFA3E /* ThomasTheTankEngineDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ThomasTheTankEngineDebug.entitlements; sourceTree = "<group>"; };
 		59C0382E24D5B97700DFFA3E /* componentStringSerializationMaps.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = componentStringSerializationMaps.hpp; sourceTree = "<group>"; };
@@ -642,6 +644,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				59BBFE8A24F6BD09007552FA /* libassimp.5.0.0.dylib in Frameworks */,
 				59C0382A24D5999800DFFA3E /* SDL2.framework in Frameworks */,
 				59484F6B242911110068591C /* libGLEW.2.1.0.dylib in Frameworks */,
 				5938690024CE214400AD33FF /* libboost_filesystem.dylib in Frameworks */,
@@ -808,6 +811,7 @@
 		59484F4924290C0C0068591C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				59BBFE8924F6BD09007552FA /* libassimp.5.0.0.dylib */,
 				59AF4BE624DCB39D00D24E71 /* liblog_signpost.tbd */,
 				592B478024CF178200EB0DC0 /* libgainput.1.0.0.dylib */,
 				59B35EE024CE1EAC00605588 /* libboost_filesystem.dylib */,
@@ -1661,6 +1665,7 @@
 					"$(inherited)",
 					/usr/local/include/GL,
 					/usr/local/Cellar/boost/1.71.0/include,
+					/usr/local/Cellar/sdl2/2.0.12_1/include/SDL2,
 				);
 				INFOPLIST_FILE = ThomasTheTankEngineTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1698,6 +1703,7 @@
 					"$(inherited)",
 					/usr/local/include/GL,
 					/usr/local/Cellar/boost/1.71.0/include,
+					/usr/local/Cellar/sdl2/2.0.12_1/include/SDL2,
 				);
 				INFOPLIST_FILE = ThomasTheTankEngineTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1863,6 +1869,8 @@
 					/usr/local/Cellar/boost/1.71.0/include,
 					/usr/local/include/,
 					/Library/Frameworks/SDL2.framework/Headers/,
+					/usr/local/Cellar/sdl2/2.0.12_1/include/SDL2,
+					/usr/local/Cellar/assimp/5.0.1/include/,
 				);
 				INFOPLIST_FILE = ThomasTheTankEngine/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1875,6 +1883,7 @@
 					/usr/local/lib,
 					/usr/local/Cellar/boost/1.72.0_3/lib,
 					"$(SDKROOT)/usr/lib/log",
+					/usr/local/Cellar/assimp/5.0.1/lib,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jamesHovet.ThomasTheTankEngine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1900,6 +1909,8 @@
 					/usr/local/Cellar/boost/1.71.0/include,
 					/usr/local/include/,
 					/Library/Frameworks/SDL2.framework/Headers/,
+					/usr/local/Cellar/sdl2/2.0.12_1/include/SDL2,
+					/usr/local/Cellar/assimp/5.0.1/include/,
 				);
 				INFOPLIST_FILE = ThomasTheTankEngine/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1912,6 +1923,7 @@
 					/usr/local/lib,
 					/usr/local/Cellar/boost/1.72.0_3/lib,
 					"$(SDKROOT)/usr/lib/log",
+					/usr/local/Cellar/assimp/5.0.1/lib,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jamesHovet.ThomasTheTankEngine;
 				PRODUCT_NAME = "$(TARGET_NAME)";

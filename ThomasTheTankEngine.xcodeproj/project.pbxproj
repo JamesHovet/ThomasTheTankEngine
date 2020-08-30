@@ -160,6 +160,7 @@
 		590E54F124FC41E30039A383 /* awesomeface.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = awesomeface.png; sourceTree = "<group>"; };
 		590E54F324FC41E30039A383 /* box_stack.obj */ = {isa = PBXFileReference; lastKnownFileType = text; path = box_stack.obj; sourceTree = "<group>"; };
 		590E54F424FC41E30039A383 /* box_stack.mtl */ = {isa = PBXFileReference; lastKnownFileType = text; path = box_stack.mtl; sourceTree = "<group>"; };
+		590E54F924FC666A0039A383 /* BasicModelComponent.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BasicModelComponent.hpp; sourceTree = "<group>"; };
 		590F5680242CCDD600BC9DC2 /* FileUtils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FileUtils.hpp; sourceTree = "<group>"; };
 		590F5681242CD12A00BC9DC2 /* FileUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FileUtils.cpp; sourceTree = "<group>"; };
 		590F5683242CD3B700BC9DC2 /* stb_image.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stb_image.h; sourceTree = "<group>"; };
@@ -685,6 +686,7 @@
 			children = (
 				590A09CC24CB33A000D1153A /* GreyBoxComponent.hpp */,
 				590A09CE24CB33A000D1153A /* ComponentsEnum.hpp */,
+				590E54F924FC666A0039A383 /* BasicModelComponent.hpp */,
 				59B2DDA524D77C2B0050E31A /* AABBColliderComponent.hpp */,
 				590A09D024CB33A000D1153A /* allComponents.h */,
 			);

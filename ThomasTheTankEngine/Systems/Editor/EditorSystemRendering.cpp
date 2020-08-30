@@ -739,7 +739,7 @@ void EditorSystem::renderSceneGraphEditor(){
         ImGui::SameLine();
         if(ImGui::TreeNode(nameBuf)){
             for(auto it = m_admin.componentsBegin(eID); it != m_admin.componentsEnd(eID); ++it){
-                (*it)->imDisplay();
+                (*it)->imDisplay(&m_admin);
             }
             ImGui::TreePop();
         }
@@ -784,7 +784,7 @@ void EditorSystem::renderInspector(){
         
         for(auto it = m_admin.componentsBegin(eID); it != m_admin.componentsEnd(eID); ++it){
             ImGui::SetNextItemOpen(true, ImGuiCond_Once); // Ahhh I love imGui -- it just works! And "extending" it is so easy.
-            (*it)->imDisplay();
+            (*it)->imDisplay(&m_admin);
         }
         ImGui::PopID();
     }

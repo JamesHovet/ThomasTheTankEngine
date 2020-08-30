@@ -64,9 +64,9 @@ struct TransformComponent : public ECSComponent {
         return getLocalMat4Unscaled();
     }
     
-    void imDisplay(){
+    void imDisplay(EntityAdmin * m_admin){
         ImGui::PushID(this);
-        if(ImGui::TreeNode("Transform")){
+        if(ImGui::TreeNode("TransformComponent")){
             ImGui::InputVec3("m_position", &m_position);
             ImGui::InputVec3("m_scale", &m_scale);
             ImGui::InputQuat("m_orientation", &m_orientation);

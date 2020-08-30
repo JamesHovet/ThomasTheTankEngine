@@ -11,10 +11,13 @@ struct CameraComponent : public ECSComponent {
 	bool m_enabled = true;
     //to add: render surface? ortho vs perspective?
     
-    void imDisplay(){
+    void imDisplay(EntityAdmin* m_admin){
 //        ImGui::PushID(this);
-        ImGui::InputFloat("m_FOV", &m_FOV);
-        ImGui::Checkbox("m_enabled", &m_enabled);
+        if(ImGui::TreeNode("CameraComponent")){
+            ImGui::InputFloat("m_FOV", &m_FOV);
+            ImGui::Checkbox("m_enabled", &m_enabled);
+            ImGui::TreePop();
+        }
 //        ImGui::PopID();
     }
     

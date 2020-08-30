@@ -19,6 +19,7 @@ Shader* basicModelShader;
 
 void BasicModelRenderSystem::init(){
     m_admin.m_ModelCatalogSingleton.registerModel("boxes", "Models/box_stack.obj");
+    m_admin.m_ModelCatalogSingleton.registerModel("boxes 2", "Models/box_stack.obj");
     basicModelShader = &m_admin.m_ShaderCatalogSingleton.getShader("basic_model");
 }
 

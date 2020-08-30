@@ -1,5 +1,5 @@
 // BasicModelComponent.hpp
-// generated at: 2020-08-30 17:07:38.154582
+// generated at: 2020-08-30 17:52:13.572771
 #pragma once
 #ifndef BasicModelComponent_hpp
 #define BasicModelComponent_hpp
@@ -8,7 +8,7 @@
 struct BasicModelComponent : public ECSComponent {
 	static constexpr int componentIndex{ 3 };
 	std::string m_model_name;
-	void imDisplay();
+	void imDisplay(EntityAdmin* m_admin);
 	json::object_t serialize(){
 		json::object_t obj;
 		obj["m_model_name"] = m_model_name;

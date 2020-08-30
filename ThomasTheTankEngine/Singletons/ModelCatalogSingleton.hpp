@@ -24,6 +24,7 @@ struct ModelCatalogEntry {
 };
 
 class ModelCatalogSingleton {
+    friend class BasicModelComponent;
 public:
     ModelCatalogSingleton();
     ~ModelCatalogSingleton();

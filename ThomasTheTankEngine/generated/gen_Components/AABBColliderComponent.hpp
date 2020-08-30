@@ -1,5 +1,5 @@
 // AABBColliderComponent.hpp
-// generated at: 2020-08-30 17:07:38.154958
+// generated at: 2020-08-30 17:52:13.573852
 #pragma once
 #ifndef AABBColliderComponent_hpp
 #define AABBColliderComponent_hpp
@@ -8,7 +8,7 @@
 struct AABBColliderComponent : public ECSComponent {
 	static constexpr int componentIndex{ 5 };
 	AABB m_AABB = {glm::vec3(-0.5, -0.5, -0.5), glm::vec3(0.5, 0.5, 0.5)};
-	void imDisplay(){
+	void imDisplay(EntityAdmin* m_admin){
 		if(ImGui::TreeNode("AABBColliderComponent")){
 			ImGui::InputAABB("m_AABB", &m_AABB);
 			ImGui::TreePop();

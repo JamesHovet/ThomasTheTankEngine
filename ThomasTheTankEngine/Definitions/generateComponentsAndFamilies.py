@@ -92,9 +92,9 @@ def createAndWriteForComponentDict(c, componentID):
            
     ## Editor panels
     if 'editorPanel' in c and c['editorPanel'] == "manual":
-        f.write("\tvoid imDisplay();\n")
+        f.write("\tvoid imDisplay(EntityAdmin* m_admin);\n")
     else:
-        f.write("\tvoid imDisplay(){\n")
+        f.write("\tvoid imDisplay(EntityAdmin* m_admin){\n")
         
         f.write("\t\tif(ImGui::TreeNode(\"{}\"))".format(fullname) + "{\n")
         for m in c['members']:

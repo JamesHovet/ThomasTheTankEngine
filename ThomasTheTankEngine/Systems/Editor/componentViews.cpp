@@ -26,13 +26,6 @@ void BasicModelComponent::imDisplay(EntityAdmin* m_admin){
             }
             ImGui::EndCombo();
         }
-        
-        
-        
-        
-        
-        
-        ImGui::Text("%s", this->m_model_name.c_str());
         ImGui::TreePop();
     }
 }

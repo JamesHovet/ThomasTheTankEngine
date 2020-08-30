@@ -15,6 +15,8 @@
 		590E54F624FC41EC0039A383 /* awesomeface.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 590E54F124FC41E30039A383 /* awesomeface.png */; };
 		590E54F724FC41F70039A383 /* box_stack.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 590E54F324FC41E30039A383 /* box_stack.obj */; };
 		590E54F824FC41F70039A383 /* box_stack.mtl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 590E54F424FC41E30039A383 /* box_stack.mtl */; };
+		590E54FC24FC6D400039A383 /* suzanne.mtl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 590E54FA24FC6D290039A383 /* suzanne.mtl */; };
+		590E54FE24FC6DE70039A383 /* suzanne.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 590E54FB24FC6D290039A383 /* suzanne.obj */; };
 		590F5682242CD12A00BC9DC2 /* FileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 590F5681242CD12A00BC9DC2 /* FileUtils.cpp */; };
 		590F5685242CD3D300BC9DC2 /* stb_image_implementation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 590F5684242CD3D300BC9DC2 /* stb_image_implementation.cpp */; };
 		591D1D0B243106A400AF9DC5 /* ImGuiUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 591D1D09243106A400AF9DC5 /* ImGuiUtils.cpp */; };
@@ -117,6 +119,8 @@
 			files = (
 				590E54F724FC41F70039A383 /* box_stack.obj in CopyFiles */,
 				590E54F824FC41F70039A383 /* box_stack.mtl in CopyFiles */,
+				590E54FE24FC6DE70039A383 /* suzanne.obj in CopyFiles */,
+				590E54FC24FC6D400039A383 /* suzanne.mtl in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -161,6 +165,9 @@
 		590E54F324FC41E30039A383 /* box_stack.obj */ = {isa = PBXFileReference; lastKnownFileType = text; path = box_stack.obj; sourceTree = "<group>"; };
 		590E54F424FC41E30039A383 /* box_stack.mtl */ = {isa = PBXFileReference; lastKnownFileType = text; path = box_stack.mtl; sourceTree = "<group>"; };
 		590E54F924FC666A0039A383 /* BasicModelComponent.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BasicModelComponent.hpp; sourceTree = "<group>"; };
+		590E54FA24FC6D290039A383 /* suzanne.mtl */ = {isa = PBXFileReference; lastKnownFileType = text; path = suzanne.mtl; sourceTree = "<group>"; };
+		590E54FB24FC6D290039A383 /* suzanne.obj */ = {isa = PBXFileReference; lastKnownFileType = text; path = suzanne.obj; sourceTree = "<group>"; };
+		590E54FF24FC6E900039A383 /* BasicModelFamily.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BasicModelFamily.hpp; sourceTree = "<group>"; };
 		590F5680242CCDD600BC9DC2 /* FileUtils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FileUtils.hpp; sourceTree = "<group>"; };
 		590F5681242CD12A00BC9DC2 /* FileUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FileUtils.cpp; sourceTree = "<group>"; };
 		590F5683242CD3B700BC9DC2 /* stb_image.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stb_image.h; sourceTree = "<group>"; };
@@ -712,6 +719,7 @@
 		590A09D624CB33A000D1153A /* gen_Families */ = {
 			isa = PBXGroup;
 			children = (
+				590E54FF24FC6E900039A383 /* BasicModelFamily.hpp */,
 				590A09D724CB33A000D1153A /* GreyBoxFamily.hpp */,
 				59B2DDA624D77CCB0050E31A /* AABBCollisionFamily.hpp */,
 				590A09D824CB33A000D1153A /* FamiliesEnum.hpp */,
@@ -734,6 +742,8 @@
 			children = (
 				590E54F324FC41E30039A383 /* box_stack.obj */,
 				590E54F424FC41E30039A383 /* box_stack.mtl */,
+				590E54FA24FC6D290039A383 /* suzanne.mtl */,
+				590E54FB24FC6D290039A383 /* suzanne.obj */,
 			);
 			path = Models;
 			sourceTree = "<group>";

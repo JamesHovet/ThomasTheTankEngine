@@ -266,9 +266,20 @@ void EntityAdmin::loadTestScene(){
     }
     {
         entityID eID = this->createEntity();
+        DebugNameComponent& nameC = addComponent<DebugNameComponent>(eID);
+        nameC.m_name = "Barrel";
         TransformComponent& trans = this->addComponent<TransformComponent>(eID);
         BasicModelComponent& model = this->addComponent<BasicModelComponent>(eID);
         model.m_model_name = "boxes";
+    }
+    {
+        entityID eID = this->createEntity();
+        DebugNameComponent& nameC = addComponent<DebugNameComponent>(eID);
+        nameC.m_name = "Suzanne";
+        TransformComponent& trans = this->addComponent<TransformComponent>(eID);
+        BasicModelComponent& model = this->addComponent<BasicModelComponent>(eID);
+        model.m_model_name = "suzanne";
+        
     }
        
 }

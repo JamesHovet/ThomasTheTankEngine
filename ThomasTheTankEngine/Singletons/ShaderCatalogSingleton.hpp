@@ -35,7 +35,7 @@ private:
     std::unordered_map<std::string, ShaderCatalogEntry> m_catalogEntries;
     
 public:
-    Shader* tryGetShader(std::string name);
+    bool shaderExists(std::string name){return m_catalogEntries.count(name) != 0;};
     Shader& getShader(std::string name);
     
     bool registerShader(std::string name, const char* vertexPathRelativeCStr, const char* fragmentPathRelativeCStr);

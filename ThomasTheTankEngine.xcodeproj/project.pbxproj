@@ -11,10 +11,12 @@
 		590A09B724CA462200D1153A /* greybox.vert in CopyFiles */ = {isa = PBXBuildFile; fileRef = 590A09B524CA3F2A00D1153A /* greybox.vert */; };
 		590A09B824CA462200D1153A /* greybox.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 590A09B624CA3F4200D1153A /* greybox.frag */; };
 		590A09DE24CB3B5E00D1153A /* EditorSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 590A09DC24CB3B5E00D1153A /* EditorSystem.cpp */; };
-		590F567F242CCD8000BC9DC2 /* wall.jpg in CopyFiles */ = {isa = PBXBuildFile; fileRef = 590F567E242CCD7500BC9DC2 /* wall.jpg */; };
+		590E54F524FC41EC0039A383 /* wall.jpg in CopyFiles */ = {isa = PBXBuildFile; fileRef = 590E54F024FC41E30039A383 /* wall.jpg */; };
+		590E54F624FC41EC0039A383 /* awesomeface.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 590E54F124FC41E30039A383 /* awesomeface.png */; };
+		590E54F724FC41F70039A383 /* box_stack.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 590E54F324FC41E30039A383 /* box_stack.obj */; };
+		590E54F824FC41F70039A383 /* box_stack.mtl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 590E54F424FC41E30039A383 /* box_stack.mtl */; };
 		590F5682242CD12A00BC9DC2 /* FileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 590F5681242CD12A00BC9DC2 /* FileUtils.cpp */; };
 		590F5685242CD3D300BC9DC2 /* stb_image_implementation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 590F5684242CD3D300BC9DC2 /* stb_image_implementation.cpp */; };
-		590F5687242CD9B300BC9DC2 /* awesomeface.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 590F5686242CD9B300BC9DC2 /* awesomeface.png */; };
 		591D1D0B243106A400AF9DC5 /* ImGuiUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 591D1D09243106A400AF9DC5 /* ImGuiUtils.cpp */; };
 		592257AF24F1D132009F1BB0 /* EditorSystemRendering.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 592257AE24F1D132009F1BB0 /* EditorSystemRendering.cpp */; };
 		59374D5424D367E100A75B7E /* ShaderCatalogSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59374D5224D367E100A75B7E /* ShaderCatalogSingleton.cpp */; };
@@ -55,6 +57,10 @@
 		597C6AAC24E0583E002CB5D8 /* Trace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 597C6AAA24E0583E002CB5D8 /* Trace.cpp */; };
 		59AA59D324D4D8D10082B201 /* componentViews.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59AA59D224D4D8D10082B201 /* componentViews.cpp */; };
 		59B2DDA924D77EE00050E31A /* IntersectionUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59B2DDA724D77EE00050E31A /* IntersectionUtils.cpp */; };
+		59B6511924FC05FC00D419AD /* ModelCatalogSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59B6511724FC05FC00D419AD /* ModelCatalogSingleton.cpp */; };
+		59B6512224FC1DA200D419AD /* BasicModelRenderSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59B6512024FC1DA200D419AD /* BasicModelRenderSystem.cpp */; };
+		59B6512524FC21D600D419AD /* basicModel.vert in CopyFiles */ = {isa = PBXBuildFile; fileRef = 59B6512324FC208700D419AD /* basicModel.vert */; };
+		59B6512624FC21D600D419AD /* basicModel.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 59B6512424FC209C00D419AD /* basicModel.frag */; };
 		59C0382424D5999100DFFA3E /* libboost_filesystem.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 59B35EE024CE1EAC00605588 /* libboost_filesystem.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		59C0382724D5999400DFFA3E /* libGLEW.2.1.0.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 59484F4C24290C2D0068591C /* libGLEW.2.1.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		59C0382824D5999600DFFA3E /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59484F4A24290C0D0068591C /* OpenGL.framework */; };
@@ -80,8 +86,8 @@
 			dstPath = Textures;
 			dstSubfolderSpec = 7;
 			files = (
-				590F5687242CD9B300BC9DC2 /* awesomeface.png in CopyFiles */,
-				590F567F242CCD8000BC9DC2 /* wall.jpg in CopyFiles */,
+				590E54F524FC41EC0039A383 /* wall.jpg in CopyFiles */,
+				590E54F624FC41EC0039A383 /* awesomeface.png in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,6 +97,8 @@
 			dstPath = Shaders;
 			dstSubfolderSpec = 7;
 			files = (
+				59B6512524FC21D600D419AD /* basicModel.vert in CopyFiles */,
+				59B6512624FC21D600D419AD /* basicModel.frag in CopyFiles */,
 				595B230524E2027C002F74FF /* unlitOpaque.vert in CopyFiles */,
 				595B230624E2027C002F74FF /* unlitOpaque.frag in CopyFiles */,
 				590A09B724CA462200D1153A /* greybox.vert in CopyFiles */,
@@ -98,6 +106,17 @@
 				59661B46242B96250088525D /* default.vert in CopyFiles */,
 				59661B47242B96250088525D /* default.frag in CopyFiles */,
 				59661B48242B96250088525D /* shader_globals.glh in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		59B6511B24FC135900D419AD /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Models;
+			dstSubfolderSpec = 7;
+			files = (
+				590E54F724FC41F70039A383 /* box_stack.obj in CopyFiles */,
+				590E54F824FC41F70039A383 /* box_stack.mtl in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,12 +156,14 @@
 		590A09DF24CB4AB000D1153A /* EditorSingleton.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = EditorSingleton.hpp; sourceTree = "<group>"; };
 		590A09E024CB4FB800D1153A /* CameraComponent.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CameraComponent.hpp; sourceTree = "<group>"; };
 		590A09E124CB4FD100D1153A /* CameraFamily.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CameraFamily.hpp; sourceTree = "<group>"; };
-		590F567E242CCD7500BC9DC2 /* wall.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = wall.jpg; sourceTree = "<group>"; };
+		590E54F024FC41E30039A383 /* wall.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = wall.jpg; sourceTree = "<group>"; };
+		590E54F124FC41E30039A383 /* awesomeface.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = awesomeface.png; sourceTree = "<group>"; };
+		590E54F324FC41E30039A383 /* box_stack.obj */ = {isa = PBXFileReference; lastKnownFileType = text; path = box_stack.obj; sourceTree = "<group>"; };
+		590E54F424FC41E30039A383 /* box_stack.mtl */ = {isa = PBXFileReference; lastKnownFileType = text; path = box_stack.mtl; sourceTree = "<group>"; };
 		590F5680242CCDD600BC9DC2 /* FileUtils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FileUtils.hpp; sourceTree = "<group>"; };
 		590F5681242CD12A00BC9DC2 /* FileUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FileUtils.cpp; sourceTree = "<group>"; };
 		590F5683242CD3B700BC9DC2 /* stb_image.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stb_image.h; sourceTree = "<group>"; };
 		590F5684242CD3D300BC9DC2 /* stb_image_implementation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = stb_image_implementation.cpp; sourceTree = "<group>"; };
-		590F5686242CD9B300BC9DC2 /* awesomeface.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = awesomeface.png; sourceTree = "<group>"; };
 		5919A0F324C0E63E009F97F8 /* generateComponentsAndFamilies.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = generateComponentsAndFamilies.py; sourceTree = "<group>"; };
 		5919A0F524C0E63E009F97F8 /* base.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = base.json; sourceTree = "<group>"; };
 		5919A0F724C0E701009F97F8 /* DebugNameComponent.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DebugNameComponent.hpp; sourceTree = "<group>"; };
@@ -158,6 +179,7 @@
 		593868F224CE1F6E00AD33FF /* ThomasTheTankEngineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ThomasTheTankEngineTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		593868F424CE1F6E00AD33FF /* ThomasTheTankEngineTests.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = ThomasTheTankEngineTests.mm; sourceTree = "<group>"; };
 		593868F624CE1F6E00AD33FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5939EA2224FABDE100BE31E8 /* OBJ_Loader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBJ_Loader.h; sourceTree = "<group>"; };
 		593AB3B424E198E7008A0CEF /* IntersectionTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = IntersectionTests.mm; sourceTree = "<group>"; };
 		59484F2724290AEE0068591C /* ThomasTheTankEngine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ThomasTheTankEngine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		59484F2D24290AEE0068591C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -616,6 +638,12 @@
 		59B2DDA824D77EE00050E31A /* IntersectionUtils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = IntersectionUtils.hpp; sourceTree = "<group>"; };
 		59B35EDD24CE1E0400605588 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework; sourceTree = DEVELOPER_DIR; };
 		59B35EE024CE1EAC00605588 /* libboost_filesystem.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_filesystem.dylib; path = ../../../../usr/local/Cellar/boost/1.72.0_3/lib/libboost_filesystem.dylib; sourceTree = "<group>"; };
+		59B6511724FC05FC00D419AD /* ModelCatalogSingleton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ModelCatalogSingleton.cpp; sourceTree = "<group>"; };
+		59B6511824FC05FC00D419AD /* ModelCatalogSingleton.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ModelCatalogSingleton.hpp; sourceTree = "<group>"; };
+		59B6512024FC1DA200D419AD /* BasicModelRenderSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BasicModelRenderSystem.cpp; sourceTree = "<group>"; };
+		59B6512124FC1DA200D419AD /* BasicModelRenderSystem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BasicModelRenderSystem.hpp; sourceTree = "<group>"; };
+		59B6512324FC208700D419AD /* basicModel.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = basicModel.vert; sourceTree = "<group>"; };
+		59B6512424FC209C00D419AD /* basicModel.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = basicModel.frag; sourceTree = "<group>"; };
 		59C0382C24D59EA500DFFA3E /* json.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = json.hpp; sourceTree = "<group>"; };
 		59C0382D24D5A78B00DFFA3E /* ThomasTheTankEngineDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ThomasTheTankEngineDebug.entitlements; sourceTree = "<group>"; };
 		59C0382E24D5B97700DFFA3E /* componentStringSerializationMaps.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = componentStringSerializationMaps.hpp; sourceTree = "<group>"; };
@@ -690,21 +718,22 @@
 			path = gen_Families;
 			sourceTree = "<group>";
 		};
-		590F567C242CCD7500BC9DC2 /* Assets */ = {
+		590E54EF24FC41E30039A383 /* Textures */ = {
 			isa = PBXGroup;
 			children = (
-				590F567D242CCD7500BC9DC2 /* Textures */,
-			);
-			path = Assets;
-			sourceTree = "<group>";
-		};
-		590F567D242CCD7500BC9DC2 /* Textures */ = {
-			isa = PBXGroup;
-			children = (
-				590F5686242CD9B300BC9DC2 /* awesomeface.png */,
-				590F567E242CCD7500BC9DC2 /* wall.jpg */,
+				590E54F024FC41E30039A383 /* wall.jpg */,
+				590E54F124FC41E30039A383 /* awesomeface.png */,
 			);
 			path = Textures;
+			sourceTree = "<group>";
+		};
+		590E54F224FC41E30039A383 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				590E54F324FC41E30039A383 /* box_stack.obj */,
+				590E54F424FC41E30039A383 /* box_stack.mtl */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		5919A0EE24C0E544009F97F8 /* generated */ = {
@@ -737,6 +766,8 @@
 		5924F96E24F2E24D00B52D9F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				590E54F224FC41E30039A383 /* Models */,
+				590E54EF24FC41E30039A383 /* Textures */,
 				59661B3A242962890088525D /* Shaders */,
 			);
 			path = Resources;
@@ -797,7 +828,6 @@
 				5919A0EE24C0E544009F97F8 /* generated */,
 				59484F5524290FEE0068591C /* libs */,
 				5924F96E24F2E24D00B52D9F /* Resources */,
-				590F567C242CCD7500BC9DC2 /* Assets */,
 				59484F3224290AEE0068591C /* Info.plist */,
 				59484F5224290E0D0068591C /* ThomasTheTankEngine.entitlements */,
 				59484F2D24290AEE0068591C /* Assets.xcassets */,
@@ -826,6 +856,7 @@
 				59C0382C24D59EA500DFFA3E /* json.hpp */,
 				590F5683242CD3B700BC9DC2 /* stb_image.h */,
 				590F5684242CD3D300BC9DC2 /* stb_image_implementation.cpp */,
+				5939EA2224FABDE100BE31E8 /* OBJ_Loader.h */,
 				59A7A95824BD269400DB8CD9 /* pool */,
 				596619B2242926BE0088525D /* glm */,
 				59484F56242910030068591C /* imgui */,
@@ -1350,6 +1381,8 @@
 				590A09B624CA3F4200D1153A /* greybox.frag */,
 				595B230324E201A1002F74FF /* unlitOpaque.vert */,
 				595B230424E201B7002F74FF /* unlitOpaque.frag */,
+				59B6512324FC208700D419AD /* basicModel.vert */,
+				59B6512424FC209C00D419AD /* basicModel.frag */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";
@@ -1375,6 +1408,8 @@
 				59374D5224D367E100A75B7E /* ShaderCatalogSingleton.cpp */,
 				59374D5324D367E100A75B7E /* ShaderCatalogSingleton.hpp */,
 				595B22FE24E1E273002F74FF /* InputSingleton.cpp */,
+				59B6511724FC05FC00D419AD /* ModelCatalogSingleton.cpp */,
+				59B6511824FC05FC00D419AD /* ModelCatalogSingleton.hpp */,
 			);
 			path = Singletons;
 			sourceTree = "<group>";
@@ -1386,6 +1421,8 @@
 				595B230124E1F376002F74FF /* RenderSetupSystem.hpp */,
 				590A09B224CA34B800D1153A /* GreyBoxRenderSystem.cpp */,
 				590A09B324CA34B800D1153A /* GreyBoxRenderSystem.hpp */,
+				59B6512024FC1DA200D419AD /* BasicModelRenderSystem.cpp */,
+				59B6512124FC1DA200D419AD /* BasicModelRenderSystem.hpp */,
 			);
 			path = RenderOnly;
 			sourceTree = "<group>";
@@ -1481,10 +1518,11 @@
 			buildPhases = (
 				59484F2324290AEE0068591C /* Sources */,
 				59484F2424290AEE0068591C /* Frameworks */,
+				59C0382524D5999100DFFA3E /* Embed Libraries */,
 				59484F2524290AEE0068591C /* Resources */,
 				59661B37242962320088525D /* CopyFiles */,
 				590F5679242CCD1400BC9DC2 /* CopyFiles */,
-				59C0382524D5999100DFFA3E /* Embed Libraries */,
+				59B6511B24FC135900D419AD /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1572,8 +1610,10 @@
 				59484F3424290AEE0068591C /* main.cpp in Sources */,
 				590A09DE24CB3B5E00D1153A /* EditorSystem.cpp in Sources */,
 				59B2DDA924D77EE00050E31A /* IntersectionUtils.cpp in Sources */,
+				59B6512224FC1DA200D419AD /* BasicModelRenderSystem.cpp in Sources */,
 				59668C6224CF9E31006744B7 /* ConsoleSystem.cpp in Sources */,
 				59374D5424D367E100A75B7E /* ShaderCatalogSingleton.cpp in Sources */,
+				59B6511924FC05FC00D419AD /* ModelCatalogSingleton.cpp in Sources */,
 				5937528824C25FBC00A0EC78 /* ECSUtils.cpp in Sources */,
 				595B22FF24E1E273002F74FF /* InputSingleton.cpp in Sources */,
 				59484F6A242910030068591C /* imgui_draw.cpp in Sources */,

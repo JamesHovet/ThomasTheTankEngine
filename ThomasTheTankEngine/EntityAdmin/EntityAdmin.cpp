@@ -109,6 +109,7 @@ void constructFamilyMaps(std::array<void *, NUM_FAMILIES>& array, std::vector<st
 EntityAdmin::EntityAdmin()
     : m_DebugPrintSystem(*this),
     m_GreyBoxRenderSystem(*this),
+    m_BasicModelRenderSystem(*this),
     m_EditorSystem(*this),
     m_InputSystem(*this),
     m_ConsoleSystem(*this),
@@ -217,6 +218,7 @@ void EntityAdmin::initAllSystems(){
     m_ConsoleSystem.init();
     m_DebugPrintSystem.init();
     m_GreyBoxRenderSystem.init();
+    m_BasicModelRenderSystem.init();
 
 }
 
@@ -303,6 +305,9 @@ void EntityAdmin::render(){
     TRACE_BEGIN("greybox render", &m_GreyBoxRenderSystem);
     m_GreyBoxRenderSystem.render();
     TRACE_END("greybox render", &m_GreyBoxRenderSystem);
+    TRACE_BEGIN("Basic Model render", &m_BasicModelRenderSystem);
+    m_BasicModelRenderSystem.render();
+    TRACE_END("Basic Model render", &m_BasicModelRenderSystem);
     TRACE_BEGIN("editor render", &m_EditorSystem);
     m_EditorSystem.render();
     TRACE_END("editor render", &m_EditorSystem);

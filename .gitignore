@@ -25,8 +25,8 @@ DerivedData/
 /*.gcno
 
 .DS_STORE
-*.DS_STORE
-*/imgui.ini
+**.DS_STORE
+**imgui.ini
 build/*
 !build/CMakeLists.txt
 !build/cmake/

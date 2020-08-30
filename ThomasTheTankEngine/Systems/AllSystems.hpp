@@ -12,9 +12,11 @@
 
 #include "DebugPrintSystem.hpp"
 #include "GreyBoxRenderSystem.hpp"
+#include "BasicModelRenderSystem.hpp"
 #include "EditorSystem.hpp"
 #include "InputSystem.hpp"
 #include "ConsoleSystem.hpp"
 #include "RenderSetupSystem.hpp"
+
 
 #endif /* AllSystems_hpp */

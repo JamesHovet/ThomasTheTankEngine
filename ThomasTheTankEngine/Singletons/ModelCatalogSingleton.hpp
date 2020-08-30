@@ -21,6 +21,7 @@ struct Mesh {
     GLuint m_VBO;
     GLuint m_EBO;
     GLuint m_VAO;
+    unsigned int numIndices;
 };
 
 struct Model {

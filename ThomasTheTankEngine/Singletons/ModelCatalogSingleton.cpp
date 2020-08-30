@@ -51,22 +51,10 @@ bool ModelCatalogSingleton::registerModel(std::string name, const char * objPath
         float* vertsInPtr = &curMeshIn.Vertices[0].Position.X;
         unsigned int* indicesInPtr = &curMeshIn.Indices[0];
         
-        std::cout << "num verts: " << curMeshIn.Vertices.size() << std::endl;
-        
-        float * data = vertsInPtr;
-        
-        for(int i = 0; i < 8 * curMeshIn.Vertices.size(); i++){
-            if (i % 8 == 0){
-                printf("\n");
-            }
-            printf("%+2.5f ", *data);
-            data++;
-        }
-        std::cout << std::endl;
-        
         glGenVertexArrays(1, &curMeshOut.m_VAO);
         glGenBuffers(1, &curMeshOut.m_VBO);
         glGenBuffers(1, &curMeshOut.m_EBO);
+        curMeshOut.numIndices = curMeshIn.Vertices.size();
         
         glBindVertexArray(curMeshOut.m_VAO);
         

@@ -36,6 +36,8 @@ void BasicModelRenderSystem::render(){
     glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(renderSingleton.view));
     glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(renderSingleton.projection));
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    
+    basicModelShader->set3f("viewPos", renderSingleton.currentCameraTransformC->m_position);
 //    glm::mat4 model = glm::mat4(1.0f);
 //    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 //    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(renderSingleton.view));
@@ -47,7 +49,7 @@ void BasicModelRenderSystem::render(){
     
     for(int i = 0; i < 3; i++){
         glBindVertexArray(myModel.m_meshes[i].m_VAO);
-        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, myModel.m_meshes[i].numIndices, GL_UNSIGNED_INT, 0);
     }
     
     basicModelShader->end();

@@ -1,12 +1,12 @@
 // AABBColliderComponent.hpp
-// generated at: 2020-08-22 08:46:42.648721
+// generated at: 2020-08-30 17:07:38.154958
 #pragma once
 #ifndef AABBColliderComponent_hpp
 #define AABBColliderComponent_hpp
 
 #include "Component.hpp"
 struct AABBColliderComponent : public ECSComponent {
-	static constexpr int componentIndex{ 4 };
+	static constexpr int componentIndex{ 5 };
 	AABB m_AABB = {glm::vec3(-0.5, -0.5, -0.5), glm::vec3(0.5, 0.5, 0.5)};
 	void imDisplay(){
 		if(ImGui::TreeNode("AABBColliderComponent")){

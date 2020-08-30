@@ -44,5 +44,17 @@ typedef enum AXIS {
     Y,
     Z
 } AXIS;
+#define MAX_MESHES 8
+struct Mesh {
+    GLuint m_VBO;
+    GLuint m_EBO;
+    GLuint m_VAO;
+    unsigned int numIndices;
+};
+
+struct Model {
+    Mesh m_meshes[MAX_MESHES];
+    unsigned char m_numMeshes;
+};
 
 #endif /* typedefs_h */

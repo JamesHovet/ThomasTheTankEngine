@@ -1,6 +1,16 @@
 {
 	"components" : [
         {
+            "name" : "BasicModel",
+            "members" : [
+                {
+                    "name" : "m_model_name",
+                    "type" : "std::string"
+                }
+            ],
+            "editorPanel" : "manual"
+        },
+        {
             "name" : "GreyBox" ,
             "members" : [
                 {
@@ -23,6 +33,12 @@
         }
 	],
 	"families" : [
+        {
+            "name" : "BasicModel",
+            "components" : ["Transform", "BasicModel"],
+            "update" : false,
+            "render" : true
+        },
         {
             "name" : "GreyBox",
             "components" : ["Transform", "GreyBox"],

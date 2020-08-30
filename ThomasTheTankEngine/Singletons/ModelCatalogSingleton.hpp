@@ -15,19 +15,6 @@
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
 
-
-#define MAX_MESHES 4
-struct Mesh {
-    GLuint m_VBO;
-    GLuint m_EBO;
-    GLuint m_VAO;
-    unsigned int numIndices;
-};
-
-struct Model {
-    Mesh m_meshes[MAX_MESHES];
-};
-
 struct ModelCatalogEntry {
     Model m_model;
     

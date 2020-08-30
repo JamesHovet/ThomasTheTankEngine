@@ -1,4 +1,10 @@
 {
+if(ECSUtils::doesPassFilter(mask, Family<BasicModelFamilyStatic>::mask)){
+	BasicModelFamilyStatic family = BasicModelFamilyStatic(eID, getComponent<TransformComponent>(eID), getComponent<BasicModelComponent>(eID));
+	getFamilyStaticVector<BasicModelFamilyStatic>().push_back(family);
+	}
+}
+{
 if(ECSUtils::doesPassFilter(mask, Family<GreyBoxFamilyStatic>::mask)){
 	GreyBoxFamilyStatic family = GreyBoxFamilyStatic(eID, getComponent<TransformComponent>(eID), getComponent<GreyBoxComponent>(eID));
 	getFamilyStaticVector<GreyBoxFamilyStatic>().push_back(family);

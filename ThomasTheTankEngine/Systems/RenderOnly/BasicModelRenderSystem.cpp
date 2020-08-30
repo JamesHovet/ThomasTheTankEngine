@@ -38,14 +38,8 @@ void BasicModelRenderSystem::render(){
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     
     basicModelShader->set3f("viewPos", renderSingleton.currentCameraTransformC->m_position);
-//    glm::mat4 model = glm::mat4(1.0f);
-//    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-//    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(renderSingleton.view));
-//    glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(renderSingleton.projection));
-    
     
     Model myModel = m_admin.m_ModelCatalogSingleton.getModel("boxes");
-    Mesh  myMesh = myModel.m_meshes[2];
     
     for(int i = 0; i < 3; i++){
         glBindVertexArray(myModel.m_meshes[i].m_VAO);

@@ -233,37 +233,43 @@ void EntityAdmin::setup(){
 }
 
 void EntityAdmin::loadTestScene(){
-        { // create camera
-            //@Remove: temporary test camera
+    { // create camera
+        //@Remove: temporary test camera
+        entityID eID = this->createEntity();
+        TransformComponent& transformC = addComponent<TransformComponent>(eID);
+        transformC.m_position = glm::vec3(1.0f, 0.0f, -3.0f);
+        CameraComponent& cameraC = addComponent<CameraComponent>(eID);
+//        cameraC.m_forward = glm::vec3(0.0f, 0.0f, 1.0f);
+        DebugNameComponent& nameC = addComponent<DebugNameComponent>(eID);
+        nameC.m_name = "Main Camera";
+        
+    }
+    { // create testing boxes
+        //@Remove: temporary test entities
+        int numToAdd = 0;
+        for(int i = 0; i < numToAdd; i++){
             entityID eID = this->createEntity();
-            TransformComponent& transformC = addComponent<TransformComponent>(eID);
-            transformC.m_position = glm::vec3(1.0f, 0.0f, -3.0f);
-            CameraComponent& cameraC = addComponent<CameraComponent>(eID);
-    //        cameraC.m_forward = glm::vec3(0.0f, 0.0f, 1.0f);
-            DebugNameComponent& nameC = addComponent<DebugNameComponent>(eID);
-            nameC.m_name = "Main Camera";
-            
-        }
-        { // create testing boxes
-            //@Remove: temporary test entities
-            int numToAdd = 0;
-            for(int i = 0; i < numToAdd; i++){
-                entityID eID = this->createEntity();
-    //            DebugNameComponent& nameC = this->addComponent<DebugNameComponent>(eID);
-                TransformComponent& transformC = this->addComponent<TransformComponent>(eID);
-                GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(eID);
-                AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(eID);
+//            DebugNameComponent& nameC = this->addComponent<DebugNameComponent>(eID);
+            TransformComponent& transformC = this->addComponent<TransformComponent>(eID);
+            GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(eID);
+            AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(eID);
 
-    //            debugPrintC.m_enabled = false;
+//            debugPrintC.m_enabled = false;
 
-    //            nameC.m_name = std::to_string(eID);
-                transformC.m_position = glm::vec3(4.0f * ((float) i - (numToAdd / 2)) / (float) numToAdd);
-                transformC.m_scale = glm::vec3(1.0f, 1.5f, 1.0f);
+//            nameC.m_name = std::to_string(eID);
+            transformC.m_position = glm::vec3(4.0f * ((float) i - (numToAdd / 2)) / (float) numToAdd);
+            transformC.m_scale = glm::vec3(1.0f, 1.5f, 1.0f);
 //                transformC.m_orientation = glm::quat(glm::vec3(0.0f, glm::radians(0.0f), glm::radians((float) random())));
-    //            transformC.m_orientation = glm::quat(glm::vec3(0.0f, 0.0f, 0.0f));
-                boxC.m_color = glm::vec4(((float) i) * (1.0f / (float) numToAdd), 0.0, 0.0, 1.0f);
-            }
+//            transformC.m_orientation = glm::quat(glm::vec3(0.0f, 0.0f, 0.0f));
+            boxC.m_color = glm::vec4(((float) i) * (1.0f / (float) numToAdd), 0.0, 0.0, 1.0f);
         }
+    }
+    {
+        entityID eID = this->createEntity();
+        TransformComponent& trans = this->addComponent<TransformComponent>(eID);
+        BasicModelComponent& model = this->addComponent<BasicModelComponent>(eID);
+        model.m_model_name = "boxes";
+    }
        
 }
 

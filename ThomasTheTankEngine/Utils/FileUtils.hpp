@@ -14,6 +14,7 @@
 namespace FileUtils
 {
     std::string getResourceAbsoluteFilePath(const char* resourcePathCStr);
+    std::string getResourceAbsoluteFilePath(std::string resourcePath);
 }
 
 #endif /* FileUtils_h */

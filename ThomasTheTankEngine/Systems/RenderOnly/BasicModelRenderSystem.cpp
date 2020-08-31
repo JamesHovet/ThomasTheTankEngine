@@ -54,15 +54,24 @@ void BasicModelRenderSystem::render(){
     glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(renderSingleton.view));
     glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(renderSingleton.projection));
     
-    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(glm::mat4(1.0f)));
-    glUniformMatrix3fv(normalMatrixLoc, 1, GL_FALSE , glm::value_ptr(glm::mat4(1.0f)));
+//    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(glm::mat4(1.0f)));
+//    glUniformMatrix3fv(normalMatrixLoc, 1, GL_FALSE , glm::value_ptr(glm::mat4(1.0f)));
+//
+//    Model myModel = modelCatalog.getModel("lion");
+//    Mesh lionhead = myModel.m_meshes[1];
+//    Mesh lionbackground = myModel.m_meshes[0];
+//    Material lionheadMat = myModel.m_materials[1];
+//    Material lionbackgroundMat = myModel.m_materials[0];
+//
+//    if(lionheadMat.diffuseTextureName != ""){
+//        glBindTexture(GL_TEXTURE_2D, modelCatalog.getTexture(lionheadMat.diffuseTextureName).m_textureID);
+//    }
+//    basicModelShader->set3f("diffuseColor", lionheadMat.diffuseColor);
+//    glBindVertexArray(lionhead.m_VAO);
+//    glDrawElements(GL_TRIANGLES, lionhead.numIndices, GL_UNSIGNED_INT, 0);
+//
     
-    Model myModel = modelCatalog.getModel("lion");
-    Mesh lionhead = myModel.m_meshes[1];
-    Mesh lionbackground = myModel.m_meshes[0];
-    Material lionheadMat = myModel.m_materials[1];
-    Material lionbackgroundMat = myModel.m_materials[0];
-    
+    /*
     int nrChannels;
 //    // head
     int headWidth, headHeight;
@@ -103,26 +112,33 @@ void BasicModelRenderSystem::render(){
     basicModelShader->set3f("diffuseColor", lionbackgroundMat.diffuseColor);
     glBindVertexArray(lionbackground.m_VAO);
     glDrawElements(GL_TRIANGLES, lionbackground.numIndices, GL_UNSIGNED_INT, 0);
+    */
     
     
-//    std::vector<BasicModelFamilyStatic> families = m_admin.getFamilyStaticVector<BasicModelFamilyStatic>();
-//
-//    for (BasicModelFamilyStatic f : families){
-//        std::string model_name = f.m_BasicModelComponent.m_model_name;
-//        if(!modelCatalog.modelExists(model_name)){
-//            std::cerr << "Could not find model for " << model_name << std::endl;
-//            std::cout << "Could not find model for " << model_name << std::endl;
-//            continue;
-//        }
-//        Model model = modelCatalog.getModel(model_name);
-//        for(int i = 0; i < model.m_numMeshes; i++){
-//            basicModelShader->set3f("diffuseColor", model.m_materials[i].diffuseColor);
-//            glBindVertexArray(model.m_meshes[i].m_VAO);
-//            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(f.m_TransformComponent.getMat4()));
-//            glUniformMatrix3fv(normalMatrixLoc, 1, GL_FALSE, glm::value_ptr(f.m_TransformComponent.getNormalMatrix()));
-//            glDrawElements(GL_TRIANGLES, model.m_meshes[i].numIndices, GL_UNSIGNED_INT, 0);
-//        }
-//    }
+    std::vector<BasicModelFamilyStatic> families = m_admin.getFamilyStaticVector<BasicModelFamilyStatic>();
+
+    for (BasicModelFamilyStatic f : families){
+        std::string model_name = f.m_BasicModelComponent.m_model_name;
+        if(!modelCatalog.modelExists(model_name)){
+            std::cerr << "Could not find model for " << model_name << std::endl;
+            std::cout << "Could not find model for " << model_name << std::endl;
+            continue;
+        }
+        Model model = modelCatalog.getModel(model_name);
+        for(int i = 0; i < model.m_numMeshes; i++){
+            basicModelShader->set3f("diffuseColor", model.m_materials[i].diffuseColor);
+            if(model.m_materials[i].diffuseTextureName != ""){
+                basicModelShader->set1b("hasDiffuseTexture", true);
+                glBindTexture(GL_TEXTURE_2D, modelCatalog.getTexture(model.m_materials[i].diffuseTextureName).m_textureID);
+            } else {
+                basicModelShader->set1b("hasDiffuseTexture", false);
+            }
+            glBindVertexArray(model.m_meshes[i].m_VAO);
+            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(f.m_TransformComponent.getMat4()));
+            glUniformMatrix3fv(normalMatrixLoc, 1, GL_FALSE, glm::value_ptr(f.m_TransformComponent.getNormalMatrix()));
+            glDrawElements(GL_TRIANGLES, model.m_meshes[i].numIndices, GL_UNSIGNED_INT, 0);
+        }
+    }
     
     basicModelShader->end();
 }

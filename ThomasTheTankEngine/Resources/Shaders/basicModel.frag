@@ -5,6 +5,7 @@ in vec3 Normal;
 in vec3 FragPos;
 in vec2 TexCoord;
 
+uniform bool hasDiffuseTexture;
 uniform sampler2D sampler;
 
 uniform vec3 viewPos;
@@ -35,5 +36,10 @@ void main(){
     
     vec3 result = ambient + diffuse + specular;
     vec4 lighting = vec4(result, 1.0f);
-    FragColor = texture(sampler, TexCoord) * lighting;
+    if(hasDiffuseTexture){
+        FragColor = texture(sampler, TexCoord) * lighting;
+    } else {
+        FragColor = lighting;
+    }
+    
 }

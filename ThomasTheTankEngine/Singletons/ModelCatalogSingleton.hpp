@@ -15,6 +15,14 @@
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
 
+struct TextureCatalogEntry {
+    Texture m_texture;
+    
+    boost::filesystem::path textureFileAbsolute;
+    
+    std::time_t lastTimeModified;
+};
+
 struct ModelCatalogEntry {
     Model m_model;
     
@@ -30,11 +38,15 @@ public:
     ~ModelCatalogSingleton();
     
 private:
-    std::unordered_map<std::string, ModelCatalogEntry> m_catalogEntries;
+    std::unordered_map<std::string, ModelCatalogEntry> m_modelCatalogEntries;
+    std::unordered_map<std::string, TextureCatalogEntry> m_textureCatalogEntries;
     
 public:
-    bool   modelExists(std::string name){ return m_catalogEntries.count(name) != 0;}
+    bool   modelExists(std::string name){ return m_modelCatalogEntries.count(name) != 0;}
     Model& getModel(std::string name);
+    
+    bool   textureExists(std::string name){return m_textureCatalogEntries.count(name) != 0;}
+    Texture& getTexture(std::string name);
 
     bool registerModel(std::string name, const char* objPathRelativeCStr);
     

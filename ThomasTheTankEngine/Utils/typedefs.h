@@ -18,6 +18,7 @@ typedef unsigned entityID;
 typedef unsigned componentID;
 typedef unsigned familyID;
 typedef unsigned GLuint;
+typedef int GLint;
 typedef nlohmann::json::object_t prototype;
 typedef std::bitset<64> componentMask;
 typedef glm::vec4 RGBA;
@@ -44,8 +45,18 @@ typedef enum AXIS {
     Y,
     Z
 } AXIS;
+
+typedef struct Texture {
+    GLuint m_textureID;
+    int m_width;
+    int m_height;
+    int m_numChannels;
+    GLint m_storage_format;
+} Texture;
 typedef struct Material {
     std::string name;
+    std::string diffuseTextureName;
+    std::string normalTextureName;
     glm::vec3 ambientColor;
     glm::vec3 diffuseColor;
     glm::vec3 specularColor;

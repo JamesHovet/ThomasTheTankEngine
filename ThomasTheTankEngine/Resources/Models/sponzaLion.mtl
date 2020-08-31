@@ -1,12 +1,26 @@
-# Blender MTL File: 'None'
-# Material Count: 1
+# Blender MTL File: 'lionhead.blend'
+# Material Count: 2
 
-newmtl Material.001
+newmtl bkMat
 Ns 225.000000
 Ka 1.000000 1.000000 1.000000
 Kd 0.800000 0.800000 0.800000
-Ks 0.500000 0.500000 0.500000
+Ks 0.095455 0.095455 0.095455
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
+map_Bump /Users/jameshovet/Development/ThomasTheTankEngine/ThomasTheTankEngine/Resources/Textures/background_ddn.tga
+map_Kd /Users/jameshovet/Development/ThomasTheTankEngine/ThomasTheTankEngine/Resources/Textures/background.tga
+
+newmtl headMat
+Ns 299.919407
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.072727 0.072727 0.072727
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump /Users/jameshovet/Development/ThomasTheTankEngine/ThomasTheTankEngine/Resources/Textures/lion_ddn.tga
+map_Kd /Users/jameshovet/Development/ThomasTheTankEngine/ThomasTheTankEngine/Resources/Textures/lion.tga

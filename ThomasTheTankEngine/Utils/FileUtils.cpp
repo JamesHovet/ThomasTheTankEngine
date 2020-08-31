@@ -45,3 +45,7 @@ std::string FileUtils::getResourceAbsoluteFilePath(const char *resourcePathCStr)
 #endif
     return nullptr;
 }
+
+std::string FileUtils::getResourceAbsoluteFilePath(std::string resourcePath){
+    return getResourceAbsoluteFilePath(resourcePath.c_str());
+}

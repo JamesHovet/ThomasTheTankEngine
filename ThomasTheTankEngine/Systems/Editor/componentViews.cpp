@@ -13,7 +13,7 @@
 
 void BasicModelComponent::imDisplay(EntityAdmin* m_admin){
     if(ImGui::TreeNode("BasicModelComponent")){
-        std::unordered_map<std::string, ModelCatalogEntry>& catalogEntries = m_admin->m_ModelCatalogSingleton.m_catalogEntries;
+        std::unordered_map<std::string, ModelCatalogEntry>& catalogEntries = m_admin->m_ModelCatalogSingleton.m_modelCatalogEntries;
         
         
         if(ImGui::BeginCombo("Model", m_model_name.c_str())){

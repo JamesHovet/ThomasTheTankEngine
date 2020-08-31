@@ -15,11 +15,14 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "stb_image.h"
+
 void RenderSetupSystem::init(){
     m_admin.m_ShaderCatalogSingleton.registerShader("greybox", "Shaders/greybox.vert", "Shaders/greybox.frag");
     m_admin.m_ShaderCatalogSingleton.registerShader("unlitOpaque", "Shaders/unlitOpaque.vert", "Shaders/unlitOpaque.frag");
     m_admin.m_ShaderCatalogSingleton.registerShader("basic_model", "Shaders/basicModel.vert", "Shaders/basicModel.frag");
     
+    stbi_set_flip_vertically_on_load(true);
 }
 
 void RenderSetupSystem::render(){

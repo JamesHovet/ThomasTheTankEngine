@@ -44,17 +44,24 @@ typedef enum AXIS {
     Y,
     Z
 } AXIS;
+typedef struct Material {
+    std::string name;
+    glm::vec3 ambientColor;
+    glm::vec3 diffuseColor;
+    glm::vec3 specularColor;
+    float specularExponent;
+} Material;
 #define MAX_MESHES 8
-struct Mesh {
+typedef struct Mesh {
     GLuint m_VBO;
     GLuint m_EBO;
     GLuint m_VAO;
     unsigned int numIndices;
-};
-
-struct Model {
+} Mesh;
+typedef struct Model {
     Mesh m_meshes[MAX_MESHES];
+    Material m_materials[MAX_MESHES];
     unsigned char m_numMeshes;
-};
+} Model;
 
 #endif /* typedefs_h */

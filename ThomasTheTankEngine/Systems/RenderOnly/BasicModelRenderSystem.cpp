@@ -21,6 +21,8 @@ Shader* basicModelShader;
 void BasicModelRenderSystem::init(){
     m_admin.m_ModelCatalogSingleton.registerModel("boxes", "Models/box_stack.obj");
     m_admin.m_ModelCatalogSingleton.registerModel("suzanne", "Models/suzanne.obj");
+    m_admin.m_ModelCatalogSingleton.registerModel("multi-material", "Models/multi-material-test.obj");
+    
     basicModelShader = &m_admin.m_ShaderCatalogSingleton.getShader("basic_model");
 }
 
@@ -30,9 +32,10 @@ void BasicModelRenderSystem::render(){
     
     basicModelShader->begin();
     basicModelShader->set3f("viewPos", renderSingleton.currentCameraTransformC->m_position);
-    GLuint modelLoc      = glGetUniformLocation(basicModelShader->ID, "model");
-    GLuint viewLoc       = glGetUniformLocation(basicModelShader->ID, "view");
-    GLuint projectionLoc = glGetUniformLocation(basicModelShader->ID, "projection");
+    GLuint modelLoc        = glGetUniformLocation(basicModelShader->ID, "model");
+    GLuint viewLoc         = glGetUniformLocation(basicModelShader->ID, "view");
+    GLuint projectionLoc   = glGetUniformLocation(basicModelShader->ID, "projection");
+    GLuint normalMatrixLoc = glGetUniformLocation(basicModelShader->ID, "normalMatrix");
 
 //    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(identity));
     glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(renderSingleton.view));
@@ -49,8 +52,10 @@ void BasicModelRenderSystem::render(){
         }
         Model model = modelCatalog.getModel(model_name);
         for(int i = 0; i < model.m_numMeshes; i++){
+            basicModelShader->set3f("diffuseColor", model.m_materials[i].diffuseColor);
             glBindVertexArray(model.m_meshes[i].m_VAO);
             glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(f.m_TransformComponent.getMat4()));
+            glUniformMatrix3fv(normalMatrixLoc, 1, GL_FALSE, glm::value_ptr(f.m_TransformComponent.getNormalMatrix()));
             glDrawElements(GL_TRIANGLES, model.m_meshes[i].numIndices, GL_UNSIGNED_INT, 0);
         }
     }

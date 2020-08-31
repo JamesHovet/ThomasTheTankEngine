@@ -27,6 +27,7 @@ Model& ModelCatalogSingleton::getModel(std::string name){
     return m_catalogEntries.at(name).m_model;
 }
 
+//TODO: materials!
 bool ModelCatalogSingleton::registerModel(std::string name, const char * objPathRelativeCStr){
     
     m_catalogEntries.emplace(name, ModelCatalogEntry());
@@ -48,7 +49,19 @@ bool ModelCatalogSingleton::registerModel(std::string name, const char * objPath
     for(int i = 0; i < std::min((size_t) MAX_MESHES, Loader.LoadedMeshes.size()); i++){
         objl::Mesh curMeshIn = Loader.LoadedMeshes[i];
         Mesh& curMeshOut = entry.m_model.m_meshes[i];
+        objl::Material curMaterialIn = curMeshIn.MeshMaterial;
+        Material& curMaterialOut = entry.m_model.m_materials[i];
         
+        curMaterialOut.name = curMaterialIn.name;
+        curMaterialOut.ambientColor = glm::vec3(curMaterialIn.Ka.X, curMaterialIn.Ka.Y, curMaterialIn.Ka.Z);
+        curMaterialOut.diffuseColor = glm::vec3(curMaterialIn.Kd.X, curMaterialIn.Kd.Y, curMaterialIn.Kd.Z);
+        curMaterialOut.specularColor = glm::vec3(curMaterialIn.Ks.X, curMaterialIn.Ks.Y, curMaterialIn.Ks.Z);
+        curMaterialOut.specularExponent = curMaterialIn.Ns;
+        printf("name: %s\n", curMaterialOut.name.c_str());
+        printf("ambient: %f, %f, %f\n", curMaterialOut.ambientColor.r, curMaterialOut.ambientColor.g, curMaterialOut.ambientColor.b);
+        printf("diffuse: %f, %f, %f\n", curMaterialOut.diffuseColor.r, curMaterialOut.diffuseColor.g, curMaterialOut.diffuseColor.b);
+        printf("spec   : %f, %f, %f\n", curMaterialOut.specularColor.r, curMaterialOut.specularColor.g, curMaterialOut.specularColor.b);
+
         float* vertsInPtr = &curMeshIn.Vertices[0].Position.X;
         unsigned int* indicesInPtr = &curMeshIn.Indices[0];
         

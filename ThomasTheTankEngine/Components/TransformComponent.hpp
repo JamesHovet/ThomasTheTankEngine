@@ -60,6 +60,10 @@ struct TransformComponent : public ECSComponent {
         return getLocalModelMatrix();
     }
     
+    glm::mat3 getNormalMatrix(){
+        return glm::mat3(glm::transpose(glm::inverse(getMat4())));
+    }
+    
     glm::mat4 getMat4Unscaled(){
         return getLocalMat4Unscaled();
     }

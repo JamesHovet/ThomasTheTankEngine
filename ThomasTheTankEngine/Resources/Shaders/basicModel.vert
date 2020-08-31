@@ -6,7 +6,14 @@ layout (location = 2) in vec2 aTexCoord;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
+uniform mat3 normalMatrix;
+
 uniform vec3 viewPos;
+
+uniform vec3 ambientColor;
+uniform vec3 diffuseColor;
+uniform vec3 SpecularColor;
+uniform float SpecularExp;
 
 out vec2 TexCoord;
 out vec4 colorOut;
@@ -14,11 +21,12 @@ out vec4 colorOut;
 void main(){
     
     vec3 lightPos = vec3(1.0f, 2.0f, 2.0f);
-    vec3 lightColor = vec3(1.0f, 0.5f, 0.2f);
+//    vec3 lightColor = vec3(1.0f, 0.5f, 0.2f);
+    vec3 lightColor = diffuseColor;
     
     vec4 pos = vec4(aPos.x, aPos.y, aPos.z, 1.0f);
     vec3 worldPos = (model * pos).xyz;
-    vec3 norm = aNormal; // todo: the special "Normal Matrix" https://learnopengl.com/Lighting/Basic-Lighting
+    vec3 norm = normalMatrix * aNormal; // todo: the special "Normal Matrix" https://learnopengl.com/Lighting/Basic-Lighting
     
     // ambient
     float ambientStrength = 0.1f;

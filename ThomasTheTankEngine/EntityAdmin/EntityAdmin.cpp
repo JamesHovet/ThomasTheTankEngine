@@ -269,6 +269,7 @@ void EntityAdmin::loadTestScene(){
         DebugNameComponent& nameC = addComponent<DebugNameComponent>(eID);
         nameC.m_name = "Barrel";
         TransformComponent& trans = this->addComponent<TransformComponent>(eID);
+        trans.m_position = glm::vec3(-5.0f, 0.0f, 0.0f);
         BasicModelComponent& model = this->addComponent<BasicModelComponent>(eID);
         model.m_model_name = "boxes";
     }
@@ -277,8 +278,22 @@ void EntityAdmin::loadTestScene(){
         DebugNameComponent& nameC = addComponent<DebugNameComponent>(eID);
         nameC.m_name = "Suzanne";
         TransformComponent& trans = this->addComponent<TransformComponent>(eID);
+        trans.m_position = glm::vec3(5.0f, 0.0f, 0.0f);
         BasicModelComponent& model = this->addComponent<BasicModelComponent>(eID);
         model.m_model_name = "suzanne";
+        
+    }
+    {
+        entityID eID = this->createEntity();
+        DebugNameComponent& nameC = addComponent<DebugNameComponent>(eID);
+        nameC.m_name = "Multi-Material";
+        TransformComponent& trans = this->addComponent<TransformComponent>(eID);
+        trans.m_position = glm::vec3(0.0f, 0.0f, 0.0f);
+        BasicModelComponent& model = this->addComponent<BasicModelComponent>(eID);
+        model.m_model_name = "multi-material";
+        AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(eID);
+        collisionC.m_AABB.max = glm::vec3(1.0f, 1.0f, 1.0f);
+        collisionC.m_AABB.min = glm::vec3(-1.0f, -1.0f, -1.0f);
         
     }
        

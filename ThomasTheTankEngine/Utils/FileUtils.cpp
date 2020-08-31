@@ -49,3 +49,8 @@ std::string FileUtils::getResourceAbsoluteFilePath(const char *resourcePathCStr)
 std::string FileUtils::getResourceAbsoluteFilePath(std::string resourcePath){
     return getResourceAbsoluteFilePath(resourcePath.c_str());
 }
+
+std::string FileUtils::appendSuffixToPathLeaf(boost::filesystem::path path, std::string suffix){
+    std::string extension = path.extension().string();
+    return path.replace_extension().string() + suffix + extension;
+}

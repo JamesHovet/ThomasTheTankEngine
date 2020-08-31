@@ -82,6 +82,7 @@ set(SOURCES
 	../ThomasTheTankEngine/Utils/SerializationUtils.cpp
 	../ThomasTheTankEngine/Utils/ECSUtils.cpp
 	../ThomasTheTankEngine/Utils/FileUtils.cpp
+	../ThomasTheTankEngine/Utils/GLUtils.cpp
 	../ThomasTheTankEngine/Utils/Trace.cpp
 	../ThomasTheTankEngine/Utils/IntersectionUtils.cpp
 	../ThomasTheTankEngine/Utils/Shader.cpp

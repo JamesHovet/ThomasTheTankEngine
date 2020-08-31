@@ -13,6 +13,7 @@
 
 #include <GL/glew.h>
 #include <glm/glm.hpp>
+#include "GLUtils.hpp"
 #include "stb_image.h"
 
 using path = boost::filesystem::path;
@@ -87,39 +88,53 @@ bool ModelCatalogSingleton::registerModel(std::string name, const char * objPath
                 Texture curTextureOut;
                 data = stbi_load(baseTexturePath.c_str(), &curTextureOut.m_width, &curTextureOut.m_height, &curTextureOut.m_numChannels, 0);
                 if(!data){
-                    std::cout << "could not load image data from:" << baseTexturePath << std::endl;
+                    std::cout << "could not load image data from: " << baseTexturePath << std::endl;
                     stbi_image_free(data);
                     return false;
                 }
-                switch (curTextureOut.m_numChannels) {
-                    case 1:
-                        curTextureOut.m_storage_format = GL_RED;
-                        break;
-                    case 2:
-                        curTextureOut.m_storage_format = GL_RG;
-                        break;
-                    case 3:
-                        curTextureOut.m_storage_format = GL_RGB;
-                        break;
-                    case 4:
-                        curTextureOut.m_storage_format = GL_RGBA;
-                        break;
-                    default:
-                        std::cout << "Invalid number of image channels" << std::endl;
-                        return false;
-                        break;
-                }
+                curTextureOut.m_storage_format = GLUtils::getTextureFormatFromNumChannels(curTextureOut.m_numChannels);
                 
                 glGenTextures(1, &curTextureOut.m_textureID);
                 glBindTexture(GL_TEXTURE_2D, curTextureOut.m_textureID);
                 glTexImage2D(GL_TEXTURE_2D, 0, curTextureOut.m_storage_format, curTextureOut.m_width, curTextureOut.m_height, 0, curTextureOut.m_storage_format, GL_UNSIGNED_BYTE, data);
                 glGenerateMipmap(GL_TEXTURE_2D);
                 stbi_image_free(data);
+                data = nullptr;
                 
                 TextureCatalogEntry& diffuseTextureEntry = m_textureCatalogEntries.emplace(curMaterialOut.diffuseTextureName, TextureCatalogEntry()).first->second;
                 diffuseTextureEntry.m_texture = curTextureOut;
                 diffuseTextureEntry.lastTimeModified = boost::filesystem::last_write_time(baseTexturePath);
                 diffuseTextureEntry.textureFileAbsolute = baseTexturePath;
+                
+                path normalMapPath = path(FileUtils::appendSuffixToPathLeaf(baseTexturePath, "_ddn"));
+                if(boost::filesystem::exists(normalMapPath)){
+                    Texture normalMap;
+                    std::cout << "norm map:" << normalMapPath << std::endl;
+                    curMaterialOut.normalTextureName = FileUtils::appendSuffixToPathLeaf(curMaterialOut.diffuseTextureName, "_ddn");
+                    std::cout << normalMapPath.c_str() << std::endl;
+                    data = stbi_load(normalMapPath.c_str(), &normalMap.m_width, &normalMap.m_height, &normalMap.m_numChannels, 0);
+                    if(!data){
+                        std::cout << "could not load image data from: " << normalMapPath << std::endl;
+                        stbi_image_free(data);
+                        return false;
+                    }
+                    normalMap.m_storage_format = GLUtils::getTextureFormatFromNumChannels(normalMap.m_numChannels);
+                    glGenTextures(1, &normalMap.m_textureID);
+                    glBindTexture(GL_TEXTURE_2D, normalMap.m_textureID);
+                    glTexImage2D(GL_TEXTURE_2D, 0, normalMap.m_storage_format, normalMap.m_width, normalMap.m_height, 0, normalMap.m_storage_format, GL_UNSIGNED_BYTE, data);
+                    glGenerateMipmap(GL_TEXTURE_2D);
+                    stbi_image_free(data);
+                    
+                    TextureCatalogEntry& normalMapEntry = m_textureCatalogEntries.emplace(curMaterialOut.normalTextureName, TextureCatalogEntry()).first->second;
+                    normalMapEntry.m_texture = normalMap;
+                    normalMapEntry.lastTimeModified = boost::filesystem::last_write_time(normalMapPath);
+                    normalMapEntry.textureFileAbsolute = normalMapPath;
+                }
+                
+                // TODO: other kinds of maps as needed
+                
+                
+                
             } else {
 //                std::cout << "already loaded " << baseTexturePath;
             }

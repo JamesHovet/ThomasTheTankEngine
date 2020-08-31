@@ -10,11 +10,13 @@
 #ifndef FileUtils_h
 #define FileUtils_h
 #include <string>
+#include <boost/filesystem.hpp>
 
 namespace FileUtils
 {
-    std::string getResourceAbsoluteFilePath(const char* resourcePathCStr);
-    std::string getResourceAbsoluteFilePath(std::string resourcePath);
+std::string getResourceAbsoluteFilePath(const char* resourcePathCStr);
+std::string getResourceAbsoluteFilePath(std::string resourcePath);
+std::string appendSuffixToPathLeaf(boost::filesystem::path path, std::string suffix);
 }
 
 #endif /* FileUtils_h */

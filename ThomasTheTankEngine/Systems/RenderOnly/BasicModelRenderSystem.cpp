@@ -28,6 +28,7 @@ void BasicModelRenderSystem::init(){
     m_admin.m_ModelCatalogSingleton.registerModel("lion", "Models/sponzaLion.obj");
     
     basicModelShader = &m_admin.m_ShaderCatalogSingleton.getShader("basic_model");
+    
 }
 
 void BasicModelRenderSystem::render(){
@@ -126,17 +127,33 @@ void BasicModelRenderSystem::render(){
         }
         Model model = modelCatalog.getModel(model_name);
         for(int i = 0; i < model.m_numMeshes; i++){
+            Material thisMaterial = model.m_materials[i];
+            Mesh thisMesh = model.m_meshes[i];
+            
             basicModelShader->set3f("diffuseColor", model.m_materials[i].diffuseColor);
-            if(model.m_materials[i].diffuseTextureName != ""){
+            
+            if(thisMaterial.diffuseTextureName != ""){
                 basicModelShader->set1b("hasDiffuseTexture", true);
-                glBindTexture(GL_TEXTURE_2D, modelCatalog.getTexture(model.m_materials[i].diffuseTextureName).m_textureID);
+                basicModelShader->set1i("diffuseTexture", 0);
+                glActiveTexture(GL_TEXTURE0);
+                glBindTexture(GL_TEXTURE_2D, modelCatalog.getTexture(thisMaterial.diffuseTextureName).m_textureID);
             } else {
                 basicModelShader->set1b("hasDiffuseTexture", false);
             }
-            glBindVertexArray(model.m_meshes[i].m_VAO);
+            
+            if(thisMaterial.normalTextureName != ""){
+                basicModelShader->set1b("hasNormalMap", true);
+                basicModelShader->set1i("normalTexture", 1);
+                glActiveTexture(GL_TEXTURE1);
+                glBindTexture(GL_TEXTURE_2D, modelCatalog.getTexture(thisMaterial.normalTextureName).m_textureID);
+            } else {
+                basicModelShader->set1b("hasNormalMap", false);
+            }
+            
+            glBindVertexArray(thisMesh.m_VAO);
             glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(f.m_TransformComponent.getMat4()));
             glUniformMatrix3fv(normalMatrixLoc, 1, GL_FALSE, glm::value_ptr(f.m_TransformComponent.getNormalMatrix()));
-            glDrawElements(GL_TRIANGLES, model.m_meshes[i].numIndices, GL_UNSIGNED_INT, 0);
+            glDrawElements(GL_TRIANGLES, thisMesh.numIndices, GL_UNSIGNED_INT, 0);
         }
     }
     

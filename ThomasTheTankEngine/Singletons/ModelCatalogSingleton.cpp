@@ -45,7 +45,7 @@ bool ModelCatalogSingleton::registerModel(std::string name, const char * objPath
         return false;
     }
     
-    entry.m_model.m_numMeshes = Loader.LoadedMeshes.size();
+    entry.m_model.m_numMeshes = std::min((size_t) MAX_MESHES, Loader.LoadedMeshes.size());
     for(int i = 0; i < std::min((size_t) MAX_MESHES, Loader.LoadedMeshes.size()); i++){
         objl::Mesh curMeshIn = Loader.LoadedMeshes[i];
         Mesh& curMeshOut = entry.m_model.m_meshes[i];

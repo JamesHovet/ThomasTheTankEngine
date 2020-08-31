@@ -22,6 +22,8 @@ void BasicModelRenderSystem::init(){
     m_admin.m_ModelCatalogSingleton.registerModel("boxes", "Models/box_stack.obj");
     m_admin.m_ModelCatalogSingleton.registerModel("suzanne", "Models/suzanne.obj");
     m_admin.m_ModelCatalogSingleton.registerModel("multi-material", "Models/multi-material-test.obj");
+//    m_admin.m_ModelCatalogSingleton.registerModel("sponza", "Models/sponza.obj");
+    m_admin.m_ModelCatalogSingleton.registerModel("lion", "Models/sponzaLion.obj");
     
     basicModelShader = &m_admin.m_ShaderCatalogSingleton.getShader("basic_model");
 }
@@ -31,6 +33,15 @@ void BasicModelRenderSystem::render(){
     ModelCatalogSingleton& modelCatalog = m_admin.m_ModelCatalogSingleton;
     
     basicModelShader->begin();
+    
+    bool shouldDrawWireframe = false;
+    if(shouldDrawWireframe){
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    } else {
+        glPolygonMode(GL_FRONT, GL_FILL);
+    }
+    
+    
     basicModelShader->set3f("viewPos", renderSingleton.currentCameraTransformC->m_position);
     GLuint modelLoc        = glGetUniformLocation(basicModelShader->ID, "model");
     GLuint viewLoc         = glGetUniformLocation(basicModelShader->ID, "view");

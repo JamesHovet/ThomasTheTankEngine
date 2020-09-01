@@ -23,12 +23,8 @@ out VS_OUT {
     vec3 tangentLightDir;
     vec3 tangentViewPos;
     vec3 tangentFragPos;
+    vec3 normalFallback;
 } vs_out;
-
-// out vec3 FragPos;
-// out vec2 TexCoord;
-out vec3 Normal;
-// out vec4 Tangent;
 
 void main(){
 
@@ -46,12 +42,8 @@ void main(){
     vs_out.tangentLightDir = TBN * sunLightDir;
     vs_out.tangentViewPos = TBN * viewPos;
     vs_out.tangentFragPos = TBN * vs_out.fragPos;
+    
+    vs_out.normalFallback = TBN * aNormal;
 
     gl_Position = projection * view * vec4(vs_out.fragPos, 1.0f);
-
-    // old
-    // FragPos = vec3(model * vec4(aPos, 1.0));
-    Normal = normalize(normalMatrix * aNormal);
-    // TexCoord = aTexCoord;
-    // Tangent = vec4(normalize(normalMatrix * ((aTangent.xyz * 2) - 1)), 1.0f);
 }

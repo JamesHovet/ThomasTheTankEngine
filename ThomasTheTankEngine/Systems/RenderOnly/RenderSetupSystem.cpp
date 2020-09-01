@@ -18,11 +18,18 @@
 #include "stb_image.h"
 
 void RenderSetupSystem::init(){
+    stbi_set_flip_vertically_on_load(true);
+    
     m_admin.m_ShaderCatalogSingleton.registerShader("greybox", "Shaders/greybox.vert", "Shaders/greybox.frag");
     m_admin.m_ShaderCatalogSingleton.registerShader("unlitOpaque", "Shaders/unlitOpaque.vert", "Shaders/unlitOpaque.frag");
     m_admin.m_ShaderCatalogSingleton.registerShader("basic_model", "Shaders/basicModel.vert", "Shaders/basicModel.frag");
     
-    stbi_set_flip_vertically_on_load(true);
+    m_admin.m_ModelCatalogSingleton.registerModel("boxes", "Models/box_stack.obj");
+    m_admin.m_ModelCatalogSingleton.registerModel("suzanne", "Models/suzanne.obj");
+    m_admin.m_ModelCatalogSingleton.registerModel("multi-material", "Models/multi-material-test.obj");
+    m_admin.m_ModelCatalogSingleton.registerModel("lion", "Models/sponzaLion.obj");
+    m_admin.m_ModelCatalogSingleton.registerModel("column", "Models/column.obj");
+    
 }
 
 void RenderSetupSystem::render(){

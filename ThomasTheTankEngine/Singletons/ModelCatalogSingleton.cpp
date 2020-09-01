@@ -109,7 +109,6 @@ bool ModelCatalogSingleton::registerModel(std::string name, const char * objPath
                 path normalMapPath = path(FileUtils::appendSuffixToPathLeaf(baseTexturePath, "_ddn"));
                 if(boost::filesystem::exists(normalMapPath)){
                     Texture normalMap;
-                    std::cout << "norm map:" << normalMapPath << std::endl;
                     curMaterialOut.normalTextureName = FileUtils::appendSuffixToPathLeaf(curMaterialOut.diffuseTextureName, "_ddn");
                     std::cout << normalMapPath.c_str() << std::endl;
                     data = stbi_load(normalMapPath.c_str(), &normalMap.m_width, &normalMap.m_height, &normalMap.m_numChannels, 0);
@@ -141,12 +140,12 @@ bool ModelCatalogSingleton::registerModel(std::string name, const char * objPath
         }
         // handle properties
         curMaterialOut.name = curMaterialIn.name;
-        curMaterialOut.ambientColor = glm::vec3(curMaterialIn.Ka.X, curMaterialIn.Ka.Y, curMaterialIn.Ka.Z);
-        curMaterialOut.diffuseColor = glm::vec3(curMaterialIn.Kd.X, curMaterialIn.Kd.Y, curMaterialIn.Kd.Z);
-        curMaterialOut.specularColor = glm::vec3(curMaterialIn.Ks.X, curMaterialIn.Ks.Y, curMaterialIn.Ks.Z);
+        curMaterialOut.ambientColor = curMaterialIn.Ka;
+        curMaterialOut.diffuseColor = curMaterialIn.Kd;
+        curMaterialOut.specularColor = curMaterialIn.Ks;
         curMaterialOut.specularExponent = curMaterialIn.Ns;
 
-        float* vertsInPtr = &curMeshIn.Vertices[0].Position.X;
+        float* vertsInPtr = &curMeshIn.Vertices[0].Position.x;
         unsigned int* indicesInPtr = &curMeshIn.Indices[0];
         
         glGenVertexArrays(1, &curMeshOut.m_VAO);
@@ -157,20 +156,23 @@ bool ModelCatalogSingleton::registerModel(std::string name, const char * objPath
         glBindVertexArray(curMeshOut.m_VAO);
         
         glBindBuffer(GL_ARRAY_BUFFER, curMeshOut.m_VBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 8 * curMeshIn.Vertices.size(), vertsInPtr, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 12 * curMeshIn.Vertices.size(), vertsInPtr, GL_STATIC_DRAW);
         
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, curMeshOut.m_EBO);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * curMeshIn.Indices.size(), indicesInPtr, GL_STATIC_DRAW);
         
         // position attribute
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 12 * sizeof(float), (void*)0);
         glEnableVertexAttribArray(0);
         // normal attribute
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 12 * sizeof(float), (void*)(3 * sizeof(float)));
         glEnableVertexAttribArray(1);
         // texture coord attribute
-        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 12 * sizeof(float), (void*)(6 * sizeof(float)));
         glEnableVertexAttribArray(2);
+        // tangent vector
+        glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, 12 * sizeof(float), (void*)(8 * sizeof(float)));
+        glEnableVertexAttribArray(3);
     }
     
     return true;

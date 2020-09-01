@@ -67,6 +67,10 @@
 		59668C6224CF9E31006744B7 /* ConsoleSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59668C6024CF9E31006744B7 /* ConsoleSystem.cpp */; };
 		596C9E9924D44438007FEAF4 /* ConsoleCommands.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 596C9E9724D44438007FEAF4 /* ConsoleCommands.cpp */; };
 		5970727524CE455C0016F78F /* InputSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5970727324CE455C0016F78F /* InputSystem.cpp */; };
+		59745F0824FE92A000690D9B /* column.mtl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 59745F0424FE927200690D9B /* column.mtl */; };
+		59745F0924FE92A000690D9B /* column.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 59745F0524FE927200690D9B /* column.obj */; };
+		59745F0A24FE92B200690D9B /* sponza_column_b_ddn.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 59745F0624FE928600690D9B /* sponza_column_b_ddn.tga */; };
+		59745F0B24FE92B200690D9B /* sponza_column_b.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 59745F0724FE928600690D9B /* sponza_column_b.tga */; };
 		597C6AAC24E0583E002CB5D8 /* Trace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 597C6AAA24E0583E002CB5D8 /* Trace.cpp */; };
 		59AA59D324D4D8D10082B201 /* componentViews.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59AA59D224D4D8D10082B201 /* componentViews.cpp */; };
 		59B2DDA924D77EE00050E31A /* IntersectionUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59B2DDA724D77EE00050E31A /* IntersectionUtils.cpp */; };
@@ -99,6 +103,8 @@
 			dstPath = Textures;
 			dstSubfolderSpec = 7;
 			files = (
+				59745F0A24FE92B200690D9B /* sponza_column_b_ddn.tga in CopyFiles */,
+				59745F0B24FE92B200690D9B /* sponza_column_b.tga in CopyFiles */,
 				590E551524FD57BC0039A383 /* background_ddn.tga in CopyFiles */,
 				590E551624FD57BC0039A383 /* background.tga in CopyFiles */,
 				590E551724FD57BC0039A383 /* lion_ddn.tga in CopyFiles */,
@@ -132,6 +138,8 @@
 			dstPath = Models;
 			dstSubfolderSpec = 7;
 			files = (
+				59745F0824FE92A000690D9B /* column.mtl in CopyFiles */,
+				59745F0924FE92A000690D9B /* column.obj in CopyFiles */,
 				590E550E24FD3E430039A383 /* sponzaLion.obj in CopyFiles */,
 				590E551024FD3E690039A383 /* sponzaLion.mtl in CopyFiles */,
 				590E550624FD36E50039A383 /* sponza.obj in CopyFiles */,
@@ -658,6 +666,10 @@
 		5970727224CE452C0016F78F /* InputSingleton.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = InputSingleton.hpp; sourceTree = "<group>"; };
 		5970727324CE455C0016F78F /* InputSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = InputSystem.cpp; sourceTree = "<group>"; };
 		5970727424CE455C0016F78F /* InputSystem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = InputSystem.hpp; sourceTree = "<group>"; };
+		59745F0424FE927200690D9B /* column.mtl */ = {isa = PBXFileReference; lastKnownFileType = text; path = column.mtl; sourceTree = "<group>"; };
+		59745F0524FE927200690D9B /* column.obj */ = {isa = PBXFileReference; lastKnownFileType = text; path = column.obj; sourceTree = "<group>"; };
+		59745F0624FE928600690D9B /* sponza_column_b_ddn.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = sponza_column_b_ddn.tga; sourceTree = "<group>"; };
+		59745F0724FE928600690D9B /* sponza_column_b.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = sponza_column_b.tga; sourceTree = "<group>"; };
 		597C6AAA24E0583E002CB5D8 /* Trace.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Trace.cpp; sourceTree = "<group>"; };
 		597C6AAB24E0583E002CB5D8 /* Trace.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Trace.hpp; sourceTree = "<group>"; };
 		5994CE5B24CDDA2800CED70A /* clearStaticFamilyVectorsInclude.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = clearStaticFamilyVectorsInclude.cpp; sourceTree = "<group>"; };
@@ -764,6 +776,8 @@
 		590E54EF24FC41E30039A383 /* Textures */ = {
 			isa = PBXGroup;
 			children = (
+				59745F0624FE928600690D9B /* sponza_column_b_ddn.tga */,
+				59745F0724FE928600690D9B /* sponza_column_b.tga */,
 				590E551124FD579D0039A383 /* background_ddn.tga */,
 				590E551224FD579D0039A383 /* background.tga */,
 				590E551424FD579E0039A383 /* lion_ddn.tga */,
@@ -777,6 +791,8 @@
 		590E54F224FC41E30039A383 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				59745F0424FE927200690D9B /* column.mtl */,
+				59745F0524FE927200690D9B /* column.obj */,
 				590E550D24FD3E370039A383 /* sponzaLion.obj */,
 				590E550C24FD3E2D0039A383 /* sponzaLion.mtl */,
 				590E550424FD36D50039A383 /* sponza.mtl */,

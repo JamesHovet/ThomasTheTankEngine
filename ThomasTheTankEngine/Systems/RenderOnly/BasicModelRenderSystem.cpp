@@ -26,6 +26,7 @@ void BasicModelRenderSystem::init(){
     m_admin.m_ModelCatalogSingleton.registerModel("multi-material", "Models/multi-material-test.obj");
 //    m_admin.m_ModelCatalogSingleton.registerModel("sponza", "Models/sponza.obj");
     m_admin.m_ModelCatalogSingleton.registerModel("lion", "Models/sponzaLion.obj");
+    m_admin.m_ModelCatalogSingleton.registerModel("column", "Models/column.obj");
     
     basicModelShader = &m_admin.m_ShaderCatalogSingleton.getShader("basic_model");
     

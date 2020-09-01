@@ -4,6 +4,7 @@ layout(location = 0) out vec4 FragColor;
 in vec3 Normal;
 in vec3 FragPos;
 in vec2 TexCoord;
+in vec4 Tangent;
 
 uniform bool hasDiffuseTexture;
 uniform sampler2D diffuseTexture;
@@ -52,5 +53,11 @@ void main(){
     } else {
         FragColor = lighting;
     }
+    
+    vec3 Bitangent = Tangent.w * cross(norm, Tangent.xyz);
+    
+//    FragColor = vec4(vec3(1.0f, 1.0f, 1.0f) * norm, 1.0f);
+//    FragColor = vec4(vec3(1.0f, 1.0f, 1.0f) * Tangent.rgb, 1.0f);
+//    FragColor = vec4(vec3(1.0f, 1.0f, 1.0f) * Bitangent.rgb, 1.0f);
 
 }

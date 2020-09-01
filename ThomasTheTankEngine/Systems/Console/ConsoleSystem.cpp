@@ -28,7 +28,7 @@ void ConsoleSystem::tick(uint64_t dt){
                     printf("dupe %i to %i\n", entityToDupe, edit.selectedEntity);
                 }
             }
-            if (strncmp(input.activeLine, "reloadshaders", 13) == 0){
+            if ((strncmp(input.activeLine, "r", 1) == 0 && input.activeLine[1] == 0) || strncmp(input.activeLine, "reloadshaders", 13) == 0){
                 printf("reload shaders\n");
                 ConsoleCommands::cmd_reloadshaders(m_admin);
             }

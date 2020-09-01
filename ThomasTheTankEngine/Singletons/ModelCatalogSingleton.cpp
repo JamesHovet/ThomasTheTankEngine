@@ -110,7 +110,6 @@ bool ModelCatalogSingleton::registerModel(std::string name, const char * objPath
                 if(boost::filesystem::exists(normalMapPath)){
                     Texture normalMap;
                     curMaterialOut.normalTextureName = FileUtils::appendSuffixToPathLeaf(curMaterialOut.diffuseTextureName, "_ddn");
-                    std::cout << normalMapPath.c_str() << std::endl;
                     data = stbi_load(normalMapPath.c_str(), &normalMap.m_width, &normalMap.m_height, &normalMap.m_numChannels, 0);
                     if(!data){
                         std::cout << "could not load image data from: " << normalMapPath << std::endl;

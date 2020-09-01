@@ -47,6 +47,7 @@ void BasicModelRenderSystem::render(){
     
     
     basicModelShader->set3f("viewPos", renderSingleton.currentCameraTransformC->m_position);
+    basicModelShader->set1f("time", ((float)SDL_GetTicks() / 1000.0f));
     GLuint modelLoc        = glGetUniformLocation(basicModelShader->ID, "model");
     GLuint viewLoc         = glGetUniformLocation(basicModelShader->ID, "view");
     GLuint projectionLoc   = glGetUniformLocation(basicModelShader->ID, "projection");

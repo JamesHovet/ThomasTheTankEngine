@@ -1773,8 +1773,10 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					/usr/local/include/GL,
 					/usr/local/Cellar/boost/1.71.0/include,
+					/Library/Frameworks/SDL2.framework/Headers/,
+					/usr/local/include/GL,
+					/usr/local/include/,
 				);
 				INFOPLIST_FILE = ThomasTheTankEngineTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1810,8 +1812,10 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					/usr/local/include/GL,
 					/usr/local/Cellar/boost/1.71.0/include,
+					/Library/Frameworks/SDL2.framework/Headers/,
+					/usr/local/include/GL,
+					/usr/local/include/,
 				);
 				INFOPLIST_FILE = ThomasTheTankEngineTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

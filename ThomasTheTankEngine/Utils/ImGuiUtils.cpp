@@ -10,6 +10,7 @@
 #include "ImGuiUtils.hpp"
 #include "glm/gtc/quaternion.hpp"
 #include "glm/gtx/quaternion.hpp"
+#include "typedefs.h"
 
 using namespace ImGui;
 
@@ -46,6 +47,10 @@ void ImGui::InputRGB(const char *label, glm::vec3 *v3){
 void ImGui::InputAABB(const char *label, AABB *box){
     ImGui::InputVec3("min", &box->min);
     ImGui::InputVec3("max", &box->max);
+}
+
+void ImGui::Image(Texture tex, float width, float height){
+    ImGui::Image((void *)(intptr_t)tex.m_textureID, ImVec2(width, height), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
 }
 
 //

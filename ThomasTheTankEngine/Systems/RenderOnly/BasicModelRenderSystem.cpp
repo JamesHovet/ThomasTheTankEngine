@@ -7,6 +7,7 @@
 //
 
 #include <GL/glew.h>
+#include "stb_image.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -16,7 +17,7 @@
 #include "BasicModelFamily.hpp"
 #include "EntityAdmin.hpp"
 
-#include "stb_image.h"
+
 
 Shader* basicModelShader;
 

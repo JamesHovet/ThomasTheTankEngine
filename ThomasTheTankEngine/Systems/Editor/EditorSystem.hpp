@@ -45,6 +45,8 @@ private:
     static GLuint circle_VBO;
     static GLuint circle_VAO;
     
+    // Debug ImGui Views:
+    void renderTextureCatalogViewer();
     
 };
 

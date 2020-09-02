@@ -499,6 +499,7 @@ void EditorSystem::render(){
     renderGizmos();
     renderSceneGraphEditor();
     renderInspector();
+    renderTextureCatalogViewer();
 }
 // TODO: don't have these scale depending on how far away you are from them. I'm not exactly sure the math on that, I would either have to construct a VP matrix special to this procedure or just scale inversely proportional to the distance from the camera... I'm guessing it is the first but that's maybe not a step for the first draft.
 void EditorSystem::renderMoveAxesAtModelMat(glm::mat4 modelBase){
@@ -791,3 +792,25 @@ void EditorSystem::renderInspector(){
     ImGui::End();
 }
 
+TextureCatalogEntry currentTextureEntry;
+void EditorSystem::renderTextureCatalogViewer(){
+    ModelCatalogSingleton& modelCatalog = m_admin.m_ModelCatalogSingleton;
+    auto& allTextures = modelCatalog.m_textureCatalogEntries;
+    
+    ImGui::Begin("Basic Renderer Debug");
+    
+    if(ImGui::BeginCombo("GLTextureViewer", currentTextureEntry.name.c_str())){
+        
+        for(auto iter = allTextures.begin(); iter != allTextures.end(); ++iter){
+            if(ImGui::Selectable(iter->first.c_str())){
+                currentTextureEntry = iter->second;
+            }
+        }
+        ImGui::EndCombo();
+    }
+    
+    ImGui::Image(currentTextureEntry.m_texture, 200, 200);
+    
+    ImGui::End();
+
+}

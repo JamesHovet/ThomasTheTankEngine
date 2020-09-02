@@ -14,12 +14,13 @@
 #include <glm/glm.hpp>
 
 namespace ImGui {
-    void InputVec3(const char * label, glm::vec3 *v3);
-    void InputQuat(const char * label, glm::quat *q);
-    void InputQuatDirect(const char * lablel, glm::quat *q);
-    void InputRGBA(const char * label, glm::vec4 *v4);
-    void InputRGB(const char * label, glm::vec3 *v3);
-    void InputAABB(const char * label, AABB *box);
+void InputVec3(const char * label, glm::vec3 *v3);
+void InputQuat(const char * label, glm::quat *q);
+void InputQuatDirect(const char * lablel, glm::quat *q);
+void InputRGBA(const char * label, glm::vec4 *v4);
+void InputRGB(const char * label, glm::vec3 *v3);
+void InputAABB(const char * label, AABB *box);
+void Image(Texture tex, float width, float height);
 }
 
 #endif /* ImGuiUtils_hpp */

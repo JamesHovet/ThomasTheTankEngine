@@ -41,6 +41,7 @@ bool ModelCatalogSingleton::registerModel(std::string name, const char * objPath
     
     ModelCatalogEntry& modelEntry = m_modelCatalogEntries.emplace(name, ModelCatalogEntry()).first->second; // boy is this stupid syntax
     
+    modelEntry.name = name;
     modelEntry.objFileAbsolute = boost::filesystem::path(FileUtils::getResourceAbsoluteFilePath(objPathRelativeCStr));
     modelEntry.lastTimeModified = boost::filesystem::last_write_time(modelEntry.objFileAbsolute);
     
@@ -102,6 +103,7 @@ bool ModelCatalogSingleton::registerModel(std::string name, const char * objPath
                 data = nullptr;
                 
                 TextureCatalogEntry& diffuseTextureEntry = m_textureCatalogEntries.emplace(curMaterialOut.diffuseTextureName, TextureCatalogEntry()).first->second;
+                diffuseTextureEntry.name = curMaterialOut.diffuseTextureName;
                 diffuseTextureEntry.m_texture = curTextureOut;
                 diffuseTextureEntry.lastTimeModified = boost::filesystem::last_write_time(baseTexturePath);
                 diffuseTextureEntry.textureFileAbsolute = baseTexturePath;
@@ -124,6 +126,7 @@ bool ModelCatalogSingleton::registerModel(std::string name, const char * objPath
                     stbi_image_free(data);
                     
                     TextureCatalogEntry& normalMapEntry = m_textureCatalogEntries.emplace(curMaterialOut.normalTextureName, TextureCatalogEntry()).first->second;
+                    normalMapEntry.name = curMaterialOut.normalTextureName;
                     normalMapEntry.m_texture = normalMap;
                     normalMapEntry.lastTimeModified = boost::filesystem::last_write_time(normalMapPath);
                     normalMapEntry.textureFileAbsolute = normalMapPath;

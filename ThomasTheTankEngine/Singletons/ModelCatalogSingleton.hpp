@@ -19,6 +19,7 @@ struct TextureCatalogEntry {
     Texture m_texture;
     
     boost::filesystem::path textureFileAbsolute;
+    std::string name;
     
     std::time_t lastTimeModified;
 };
@@ -27,12 +28,14 @@ struct ModelCatalogEntry {
     Model m_model;
     
     boost::filesystem::path objFileAbsolute;
+    std::string name;
     
     std::time_t lastTimeModified;
 };
 
 class ModelCatalogSingleton {
     friend class BasicModelComponent;
+    friend class EditorSystem;
 public:
     ModelCatalogSingleton();
     ~ModelCatalogSingleton();

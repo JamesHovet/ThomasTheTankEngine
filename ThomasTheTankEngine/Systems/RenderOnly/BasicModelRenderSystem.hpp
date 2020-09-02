@@ -14,6 +14,7 @@
 class BasicModelRenderSystem : public System {
 public:
     void init();
+    void renderDebugPanel();
     void tick(uint64_t dt){};
     void render();
     

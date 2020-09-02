@@ -142,29 +142,29 @@ void GreyBoxRenderSystem::render(){
     
     int numBoxes = boxes.size();
 //    numBoxes = 3;
-    
-    //greyBoxRenderData instanceData[numBoxes];
-    std::vector<greyBoxRenderData> instanceData;
-    instanceData.resize(numBoxes);
-    
-    for(int i = 0; i < numBoxes; i++){
-        
-        instanceData[i].position = boxes[i].m_TransformComponent.m_position;
-        instanceData[i].scale    = boxes[i].m_TransformComponent.m_scale;
-        instanceData[i].color    = boxes[i].m_GreyBoxComponent.m_color;
-        auto orient = boxes[i].m_TransformComponent.m_orientation;
-        instanceData[i].rotation = glm::vec4(orient.x, orient.y, orient.z, orient.w);
-        
+    if (numBoxes != 0) {
+        //greyBoxRenderData instanceData[numBoxes];
+        std::vector<greyBoxRenderData> instanceData;
+        instanceData.resize(numBoxes);
+
+        for (int i = 0; i < numBoxes; i++) {
+
+            instanceData[i].position = boxes[i].m_TransformComponent.m_position;
+            instanceData[i].scale = boxes[i].m_TransformComponent.m_scale;
+            instanceData[i].color = boxes[i].m_GreyBoxComponent.m_color;
+            auto orient = boxes[i].m_TransformComponent.m_orientation;
+            instanceData[i].rotation = glm::vec4(orient.x, orient.y, orient.z, orient.w);
+
+        }
+
+        glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(greyBoxRenderData) * numBoxes, &instanceData[0], GL_STATIC_DRAW);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+        glBindVertexArray(cube_VAO);
+        glDrawArraysInstanced(GL_TRIANGLES, 0, 36, numBoxes);
+        glBindVertexArray(0);
     }
-    
-    glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(greyBoxRenderData) * numBoxes, &instanceData[0], GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    
-    glBindVertexArray(cube_VAO);
-    glDrawArraysInstanced(GL_TRIANGLES, 0, 36, numBoxes);
-    glBindVertexArray(0);
-    
     greyBoxShader->end();
     
 }

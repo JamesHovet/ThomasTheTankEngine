@@ -46,7 +46,7 @@ bool ModelCatalogSingleton::registerModel(std::string name, const char * objPath
     
     
     objl::Loader Loader;
-    bool loadout = Loader.LoadFile(modelEntry.objFileAbsolute.c_str());
+    bool loadout = Loader.LoadFile(modelEntry.objFileAbsolute.string());
     
     if(!loadout){
         std::cerr << "Could not load file: " << modelEntry.objFileAbsolute.c_str() << std::endl;
@@ -86,7 +86,7 @@ bool ModelCatalogSingleton::registerModel(std::string name, const char * objPath
                 // diffuse
                 
                 Texture curTextureOut;
-                data = stbi_load(baseTexturePath.c_str(), &curTextureOut.m_width, &curTextureOut.m_height, &curTextureOut.m_numChannels, 0);
+                data = stbi_load(baseTexturePath.generic_string().c_str(), &curTextureOut.m_width, &curTextureOut.m_height, &curTextureOut.m_numChannels, 0);
                 if(!data){
                     std::cout << "could not load image data from: " << baseTexturePath << std::endl;
                     stbi_image_free(data);
@@ -110,7 +110,7 @@ bool ModelCatalogSingleton::registerModel(std::string name, const char * objPath
                 if(boost::filesystem::exists(normalMapPath)){
                     Texture normalMap;
                     curMaterialOut.normalTextureName = FileUtils::appendSuffixToPathLeaf(curMaterialOut.diffuseTextureName, "_ddn");
-                    data = stbi_load(normalMapPath.c_str(), &normalMap.m_width, &normalMap.m_height, &normalMap.m_numChannels, 0);
+                    data = stbi_load(normalMapPath.generic_string().c_str(), &normalMap.m_width, &normalMap.m_height, &normalMap.m_numChannels, 0);
                     if(!data){
                         std::cout << "could not load image data from: " << normalMapPath << std::endl;
                         stbi_image_free(data);

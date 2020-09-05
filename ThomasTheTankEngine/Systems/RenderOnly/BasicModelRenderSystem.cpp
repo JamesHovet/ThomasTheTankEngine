@@ -54,6 +54,9 @@ void BasicModelRenderSystem::render(){
 
     for (BasicModelFamilyStatic f : families){
         std::string model_name = f.m_BasicModelComponent.m_model_name;
+        if(model_name == ""){
+            continue;
+        }
         if(!modelCatalog.modelExists(model_name)){
             std::cerr << "Could not find model for " << model_name << std::endl;
             std::cout << "Could not find model for " << model_name << std::endl;

@@ -105,6 +105,21 @@ public:
         out = toCopy;
         return out;
     }
+    
+    template <typename T>
+    void deferAdd(entityID eID){
+        this->defer([this, eID](){
+            this->addComponent<T>(eID);
+        });
+    }
+    
+    template <typename T>
+    void deferAdd(entityID eID, T toCopy){
+        this->defer([this, eID, toCopy](){
+            T& out = this->addComponent<T>(eID);
+            out = toCopy;
+        });
+    }
 
     template <typename T>
     T* tryGetComponent(entityID eID){

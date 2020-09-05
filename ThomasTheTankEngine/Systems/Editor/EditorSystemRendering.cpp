@@ -499,7 +499,7 @@ void EditorSystem::render(){
     renderGizmos();
     renderSceneGraphEditor();
     renderInspector();
-    renderTextureCatalogViewer();
+//    renderTextureCatalogViewer();
 }
 // TODO: don't have these scale depending on how far away you are from them. I'm not exactly sure the math on that, I would either have to construct a VP matrix special to this procedure or just scale inversely proportional to the distance from the camera... I'm guessing it is the first but that's maybe not a step for the first draft.
 void EditorSystem::renderMoveAxesAtModelMat(glm::mat4 modelBase){
@@ -727,6 +727,17 @@ void EditorSystem::renderSceneGraphEditor(){
             m_admin.addComponent<TransformComponent>(eID);
         });
     }
+    ImGui::SameLine();
+    if(ImGui::Button("GreyBox")){
+        m_admin.defer([this](){
+            entityID eID = m_admin.createEntity();
+            m_admin.m_EditorSingleton.selectedEntity = eID;
+            m_admin.m_EditorSingleton.hasSelectedEntity = true;
+            m_admin.addComponent<TransformComponent>(eID);
+            m_admin.addComponent<GreyBoxComponent>(eID);
+            m_admin.addComponent<AABBColliderComponent>(eID);
+        });
+    }
     
     
     char nameBuf[64];
@@ -772,11 +783,21 @@ void EditorSystem::renderInspector(){
     entityID eID = edit.selectedEntity;
     
     ImGui::Begin("Inspector");
+    
     if(ImGui::Button("Duplicate") && edit.hasSelectedEntity){
         m_admin.defer([this](){
             m_admin.m_EditorSingleton.selectedEntity = m_admin.duplicateEntity(m_admin.m_EditorSingleton.selectedEntity);
         });
     }
+    ImGui::SameLine();
+    if(ImGui::Button("Delete") && edit.hasSelectedEntity){
+        m_admin.defer([this](){
+            m_admin.destroyEntity(m_admin.m_EditorSingleton.selectedEntity);
+            m_admin.m_EditorSingleton.hasSelectedEntity = false;
+        });
+    }
+    
+    
     ImGui::Checkbox("Local Space", &edit.usingLocalWorldSpace);
     ImGui::SameLine();
     if(ImGui::Button("Move")){
@@ -800,7 +821,8 @@ void EditorSystem::renderInspector(){
         
         if(nameC != nullptr){
             ImGui::Text("%s: %d", nameC->m_name.c_str(), eID);
-            if(ImGui::InputTextWithHint("Name", nameC->m_name.c_str(), nameBuf, sizeof(nameBuf))){
+            snprintf(nameBuf, sizeof(nameBuf), "%s", nameC->m_name.c_str());
+            if(ImGui::InputText("Name", nameBuf, sizeof(nameBuf))){
                 nameC->m_name = nameBuf;
             }
         } else {
@@ -817,6 +839,30 @@ void EditorSystem::renderInspector(){
             ImGui::SetNextItemOpen(true, ImGuiCond_Once); // Ahhh I love imGui -- it just works! And "extending" it is so easy.
             (*it)->imDisplay(&m_admin);
         }
+        
+        if(ImGui::Button("Add Component")){
+            ImGui::OpenPopup("add_component");
+        }
+        if(ImGui::BeginPopup("add_component")){
+            ImGui::Text("Component Type:");
+            ImGui::Separator();
+            
+            if(m_admin.tryGetComponent<TransformComponent>(eID) == nullptr){
+                if(ImGui::Selectable("TransformComponent")){
+                    m_admin.deferAdd<TransformComponent>(eID);
+                }
+            }
+            if(m_admin.tryGetComponent<CameraComponent>(eID) == nullptr){
+                if (ImGui::Selectable("CameraComponent")){
+                    m_admin.deferAdd<CameraComponent>(eID);
+                }
+            }
+            
+            #include "editorAddComponentPopup.cpp"
+            
+            ImGui::EndPopup();
+        }
+        
         ImGui::PopID();
     }
     ImGui::End();

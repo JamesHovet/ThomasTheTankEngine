@@ -273,6 +273,7 @@
 		595B230124E1F376002F74FF /* RenderSetupSystem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RenderSetupSystem.hpp; sourceTree = "<group>"; };
 		595B230324E201A1002F74FF /* unlitOpaque.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = unlitOpaque.vert; sourceTree = "<group>"; };
 		595B230424E201B7002F74FF /* unlitOpaque.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = unlitOpaque.frag; sourceTree = "<group>"; };
+		595B8EFB2503F92500B5A39D /* editorAddComponentPopup.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = editorAddComponentPopup.cpp; sourceTree = "<group>"; };
 		596619B3242926BF0088525D /* vec4.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = vec4.hpp; sourceTree = "<group>"; };
 		596619B4242926BF0088525D /* integer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = integer.hpp; sourceTree = "<group>"; };
 		596619B5242926BF0088525D /* vector_relational.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = vector_relational.hpp; sourceTree = "<group>"; };
@@ -748,6 +749,7 @@
 		590A09D124CB33A000D1153A /* gen_cpp */ = {
 			isa = PBXGroup;
 			children = (
+				595B8EFB2503F92500B5A39D /* editorAddComponentPopup.cpp */,
 				59CA7DC624D6FBBE00982443 /* deserializationCompatability.cpp */,
 				590A09D224CB33A000D1153A /* filterEntitiesIntoMutableFamiliesInclude.cpp */,
 				59E57C4324CDC1E20076E507 /* filterEntitiesIntoStaticFamiliesInclude.cpp */,

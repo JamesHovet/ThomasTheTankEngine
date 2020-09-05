@@ -65,6 +65,13 @@ def createAndWriteForComponentDict(c, componentID):
     deserializationCompatabilityCPP.write("\t\t\telse if (componentIt.key() == \"{}\")".format(fullname) + "{\n")
     deserializationCompatabilityCPP.write("\t\t\t\taddComponent<{}>(eID, {}::deserialize(componentIt.value()));".format(fullname, fullname) + "\n\t\t\t}\n")
 
+    # editor add component popup
+    editorAddComponentPopupCPP.write("if(m_admin.tryGetComponent<{}>(eID) == nullptr)".format(fullname) + "{\n")
+    editorAddComponentPopupCPP.write('\tif(ImGui::Selectable("{}"))'.format(fullname) + '{\n')
+    editorAddComponentPopupCPP.write('\t\tm_admin.deferAdd<{}>(eID);\n'.format(fullname))
+    editorAddComponentPopupCPP.write('\t}\n')
+    editorAddComponentPopupCPP.write('}\n')
+
     #header file
     f = open(OUTPUT_COMPONENTS + fullname + ".hpp", mode='w')
     f.write("// " + fullname + ".hpp\n")
@@ -334,6 +341,7 @@ if __name__ == "__main__":
     filterEntitiesIntoStaticFamiliesCPP = open(OUTPUT_CPP + 'filterEntitiesIntoStaticFamiliesInclude.cpp', mode='w')
     clearFamiliesCPP = open(OUTPUT_CPP + 'clearFamiliesInclude.cpp', mode='w')
     clearStaticFamilyVectorsCPP = open(OUTPUT_CPP + 'clearStaticFamilyVectorsInclude.cpp', mode='w')
+    editorAddComponentPopupCPP = open(OUTPUT_CPP + 'editorAddComponentPopup.cpp', mode='w')
 
     componentID = 3 ## transform, DebugName, Camera components built into the engine
     familyID = 1 # CameraFamily is built in

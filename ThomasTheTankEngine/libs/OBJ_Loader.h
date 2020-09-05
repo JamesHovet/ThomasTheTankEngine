@@ -104,6 +104,9 @@ namespace objl
             Vertices = _Vertices;
             Indices = _Indices;
         }
+        // BBox
+        glm::vec3 bboxMin;
+        glm::vec3 bboxMax;
         // Mesh Name
         std::string MeshName;
         // Vertex List
@@ -304,7 +307,9 @@ namespace objl
         }
     }
 
-    inline void generateTangents(std::vector<unsigned int> &Indices, std::vector<Vertex> &Vertices) {
+    inline void generateTangentsAndBBox(std::vector<unsigned int> &Indices, std::vector<Vertex> &Vertices, glm::vec3& bboxMin, glm::vec3& bboxMax) {
+        glm::vec3 min = Vertices[0].Position;
+        glm::vec3 max = Vertices[0].Position;
         size_t vertexCount = Vertices.size();
         glm::vec3 *tangent = new glm::vec3[vertexCount * 2];
         glm::vec3 *bitangent = tangent + vertexCount;
@@ -321,6 +326,15 @@ namespace objl
             const glm::vec3& p0 = Vertices[i0].Position;
             const glm::vec3& p1 = Vertices[i1].Position;
             const glm::vec3& p2 = Vertices[i2].Position;
+            
+            //bbox
+            min.x = fmin(min.x, p0.x); min.y = fmin(min.y, p0.y); min.z = fmin(min.z, p0.z);
+            min.x = fmin(min.x, p1.x); min.y = fmin(min.y, p1.y); min.z = fmin(min.z, p1.z);
+            min.x = fmin(min.x, p2.x); min.y = fmin(min.y, p2.y); min.z = fmin(min.z, p2.z);
+            max.x = fmax(max.x, p0.x); max.y = fmax(max.y, p0.y); max.z = fmax(max.z, p0.z);
+            max.x = fmax(max.x, p1.x); max.y = fmax(max.y, p1.y); max.z = fmax(max.z, p1.z);
+            max.x = fmax(max.x, p2.x); max.y = fmax(max.y, p2.y); max.z = fmax(max.z, p2.z);
+            
             const glm::vec2& w0 = Vertices[i0].TextureCoordinate;
             const glm::vec2& w1 = Vertices[i1].TextureCoordinate;
             const glm::vec2& w2 = Vertices[i2].TextureCoordinate;
@@ -352,6 +366,8 @@ namespace objl
             Vertices[i].tangent = glm::vec4(tangentXYZ.x, tangentXYZ.y, tangentXYZ.z, w);
         }
         
+        bboxMin = min;
+        bboxMax = max;
         delete[] tangent;
     }
 
@@ -455,12 +471,16 @@ namespace objl
                         if (!Indices.empty() && !Vertices.empty())
                         {
                             
+                            glm::vec3 bboxMin;
+                            glm::vec3 bboxMax;
                             // generate tangent vectors:
-                            generateTangents(Indices, Vertices);
+                            generateTangentsAndBBox(Indices, Vertices, bboxMin, bboxMax);
                             
                             // Create Mesh
                             tempMesh = Mesh(Vertices, Indices);
                             tempMesh.MeshName = meshname;
+                            tempMesh.bboxMin = bboxMin;
+                            tempMesh.bboxMax = bboxMax;
 
                             // Insert Mesh
                             LoadedMeshes.push_back(tempMesh);
@@ -629,12 +649,16 @@ namespace objl
 
             if (!Indices.empty() && !Vertices.empty())
             {
+                glm::vec3 bboxMin;
+                glm::vec3 bboxMax;
                 // generate tangent vectors:
-                generateTangents(Indices, Vertices);
+                generateTangentsAndBBox(Indices, Vertices, bboxMin, bboxMax);
                 
                 // Create Mesh
                 tempMesh = Mesh(Vertices, Indices);
                 tempMesh.MeshName = meshname;
+                tempMesh.bboxMin = bboxMin;
+                tempMesh.bboxMax = bboxMax;
 
                 // Insert Mesh
                 LoadedMeshes.push_back(tempMesh);

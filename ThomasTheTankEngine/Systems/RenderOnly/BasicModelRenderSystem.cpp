@@ -93,7 +93,7 @@ void BasicModelRenderSystem::render(){
             glBindVertexArray(thisMesh.m_VAO);
             glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(f.m_TransformComponent.getMat4()));
             glUniformMatrix3fv(normalMatrixLoc, 1, GL_FALSE, glm::value_ptr(f.m_TransformComponent.getNormalMatrix()));
-            glDrawElements(GL_TRIANGLES, thisMesh.numIndices, GL_UNSIGNED_INT, 0);
+            glDrawElements(GL_TRIANGLES, thisMesh.m_numIndices, GL_UNSIGNED_INT, 0);
         }
     }
     

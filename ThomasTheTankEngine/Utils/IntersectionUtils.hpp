@@ -24,6 +24,8 @@ bool RayPlane(ray r, Plane p, glm::vec3* hit);
 bool RayPlane(ray r, Plane p, float * d);
 bool RayPlane(ray r, Plane p);
 
+AABB AABBUnion(AABB a, AABB b);
+
 bool RayAABBAbsolute(ray r, AABB box, float * d, glm::vec3* hit);
 bool RayAABBAbsolute(ray r, AABB box, glm::vec3* hit);
 bool RayAABBAbsolute(ray r, AABB box, float * d);

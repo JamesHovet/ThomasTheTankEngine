@@ -741,7 +741,7 @@ void EditorSystem::renderGizmos(){
             
             AABBColliderComponent* bbox = m_admin.tryGetComponent<AABBColliderComponent>(edit.selectedEntity);
             if(bbox != nullptr){
-                renderBBox(baseMatrix, bbox->m_AABB);
+                renderBBox(t->getMat4(), bbox->m_AABB);
             }
         }
         

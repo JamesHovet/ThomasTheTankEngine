@@ -9,6 +9,7 @@
 #include "ModelCatalogSingleton.hpp"
 #include "OBJ_Loader.h"
 #include "FileUtils.hpp"
+#include "IntersectionUtils.hpp"
 #include <algorithm> // for min()
 
 #include <GL/glew.h>
@@ -153,7 +154,9 @@ bool ModelCatalogSingleton::registerModel(std::string name, const char * objPath
         glGenVertexArrays(1, &curMeshOut.m_VAO);
         glGenBuffers(1, &curMeshOut.m_VBO);
         glGenBuffers(1, &curMeshOut.m_EBO);
-        curMeshOut.numIndices = curMeshIn.Vertices.size();
+        curMeshOut.m_numIndices = curMeshIn.Vertices.size();
+        curMeshOut.m_bbox.min = curMeshIn.bboxMin;
+        curMeshOut.m_bbox.max = curMeshIn.bboxMax;
         
         glBindVertexArray(curMeshOut.m_VAO);
         
@@ -175,6 +178,16 @@ bool ModelCatalogSingleton::registerModel(std::string name, const char * objPath
         // tangent vector
         glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, 12 * sizeof(float), (void*)(8 * sizeof(float)));
         glEnableVertexAttribArray(3);
+    }
+    
+    modelEntry.m_model.bbox = modelEntry.m_model.m_meshes[0].m_bbox;
+    for(int i = 1; i < modelEntry.m_model.m_numMeshes; i++){
+        glm::vec3 min = modelEntry.m_model.bbox.min;
+        glm::vec3 max = modelEntry.m_model.bbox.max;
+        printf("min: %f, %f, %f\n", min.x, min.y, min.z);
+        printf("max: %f, %f, %f\n", max.x, max.y, max.z);
+        modelEntry.m_model.bbox = Intersection::AABBUnion(modelEntry.m_model.bbox, modelEntry.m_model.m_meshes[i].m_bbox);
+        
     }
     
     return true;

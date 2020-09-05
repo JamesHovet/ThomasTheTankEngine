@@ -272,6 +272,10 @@ void EntityAdmin::loadTestScene(){
         trans.m_position = glm::vec3(0.0f, 0.0f, -2.0f);
         BasicModelComponent& model = this->addComponent<BasicModelComponent>(eID);
         model.m_model_name = "lion";
+        if(m_ModelCatalogSingleton.modelExists(model.m_model_name)){
+            AABBColliderComponent& bbox = this->addComponent<AABBColliderComponent>(eID);
+            bbox.m_AABB = this->m_ModelCatalogSingleton.getModel(model.m_model_name).bbox;
+        }
 
     }
 //    {
@@ -291,6 +295,10 @@ void EntityAdmin::loadTestScene(){
         trans.m_position = glm::vec3(-5.0f, 0.0f, 0.0f);
         BasicModelComponent& model = this->addComponent<BasicModelComponent>(eID);
         model.m_model_name = "suzanne";
+        if(m_ModelCatalogSingleton.modelExists(model.m_model_name)){
+            AABBColliderComponent& bbox = this->addComponent<AABBColliderComponent>(eID);
+            bbox.m_AABB = this->m_ModelCatalogSingleton.getModel(model.m_model_name).bbox;
+        }
     }
 //    {
 //        entityID eID = this->createEntity();
@@ -314,6 +322,10 @@ void EntityAdmin::loadTestScene(){
         trans.m_scale = glm::vec3(2.0f);
         BasicModelComponent& model = this->addComponent<BasicModelComponent>(eID);
         model.m_model_name = "column";
+        if(m_ModelCatalogSingleton.modelExists(model.m_model_name)){
+            AABBColliderComponent& bbox = this->addComponent<AABBColliderComponent>(eID);
+            bbox.m_AABB = this->m_ModelCatalogSingleton.getModel(model.m_model_name).bbox;
+        }
     }
        
 }

@@ -37,6 +37,17 @@ bool Intersection::RayPlaneAbsolute(ray r, Plane p){
     return Intersection::RayPlaneAbsolute(r, p, &dummyf, &dummyv3);
 }
 
+AABB Intersection::AABBUnion(AABB a, AABB b){
+    AABB out;
+    out.min.x = fmin(a.min.x, b.min.x);
+    out.min.y = fmin(a.min.y, b.min.y);
+    out.min.z = fmin(a.min.z, b.min.z);
+    out.max.x = fmax(a.max.x, b.max.x);
+    out.max.y = fmax(a.max.y, b.max.y);
+    out.max.z = fmax(a.max.z, b.max.z);
+    return out;
+}
+
 // Adapted from Tavian Barnes at https://tavianator.com/2011/ray_box.html
 bool Intersection::RayAABBAbsolute(ray r, AABB box, float * d, glm::vec3* hit){
 

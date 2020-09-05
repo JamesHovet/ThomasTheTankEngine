@@ -67,11 +67,13 @@ typedef struct Mesh {
     GLuint m_VBO;
     GLuint m_EBO;
     GLuint m_VAO;
-    unsigned int numIndices;
+    unsigned int m_numIndices;
+    AABB m_bbox;
 } Mesh;
 typedef struct Model {
     Mesh m_meshes[MAX_MESHES];
     Material m_materials[MAX_MESHES];
+    AABB bbox;
     unsigned char m_numMeshes;
 } Model;
 

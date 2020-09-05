@@ -25,6 +25,8 @@ GLuint EditorSystem::cube_VBO = 0;
 GLuint EditorSystem::cube_VAO = 0;
 GLuint EditorSystem::circle_VBO = 0;
 GLuint EditorSystem::circle_VAO = 0;
+GLuint EditorSystem::bbox_VBO = 0;
+GLuint EditorSystem::bbox_VAO = 0;
 Shader* gizmoShader;
 
 float circleVertsNoIndices[] = {
@@ -492,6 +494,15 @@ void EditorSystem::initRendering(){
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (3) * sizeof(float), (void*) 0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    glGenVertexArrays(1, &bbox_VAO);
+    glBindVertexArray(bbox_VAO);
+    
+    glGenBuffers(1, &bbox_VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, bbox_VBO);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (3) * sizeof(float), (void*) 0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 // pre: Imgui must be running
@@ -501,6 +512,35 @@ void EditorSystem::render(){
     renderInspector();
 //    renderTextureCatalogViewer();
 }
+
+void EditorSystem::renderBBox(glm::mat4 modelBase, AABB b){
+    GLuint modelLoc = glGetUniformLocation(gizmoShader->ID, "model");
+    
+    float data[] = {
+        b.max.x, b.max.y, b.max.z, b.max.x, b.max.y, b.min.z,
+        b.max.x, b.max.y, b.max.z, b.min.x, b.max.y, b.max.z,
+        b.min.x, b.max.y, b.min.z, b.max.x, b.max.y, b.min.z,
+        b.min.x, b.max.y, b.min.z, b.min.x, b.max.y, b.max.z,
+        
+        b.max.x, b.min.y, b.max.z, b.max.x, b.min.y, b.min.z,
+        b.max.x, b.min.y, b.max.z, b.min.x, b.min.y, b.max.z,
+        b.min.x, b.min.y, b.min.z, b.max.x, b.min.y, b.min.z,
+        b.min.x, b.min.y, b.min.z, b.min.x, b.min.y, b.max.z,
+        
+        b.max.x, b.max.y, b.max.z, b.max.x, b.min.y, b.max.z,
+        b.max.x, b.max.y, b.min.z, b.max.x, b.min.y, b.min.z,
+        b.min.x, b.max.y, b.max.z, b.min.x, b.min.y, b.max.z,
+        b.min.x, b.max.y, b.min.z, b.min.x, b.min.y, b.min.z
+    };
+    
+    glBindVertexArray(bbox_VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, bbox_VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(data), data,  GL_DYNAMIC_DRAW);
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelBase));
+    gizmoShader->set4f("color", RGBA(1.0f));
+    glDrawArrays(GL_LINES, 0, 24);
+}
+
 // TODO: don't have these scale depending on how far away you are from them. I'm not exactly sure the math on that, I would either have to construct a VP matrix special to this procedure or just scale inversely proportional to the distance from the camera... I'm guessing it is the first but that's maybe not a step for the first draft.
 void EditorSystem::renderMoveAxesAtModelMat(glm::mat4 modelBase){
     GLuint modelLoc  = glGetUniformLocation(gizmoShader->ID, "model");
@@ -697,6 +737,11 @@ void EditorSystem::renderGizmos(){
                 case EditMode::ROTATE:
                     renderRotationWheelAtModelMat(baseMatrix);
                     break;
+            }
+            
+            AABBColliderComponent* bbox = m_admin.tryGetComponent<AABBColliderComponent>(edit.selectedEntity);
+            if(bbox != nullptr){
+                renderBBox(baseMatrix, bbox->m_AABB);
             }
         }
         

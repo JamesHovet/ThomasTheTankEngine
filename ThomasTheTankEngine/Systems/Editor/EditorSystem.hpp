@@ -27,6 +27,7 @@ private:
     void renderSceneGraphEditor();
     void renderInspector();
     void renderGizmos();
+    void renderBBox(glm::mat4 modelBase, AABB box);
     void renderMoveAxesAtModelMat(glm::mat4 modelBase);
     void renderScaleAxesAtModelMat(glm::mat4 modelBase);
     void renderRotationWheelAtModelMat(glm::mat4 modelBase);
@@ -44,6 +45,8 @@ private:
     static GLuint cube_VAO;
     static GLuint circle_VBO;
     static GLuint circle_VAO;
+    static GLuint bbox_VBO;
+    static GLuint bbox_VAO;
     
     // Debug ImGui Views:
     void renderTextureCatalogViewer();

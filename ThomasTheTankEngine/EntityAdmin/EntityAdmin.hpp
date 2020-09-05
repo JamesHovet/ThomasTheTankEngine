@@ -52,6 +52,7 @@ public:
     void setup();
     void teardown();
     void filterIfNeeded();
+    void exectueDeferred();
     void updateMainThreadSystems(uint64_t dt);
     void update(uint64_t dt);
     void copyToRenderBuffer();
@@ -63,6 +64,7 @@ public:
     entityID createEntity();
     entityID createEntityFromPrototype(prototype proto);
     prototype createPrototypeFromEntity(entityID eID);
+    void defer(std::function<void (void)>);
     entityID duplicateEntity(entityID eID);
     Entity* tryCreateEntity(entityID eID);
     void destroyEntity(entityID e);
@@ -243,6 +245,7 @@ private:
     std::vector<std::function<void (void)>> m_cleanup_callbacks;
     std::array<void *, NUM_FAMILIES> m_families_maps_array;
     std::array<void *, NUM_FAMILIES> m_families_maps_static_array;
+    std::vector<std::function<void (void)>> deferred_functions;
     
     
 //    std::array<void *, Singletons::SingletonsCount> m_singletons;

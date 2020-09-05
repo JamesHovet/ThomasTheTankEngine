@@ -318,6 +318,17 @@ void EntityAdmin::loadTestScene(){
        
 }
 
+void EntityAdmin::defer(std::function<void ()> f){
+    deferred_functions.push_back(f);
+}
+
+void EntityAdmin::exectueDeferred(){
+    for(std::function<void (void)> function : deferred_functions){
+        std::invoke(function);
+    }
+    deferred_functions.clear();
+}
+
 void EntityAdmin::filterIfNeeded(){
     if(m_entities_dirty){
         this->clearFamilies();

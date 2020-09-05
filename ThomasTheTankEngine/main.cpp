@@ -231,6 +231,9 @@ void holdWindowOpen() {
         
         
         // Main loop:
+        TRACE_BEGIN_EXCLUSIVE("Deferred");
+        g_admin.exectueDeferred();
+        TRACE_END_EXCLUSIVE("Deferred");
         TRACE_BEGIN_EXCLUSIVE("Filter Entities");
         g_admin.filterIfNeeded();
         TRACE_END_EXCLUSIVE("Filter Entities");

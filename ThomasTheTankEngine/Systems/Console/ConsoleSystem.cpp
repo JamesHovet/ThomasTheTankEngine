@@ -24,8 +24,10 @@ void ConsoleSystem::tick(uint64_t dt){
             if (strncmp(input.activeLine, "dupe", 4) == 0){
                 entityID entityToDupe = atoi(&input.activeLine[4]);
                 if(m_admin.tryGetEntity(entityToDupe) != nullptr){
-                    edit.selectedEntity = m_admin.duplicateEntity(entityToDupe);
-                    printf("dupe %i to %i\n", entityToDupe, edit.selectedEntity);
+                    m_admin.defer([this, entityToDupe](void) {
+                        m_admin.m_EditorSingleton.selectedEntity = m_admin.duplicateEntity(entityToDupe);
+                        printf("dupe %i to %i\n", entityToDupe, m_admin.m_EditorSingleton.selectedEntity);
+                    });
                 }
             }
             if ((strncmp(input.activeLine, "r", 1) == 0 && input.activeLine[1] == 0) || strncmp(input.activeLine, "reloadshaders", 13) == 0){

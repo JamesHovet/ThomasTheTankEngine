@@ -710,16 +710,34 @@ void EditorSystem::renderSceneGraphEditor(){
     EditorSingleton& edit = m_admin.m_EditorSingleton;
     ImGui::Begin("Editor");
 
-    char nameBuf[32];
+    ImGui::Text("Create:");
+    ImGui::SameLine();
+    if(ImGui::Button("Empty")){
+        m_admin.defer([this](){
+            m_admin.m_EditorSingleton.selectedEntity = m_admin.createEntity();
+            m_admin.m_EditorSingleton.hasSelectedEntity = true;
+        });
+    }
+    ImGui::SameLine();
+    if(ImGui::Button("Transform")){
+        m_admin.defer([this](){
+            entityID eID = m_admin.createEntity();
+            m_admin.m_EditorSingleton.selectedEntity = eID;
+            m_admin.m_EditorSingleton.hasSelectedEntity = true;
+            m_admin.addComponent<TransformComponent>(eID);
+        });
+    }
     
+    
+    char nameBuf[64];
     for (std::pair<entityID, Entity*> p : m_admin.m_entities){
         entityID eID = p.first;
         DebugNameComponent* nameC = m_admin.tryGetComponent<DebugNameComponent>(eID);
         
         if(nameC != nullptr){
-            snprintf(nameBuf, 32, "%s", nameC->m_name.c_str());
+            snprintf(nameBuf, 64, "%s: %d", nameC->m_name.c_str(), eID);
         } else {
-            snprintf(nameBuf, 32, "%d", eID);
+            snprintf(nameBuf, 64, "%d", eID);
         }
         
         ImGui::PushID(eID);
@@ -755,7 +773,9 @@ void EditorSystem::renderInspector(){
     
     ImGui::Begin("Inspector");
     if(ImGui::Button("Duplicate") && edit.hasSelectedEntity){
-        edit.selectedEntity = m_admin.duplicateEntity(edit.selectedEntity);
+        m_admin.defer([this](){
+            m_admin.m_EditorSingleton.selectedEntity = m_admin.duplicateEntity(m_admin.m_EditorSingleton.selectedEntity);
+        });
     }
     ImGui::Checkbox("Local Space", &edit.usingLocalWorldSpace);
     ImGui::SameLine();
@@ -776,11 +796,21 @@ void EditorSystem::renderInspector(){
     if(edit.hasSelectedEntity){
         ImGui::PushID(eID); // if two items from two different "worlds" have the same ID, then the ImGui state from one (like, which tree nodes are open) could carry over, but I'm just not sure I care.
         DebugNameComponent* nameC = m_admin.tryGetComponent<DebugNameComponent>(eID);
+        char nameBuf[64];
         
         if(nameC != nullptr){
-            ImGui::Text("%s", nameC->m_name.c_str());
+            ImGui::Text("%s: %d", nameC->m_name.c_str(), eID);
+            if(ImGui::InputTextWithHint("Name", nameC->m_name.c_str(), nameBuf, sizeof(nameBuf))){
+                nameC->m_name = nameBuf;
+            }
         } else {
             ImGui::Text("%d", eID);
+            ImGui::SameLine();
+            if(ImGui::Button("Add Name")){
+                m_admin.defer([this, eID](){
+                    m_admin.addComponent<DebugNameComponent>(eID);
+                });
+            }
         }
         
         for(auto it = m_admin.componentsBegin(eID); it != m_admin.componentsEnd(eID); ++it){

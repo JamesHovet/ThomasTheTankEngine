@@ -507,6 +507,11 @@ void EditorSystem::initRendering(){
 
 // pre: Imgui must be running
 void EditorSystem::render(){
+    EditorSingleton& edit = m_admin.m_EditorSingleton;
+    if(edit.hasSelectedEntity && m_admin.tryGetEntity(edit.selectedEntity) == nullptr){
+        edit.hasSelectedEntity = false;
+    }
+    
     renderGizmos();
     renderSceneGraphEditor();
     renderInspector();

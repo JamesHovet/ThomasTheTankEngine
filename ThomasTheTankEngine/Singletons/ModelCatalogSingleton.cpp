@@ -184,10 +184,7 @@ bool ModelCatalogSingleton::registerModel(std::string name, const char * objPath
     for(int i = 1; i < modelEntry.m_model.m_numMeshes; i++){
         glm::vec3 min = modelEntry.m_model.bbox.min;
         glm::vec3 max = modelEntry.m_model.bbox.max;
-        printf("min: %f, %f, %f\n", min.x, min.y, min.z);
-        printf("max: %f, %f, %f\n", max.x, max.y, max.z);
         modelEntry.m_model.bbox = Intersection::AABBUnion(modelEntry.m_model.bbox, modelEntry.m_model.m_meshes[i].m_bbox);
-        
     }
     
     return true;

@@ -20,6 +20,8 @@ private:
 public:
     componentMask m_mask;
     entityID m_entityID;
+    entityID m_parentID;
+    entityID m_children[10]; // any bigger and we go over 32 bytes and then only one can fit on a cache line. 
 
     Entity(entityID eID){
         m_entityID = eID;

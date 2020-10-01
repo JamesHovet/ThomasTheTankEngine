@@ -156,7 +156,7 @@ entityID EntityAdmin::createEntity(){
     
     // pseudorandom entity ID
     entityID eID = rand() % MAX_ENTITIES;
-    while(m_entities.count(eID) != 0){
+    while(eID == 0 || m_entities.count(eID) != 0){ // 0 is reserved to represent "no entity"
         eID = rand() % MAX_ENTITIES;
     }
     

@@ -25,6 +25,9 @@ EntityAdmin g_admin;
 
 int main(int argc, const char * argv[]) {
     
+    
+    std::cout << sizeof(Entity) << std::endl;
+
     TRACE_EVENT("Setup Begin");
     
     window_init();

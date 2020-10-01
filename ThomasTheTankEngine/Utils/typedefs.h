@@ -14,9 +14,9 @@
 #include <glm/glm.hpp>
 #include <json.hpp>
 
-typedef unsigned entityID;
-typedef unsigned componentID;
-typedef unsigned familyID;
+typedef unsigned short entityID;
+typedef unsigned short componentID;
+typedef unsigned short familyID;
 typedef unsigned GLuint;
 typedef int GLint;
 typedef nlohmann::json::object_t prototype;

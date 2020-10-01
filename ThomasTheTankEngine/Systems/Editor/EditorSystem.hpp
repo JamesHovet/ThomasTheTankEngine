@@ -12,6 +12,7 @@
 
 #include "System.hpp"
 #include "typedefs.h"
+#include "Entity.hpp"
 
 class EditorSystem : public System {
 public:
@@ -25,6 +26,7 @@ public:
 private:
     void initRendering();
     void renderSceneGraphEditor();
+    void renderSceneGraphSubtree(entityID eID);
     void renderInspector();
     void renderGizmos();
     void renderBBox(glm::mat4 modelBase, AABB box);

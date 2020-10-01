@@ -166,7 +166,7 @@ public:
         ComponentIter(EntityAdmin& _m_admin, entityID _eID, componentID _cID) : m_admin(_m_admin){
             eID = _eID;
             cID = _cID;
-            assert(m_admin.m_entities.count(eID) != 0);
+            assert(m_admin.entityExists(eID));
             mask = m_admin.m_entities[eID].m_mask;
             
             while(cID < NUM_COMPONENTS){
@@ -209,6 +209,55 @@ public:
     
     ComponentIter componentsEnd(entityID eID){
         return ComponentIter(*this, eID, NUM_COMPONENTS);
+    }
+    
+    class ChildrenIter {
+    public:
+        EntityAdmin& m_admin;
+        entityID eID;
+        size_t index;
+        
+        ChildrenIter(EntityAdmin& _m_admin, entityID _eID, size_t _index) : m_admin(_m_admin){
+            eID = _eID;
+            index = _index;
+            assert(m_admin.entityExists(eID));
+            
+            while(index < MAX_CHILDREN){
+                if(m_admin.m_entities[eID].m_children[index] != 0){
+                    break;
+                }
+                index ++;
+            }
+        }
+        
+        ChildrenIter& operator++(){
+            index ++;
+            while(index < MAX_CHILDREN){
+                if(m_admin.m_entities[eID].m_children[index] != 0){
+                    break;
+                }
+                index ++;
+            }
+            return *this;
+        }
+        
+        bool operator!=(const ChildrenIter& other){
+            return (eID != other.eID) || (index != other.index);
+        }
+        
+        entityID operator*() const {
+            entityID out = m_admin.m_entities[eID].m_children[index];
+            assert(out != NO_ENTITY);
+            return out;
+        }
+    };
+    
+    ChildrenIter childrenBegin(entityID eID){
+        return ChildrenIter(*this, eID, 0);
+    }
+    
+    ChildrenIter childrenEnd(entityID eID){
+        return ChildrenIter(*this, eID, MAX_CHILDREN);
     }
     
     template<typename T>

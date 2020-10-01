@@ -755,6 +755,43 @@ void EditorSystem::renderGizmos(){
     gizmoShader->end();
     glEnable(GL_DEPTH_TEST);
 }
+char nameBuf[64];
+
+void EditorSystem::renderSceneGraphSubtree(entityID eID){
+    EditorSingleton& edit = m_admin.m_EditorSingleton;
+    DebugNameComponent* nameC = m_admin.tryGetComponent<DebugNameComponent>(eID);
+
+    if(nameC != nullptr){
+        snprintf(nameBuf, 64, "%s: %d", nameC->m_name.c_str(), eID);
+    } else {
+        snprintf(nameBuf, 64, "%d", eID);
+    }
+    
+    ImGui::PushID(eID);
+    bool styled = false;
+    if(edit.hasSelectedEntity && edit.selectedEntity == eID){
+        styled = true;
+        ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor(255, 0, 0));
+        if(ImGui::Button("*")){
+            edit.hasSelectedEntity = false;
+        }
+        ImGui::PopStyleColor();
+    } else {
+        if(ImGui::Button("*")){
+            edit.hasSelectedEntity = true;
+            edit.selectedEntity = eID;
+        }
+    }
+    ImGui::SameLine();
+    if(ImGui::TreeNode(nameBuf)){
+        for(auto it = m_admin.childrenBegin(eID); it != m_admin.childrenEnd(eID); ++it){
+            renderSceneGraphSubtree(*it);
+        }
+        ImGui::TreePop();
+    }
+    ImGui::PopID();
+
+}
 
 void EditorSystem::renderSceneGraphEditor(){
     EditorSingleton& edit = m_admin.m_EditorSingleton;
@@ -789,42 +826,48 @@ void EditorSystem::renderSceneGraphEditor(){
         });
     }
     
-    
-    char nameBuf[64];
     for (std::pair<entityID, Entity> p : m_admin.m_entities){
         entityID eID = p.first;
-        DebugNameComponent* nameC = m_admin.tryGetComponent<DebugNameComponent>(eID);
-        
-        if(nameC != nullptr){
-            snprintf(nameBuf, 64, "%s: %d", nameC->m_name.c_str(), eID);
-        } else {
-            snprintf(nameBuf, 64, "%d", eID);
+        Entity e = p.second;
+        if(e.m_parentID == NO_ENTITY){
+            renderSceneGraphSubtree(eID);
         }
-        
-        ImGui::PushID(eID);
-        bool styled = false;
-        if(edit.hasSelectedEntity && edit.selectedEntity == eID){
-            styled = true;
-            ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor(255, 0, 0));
-            if(ImGui::Button("*")){
-                edit.hasSelectedEntity = false;
-            }
-            ImGui::PopStyleColor();
-        } else {
-            if(ImGui::Button("*")){
-                edit.hasSelectedEntity = true;
-                edit.selectedEntity = eID;
-            }
-        }
-        ImGui::SameLine();
-        if(ImGui::TreeNode(nameBuf)){
-            for(auto it = m_admin.componentsBegin(eID); it != m_admin.componentsEnd(eID); ++it){
-                (*it)->imDisplay(&m_admin);
-            }
-            ImGui::TreePop();
-        }
-        ImGui::PopID();
     }
+    
+//    for (std::pair<entityID, Entity> p : m_admin.m_entities){
+//        entityID eID = p.first;
+//        DebugNameComponent* nameC = m_admin.tryGetComponent<DebugNameComponent>(eID);
+//
+//        if(nameC != nullptr){
+//            snprintf(nameBuf, 64, "%s: %d", nameC->m_name.c_str(), eID);
+//        } else {
+//            snprintf(nameBuf, 64, "%d", eID);
+//        }
+//
+//        ImGui::PushID(eID);
+//        bool styled = false;
+//        if(edit.hasSelectedEntity && edit.selectedEntity == eID){
+//            styled = true;
+//            ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor(255, 0, 0));
+//            if(ImGui::Button("*")){
+//                edit.hasSelectedEntity = false;
+//            }
+//            ImGui::PopStyleColor();
+//        } else {
+//            if(ImGui::Button("*")){
+//                edit.hasSelectedEntity = true;
+//                edit.selectedEntity = eID;
+//            }
+//        }
+//        ImGui::SameLine();
+//        if(ImGui::TreeNode(nameBuf)){
+//            for(auto it = m_admin.componentsBegin(eID); it != m_admin.componentsEnd(eID); ++it){
+//                (*it)->imDisplay(&m_admin);
+//            }
+//            ImGui::TreePop();
+//        }
+//        ImGui::PopID();
+//    }
     ImGui::End();
 }
 

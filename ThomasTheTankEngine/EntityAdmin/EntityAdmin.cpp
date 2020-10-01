@@ -329,81 +329,81 @@ void EntityAdmin::loadTestScene(){
         }
     }
     
-    {
-        entityID parent = this->createEntity();
-        entityID child = this->createEntity();
-        entityID grandchild = this->createEntity();
-        addChild(parent, child);
-        addChild(child, grandchild);
-        
-        {
-            DebugNameComponent& nameC = addComponent<DebugNameComponent>(parent);
-            nameC.m_name = "parent";
-            TransformComponent& trans = addComponent<TransformComponent>(parent);
-            trans.m_position = glm::vec3(0.0f);
-            GreyBoxComponent& boxC = addComponent<GreyBoxComponent>(parent);
-            boxC.m_color = RGBA(1.0f, 0.0f, 0.0f, 1.0f);
-            AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(parent);
-        }
-        {
-            DebugNameComponent& nameC = addComponent<DebugNameComponent>(child);
-            nameC.m_name = "child";
-            TransformComponent& trans = addComponent<TransformComponent>(child);
-            trans.m_position = glm::vec3(0.0f, -2.0f, 0.0f);
-            GreyBoxComponent& boxC = addComponent<GreyBoxComponent>(child);
-            boxC.m_color = RGBA(0.0f, 1.0f, 0.0f, 1.0f);
-            AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(child);
-        }
-        
-        {
-            DebugNameComponent& nameC = addComponent<DebugNameComponent>(grandchild);
-            nameC.m_name = "grandchild";
-            TransformComponent& trans = addComponent<TransformComponent>(grandchild);
-            trans.m_position = glm::vec3(0.0f, -2.0f, 0.0f);
-            GreyBoxComponent& boxC = addComponent<GreyBoxComponent>(grandchild);
-            boxC.m_color = RGBA(0.0f, 0.0f, 1.0f, 1.0f);
-            AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(grandchild);
-        }
-        
-        
-    }
-    
-    
-    
 //    {
-//        for(int i = 0; i < 3; i ++){
-//            entityID eID = this->createEntity();
-//            TransformComponent& trans = addComponent<TransformComponent>(eID);
-//            trans.m_position = glm::vec3((i - 1) * 10.0f, 0.0f, 0.0f);
-//            GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(eID);
-//            AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(eID);
+//        entityID parent = this->createEntity();
+//        entityID child = this->createEntity();
+//        entityID grandchild = this->createEntity();
+//        addChild(parent, child);
+//        addChild(child, grandchild);
+//
+//        {
+//            DebugNameComponent& nameC = addComponent<DebugNameComponent>(parent);
+//            nameC.m_name = "parent";
+//            TransformComponent& trans = addComponent<TransformComponent>(parent);
+//            trans.m_position = glm::vec3(0.0f);
+//            GreyBoxComponent& boxC = addComponent<GreyBoxComponent>(parent);
 //            boxC.m_color = RGBA(1.0f, 0.0f, 0.0f, 1.0f);
-//
-//            int thisRandomJ = rand() % 4;
-//            for (int j = 0; j < thisRandomJ; j ++){
-//                entityID child = createEntity();
-//                setParent(child, eID);
-//                TransformComponent& trans = addComponent<TransformComponent>(child);
-//                trans.m_scale = glm::vec3(0.5f);
-//                trans.m_position = glm::vec3((j - ((float)thisRandomJ / 2.0f)) * 2.0f, -2.5f, 0.0f);
-//                GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(child);
-//                AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(child);
-//                boxC.m_color = RGBA(0.0f, 1.0f, 0.0f, 1.0f);
-//
-//                int thisRandomK = rand() % 4;
-//                for(int k = 0; k < thisRandomK; k++){
-//                    entityID grandchild = createEntity();
-//                    setParent(grandchild, child);
-//                    TransformComponent& trans = addComponent<TransformComponent>(grandchild);
-//                    trans.m_scale = glm::vec3(0.5f);
-//                    trans.m_position = glm::vec3((k - ((float)thisRandomK / 2.0f)) * 2.0f, -5.0f, 0.0f);
-//                    GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(grandchild);
-//                    AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(grandchild);
-//                    boxC.m_color = RGBA(0.0f, 0.0f, 1.0f, 1.0f);
-//                }
-//            }
+//            AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(parent);
 //        }
+//        {
+//            DebugNameComponent& nameC = addComponent<DebugNameComponent>(child);
+//            nameC.m_name = "child";
+//            TransformComponent& trans = addComponent<TransformComponent>(child);
+//            trans.m_position = glm::vec3(0.0f, -2.0f, 0.0f);
+//            GreyBoxComponent& boxC = addComponent<GreyBoxComponent>(child);
+//            boxC.m_color = RGBA(0.0f, 1.0f, 0.0f, 1.0f);
+//            AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(child);
+//        }
+//
+//        {
+//            DebugNameComponent& nameC = addComponent<DebugNameComponent>(grandchild);
+//            nameC.m_name = "grandchild";
+//            TransformComponent& trans = addComponent<TransformComponent>(grandchild);
+//            trans.m_position = glm::vec3(0.0f, -2.0f, 0.0f);
+//            GreyBoxComponent& boxC = addComponent<GreyBoxComponent>(grandchild);
+//            boxC.m_color = RGBA(0.0f, 0.0f, 1.0f, 1.0f);
+//            AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(grandchild);
+//        }
+//
+//
 //    }
+    
+    
+    
+    {
+        for(int i = 0; i < 3; i ++){
+            entityID eID = this->createEntity();
+            TransformComponent& trans = addComponent<TransformComponent>(eID);
+            trans.m_position = glm::vec3((i - 1) * 10.0f, 0.0f, 0.0f);
+            GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(eID);
+            AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(eID);
+            boxC.m_color = RGBA(1.0f, 0.0f, 0.0f, 1.0f);
+
+            int thisRandomJ = rand() % 4;
+            for (int j = 0; j < thisRandomJ; j ++){
+                entityID child = createEntity();
+                setParent(child, eID);
+                TransformComponent& trans = addComponent<TransformComponent>(child);
+                trans.m_scale = glm::vec3(0.5f);
+                trans.m_position = glm::vec3((j - ((float)thisRandomJ / 2.0f)) * 2.0f, -2.5f, 0.0f);
+                GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(child);
+                AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(child);
+                boxC.m_color = RGBA(0.0f, 1.0f, 0.0f, 1.0f);
+
+                int thisRandomK = rand() % 4;
+                for(int k = 0; k < thisRandomK; k++){
+                    entityID grandchild = createEntity();
+                    setParent(grandchild, child);
+                    TransformComponent& trans = addComponent<TransformComponent>(grandchild);
+                    trans.m_scale = glm::vec3(0.5f);
+                    trans.m_position = glm::vec3((k - ((float)thisRandomK / 2.0f)) * 2.0f, -5.0f, 0.0f);
+                    GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(grandchild);
+                    AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(grandchild);
+                    boxC.m_color = RGBA(0.0f, 0.0f, 1.0f, 1.0f);
+                }
+            }
+        }
+    }
     
     
 //    {

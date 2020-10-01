@@ -19,13 +19,7 @@ private:
 //    std::map<int, Component*> m_componentMap;
 public:
     componentMask m_mask;
-    entityID m_entityID;
-
-    Entity(entityID eID){
-        m_entityID = eID;
-        m_mask.reset();
-    }
-
+    entityID m_entityID = 0;
 };
 
 #endif /* Entity_hpp */

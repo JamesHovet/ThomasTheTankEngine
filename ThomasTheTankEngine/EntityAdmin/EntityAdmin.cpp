@@ -143,11 +143,11 @@ Entity* EntityAdmin::tryCreateEntity(entityID eID){
         return nullptr;
     }
     
-    Entity* e = m_entity_pool.construct(eID);
-    m_entities[eID] = e;
+    m_entities[eID].m_entityID = eID;
+    m_entities[eID].m_mask.reset();
     m_component_maps.insert(std::make_pair(eID, std::unordered_map<componentID, ECSComponent*>()));
     
-    return e;
+    return &m_entities[eID];
 }
 
 entityID EntityAdmin::createEntity(){
@@ -160,24 +160,15 @@ entityID EntityAdmin::createEntity(){
         eID = rand() % MAX_ENTITIES;
     }
     
-    Entity* e = m_entity_pool.construct(eID);
-    m_entities[eID] = e;
+    m_entities[eID].m_entityID = eID;
+    m_entities[eID].m_mask.reset();
     m_component_maps.insert(std::make_pair(eID, std::unordered_map<componentID, ECSComponent*>()));
     
     return eID;
 }
 
-Entity* EntityAdmin::tryGetEntity(entityID e){
-    if(m_entities.count(e)){
-        return m_entities.at(e);
-    }
-    return nullptr;
-}
-
-Entity& EntityAdmin::getEntity(entityID e){
-    Entity* entity = tryGetEntity(e);
-    assert(entity != nullptr);
-    return *entity;
+bool EntityAdmin::entityExists(entityID eID){
+    return m_entities.count(eID) != 0;
 }
 
 void EntityAdmin::destroyEntity(entityID eID){
@@ -188,8 +179,6 @@ void EntityAdmin::destroyEntity(entityID eID){
         std::invoke(m_components_destuction_callbacks_array[componentID], componentPtr);
     }
     m_component_maps.erase(eID);
-    Entity* e = m_entities[eID];
-    m_entity_pool.destroy(e);
     m_entities.erase(m_entities.find(eID));
 }
 
@@ -205,8 +194,6 @@ void EntityAdmin::destroyAllEntities(){
             std::invoke(m_components_destuction_callbacks_array[cID], cPtr);
         }
         m_component_maps.erase(eID);
-        Entity* e = it->second;
-        m_entity_pool.destroy(e);
         it = m_entities.erase(it);
     }
 }
@@ -403,10 +390,10 @@ void EntityAdmin::clearFamilies(){
 }
 
 void EntityAdmin::filterEntitiesIntoMutableFamilies(){
-    for (std::pair<entityID, Entity*> pair : m_entities){
-        Entity* e = pair.second;
-        componentMask mask = e->m_mask;
-        entityID eID = e->m_entityID;
+    for (std::pair<entityID, Entity> pair : m_entities){
+        Entity e = pair.second;
+        componentMask mask = e.m_mask;
+        entityID eID = e.m_entityID;
         
         {
         if(ECSUtils::doesPassFilter(mask, Family<CameraFamily>::mask)){
@@ -425,10 +412,10 @@ void EntityAdmin::filterEntitiesIntoMutableFamilies(){
 }
 
 void EntityAdmin::filterEntitiesIntoStaticFamilies(){
-    for (std::pair<entityID, Entity*> pair : m_entities){
-        Entity* e = pair.second;
-        componentMask mask = e->m_mask;
-        entityID eID = e->m_entityID;
+    for (std::pair<entityID, Entity> pair : m_entities){
+        Entity e = pair.second;
+        componentMask mask = e.m_mask;
+        entityID eID = e.m_entityID;
         
         {
         if(ECSUtils::doesPassFilter(mask, Family<CameraFamilyStatic>::mask)){
@@ -461,7 +448,7 @@ json::object_t EntityAdmin::serializeByEntityInternal(){
     
     out["entities"] = json::object();
     
-    for(std::pair<entityID, Entity*> p : m_entities){
+    for(std::pair<entityID, Entity> p : m_entities){
         entityID eID = p.first;
         std::string eIDStr = std::to_string(p.first);
         out["entities"][eIDStr] = json::object();

@@ -67,9 +67,8 @@ public:
     void defer(std::function<void (void)>);
     entityID duplicateEntity(entityID eID);
     Entity* tryCreateEntity(entityID eID);
-    void destroyEntity(entityID e);
-    Entity* tryGetEntity(entityID e);
-    Entity& getEntity(entityID e);
+    void destroyEntity(entityID eID);
+    bool entityExists(entityID eID);
     void destroyAllEntities();
 
     bool serializeByEntityCompatability(boost::filesystem::path outAbsolute);
@@ -94,7 +93,7 @@ public:
         T* out = this_pool->construct();
         
         m_component_maps.at(eID).insert(std::make_pair(componentID, out));
-        m_entities.at(eID)->m_mask.set(componentID);
+        m_entities.at(eID).m_mask.set(componentID);
         
         return *out;
     }
@@ -150,14 +149,19 @@ public:
     
     class ComponentIter{
     public:
+        EntityAdmin& m_admin;
+        entityID eID;
+        componentID cID;
+        componentMask mask;
+        
         ComponentIter(EntityAdmin& _m_admin, entityID _eID, componentID _cID) : m_admin(_m_admin){
             eID = _eID;
             cID = _cID;
             assert(m_admin.m_entities.count(eID) != 0);
-            e = m_admin.m_entities.at(eID);
+            mask = m_admin.m_entities[eID].m_mask;
             
             while(cID < NUM_COMPONENTS){
-                if(e->m_mask[cID]){
+                if(mask[cID]){
                     break;
                 }
                 cID ++;
@@ -168,7 +172,7 @@ public:
         ComponentIter& operator++(){
             while(cID < NUM_COMPONENTS){
                 cID ++;
-                if(e->m_mask[cID]){
+                if(mask[cID]){
                     break;
                 }
             }
@@ -188,11 +192,6 @@ public:
             return nullptr;
         }
         
-//    private:
-        EntityAdmin& m_admin;
-        Entity* e;
-        entityID eID;
-        componentID cID;
     };
     
     ComponentIter componentsBegin(entityID eID){
@@ -215,7 +214,7 @@ public:
         this_entity_map.erase(cID);
         
         
-        m_entities.at(eID)->m_mask.reset(cID); // clear entity flag
+        m_entities.at(eID).m_mask.reset(cID); // clear entity flag
     }
     
 
@@ -251,8 +250,7 @@ private:
     
 private:
     std::unordered_map<entityID, std::unordered_map<componentID, ECSComponent *>> m_component_maps;
-    std::unordered_map<entityID, Entity*> m_entities;
-    boost::object_pool<Entity> m_entity_pool;
+    std::unordered_map<entityID, Entity> m_entities;
     bool m_entities_dirty = true;
     
     std::array<void *, NUM_COMPONENTS> m_components_pool_array;

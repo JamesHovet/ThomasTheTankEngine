@@ -78,7 +78,7 @@ void EditorSystem::tick(uint64_t dt){
     InputSingleton& input = m_admin.m_InputSingleton;
     TransformComponent& camTransformC = m_admin.m_EditorSingleton.editorCameraTransform;
     
-    if(edit.hasSelectedEntity && m_admin.tryGetEntity(edit.selectedEntity) == nullptr){
+    if(edit.hasSelectedEntity && !m_admin.entityExists(edit.selectedEntity)){
         edit.hasSelectedEntity = false;
     }
 

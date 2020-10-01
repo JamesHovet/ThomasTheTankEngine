@@ -23,7 +23,7 @@ void ConsoleSystem::tick(uint64_t dt){
         if (input.lineCommitted){
             if (strncmp(input.activeLine, "dupe", 4) == 0){
                 entityID entityToDupe = atoi(&input.activeLine[4]);
-                if(m_admin.tryGetEntity(entityToDupe) != nullptr){
+                if(m_admin.entityExists(entityToDupe)){
                     m_admin.defer([this, entityToDupe](void) {
                         m_admin.m_EditorSingleton.selectedEntity = m_admin.duplicateEntity(entityToDupe);
                         printf("dupe %i to %i\n", entityToDupe, m_admin.m_EditorSingleton.selectedEntity);

@@ -199,6 +199,69 @@ using json = nlohmann::json;
     XCTAssert(g_admin->tryGetComponent<TransformComponent>(eID)->m_position == g_admin->tryGetComponent<TransformComponent>(dupe)->m_position);
 }
 
+- (void)testAddChild {
+    entityID parent = g_admin->createEntity();
+    entityID child = g_admin->createEntity();
+    g_admin->addChild(parent, child);
+    XCTAssert(g_admin->isChildOf(child, parent));
+    XCTAssert(g_admin->isParentOf(parent, child));
+    g_admin->addChild(parent, child); // redundant addChild check
+    XCTAssert(g_admin->isChildOf(child, parent));
+    XCTAssert(g_admin->isParentOf(parent, child));
+    for(int i = 1; i < MAX_CHILDREN; i++){
+        entityID newChild = g_admin->createEntity();
+        XCTAssert(g_admin->addChild(parent, newChild));
+    }
+    entityID overflowChild = g_admin->createEntity();
+    XCTAssert(!g_admin->addChild(parent, overflowChild));
+}
+
+- (void)testRemoveChild {
+    entityID parent = g_admin->createEntity();
+    entityID child = g_admin->createEntity();
+    g_admin->addChild(parent, child);
+    XCTAssert(g_admin->isChildOf(child, parent));
+    XCTAssert(g_admin->isParentOf(parent, child));
+    g_admin->addChild(parent, child); // redundant addChild check
+    XCTAssert(g_admin->isChildOf(child, parent));
+    XCTAssert(g_admin->isParentOf(parent, child));
+    g_admin->removeChild(parent, child);
+    XCTAssert(!g_admin->isChildOf(child, parent));
+    XCTAssert(!g_admin->isParentOf(parent, child));
+    XCTAssert(!g_admin->removeChild(parent, child));
+    XCTAssert(!g_admin->isChildOf(child, parent));
+    XCTAssert(!g_admin->isParentOf(parent, child));
+}
+
+- (void)testSetParent {
+    entityID parent = g_admin->createEntity();
+    entityID child = g_admin->createEntity();
+    entityID otherParent = g_admin->createEntity();
+    g_admin->setParent(child, parent);
+    XCTAssert(g_admin->isChildOf(child, parent));
+    XCTAssert(g_admin->isParentOf(parent, child));
+    g_admin->setParent(child, parent); // check if redundant setParent breaks it
+    XCTAssert(g_admin->isChildOf(child, parent));
+    XCTAssert(g_admin->isParentOf(parent, child));
+    g_admin->setParent(child, otherParent);
+    XCTAssert(g_admin->isChildOf(child, otherParent));
+    XCTAssert(g_admin->isParentOf(otherParent, child));
+    XCTAssert(!g_admin->isChildOf(child, parent));
+    XCTAssert(!g_admin->isParentOf(parent, child));
+    XCTAssert(!g_admin->hasChildren(parent));
+}
+
+- (void)testClearParent {
+    entityID parent = g_admin->createEntity();
+    entityID child = g_admin->createEntity();
+    g_admin->addChild(parent, child);
+    XCTAssert(g_admin->isChildOf(child, parent));
+    XCTAssert(g_admin->isParentOf(parent, child));
+    g_admin->clearParent(child);
+    XCTAssert(!g_admin->isChildOf(child, parent));
+    XCTAssert(!g_admin->isParentOf(parent, child));
+}
+
 @end
 
 //- (void)testPerformanceExample {

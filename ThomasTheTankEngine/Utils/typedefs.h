@@ -15,6 +15,7 @@
 #include <json.hpp>
 
 #define MAX_CHILDREN 10
+#define NO_ENTITY 0
 
 typedef unsigned short entityID;
 typedef unsigned short componentID;

@@ -172,6 +172,82 @@ bool EntityAdmin::entityExists(entityID eID){
     return m_entities.count(eID) != 0;
 }
 
+bool EntityAdmin::hasParent(entityID eID){
+    return m_entities[eID].m_parentID != 0;
+}
+
+bool EntityAdmin::hasChildren(entityID eID){
+    for(int i = 0; i < MAX_CHILDREN; i++){
+        if(m_entities[eID].m_children[i] != NO_ENTITY){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool EntityAdmin::isChildOf(entityID eID, entityID parent){
+    return m_entities[eID].m_parentID == parent;
+}
+
+bool EntityAdmin::isParentOf(entityID eID, entityID child){
+    for(int i = 0; i < MAX_CHILDREN; i++){
+        if(m_entities[eID].m_children[i] == child){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool EntityAdmin::addChild(entityID parent, entityID child){
+    if(isParentOf(parent, child)){
+        return true;
+    }
+    clearParent(child);
+
+    for(int i = 0; i < MAX_CHILDREN; i++){
+        if(m_entities[parent].m_children[i] == NO_ENTITY){
+            m_entities[parent].m_children[i] = child;
+            m_entities[child].m_parentID = parent;
+            return true;
+        }
+    }
+    printf("Failed to add %d to %d: too many children\n", child, parent);
+    return false;
+}
+
+bool EntityAdmin::removeChild(entityID parent, entityID child){
+    for(int i = 0; i < MAX_CHILDREN; i++){
+        if(m_entities[parent].m_children[i] == child){
+            m_entities[parent].m_children[i] = NO_ENTITY;
+            m_entities[child].m_parentID = NO_ENTITY;
+            return true;
+        }
+    }
+    return false;
+}
+
+bool EntityAdmin::setParent(entityID child, entityID parent){
+    if(isParentOf(parent, child)){
+        return true;
+    }
+    clearParent(child);
+    return addChild(parent, child);
+}
+
+bool EntityAdmin::clearParent(entityID child){
+    entityID currentParent = m_entities[child].m_parentID;
+    if (currentParent != NO_ENTITY){
+        for(int i = 0; i < MAX_CHILDREN; i++){
+            if(m_entities[currentParent].m_children[i] == child){
+                m_entities[currentParent].m_children[i] = NO_ENTITY;
+                m_entities[child].m_parentID = NO_ENTITY;
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 void EntityAdmin::destroyEntity(entityID eID){
     m_entities_dirty = true;
     for(auto pair : m_component_maps.at(eID)){
@@ -221,17 +297,17 @@ void EntityAdmin::setup(){
 }
 
 void EntityAdmin::loadTestScene(){
-    { // create camera
-        //@Remove: temporary test camera
-        entityID eID = this->createEntity();
-        TransformComponent& transformC = addComponent<TransformComponent>(eID);
-        transformC.m_position = glm::vec3(1.0f, 0.0f, -3.0f);
-        CameraComponent& cameraC = addComponent<CameraComponent>(eID);
-//        cameraC.m_forward = glm::vec3(0.0f, 0.0f, 1.0f);
-        DebugNameComponent& nameC = addComponent<DebugNameComponent>(eID);
-        nameC.m_name = "Main Camera";
-        
-    }
+//    { // create camera
+//        //@Remove: temporary test camera
+//        entityID eID = this->createEntity();
+//        TransformComponent& transformC = addComponent<TransformComponent>(eID);
+//        transformC.m_position = glm::vec3(1.0f, 0.0f, -3.0f);
+//        CameraComponent& cameraC = addComponent<CameraComponent>(eID);
+////        cameraC.m_forward = glm::vec3(0.0f, 0.0f, 1.0f);
+//        DebugNameComponent& nameC = addComponent<DebugNameComponent>(eID);
+//        nameC.m_name = "Main Camera";
+//
+//    }
     { // create testing boxes
         //@Remove: temporary test entities
         int numToAdd = 0;
@@ -253,19 +329,55 @@ void EntityAdmin::loadTestScene(){
         }
     }
     {
-        entityID eID = this->createEntity();
-        DebugNameComponent& nameC = addComponent<DebugNameComponent>(eID);
-        nameC.m_name = "Lion";
-        TransformComponent& trans = this->addComponent<TransformComponent>(eID);
-        trans.m_position = glm::vec3(0.0f, 0.0f, -2.0f);
-        BasicModelComponent& model = this->addComponent<BasicModelComponent>(eID);
-        model.m_model_name = "lion";
-        if(m_ModelCatalogSingleton.modelExists(model.m_model_name)){
-            AABBColliderComponent& bbox = this->addComponent<AABBColliderComponent>(eID);
-            bbox.m_AABB = this->m_ModelCatalogSingleton.getModel(model.m_model_name).bbox;
+        for(int i = 0; i < 3; i ++){
+            entityID eID = this->createEntity();
+            TransformComponent& trans = addComponent<TransformComponent>(eID);
+            trans.m_position = glm::vec3((i - 1) * 10.0f, 0.0f, 0.0f);
+            GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(eID);
+            AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(eID);
+            boxC.m_color = RGBA(1.0f, 0.0f, 0.0f, 1.0f);
+            
+            int thisRandomJ = rand() % 4;
+            for (int j = 0; j < thisRandomJ; j ++){
+                entityID child = createEntity();
+                setParent(child, eID);
+                TransformComponent& trans = addComponent<TransformComponent>(child);
+                trans.m_scale = glm::vec3(0.5f);
+                trans.m_position = glm::vec3((j - ((float)thisRandomJ / 2.0f)) * 2.0f + ((i - 1) * 10.0f), -2.5f, 0.0f);
+                GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(child);
+                AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(child);
+                boxC.m_color = RGBA(0.0f, 1.0f, 0.0f, 1.0f);
+                
+                int thisRandomK = rand() % 4;
+                for(int k = 0; k < thisRandomK; k++){
+                    entityID grandchild = createEntity();
+                    setParent(grandchild, child);
+                    TransformComponent& trans = addComponent<TransformComponent>(grandchild);
+                    trans.m_scale = glm::vec3(0.5f);
+                    trans.m_position = glm::vec3((k - ((float)thisRandomK / 2.0f)) * 2.0f + (j - ((float)thisRandomJ / 2.0f)) * 3.0f + ((i - 1) * 10.0f), -5.0f, 0.0f);
+                    GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(grandchild);
+                    AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(grandchild);
+                    boxC.m_color = RGBA(0.0f, 0.0f, 1.0f, 1.0f);
+                }
+            }
         }
-
     }
+    
+    
+//    {
+//        entityID eID = this->createEntity();
+//        DebugNameComponent& nameC = addComponent<DebugNameComponent>(eID);
+//        nameC.m_name = "Lion";
+//        TransformComponent& trans = this->addComponent<TransformComponent>(eID);
+//        trans.m_position = glm::vec3(0.0f, 0.0f, -2.0f);
+//        BasicModelComponent& model = this->addComponent<BasicModelComponent>(eID);
+//        model.m_model_name = "lion";
+//        if(m_ModelCatalogSingleton.modelExists(model.m_model_name)){
+//            AABBColliderComponent& bbox = this->addComponent<AABBColliderComponent>(eID);
+//            bbox.m_AABB = this->m_ModelCatalogSingleton.getModel(model.m_model_name).bbox;
+//        }
+//
+//    }
 //    {
 //        entityID eID = this->createEntity();
 //        DebugNameComponent& nameC = addComponent<DebugNameComponent>(eID);
@@ -275,19 +387,19 @@ void EntityAdmin::loadTestScene(){
 //        BasicModelComponent& model = this->addComponent<BasicModelComponent>(eID);
 //        model.m_model_name = "boxes";
 //    }
-    {
-        entityID eID = this->createEntity();
-        DebugNameComponent& nameC = addComponent<DebugNameComponent>(eID);
-        nameC.m_name = "Suzanne";
-        TransformComponent& trans = this->addComponent<TransformComponent>(eID);
-        trans.m_position = glm::vec3(-5.0f, 0.0f, 0.0f);
-        BasicModelComponent& model = this->addComponent<BasicModelComponent>(eID);
-        model.m_model_name = "suzanne";
-        if(m_ModelCatalogSingleton.modelExists(model.m_model_name)){
-            AABBColliderComponent& bbox = this->addComponent<AABBColliderComponent>(eID);
-            bbox.m_AABB = this->m_ModelCatalogSingleton.getModel(model.m_model_name).bbox;
-        }
-    }
+//    {
+//        entityID eID = this->createEntity();
+//        DebugNameComponent& nameC = addComponent<DebugNameComponent>(eID);
+//        nameC.m_name = "Suzanne";
+//        TransformComponent& trans = this->addComponent<TransformComponent>(eID);
+//        trans.m_position = glm::vec3(-5.0f, 0.0f, 0.0f);
+//        BasicModelComponent& model = this->addComponent<BasicModelComponent>(eID);
+//        model.m_model_name = "suzanne";
+//        if(m_ModelCatalogSingleton.modelExists(model.m_model_name)){
+//            AABBColliderComponent& bbox = this->addComponent<AABBColliderComponent>(eID);
+//            bbox.m_AABB = this->m_ModelCatalogSingleton.getModel(model.m_model_name).bbox;
+//        }
+//    }
 //    {
 //        entityID eID = this->createEntity();
 //        DebugNameComponent& nameC = addComponent<DebugNameComponent>(eID);
@@ -301,20 +413,20 @@ void EntityAdmin::loadTestScene(){
 //        collisionC.m_AABB.min = glm::vec3(-1.0f, -1.0f, -1.0f);
 //
 //    }
-    {
-        entityID eID = this->createEntity();
-        DebugNameComponent& nameC = addComponent<DebugNameComponent>(eID);
-        nameC.m_name = "column";
-        TransformComponent& trans = this->addComponent<TransformComponent>(eID);
-        trans.m_position = glm::vec3(5.0f, -2.0f, 0.0f);
-        trans.m_scale = glm::vec3(2.0f);
-        BasicModelComponent& model = this->addComponent<BasicModelComponent>(eID);
-        model.m_model_name = "column";
-        if(m_ModelCatalogSingleton.modelExists(model.m_model_name)){
-            AABBColliderComponent& bbox = this->addComponent<AABBColliderComponent>(eID);
-            bbox.m_AABB = this->m_ModelCatalogSingleton.getModel(model.m_model_name).bbox;
-        }
-    }
+//    {
+//        entityID eID = this->createEntity();
+//        DebugNameComponent& nameC = addComponent<DebugNameComponent>(eID);
+//        nameC.m_name = "column";
+//        TransformComponent& trans = this->addComponent<TransformComponent>(eID);
+//        trans.m_position = glm::vec3(5.0f, -2.0f, 0.0f);
+//        trans.m_scale = glm::vec3(2.0f);
+//        BasicModelComponent& model = this->addComponent<BasicModelComponent>(eID);
+//        model.m_model_name = "column";
+//        if(m_ModelCatalogSingleton.modelExists(model.m_model_name)){
+//            AABBColliderComponent& bbox = this->addComponent<AABBColliderComponent>(eID);
+//            bbox.m_AABB = this->m_ModelCatalogSingleton.getModel(model.m_model_name).bbox;
+//        }
+//    }
        
 }
 
@@ -412,6 +524,8 @@ void EntityAdmin::filterEntitiesIntoMutableFamilies(){
     }
 }
 
+static std::string prefix = "";
+
 void EntityAdmin::addSubtreeIntoStaticFamilies(Entity e){
     entityID eID = e.m_entityID;
     componentMask mask = e.m_mask;
@@ -424,14 +538,18 @@ void EntityAdmin::addSubtreeIntoStaticFamilies(Entity e){
     }
     #include "filterEntitiesIntoStaticFamiliesInclude.cpp"
     
+    std::cout << prefix << e.m_entityID << std::endl;
+    prefix.push_back('-');
     for(int i = 0; i < MAX_CHILDREN; i++){
         if(e.m_children[i] != 0){
             addSubtreeIntoStaticFamilies(m_entities.at(e.m_children[i]));
         }
     }
+    prefix.pop_back();
 }
 
 void EntityAdmin::filterEntitiesIntoStaticFamilies(){
+    std::cout << "Filtering:\n";
     for (std::pair<entityID, Entity> pair : m_entities){
         entityID eID = pair.first;
         Entity e = pair.second;
@@ -439,6 +557,7 @@ void EntityAdmin::filterEntitiesIntoStaticFamilies(){
             addSubtreeIntoStaticFamilies(e);
         }
     }
+    std::cout << std::endl;
     
 //
 //    for (std::pair<entityID, Entity> pair : m_entities){

@@ -64,6 +64,14 @@ public:
     entityID createEntity();
     entityID createEntityFromPrototype(prototype proto);
     prototype createPrototypeFromEntity(entityID eID);
+    bool hasParent(entityID eID);
+    bool hasChildren(entityID eID);
+    bool isChildOf(entityID eID, entityID parent);
+    bool isParentOf(entityID eID, entityID child);
+    bool addChild(entityID parent, entityID child);
+    bool removeChild(entityID parent, entityID child);
+    bool setParent(entityID child, entityID parent);
+    bool clearParent(entityID child);
     void defer(std::function<void (void)>);
     entityID duplicateEntity(entityID eID);
     Entity* tryCreateEntity(entityID eID);

@@ -508,7 +508,7 @@ void EditorSystem::initRendering(){
 // pre: Imgui must be running
 void EditorSystem::render(){
     EditorSingleton& edit = m_admin.m_EditorSingleton;
-    if(edit.hasSelectedEntity && m_admin.tryGetEntity(edit.selectedEntity) == nullptr){
+    if(edit.hasSelectedEntity && !m_admin.entityExists(edit.selectedEntity)){
         edit.hasSelectedEntity = false;
     }
     
@@ -791,7 +791,7 @@ void EditorSystem::renderSceneGraphEditor(){
     
     
     char nameBuf[64];
-    for (std::pair<entityID, Entity*> p : m_admin.m_entities){
+    for (std::pair<entityID, Entity> p : m_admin.m_entities){
         entityID eID = p.first;
         DebugNameComponent* nameC = m_admin.tryGetComponent<DebugNameComponent>(eID);
         

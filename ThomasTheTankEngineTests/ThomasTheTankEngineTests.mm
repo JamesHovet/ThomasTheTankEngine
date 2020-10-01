@@ -37,32 +37,32 @@ using json = nlohmann::json;
 }
 
 - (void)testCreateEntity {
-    XCTAssert(g_admin->tryGetEntity(0) == nullptr);
+    XCTAssert(!g_admin->entityExists(0));
     entityID eID = g_admin->createEntity();
-    XCTAssert(g_admin->tryGetEntity(eID) != nullptr);
+    XCTAssert(g_admin->entityExists(eID));
 }
 
 - (void)testCreateEntityWithID {
     entityID eID = 42;
     g_admin->tryCreateEntity(42);
-    XCTAssert(g_admin->tryGetEntity(42) != nullptr);
+    XCTAssert(g_admin->entityExists(42));
     XCTAssert(g_admin->tryCreateEntity(42) == nullptr);
 }
 
 - (void)testDestroyEntity {
     entityID eID = g_admin->createEntity();
-    XCTAssert(g_admin->tryGetEntity(eID) != nullptr);
+    XCTAssert(g_admin->entityExists(eID));
     g_admin->destroyEntity(eID);
-    XCTAssert(g_admin->tryGetEntity(eID) == nullptr);
+    XCTAssert(!g_admin->entityExists(eID));
 }
 
 - (void)testDestroyEntityWithComponent {
     entityID eID = g_admin->createEntity();
     g_admin->addComponent<TransformComponent>(eID);
-    XCTAssert(g_admin->tryGetEntity(eID) != nullptr);
+    XCTAssert(g_admin->entityExists(eID));
     XCTAssert(g_admin->tryGetComponent<TransformComponent>(eID) != nullptr);
     g_admin->destroyEntity(eID);
-    XCTAssert(g_admin->tryGetEntity(eID) == nullptr);
+    XCTAssert(!g_admin->entityExists(eID));
     XCTAssert(g_admin->tryGetComponent<TransformComponent>(eID) == nullptr);
 }
 
@@ -72,12 +72,12 @@ using json = nlohmann::json;
         g_admin->addComponent<TransformComponent>(i);
     }
     for(int i = 0; i < 3; i++){
-        XCTAssert(g_admin->tryGetEntity(i) != nullptr);
+        XCTAssert(g_admin->entityExists(i));
         XCTAssert(g_admin->tryGetComponent<TransformComponent>(i) != nullptr);
     }
     g_admin->destroyAllEntities();
     for(int i = 0; i < 3; i++){
-        XCTAssert(g_admin->tryGetEntity(i) == nullptr);
+        XCTAssert(!g_admin->entityExists(i));
         XCTAssert(g_admin->tryGetComponent<TransformComponent>(i) == nullptr);
     }
 }
@@ -160,7 +160,7 @@ using json = nlohmann::json;
     new_world->deserializeByEntityInternal(world_obj);
     
     for(int i = 0; i < 3; i++){
-        XCTAssert(new_world->tryGetEntity(i) != nullptr);
+        XCTAssert(new_world->entityExists(i));
         XCTAssert(new_world->tryGetComponent<TransformComponent>(i) != nullptr);
         XCTAssert(new_world->tryGetComponent<DebugNameComponent>(i) != nullptr);
         XCTAssert(new_world->tryGetComponent<TransformComponent>(i)->m_position == g_admin->tryGetComponent<TransformComponent>(i)->m_position);
@@ -193,7 +193,7 @@ using json = nlohmann::json;
     TransformComponent& trans = g_admin->addComponent<TransformComponent>(eID);
     trans.m_position = glm::vec3(42.0, 69105.0, -3.14);
     entityID dupe = g_admin->duplicateEntity(eID);
-    XCTAssert(g_admin->tryGetEntity(dupe) != nullptr);
+    XCTAssert(g_admin->entityExists(dupe));
     XCTAssert(g_admin->tryGetComponent<TransformComponent>(dupe) != nullptr);
     XCTAssert(g_admin->tryGetComponent<CameraComponent>(dupe) != nullptr);
     XCTAssert(g_admin->tryGetComponent<TransformComponent>(eID)->m_position == g_admin->tryGetComponent<TransformComponent>(dupe)->m_position);

@@ -71,14 +71,12 @@ float greyBoxVertsNoIndices[] = {
     -0.5f,  0.5f, -0.5f
 };
 
-#pragma pack(push, 0)
+
 struct greyBoxRenderData {
-    glm::vec3 position;
-    glm::vec3 scale;
+    glm::mat4 model;
     glm::vec4 color;
-    glm::vec4 rotation;
 };
-#pragma pack(pop)
+
 
 void GreyBoxRenderSystem::init(){
     greyBoxShader = &m_admin.m_ShaderCatalogSingleton.getShader("greybox");
@@ -98,21 +96,25 @@ void GreyBoxRenderSystem::init(){
     
     glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
     
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(greyBoxRenderData), (void *) offsetof(greyBoxRenderData, position));
-    glEnableVertexAttribArray(1); // location 1 : vec3 ipos
+    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(greyBoxRenderData), (void *) (0  * sizeof(float)));
+    glEnableVertexAttribArray(1);
     glVertexAttribDivisor(1, 1);
     
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(greyBoxRenderData), (void *) offsetof(greyBoxRenderData, scale));
-    glEnableVertexAttribArray(2); // location 2 : vec3 scale
+    glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(greyBoxRenderData), (void *) (4  * sizeof(float)));
+    glEnableVertexAttribArray(2);
     glVertexAttribDivisor(2, 1);
-//
-    glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(greyBoxRenderData), (void *) offsetof(greyBoxRenderData, color));
-    glEnableVertexAttribArray(3); // location 3 : v4 color (rgba)
+    
+    glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(greyBoxRenderData), (void *) (8  * sizeof(float)));
+    glEnableVertexAttribArray(3);
     glVertexAttribDivisor(3, 1);
     
-    glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(greyBoxRenderData), (void *) offsetof(greyBoxRenderData, rotation));
-    glEnableVertexAttribArray(4); // location 3 : v4 color (rgba)
+    glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(greyBoxRenderData), (void *) (12 * sizeof(float)));
+    glEnableVertexAttribArray(4);
     glVertexAttribDivisor(4, 1);
+    
+    glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(greyBoxRenderData), (void *) (16 * sizeof(float)));
+    glEnableVertexAttribArray(5);
+    glVertexAttribDivisor(5, 1);
     
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     
@@ -140,21 +142,15 @@ void GreyBoxRenderSystem::render(){
     // populate the instance positions array
     std::vector<GreyBoxFamilyStatic>& boxes = m_admin.getFamilyStaticVector<GreyBoxFamilyStatic>();
     
-    int numBoxes = boxes.size();
+    auto numBoxes = boxes.size();
 //    numBoxes = 3;
     if (numBoxes != 0) {
-        //greyBoxRenderData instanceData[numBoxes];
         std::vector<greyBoxRenderData> instanceData;
         instanceData.resize(numBoxes);
 
         for (int i = 0; i < numBoxes; i++) {
-
-            instanceData[i].position = boxes[i].m_TransformComponent.m_position;
-            instanceData[i].scale = boxes[i].m_TransformComponent.m_scale;
+            instanceData[i].model = boxes[i].m_TransformComponent.m_cachedMat4;
             instanceData[i].color = boxes[i].m_GreyBoxComponent.m_color;
-            auto orient = boxes[i].m_TransformComponent.m_orientation;
-            instanceData[i].rotation = glm::vec4(orient.x, orient.y, orient.z, orient.w);
-
         }
 
         glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);

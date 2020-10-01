@@ -14,7 +14,7 @@
 #include <ostream>
 #include <istream>
 #include <iostream>
-#include <unordered_set>
+#include <stack>
 
 #include "json.hpp"
 
@@ -328,40 +328,82 @@ void EntityAdmin::loadTestScene(){
             boxC.m_color = glm::vec4(((float) i) * (1.0f / (float) numToAdd), 0.0, 0.0, 1.0f);
         }
     }
+    
     {
-        for(int i = 0; i < 3; i ++){
-            entityID eID = this->createEntity();
-            TransformComponent& trans = addComponent<TransformComponent>(eID);
-            trans.m_position = glm::vec3((i - 1) * 10.0f, 0.0f, 0.0f);
-            GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(eID);
-            AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(eID);
+        entityID parent = this->createEntity();
+        entityID child = this->createEntity();
+        entityID grandchild = this->createEntity();
+        addChild(parent, child);
+        addChild(child, grandchild);
+        
+        {
+            DebugNameComponent& nameC = addComponent<DebugNameComponent>(parent);
+            nameC.m_name = "parent";
+            TransformComponent& trans = addComponent<TransformComponent>(parent);
+            trans.m_position = glm::vec3(0.0f);
+            GreyBoxComponent& boxC = addComponent<GreyBoxComponent>(parent);
             boxC.m_color = RGBA(1.0f, 0.0f, 0.0f, 1.0f);
-            
-            int thisRandomJ = rand() % 4;
-            for (int j = 0; j < thisRandomJ; j ++){
-                entityID child = createEntity();
-                setParent(child, eID);
-                TransformComponent& trans = addComponent<TransformComponent>(child);
-                trans.m_scale = glm::vec3(0.5f);
-                trans.m_position = glm::vec3((j - ((float)thisRandomJ / 2.0f)) * 2.0f + ((i - 1) * 10.0f), -2.5f, 0.0f);
-                GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(child);
-                AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(child);
-                boxC.m_color = RGBA(0.0f, 1.0f, 0.0f, 1.0f);
-                
-                int thisRandomK = rand() % 4;
-                for(int k = 0; k < thisRandomK; k++){
-                    entityID grandchild = createEntity();
-                    setParent(grandchild, child);
-                    TransformComponent& trans = addComponent<TransformComponent>(grandchild);
-                    trans.m_scale = glm::vec3(0.5f);
-                    trans.m_position = glm::vec3((k - ((float)thisRandomK / 2.0f)) * 2.0f + (j - ((float)thisRandomJ / 2.0f)) * 3.0f + ((i - 1) * 10.0f), -5.0f, 0.0f);
-                    GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(grandchild);
-                    AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(grandchild);
-                    boxC.m_color = RGBA(0.0f, 0.0f, 1.0f, 1.0f);
-                }
-            }
+            AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(parent);
         }
+        {
+            DebugNameComponent& nameC = addComponent<DebugNameComponent>(child);
+            nameC.m_name = "child";
+            TransformComponent& trans = addComponent<TransformComponent>(child);
+            trans.m_position = glm::vec3(0.0f, -2.0f, 0.0f);
+            GreyBoxComponent& boxC = addComponent<GreyBoxComponent>(child);
+            boxC.m_color = RGBA(0.0f, 1.0f, 0.0f, 1.0f);
+            AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(child);
+        }
+        
+        {
+            DebugNameComponent& nameC = addComponent<DebugNameComponent>(grandchild);
+            nameC.m_name = "grandchild";
+            TransformComponent& trans = addComponent<TransformComponent>(grandchild);
+            trans.m_position = glm::vec3(0.0f, -2.0f, 0.0f);
+            GreyBoxComponent& boxC = addComponent<GreyBoxComponent>(grandchild);
+            boxC.m_color = RGBA(0.0f, 0.0f, 1.0f, 1.0f);
+            AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(grandchild);
+        }
+        
+        
     }
+    
+    
+    
+//    {
+//        for(int i = 0; i < 3; i ++){
+//            entityID eID = this->createEntity();
+//            TransformComponent& trans = addComponent<TransformComponent>(eID);
+//            trans.m_position = glm::vec3((i - 1) * 10.0f, 0.0f, 0.0f);
+//            GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(eID);
+//            AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(eID);
+//            boxC.m_color = RGBA(1.0f, 0.0f, 0.0f, 1.0f);
+//
+//            int thisRandomJ = rand() % 4;
+//            for (int j = 0; j < thisRandomJ; j ++){
+//                entityID child = createEntity();
+//                setParent(child, eID);
+//                TransformComponent& trans = addComponent<TransformComponent>(child);
+//                trans.m_scale = glm::vec3(0.5f);
+//                trans.m_position = glm::vec3((j - ((float)thisRandomJ / 2.0f)) * 2.0f, -2.5f, 0.0f);
+//                GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(child);
+//                AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(child);
+//                boxC.m_color = RGBA(0.0f, 1.0f, 0.0f, 1.0f);
+//
+//                int thisRandomK = rand() % 4;
+//                for(int k = 0; k < thisRandomK; k++){
+//                    entityID grandchild = createEntity();
+//                    setParent(grandchild, child);
+//                    TransformComponent& trans = addComponent<TransformComponent>(grandchild);
+//                    trans.m_scale = glm::vec3(0.5f);
+//                    trans.m_position = glm::vec3((k - ((float)thisRandomK / 2.0f)) * 2.0f, -5.0f, 0.0f);
+//                    GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(grandchild);
+//                    AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(grandchild);
+//                    boxC.m_color = RGBA(0.0f, 0.0f, 1.0f, 1.0f);
+//                }
+//            }
+//        }
+//    }
     
     
 //    {
@@ -525,26 +567,46 @@ void EntityAdmin::filterEntitiesIntoMutableFamilies(){
 }
 
 static std::string prefix = "";
+static glm::mat4 currentTransform = glm::mat4(1.0f);
+static std::stack<glm::mat4> transformStack;
 
 void EntityAdmin::addSubtreeIntoStaticFamilies(Entity e){
     entityID eID = e.m_entityID;
     componentMask mask = e.m_mask;
     
-    {
-    if(ECSUtils::doesPassFilter(mask, Family<CameraFamilyStatic>::mask)){
-        CameraFamilyStatic family = CameraFamilyStatic(eID, getComponent<TransformComponent>(eID), getComponent<CameraComponent>(eID));
-        getFamilyStaticVector<CameraFamilyStatic>().push_back(family);
-        }
-    }
-    #include "filterEntitiesIntoStaticFamiliesInclude.cpp"
     
     std::cout << prefix << e.m_entityID << std::endl;
     prefix.push_back('-');
+    transformStack.push(currentTransform);
+    
+    TransformComponent* transC = tryGetComponent<TransformComponent>(eID);
+    
+    if(transC != nullptr){
+        glm::mat4 newMat4 = transC->getLocalModelMatrix();
+        currentTransform = currentTransform * newMat4;
+        transC->m_cachedMat4 = currentTransform;
+//        transC->m_cachedMat4 = glm::mat4(1.0f);
+    }
+    
+    // do the actual filtering
+    {
+        {
+        if(ECSUtils::doesPassFilter(mask, Family<CameraFamilyStatic>::mask)){
+            CameraFamilyStatic family = CameraFamilyStatic(eID, getComponent<TransformComponent>(eID), getComponent<CameraComponent>(eID));
+            getFamilyStaticVector<CameraFamilyStatic>().push_back(family);
+            }
+        }
+        #include "filterEntitiesIntoStaticFamiliesInclude.cpp"
+    }
+    
+    // recurse
     for(int i = 0; i < MAX_CHILDREN; i++){
         if(e.m_children[i] != 0){
             addSubtreeIntoStaticFamilies(m_entities.at(e.m_children[i]));
         }
     }
+    currentTransform = transformStack.top();
+    transformStack.pop();
     prefix.pop_back();
 }
 
@@ -558,21 +620,6 @@ void EntityAdmin::filterEntitiesIntoStaticFamilies(){
         }
     }
     std::cout << std::endl;
-    
-//
-//    for (std::pair<entityID, Entity> pair : m_entities){
-//        Entity e = pair.second;
-//        componentMask mask = e.m_mask;
-//        entityID eID = e.m_entityID;
-//
-//        {
-//        if(ECSUtils::doesPassFilter(mask, Family<CameraFamilyStatic>::mask)){
-//            CameraFamilyStatic family = CameraFamilyStatic(eID, getComponent<TransformComponent>(eID), getComponent<CameraComponent>(eID));
-//            getFamilyStaticVector<CameraFamilyStatic>().push_back(family);
-//            }
-//        }
-//        #include "filterEntitiesIntoStaticFamiliesInclude.cpp"
-//    }
 }
 
 //TODO: Note that this doesn't work with the app sandbox on... I have to figure out how macos wants me to do file in the way it expects...

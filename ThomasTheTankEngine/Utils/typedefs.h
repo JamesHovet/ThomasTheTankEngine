@@ -14,6 +14,8 @@
 #include <glm/glm.hpp>
 #include <json.hpp>
 
+#define MAX_CHILDREN 10
+
 typedef unsigned short entityID;
 typedef unsigned short componentID;
 typedef unsigned short familyID;

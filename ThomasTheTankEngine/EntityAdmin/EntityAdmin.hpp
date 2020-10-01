@@ -79,6 +79,7 @@ public:
 private:
     void initAllSystems();
     void filterEntitiesIntoMutableFamilies();
+    void addSubtreeIntoStaticFamilies(Entity e);
     void filterEntitiesIntoStaticFamilies();
     void clearFamilies();
     void clearStaticFamilyVectors();

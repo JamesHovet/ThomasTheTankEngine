@@ -14,6 +14,7 @@
 #include <ostream>
 #include <istream>
 #include <iostream>
+#include <unordered_set>
 
 #include "json.hpp"
 
@@ -411,20 +412,48 @@ void EntityAdmin::filterEntitiesIntoMutableFamilies(){
     }
 }
 
+void EntityAdmin::addSubtreeIntoStaticFamilies(Entity e){
+    entityID eID = e.m_entityID;
+    componentMask mask = e.m_mask;
+    
+    {
+    if(ECSUtils::doesPassFilter(mask, Family<CameraFamilyStatic>::mask)){
+        CameraFamilyStatic family = CameraFamilyStatic(eID, getComponent<TransformComponent>(eID), getComponent<CameraComponent>(eID));
+        getFamilyStaticVector<CameraFamilyStatic>().push_back(family);
+        }
+    }
+    #include "filterEntitiesIntoStaticFamiliesInclude.cpp"
+    
+    for(int i = 0; i < MAX_CHILDREN; i++){
+        if(e.m_children[i] != 0){
+            addSubtreeIntoStaticFamilies(m_entities.at(e.m_children[i]));
+        }
+    }
+}
+
 void EntityAdmin::filterEntitiesIntoStaticFamilies(){
     for (std::pair<entityID, Entity> pair : m_entities){
+        entityID eID = pair.first;
         Entity e = pair.second;
-        componentMask mask = e.m_mask;
-        entityID eID = e.m_entityID;
-        
-        {
-        if(ECSUtils::doesPassFilter(mask, Family<CameraFamilyStatic>::mask)){
-            CameraFamilyStatic family = CameraFamilyStatic(eID, getComponent<TransformComponent>(eID), getComponent<CameraComponent>(eID));
-            getFamilyStaticVector<CameraFamilyStatic>().push_back(family);
-            }
+        if(e.m_parentID == 0){
+            addSubtreeIntoStaticFamilies(e);
         }
-        #include "filterEntitiesIntoStaticFamiliesInclude.cpp"
     }
+    
+//
+//    for (std::pair<entityID, Entity> pair : m_entities){
+//        Entity e = pair.second;
+//        componentMask mask = e.m_mask;
+//        entityID eID = e.m_entityID;
+//
+//        {
+//        if(ECSUtils::doesPassFilter(mask, Family<CameraFamilyStatic>::mask)){
+//            CameraFamilyStatic family = CameraFamilyStatic(eID, getComponent<TransformComponent>(eID), getComponent<CameraComponent>(eID));
+//            getFamilyStaticVector<CameraFamilyStatic>().push_back(family);
+//            }
+//        }
+//        #include "filterEntitiesIntoStaticFamiliesInclude.cpp"
+//    }
 }
 
 //TODO: Note that this doesn't work with the app sandbox on... I have to figure out how macos wants me to do file in the way it expects...

@@ -575,8 +575,8 @@ void EntityAdmin::addSubtreeIntoStaticFamilies(Entity e){
     componentMask mask = e.m_mask;
     
     
-    std::cout << prefix << e.m_entityID << std::endl;
-    prefix.push_back('-');
+//    std::cout << prefix << e.m_entityID << std::endl;
+//    prefix.push_back('-');
     transformStack.push(currentTransform);
     
     TransformComponent* transC = tryGetComponent<TransformComponent>(eID);
@@ -607,11 +607,11 @@ void EntityAdmin::addSubtreeIntoStaticFamilies(Entity e){
     }
     currentTransform = transformStack.top();
     transformStack.pop();
-    prefix.pop_back();
+//    prefix.pop_back();
 }
 
 void EntityAdmin::filterEntitiesIntoStaticFamilies(){
-    std::cout << "Filtering:\n";
+//    std::cout << "Filtering:\n";
     for (std::pair<entityID, Entity> pair : m_entities){
         entityID eID = pair.first;
         Entity e = pair.second;
@@ -619,7 +619,7 @@ void EntityAdmin::filterEntitiesIntoStaticFamilies(){
             addSubtreeIntoStaticFamilies(e);
         }
     }
-    std::cout << std::endl;
+//    std::cout << std::endl;
 }
 
 //TODO: Note that this doesn't work with the app sandbox on... I have to figure out how macos wants me to do file in the way it expects...

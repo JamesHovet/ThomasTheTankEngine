@@ -41,6 +41,17 @@
 #define MAX_ENTITIES 2048
 #define SERIALIZATION_VERSION "0.1"
 
+struct entityIDHash {
+    std::size_t operator()(const entityID eID) const {
+        return (std::size_t)(eID % MAX_ENTITIES);
+    }
+};
+
+struct entityIDComp {
+    bool operator()(const entityID l, const entityID r) const {
+        return l == r;
+    }
+};
 
 class EntityAdmin {
     friend EditorSystem;
@@ -88,7 +99,7 @@ public:
 private:
     void initAllSystems();
     void filterEntitiesIntoMutableFamilies();
-    void addSubtreeIntoStaticFamilies(Entity e);
+    void addSubtreeIntoStaticFamilies(Entity* e);
     void filterEntitiesIntoStaticFamilies();
     void clearFamilies();
     void clearStaticFamilyVectors();
@@ -103,7 +114,7 @@ public:
         T* out = this_pool->construct();
         
         m_component_maps.at(eID).insert(std::make_pair(componentID, out));
-        m_entities.at(eID).m_mask.set(componentID);
+        m_entities.at(eID)->m_mask.set(componentID);
         
         return *out;
     }
@@ -168,7 +179,7 @@ public:
             eID = _eID;
             cID = _cID;
             assert(m_admin.entityExists(eID));
-            mask = m_admin.m_entities[eID].m_mask;
+            mask = m_admin.m_entities[eID]->m_mask;
             
             while(cID < NUM_COMPONENTS){
                 if(mask[cID]){
@@ -224,7 +235,7 @@ public:
             assert(m_admin.entityExists(eID));
             
             while(index < MAX_CHILDREN){
-                if(m_admin.m_entities[eID].m_children[index] != 0){
+                if(m_admin.m_entities[eID]->m_children[index] != 0){
                     break;
                 }
                 index ++;
@@ -234,7 +245,7 @@ public:
         ChildrenIter& operator++(){
             index ++;
             while(index < MAX_CHILDREN){
-                if(m_admin.m_entities[eID].m_children[index] != 0){
+                if(m_admin.m_entities[eID]->m_children[index] != 0){
                     break;
                 }
                 index ++;
@@ -247,7 +258,7 @@ public:
         }
         
         entityID operator*() const {
-            entityID out = m_admin.m_entities[eID].m_children[index];
+            entityID out = m_admin.m_entities[eID]->m_children[index];
             assert(out != NO_ENTITY);
             return out;
         }
@@ -273,7 +284,7 @@ public:
         this_entity_map.erase(cID);
         
         
-        m_entities.at(eID).m_mask.reset(cID); // clear entity flag
+        m_entities.at(eID)->m_mask.reset(cID); // clear entity flag
     }
     
 
@@ -309,7 +320,9 @@ private:
     
 private:
     std::unordered_map<entityID, std::unordered_map<componentID, ECSComponent *>> m_component_maps;
-    std::unordered_map<entityID, Entity> m_entities;
+    
+    std::unordered_map<entityID, Entity*, entityIDHash, entityIDComp> m_entities;
+    std::array<Entity, MAX_ENTITIES> m_entity_storage;
     bool m_entities_dirty = true;
     
     std::array<void *, NUM_COMPONENTS> m_components_pool_array;

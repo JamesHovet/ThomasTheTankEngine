@@ -262,6 +262,27 @@ using json = nlohmann::json;
     XCTAssert(!g_admin->isParentOf(parent, child));
 }
 
+- (void)testDestroyParent {
+    entityID parent = g_admin->createEntity();
+    entityID child = g_admin->createEntity();
+    g_admin->addChild(parent, child);
+    XCTAssert(g_admin->isChildOf(child, parent));
+    XCTAssert(g_admin->isParentOf(parent, child));
+    g_admin->destroyEntity(parent);
+    XCTAssert(!g_admin->entityExists(parent));
+    XCTAssert(!g_admin->entityExists(child));
+}
+
+- (void)testDestroyChild {
+    entityID parent = g_admin->createEntity();
+    entityID child = g_admin->createEntity();
+    g_admin->addChild(parent, child);
+    XCTAssert(g_admin->isChildOf(child, parent));
+    XCTAssert(g_admin->isParentOf(parent, child));
+    g_admin->destroyEntity(child);
+    XCTAssert(!g_admin->hasChildren(parent));
+}
+
 @end
 
 //- (void)testPerformanceExample {

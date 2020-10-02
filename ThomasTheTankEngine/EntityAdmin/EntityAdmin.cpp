@@ -117,6 +117,7 @@ EntityAdmin::EntityAdmin()
     m_RenderSetupSystem(*this),
     m_InputSingleton(*this)
 {
+//    m_entities = std::unordered_map<entityID, Entity*>(MAX_ENTITIES);
     constructComponentPools(m_components_pool_array,
                             m_components_destuction_callbacks_array,
                             m_cleanup_callbacks);
@@ -144,11 +145,11 @@ Entity* EntityAdmin::tryCreateEntity(entityID eID){
         return nullptr;
     }
     
-    m_entities[eID].m_entityID = eID;
-    m_entities[eID].m_mask.reset();
+    m_entity_storage[eID] = Entity(eID);
+    m_entities[eID] = &m_entity_storage[eID];
     m_component_maps.insert(std::make_pair(eID, std::unordered_map<componentID, ECSComponent*>()));
     
-    return &m_entities[eID];
+    return m_entities[eID];
 }
 
 entityID EntityAdmin::createEntity(){
@@ -161,8 +162,8 @@ entityID EntityAdmin::createEntity(){
         eID = rand() % MAX_ENTITIES;
     }
     
-    m_entities[eID].m_entityID = eID;
-    m_entities[eID].m_mask.reset();
+    m_entity_storage[eID] = Entity(eID);
+    m_entities[eID] = &m_entity_storage[eID];
     m_component_maps.insert(std::make_pair(eID, std::unordered_map<componentID, ECSComponent*>()));
     
     return eID;
@@ -173,12 +174,12 @@ bool EntityAdmin::entityExists(entityID eID){
 }
 
 bool EntityAdmin::hasParent(entityID eID){
-    return m_entities[eID].m_parentID != 0;
+    return m_entities[eID]->m_parentID != 0;
 }
 
 bool EntityAdmin::hasChildren(entityID eID){
     for(int i = 0; i < MAX_CHILDREN; i++){
-        if(m_entities[eID].m_children[i] != NO_ENTITY){
+        if(m_entities[eID]->m_children[i] != NO_ENTITY){
             return true;
         }
     }
@@ -186,12 +187,12 @@ bool EntityAdmin::hasChildren(entityID eID){
 }
 
 bool EntityAdmin::isChildOf(entityID eID, entityID parent){
-    return m_entities[eID].m_parentID == parent;
+    return m_entities[eID]->m_parentID == parent;
 }
 
 bool EntityAdmin::isParentOf(entityID eID, entityID child){
     for(int i = 0; i < MAX_CHILDREN; i++){
-        if(m_entities[eID].m_children[i] == child){
+        if(m_entities[eID]->m_children[i] == child){
             return true;
         }
     }
@@ -205,9 +206,9 @@ bool EntityAdmin::addChild(entityID parent, entityID child){
     clearParent(child);
 
     for(int i = 0; i < MAX_CHILDREN; i++){
-        if(m_entities[parent].m_children[i] == NO_ENTITY){
-            m_entities[parent].m_children[i] = child;
-            m_entities[child].m_parentID = parent;
+        if(m_entities[parent]->m_children[i] == NO_ENTITY){
+            m_entities[parent]->m_children[i] = child;
+            m_entities[child]->m_parentID = parent;
             return true;
         }
     }
@@ -217,9 +218,9 @@ bool EntityAdmin::addChild(entityID parent, entityID child){
 
 bool EntityAdmin::removeChild(entityID parent, entityID child){
     for(int i = 0; i < MAX_CHILDREN; i++){
-        if(m_entities[parent].m_children[i] == child){
-            m_entities[parent].m_children[i] = NO_ENTITY;
-            m_entities[child].m_parentID = NO_ENTITY;
+        if(m_entities[parent]->m_children[i] == child){
+            m_entities[parent]->m_children[i] = NO_ENTITY;
+            m_entities[child]->m_parentID = NO_ENTITY;
             return true;
         }
     }
@@ -235,12 +236,12 @@ bool EntityAdmin::setParent(entityID child, entityID parent){
 }
 
 bool EntityAdmin::clearParent(entityID child){
-    entityID currentParent = m_entities[child].m_parentID;
+    entityID currentParent = m_entities[child]->m_parentID;
     if (currentParent != NO_ENTITY){
         for(int i = 0; i < MAX_CHILDREN; i++){
-            if(m_entities[currentParent].m_children[i] == child){
-                m_entities[currentParent].m_children[i] = NO_ENTITY;
-                m_entities[child].m_parentID = NO_ENTITY;
+            if(m_entities[currentParent]->m_children[i] == child){
+                m_entities[currentParent]->m_children[i] = NO_ENTITY;
+                m_entities[child]->m_parentID = NO_ENTITY;
                 return true;
             }
         }
@@ -254,6 +255,14 @@ void EntityAdmin::destroyEntity(entityID eID){
         auto componentID = pair.first;
         auto componentPtr = pair.second;
         std::invoke(m_components_destuction_callbacks_array[componentID], componentPtr);
+    }
+    if(hasChildren(eID)){
+        for(auto it = childrenBegin(eID); it != childrenEnd(eID); ++it){
+            destroyEntity(*it);
+        }
+    }
+    if(hasParent(eID)){
+        clearParent(eID);
     }
     m_component_maps.erase(eID);
     m_entities.erase(m_entities.find(eID));
@@ -544,10 +553,10 @@ void EntityAdmin::clearFamilies(){
 }
 
 void EntityAdmin::filterEntitiesIntoMutableFamilies(){
-    for (std::pair<entityID, Entity> pair : m_entities){
-        Entity e = pair.second;
-        componentMask mask = e.m_mask;
-        entityID eID = e.m_entityID;
+    for (std::pair<entityID, Entity*> pair : m_entities){
+        Entity* e = pair.second;
+        componentMask mask = e->m_mask;
+        entityID eID = e->m_entityID;
         
         {
         if(ECSUtils::doesPassFilter(mask, Family<CameraFamily>::mask)){
@@ -569,9 +578,9 @@ static std::string prefix = "";
 static glm::mat4 currentTransform = glm::mat4(1.0f);
 static std::stack<glm::mat4> transformStack;
 
-void EntityAdmin::addSubtreeIntoStaticFamilies(Entity e){
-    entityID eID = e.m_entityID;
-    componentMask mask = e.m_mask;
+void EntityAdmin::addSubtreeIntoStaticFamilies(Entity* e){
+    entityID eID = e->m_entityID;
+    componentMask mask = e->m_mask;
     
     
 //    std::cout << prefix << e.m_entityID << std::endl;
@@ -600,8 +609,8 @@ void EntityAdmin::addSubtreeIntoStaticFamilies(Entity e){
     
     // recurse
     for(int i = 0; i < MAX_CHILDREN; i++){
-        if(e.m_children[i] != 0){
-            addSubtreeIntoStaticFamilies(m_entities.at(e.m_children[i]));
+        if(e->m_children[i] != 0){
+            addSubtreeIntoStaticFamilies(m_entities.at(e->m_children[i]));
         }
     }
     currentTransform = transformStack.top();
@@ -611,10 +620,10 @@ void EntityAdmin::addSubtreeIntoStaticFamilies(Entity e){
 
 void EntityAdmin::filterEntitiesIntoStaticFamilies(){
 //    std::cout << "Filtering:\n";
-    for (std::pair<entityID, Entity> pair : m_entities){
+    for (std::pair<entityID, Entity*> pair : m_entities){
         entityID eID = pair.first;
-        Entity e = pair.second;
-        if(e.m_parentID == 0){
+        Entity* e = pair.second;
+        if(e->m_parentID == 0){
             addSubtreeIntoStaticFamilies(e);
         }
     }
@@ -642,7 +651,7 @@ json::object_t EntityAdmin::serializeByEntityInternal(){
     
     out["entities"] = json::object();
     
-    for(std::pair<entityID, Entity> p : m_entities){
+    for(std::pair<entityID, Entity*> p : m_entities){
         entityID eID = p.first;
         std::string eIDStr = std::to_string(p.first);
         out["entities"][eIDStr] = json::object();

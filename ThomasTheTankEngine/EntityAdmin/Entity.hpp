@@ -22,6 +22,12 @@ public:
     entityID m_entityID;
     entityID m_parentID = 0;
     entityID m_children[MAX_CHILDREN] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; // any bigger and we go over 32 bytes and then only one can fit on a cache line.
+    
+    Entity() : m_entityID(NO_ENTITY){}
+    
+    Entity(entityID eID) : m_entityID(eID){
+        m_mask.reset();
+    }
 };
 
 #endif /* Entity_hpp */

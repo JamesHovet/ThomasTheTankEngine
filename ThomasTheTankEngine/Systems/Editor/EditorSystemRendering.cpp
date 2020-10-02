@@ -826,10 +826,10 @@ void EditorSystem::renderSceneGraphEditor(){
         });
     }
     
-    for (std::pair<entityID, Entity> p : m_admin.m_entities){
+    for (std::pair<entityID, Entity*> p : m_admin.m_entities){
         entityID eID = p.first;
-        Entity e = p.second;
-        if(e.m_parentID == NO_ENTITY){
+        Entity* e = p.second;
+        if(e->m_parentID == NO_ENTITY){
             renderSceneGraphSubtree(eID);
         }
     }

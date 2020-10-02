@@ -58,6 +58,7 @@ public:
     void copyToRenderBuffer();
     void render();
     void mainLoop(void);
+    int  getNumEntities(){return m_entities.size();}
     
     void loadTestScene();
     

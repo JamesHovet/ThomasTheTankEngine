@@ -371,32 +371,31 @@ void EntityAdmin::loadTestScene(){
     
     
     {
-        for(int i = 0; i < 3; i ++){
+        for(int i = 0; i < 5; i ++){
             entityID eID = this->createEntity();
             TransformComponent& trans = addComponent<TransformComponent>(eID);
-            trans.m_position = glm::vec3((i - 1) * 10.0f, 0.0f, 0.0f);
+            trans.m_position = glm::vec3((i - 2) * 10.0f, 0.0f, 0.0f);
             GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(eID);
             AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(eID);
             boxC.m_color = RGBA(1.0f, 0.0f, 0.0f, 1.0f);
 
-            int thisRandomJ = rand() % 4;
-            for (int j = 0; j < thisRandomJ; j ++){
+            for (int j = 0; j < 10; j ++){
                 entityID child = createEntity();
                 setParent(child, eID);
                 TransformComponent& trans = addComponent<TransformComponent>(child);
                 trans.m_scale = glm::vec3(0.5f);
-                trans.m_position = glm::vec3((j - ((float)thisRandomJ / 2.0f)) * 2.0f, -2.5f, 0.0f);
+                trans.m_position = glm::vec3((j - 5) * 2.0f, -2.5f, 0.0f);
                 GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(child);
                 AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(child);
                 boxC.m_color = RGBA(0.0f, 1.0f, 0.0f, 1.0f);
 
-                int thisRandomK = rand() % 4;
-                for(int k = 0; k < thisRandomK; k++){
+                                            
+                for(int k = 0; k < 10; k++){
                     entityID grandchild = createEntity();
                     setParent(grandchild, child);
                     TransformComponent& trans = addComponent<TransformComponent>(grandchild);
                     trans.m_scale = glm::vec3(0.5f);
-                    trans.m_position = glm::vec3((k - ((float)thisRandomK / 2.0f)) * 2.0f, -5.0f, 0.0f);
+                    trans.m_position = glm::vec3((k - 10) * 2.0f, -5.0f, 0.0f);
                     GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(grandchild);
                     AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(grandchild);
                     boxC.m_color = RGBA(0.0f, 0.0f, 1.0f, 1.0f);

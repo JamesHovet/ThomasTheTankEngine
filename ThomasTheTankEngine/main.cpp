@@ -25,8 +25,11 @@ EntityAdmin g_admin;
 
 int main(int argc, const char * argv[]) {
     
-    
-    std::cout << sizeof(Entity) << std::endl;
+
+    size_t entityIDSize = sizeof(entityID);
+    Entity* entityPtr;
+    size_t ptrSize = sizeof(entityPtr);
+    std::cout << "transform: " << entityIDSize << " " << ptrSize << std::endl;
 
     TRACE_EVENT("Setup Begin");
     
@@ -211,10 +214,13 @@ void holdWindowOpen() {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
+        TRACE_BEGIN_EXCLUSIVE("Imgui Boilerplate");
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplSDL2_NewFrame(g_window);
         ImGui::NewFrame();
+        TRACE_END_EXCLUSIVE("Imgui Boilerplate");
 
+        TRACE_BEGIN_EXCLUSIVE("SDL POLLING Boilerplate");
         myEventStack.clear();
         
         while (SDL_PollEvent(&e)){
@@ -232,6 +238,7 @@ void holdWindowOpen() {
             SDL_PushEvent(&e);
         }
         
+        TRACE_END_EXCLUSIVE("SDL POLLING Boilerplate");
         
         // Main loop:
         TRACE_BEGIN_EXCLUSIVE("Deferred");
@@ -267,19 +274,23 @@ void holdWindowOpen() {
         
         ImGui::Begin("main");
         
-        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
-                    1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+        ImGui::Text("Application average %.3f ms/frame (%.1f FPS); %d Entities",
+                    1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate, g_admin.getNumEntities());
 
         ImGui::End();
         
 //        ImGui::ShowDemoWindow();
         
+        TRACE_BEGIN_EXCLUSIVE("Imgui Rendering");
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        TRACE_END_EXCLUSIVE("Imgui Rendering");
         
         TRACE_END("FRAME", &g_admin);
         
+        TRACE_BEGIN_EXCLUSIVE("Swap");
         SDL_GL_SwapWindow(g_window);
+        TRACE_END_EXCLUSIVE("Swap");
     }
     
 }

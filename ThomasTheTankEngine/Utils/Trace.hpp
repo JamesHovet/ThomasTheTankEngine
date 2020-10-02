@@ -12,8 +12,11 @@
 
 // One of these must be uncommented (json was intended to be cross-platform but it is not yet implimented)
 
-//#define TRACE_BACKEND_INSTRUMENTS
+#ifdef __APPLE__
+#define TRACE_BACKEND_INSTRUMENTS
+#else
 #define TRACE_BACKEND_JSON
+#endif
 
 #ifdef TRACE_BACKEND_INSTRUMENTS
 #include <os/signpost.h>

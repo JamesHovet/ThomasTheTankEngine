@@ -28,6 +28,12 @@ struct TransformComponent : public ECSComponent {
     glm::quat m_orientation = glm::quat(1.0f, 0.0f, 0.0f, 0.0f);
     glm::vec3 m_position = glm::vec3(0.0f, 0.0f, 0.0f);
     glm::vec3 m_scale = glm::vec3(1.0f, 1.0f, 1.0f);
+    bool dirty = true;
+    
+    // dirty system
+    // the entityAdmin can call "refreshTransforms" or something to go through the process of cleaning all these transforms
+    // just takes the responsability off of the transform itself.
+    // messy, for sure, but also more consistent with the design patterns we've created so far.
     
     glm::vec3 getForward() {return glm::rotate(m_orientation, glm::vec3(0.0f, 0.0f, 1.0f));}
     glm::vec3 getUp()      {return glm::rotate(m_orientation, glm::vec3(0.0f, 1.0f, 0.0f));}

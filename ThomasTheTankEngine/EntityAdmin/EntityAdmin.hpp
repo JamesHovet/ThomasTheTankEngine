@@ -31,6 +31,7 @@
 #include "ConsoleSingleton.hpp"
 #include "ShaderCatalogSingleton.hpp"
 #include "ModelCatalogSingleton.hpp"
+#include "ImmediateRenderSingleton.hpp"
 
 #include "System.hpp"
 #include "AllSystems.hpp"
@@ -305,10 +306,11 @@ public:
     ShaderCatalogSingleton m_ShaderCatalogSingleton;
     ModelCatalogSingleton  m_ModelCatalogSingleton;
     
-    RenderSingleton        m_RenderSingleton;
-    EditorSingleton        m_EditorSingleton;
-    InputSingleton         m_InputSingleton;
-    ConsoleSingleton       m_ConsoleSingleton;
+    RenderSingleton          m_RenderSingleton;
+    EditorSingleton          m_EditorSingleton;
+    InputSingleton           m_InputSingleton;
+    ConsoleSingleton         m_ConsoleSingleton;
+    ImmediateRenderSingleton m_ImmediateRenderSingleton;
 private:
     InputSystem            m_InputSystem;
     EditorSystem           m_EditorSystem;
@@ -316,6 +318,7 @@ private:
     DebugPrintSystem       m_DebugPrintSystem;
     GreyBoxRenderSystem    m_GreyBoxRenderSystem;
     BasicModelRenderSystem m_BasicModelRenderSystem;
+    ImmediateRenderSystem  m_ImmediateRenderSystem;
     RenderSetupSystem      m_RenderSetupSystem;
     
 private:

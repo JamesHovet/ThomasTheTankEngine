@@ -66,6 +66,7 @@ set(SOURCES
 	../ThomasTheTankEngine/Systems/RenderOnly/RenderSetupSystem.cpp
 	../ThomasTheTankEngine/Systems/RenderOnly/GreyBoxRenderSystem.cpp
 	../ThomasTheTankEngine/Systems/RenderOnly/BasicModelRenderSystem.cpp
+	../ThomasTheTankEngine/Systems/RenderOnly/ImmediateRenderSystem.cpp
 	../ThomasTheTankEngine/Systems/UpdateOnly/InputSystem.cpp
 	../ThomasTheTankEngine/Systems/UpdateOnly/DebugPrintSystem.cpp
 	../ThomasTheTankEngine/Systems/System.cpp
@@ -78,6 +79,7 @@ set(SOURCES
 	../ThomasTheTankEngine/Singletons/InputSingleton.cpp
 	../ThomasTheTankEngine/Singletons/ShaderCatalogSingleton.cpp
 	../ThomasTheTankEngine/Singletons/ModelCatalogSingleton.cpp
+	../ThomasTheTankEngine/Singletons/ImmediateRenderSingleton.cpp
 	../ThomasTheTankEngine/Utils/ImGuiUtils.cpp
 	../ThomasTheTankEngine/Utils/SerializationUtils.cpp
 	../ThomasTheTankEngine/Utils/ECSUtils.cpp

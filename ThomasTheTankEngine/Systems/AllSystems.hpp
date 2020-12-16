@@ -13,6 +13,7 @@
 #include "DebugPrintSystem.hpp"
 #include "GreyBoxRenderSystem.hpp"
 #include "BasicModelRenderSystem.hpp"
+#include "ImmediateRenderSystem.hpp"
 #include "EditorSystem.hpp"
 #include "InputSystem.hpp"
 #include "ConsoleSystem.hpp"

@@ -24,7 +24,7 @@
 #include "FileUtils.hpp"
 
 #include "Component.hpp"
-#include "AllComponents.h"
+#include "allComponents.h"
 #include "allFamilies.h"
 #include "pool/object_pool.hpp"
 #include "ECSUtils.hpp"
@@ -115,7 +115,8 @@ EntityAdmin::EntityAdmin()
     m_InputSystem(*this),
     m_ConsoleSystem(*this),
     m_RenderSetupSystem(*this),
-    m_InputSingleton(*this)
+    m_InputSingleton(*this),
+    m_ImmediateRenderSystem(*this)
 {
 //    m_entities = std::unordered_map<entityID, Entity*>(MAX_ENTITIES);
     constructComponentPools(m_components_pool_array,
@@ -291,6 +292,7 @@ void EntityAdmin::initAllSystems(){
     m_ConsoleSystem.init();
     m_DebugPrintSystem.init();
     m_GreyBoxRenderSystem.init();
+    m_ImmediateRenderSystem.init();
     m_BasicModelRenderSystem.init();
 
 }
@@ -377,7 +379,7 @@ void EntityAdmin::loadTestScene(){
 //
 //    }
     
-    
+   /* 
     
     {
         for(int i = 0; i < 5; i ++){
@@ -412,22 +414,22 @@ void EntityAdmin::loadTestScene(){
             }
         }
     }
+   */ 
     
-    
-//    {
-//        entityID eID = this->createEntity();
-//        DebugNameComponent& nameC = addComponent<DebugNameComponent>(eID);
-//        nameC.m_name = "Lion";
-//        TransformComponent& trans = this->addComponent<TransformComponent>(eID);
-//        trans.m_position = glm::vec3(0.0f, 0.0f, -2.0f);
-//        BasicModelComponent& model = this->addComponent<BasicModelComponent>(eID);
-//        model.m_model_name = "lion";
-//        if(m_ModelCatalogSingleton.modelExists(model.m_model_name)){
-//            AABBColliderComponent& bbox = this->addComponent<AABBColliderComponent>(eID);
-//            bbox.m_AABB = this->m_ModelCatalogSingleton.getModel(model.m_model_name).bbox;
-//        }
-//
-//    }
+    {
+        entityID eID = this->createEntity();
+        DebugNameComponent& nameC = addComponent<DebugNameComponent>(eID);
+        nameC.m_name = "Lion";
+        TransformComponent& trans = this->addComponent<TransformComponent>(eID);
+        trans.m_position = glm::vec3(0.0f, 0.0f, -2.0f);
+        BasicModelComponent& model = this->addComponent<BasicModelComponent>(eID);
+        model.m_model_name = "lion";
+        if(m_ModelCatalogSingleton.modelExists(model.m_model_name)){
+            AABBColliderComponent& bbox = this->addComponent<AABBColliderComponent>(eID);
+            bbox.m_AABB = this->m_ModelCatalogSingleton.getModel(model.m_model_name).bbox;
+        }
+
+    }
 //    {
 //        entityID eID = this->createEntity();
 //        DebugNameComponent& nameC = addComponent<DebugNameComponent>(eID);
@@ -535,6 +537,9 @@ void EntityAdmin::render(){
     TRACE_BEGIN("editor render", &m_EditorSystem);
     m_EditorSystem.render();
     TRACE_END("editor render", &m_EditorSystem);
+    TRACE_BEGIN("immediate render", &m_ImmediateRenderSystem);
+    m_ImmediateRenderSystem.render();
+    TRACE_END("immediate render", &m_ImmediateRenderSystem);
     m_ConsoleSystem.render();
 }
 

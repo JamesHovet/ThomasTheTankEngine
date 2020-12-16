@@ -23,6 +23,7 @@ void RenderSetupSystem::init(){
     m_admin.m_ShaderCatalogSingleton.registerShader("greybox", "Shaders/greybox.vert", "Shaders/greybox.frag");
     m_admin.m_ShaderCatalogSingleton.registerShader("unlitOpaque", "Shaders/unlitOpaque.vert", "Shaders/unlitOpaque.frag");
     m_admin.m_ShaderCatalogSingleton.registerShader("basic_model", "Shaders/basicModel.vert", "Shaders/basicModel.frag");
+    m_admin.m_ShaderCatalogSingleton.registerShader("unlit_rgba", "Shaders/unlit_rgba.vert", "Shaders/unlit_rgba.frag");
     
     m_admin.m_ModelCatalogSingleton.registerModel("boxes", "Models/box_stack.obj");
     m_admin.m_ModelCatalogSingleton.registerModel("suzanne", "Models/suzanne.obj");

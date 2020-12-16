@@ -77,6 +77,7 @@ void EditorSystem::tick(uint64_t dt){
     EditorSingleton& edit = m_admin.m_EditorSingleton;
     InputSingleton& input = m_admin.m_InputSingleton;
     TransformComponent& camTransformC = m_admin.m_EditorSingleton.editorCameraTransform;
+    ImmediateRenderSingleton& imm = m_admin.m_ImmediateRenderSingleton;
     
     if(edit.hasSelectedEntity && !m_admin.entityExists(edit.selectedEntity)){
         edit.hasSelectedEntity = false;
@@ -117,7 +118,10 @@ void EditorSystem::tick(uint64_t dt){
 //                            printf("s (%f, %f, %f) * (%f, %f, %f)\n", trans->m_scale.x, trans->m_scale.y, trans->m_scale.z, projected.x, projected.y, projected.z);
                             trans->m_scale = trans->m_scale * (glm::vec3(1.0) + glm::vec3(-1.0f, -1.0f, 1.0f) * projected);
                         } else if (edit.currentEditMode == EditMode::ROTATE){
-                            Plane rotationPlane = {trans->m_position, axis};
+                            glm::vec4 axis4 = glm::vec4(axis.x, axis.y, axis.z, 0.0f);
+                            glm::vec4 transformed4 = trans->getMat4() * axis4;
+                            glm::vec3 axisTransformed = glm::vec3(transformed4.x, transformed4.y, transformed4.z);
+                            Plane rotationPlane = {trans->m_position, axisTransformed};
                             
 //                            if(glm::dot(rotationPlane.normal,(rotationPlane.origin - edit.editorCameraTransform.m_position)) < 0.0f){
 //                                axis = -axis;
@@ -129,11 +133,24 @@ void EditorSystem::tick(uint64_t dt){
                             glm::vec3 hit1;
                             Intersection::RayPlaneAbsolute(raycast1, rotationPlane, &hit1);
                             
+//                            std::cout << hit0.x << " " << hit0.y << " " << hit0.z << " " << hit1.x << " " << hit1.y << " " << hit1.z << std::endl;
+                            
+
+                            imm.drawLine(hit0, hit1, RGBA(1.0f, 1.0f, 1.0f, 1.0f));
+                            
+                            glm::vec3 planeTangent = glm::normalize(hit0 - trans->m_position);
+                            glm::vec3 planeBitangent = glm::cross(planeTangent, rotationPlane.normal);
+                            glm::vec3 pos = trans->m_position;
+                            imm.drawTri(pos, pos + planeTangent * 100.0f, pos + planeBitangent * 100.0f, RGBA(0.5f, 0.5f, 0.5f, 0.3f));
+                            imm.drawTri(pos, pos + planeTangent * 100.0f, pos - planeBitangent * 100.0f, RGBA(0.5f, 0.5f, 0.5f, 0.3f));
+                            imm.drawTri(pos, pos - planeTangent * 100.0f, pos + planeBitangent * 100.0f, RGBA(0.5f, 0.5f, 0.5f, 0.3f));
+                            imm.drawTri(pos, pos - planeTangent * 100.0f, pos - planeBitangent * 100.0f, RGBA(0.5f, 0.5f, 0.5f, 0.3f));
+                            
                             glm::vec3 dir0 = glm::normalize(hit0 - trans->m_position);
                             glm::vec3 dir1 = glm::normalize(hit1 - trans->m_position);
                             
                             float angle = glm::orientedAngle(dir0, dir1, axis);
-                            printf("angle: %1.5f, axis: (%4.4f, %4.4f, %4.4f)\n", angle, axis.x, axis.y, axis.z);
+//                            printf("angle: %1.5f, axis: (%4.4f, %4.4f, %4.4f)\n", angle, axis.x, axis.y, axis.z);
                             
                             trans->m_orientation = glm::rotate(edit.selectedTransformCopyAtSelectionTime.m_orientation, angle, axis);
                         }

@@ -26,11 +26,6 @@ EntityAdmin g_admin;
 int main(int argc, const char * argv[]) {
     
 
-    size_t entityIDSize = sizeof(entityID);
-    Entity* entityPtr;
-    size_t ptrSize = sizeof(entityPtr);
-    std::cout << "transform: " << entityIDSize << " " << ptrSize << std::endl;
-
     TRACE_EVENT("Setup Begin");
     
     window_init();
@@ -91,6 +86,8 @@ bool window_init()
         SDL_GL_SetSwapInterval(1); // Enable vsync
         
         glEnable(GL_DEPTH_TEST);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         
         glewExperimental = GL_TRUE;
         bool glewErr = glewInit() != GLEW_OK;

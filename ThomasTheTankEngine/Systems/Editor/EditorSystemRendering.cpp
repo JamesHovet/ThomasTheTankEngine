@@ -669,18 +669,24 @@ void EditorSystem::renderScaleAxesAtModelMat(glm::mat4 modelBase){
 void EditorSystem::renderRotationWheelAtModelMat(glm::mat4 modelBase){
     GLuint modelLoc  = glGetUniformLocation(gizmoShader->ID, "model");
     EditorSingleton& edit = m_admin.m_EditorSingleton;
-    RGBA red   = RGBA(0.8f, 0.0f, 0.0f, 1.0f);
-    RGBA green = RGBA(0.0f, 0.8f, 0.0f, 1.0f);
-    RGBA blue  = RGBA(0.0f, 0.0f, 0.8f, 1.0f);
+    RGBA red   = RGBA(0.5f, 0.0f, 0.0f, 1.0f);
+    RGBA green = RGBA(0.0f, 0.5f, 0.0f, 1.0f);
+    RGBA blue  = RGBA(0.0f, 0.0f, 0.5f, 1.0f);
     if(edit.isDraggingAxis){
         switch (edit.draggedAxis) {
             case AXIS::X:
-                red = RGBA(1.0f, 0.0f, 0.0f, 1.0f);
+                red   = RGBA(1.0f, 0.0f, 0.0f, 1.0f);
+                green = RGBA(0.0f, 0.5f, 0.0f, 0.3f);
+                blue  = RGBA(0.0f, 0.0f, 0.5f, 0.3f);
                 break;
             case AXIS::Y:
+                red   = RGBA(0.5f, 0.0f, 0.0f, 0.3f);
                 green = RGBA(0.0f, 1.0f, 0.0f, 1.0f);
+                blue  = RGBA(0.0f, 0.0f, 0.5f, 0.3f);
                 break;
             case AXIS::Z:
+                red   = RGBA(0.5f, 0.0f, 0.0f, 0.3f);
+                green = RGBA(0.0f, 0.5f, 0.0f, 0.3f);
                 blue  = RGBA(0.0f, 0.0f, 1.0f, 1.0f);
                 break;
         }

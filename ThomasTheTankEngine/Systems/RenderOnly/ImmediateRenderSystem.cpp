@@ -30,6 +30,7 @@ Shader* immModeShader;
 void ImmediateRenderSystem::init(){
     immModeShader = &m_admin.m_ShaderCatalogSingleton.getShader("unlit_rgba");
     
+    // lines
     glGenVertexArrays(1, &lines_VAO);
     glBindVertexArray(lines_VAO);
     
@@ -41,6 +42,20 @@ void ImmediateRenderSystem::init(){
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, (7) * sizeof(float), (void *) (3 * sizeof(float)));
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    // Tris
+    glGenVertexArrays(1, &tris_VAO);
+    glBindVertexArray(tris_VAO);
+
+    glGenBuffers(1, &tris_VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, tris_VBO);
+
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (7) * sizeof(float), (void *) 0);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, (7) * sizeof(float), (void *) (3 * sizeof(float)));
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
 
 }
 
@@ -75,6 +90,12 @@ void ImmediateRenderSystem::drawLines(){
     glBindBuffer(GL_ARRAY_BUFFER, lines_VBO);
     glBufferData(GL_ARRAY_BUFFER, imm.immLineVerts.size() * sizeof(float), &imm.immLineVerts[0], GL_DYNAMIC_DRAW);
     glDrawArrays(GL_LINES, 0, imm.numLineVerts);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    glBindVertexArray(tris_VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, tris_VBO);
+    glBufferData(GL_ARRAY_BUFFER, imm.immTriVerts.size() * sizeof(float), &imm.immTriVerts[0], GL_DYNAMIC_DRAW);
+    glDrawArrays(GL_TRIANGLES, 0, imm.numTriVerts);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     
     immModeShader->end();

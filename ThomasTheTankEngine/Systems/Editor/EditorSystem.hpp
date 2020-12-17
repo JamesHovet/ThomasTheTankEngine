@@ -33,7 +33,7 @@ private:
     void renderMoveAxesAtModelMat(glm::mat4 modelBase);
     void renderScaleAxesAtModelMat(glm::mat4 modelBase);
     void renderRotationWheelAtModelMat(glm::mat4 modelBase);
-    glm::vec3 getWorldspaceAxisToDrag(glm::vec3* tangent, glm::vec3* binormal);
+    glm::vec3 getLocalAxisToDrag(glm::vec3* tangent, glm::vec3* binormal);
     bool getShouldDragMoveAxis(AXIS* axisToDrag);
     bool getShouldDragRotateAxis(AXIS* axisToDrag);
     bool getClosestOBBIntersectionEntity(ray r, entityID* eID, glm::vec3* hitOutput);

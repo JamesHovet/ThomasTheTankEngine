@@ -1,0 +1,2 @@
+Bugs:
+- if you use the console, you cannot input values into imgui again afterwards

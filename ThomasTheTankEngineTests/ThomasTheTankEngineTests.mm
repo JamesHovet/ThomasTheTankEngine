@@ -85,13 +85,13 @@ using json = nlohmann::json;
 - (void)testAddComponent {
     entityID eID = g_admin->createEntity();
     TransformComponent& trans = g_admin->addComponent<TransformComponent>(eID);
-    trans.m_position = glm::vec3(42.0, 69105.0, -3.14);
+    trans.setPosition(glm::vec3(42.0, 69105.0, -3.14));
     XCTAssert(trans.m_position == g_admin->getComponent<TransformComponent>(eID).m_position);
 }
 
 - (void)testAddComponentFromCopy {
     TransformComponent transform;
-    transform.m_position = glm::vec3(42.0, 69105.0, -3.14);
+    transform.setPosition(glm::vec3(42.0, 69105.0, -3.14));
     entityID eID = g_admin->createEntity();
     TransformComponent& created = g_admin->addComponent<TransformComponent>(eID, transform);
     
@@ -174,7 +174,7 @@ using json = nlohmann::json;
     entityID eID = g_admin->createEntity();
     CameraComponent& cam = g_admin->addComponent<CameraComponent>(eID);
     TransformComponent& trans = g_admin->addComponent<TransformComponent>(eID);
-    trans.m_position = glm::vec3(42.0, 69105.0, -3.14);
+    trans.setPosition(glm::vec3(42.0, 69105.0, -3.14));
     prototype output = g_admin->createPrototypeFromEntity(eID);
     
     EntityAdmin* new_world = new EntityAdmin();
@@ -191,7 +191,7 @@ using json = nlohmann::json;
     entityID eID = g_admin->createEntity();
     CameraComponent& cam = g_admin->addComponent<CameraComponent>(eID);
     TransformComponent& trans = g_admin->addComponent<TransformComponent>(eID);
-    trans.m_position = glm::vec3(42.0, 69105.0, -3.14);
+    trans.setPosition(glm::vec3(42.0, 69105.0, -3.14));
     entityID dupe = g_admin->duplicateEntity(eID);
     XCTAssert(g_admin->entityExists(dupe));
     XCTAssert(g_admin->tryGetComponent<TransformComponent>(dupe) != nullptr);

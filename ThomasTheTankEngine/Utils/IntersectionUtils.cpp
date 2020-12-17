@@ -13,7 +13,7 @@ using v3 = glm::vec3;
 using v4 = glm::vec4;
 using m4 = glm::mat4;
 
-bool Intersection::RayPlaneAbsolute(ray r, Plane p, float *d, glm::vec3 *hit){
+bool Intersection::RayPlaneAbsolute(ray r, Plane p, float *d, glm::vec4 *hit){
     float distance;
     bool out = glm::intersectRayPlane(r.orig, glm::normalize(r.dir), p.origin, p.normal, distance);
     *d = distance;
@@ -21,20 +21,20 @@ bool Intersection::RayPlaneAbsolute(ray r, Plane p, float *d, glm::vec3 *hit){
     return out;
 }
 
-bool Intersection::RayPlaneAbsolute(ray r, Plane p, glm::vec3 *hit){
+bool Intersection::RayPlaneAbsolute(ray r, Plane p, glm::vec4 *hit){
     float dummyf;
     return Intersection::RayPlaneAbsolute(r, p, &dummyf, hit);
 }
 
 bool Intersection::RayPlaneAbsolute(ray r, Plane p, float *d){
-    v3 dummyv3;
-    return Intersection::RayPlaneAbsolute(r, p, d, &dummyv3);
+    v4 dummyv4;
+    return Intersection::RayPlaneAbsolute(r, p, d, &dummyv4);
 }
 
 bool Intersection::RayPlaneAbsolute(ray r, Plane p){
-    v3 dummyv3;
+    v4 dummyv4;
     float dummyf;
-    return Intersection::RayPlaneAbsolute(r, p, &dummyf, &dummyv3);
+    return Intersection::RayPlaneAbsolute(r, p, &dummyf, &dummyv4);
 }
 
 AABB Intersection::AABBUnion(AABB a, AABB b){
@@ -49,7 +49,7 @@ AABB Intersection::AABBUnion(AABB a, AABB b){
 }
 
 // Adapted from Tavian Barnes at https://tavianator.com/2011/ray_box.html
-bool Intersection::RayAABBAbsolute(ray r, AABB box, float * d, glm::vec3* hit){
+bool Intersection::RayAABBAbsolute(ray r, AABB box, float * d, glm::vec4* hit){
 
     float tx1 = (box.min.x - r.orig.x) / r.dir.x;
     float tx2 = (box.max.x - r.orig.x) / r.dir.x;
@@ -76,24 +76,24 @@ bool Intersection::RayAABBAbsolute(ray r, AABB box, float * d, glm::vec3* hit){
     return tmax >= fmax(0.0, tmin);
 }
 
-bool Intersection::RayAABBAbsolute(ray r, AABB box, glm::vec3 *hit){
+bool Intersection::RayAABBAbsolute(ray r, AABB box, glm::vec4 *hit){
     float dummyf;
     return RayAABBAbsolute(r, box, &dummyf, hit);
 }
 
 bool Intersection::RayAABBAbsolute(ray r, AABB box, float * d){
-    glm::vec3 dummyv3;
-    return RayAABBAbsolute(r, box, d, &dummyv3);
+    glm::vec4 dummyv4;
+    return RayAABBAbsolute(r, box, d, &dummyv4);
 }
 
 bool Intersection::RayAABBAbsolute(ray r, AABB box){
-    glm::vec3 dummyv3;
+    glm::vec4 dummyv4;
     float dummyf;
-    return RayAABBAbsolute(r, box, &dummyf, &dummyv3);
+    return RayAABBAbsolute(r, box, &dummyf, &dummyv4);
 }
 
 // pre: model must only translate and scale
-bool Intersection::RayAABB(ray r, AABB box, glm::mat4 model, float *d, glm::vec3 *hit){
+bool Intersection::RayAABB(ray r, AABB box, glm::mat4 model, float *d, glm::vec4 *hit){
     glm::vec4 min4 = model * glm::vec4(box.min.x, box.min.y, box.min.z, 1.0f);
     glm::vec4 max4 = model * glm::vec4(box.max.x, box.max.y, box.max.z, 1.0f);
     
@@ -105,33 +105,33 @@ bool Intersection::RayAABB(ray r, AABB box, glm::mat4 model, float *d, glm::vec3
     return RayAABBAbsolute(r, transformedBox, d, hit);
 }
 
-bool Intersection::RayAABB(ray r, AABB box, glm::mat4 model, glm::vec3 *hit){
+bool Intersection::RayAABB(ray r, AABB box, glm::mat4 model, glm::vec4* hit){
     float dummyf;
     return RayAABB(r, box, model, &dummyf, hit);
 }
 
 bool Intersection::RayAABB(ray r, AABB box, glm::mat4 model, float *d){
-    glm::vec3 dummyv3;
-    return RayAABB(r, box, model, d, &dummyv3);
+    glm::vec4 dummyv4;
+    return RayAABB(r, box, model, d, &dummyv4);
 }
 
 bool Intersection::RayAABB(ray r, AABB box, glm::mat4 model){
-    glm::vec3 dummyv3;
+    glm::vec4 dummyv4;
     float dummyf;
-    return RayAABB(r, box, model, &dummyf, &dummyv3);
+    return RayAABB(r, box, model, &dummyf, &dummyv4);
 }
 
-bool Intersection::RayOBB(ray r, AABB box, glm::mat4 model, float *d, glm::vec3 *hit){
+bool Intersection::RayOBB(ray r, AABB box, glm::mat4 model, float *d, glm::vec4 *hit){
     float tMin = 0.0f;
     float tMax = INFINITY;
     
-    glm::vec3 OBBposition_worldspace(model[3].x, model[3].y, model[3].z);
+    glm::vec4 OBBposition_worldspace(model[3].x, model[3].y, model[3].z, 1.0f);
 
-    glm::vec3 delta = OBBposition_worldspace - r.orig;
+    glm::vec4 delta = OBBposition_worldspace - r.orig;
 
     {
-        glm::vec3 xaxis = glm::vec3(model[0].x, model[0].y, model[0].z);
-        glm::vec3 xaxis_dir = glm::normalize(xaxis);
+        glm::vec4 xaxis = glm::vec4(model[0].x, model[0].y, model[0].z, 0.0f);
+        glm::vec4 xaxis_dir = glm::normalize(xaxis);
         float xaxis_length = glm::length(xaxis);
         float e = glm::dot(xaxis_dir, delta);
         float f = glm::dot(r.dir, xaxis_dir);
@@ -148,8 +148,8 @@ bool Intersection::RayOBB(ray r, AABB box, glm::mat4 model, float *d, glm::vec3 
 
 
     {
-        glm::vec3 yaxis = glm::vec3(model[1].x, model[1].y, model[1].z);
-        glm::vec3 yaxis_dir = glm::normalize(yaxis);
+        glm::vec4 yaxis = glm::vec4(model[1].x, model[1].y, model[1].z, 0.0f);
+        glm::vec4 yaxis_dir = glm::normalize(yaxis);
         float yaxis_length = glm::length(yaxis);
         float e = glm::dot(yaxis_dir, delta);
         float f = glm::dot(r.dir, yaxis_dir);
@@ -166,8 +166,8 @@ bool Intersection::RayOBB(ray r, AABB box, glm::mat4 model, float *d, glm::vec3 
 
 
    {
-        glm::vec3 zaxis = glm::vec3(model[2].x, model[2].y, model[2].z);
-        glm::vec3 zaxis_dir = glm::normalize(zaxis);
+       glm::vec4 zaxis = glm::vec4(model[2].x, model[2].y, model[2].z, 0.0f);
+        glm::vec4 zaxis_dir = glm::normalize(zaxis);
         float zaxis_length = glm::length(zaxis);
         float e = glm::dot(zaxis_dir, delta);
         float f = glm::dot(r.dir, zaxis_dir);
@@ -187,27 +187,27 @@ bool Intersection::RayOBB(ray r, AABB box, glm::mat4 model, float *d, glm::vec3 
     return true;
 }
 
-bool Intersection::RayOBB(ray r, AABB box, glm::mat4 model, glm::vec3 *hit){
+bool Intersection::RayOBB(ray r, AABB box, glm::mat4 model, glm::vec4* hit){
     float dummyf;
     return RayOBB(r, box, model, &dummyf, hit);
 }
 
 bool Intersection::RayOBB(ray r, AABB box, glm::mat4 model, float *d){
-    glm::vec3 dummyv3;
-    return RayOBB(r, box, model, d, &dummyv3);
+    glm::vec4 dummyv4;
+    return RayOBB(r, box, model, d, &dummyv4);
 }
 
 bool Intersection::RayOBB(ray r, AABB box, glm::mat4 model){
-    glm::vec3 dummyv3;
+    glm::vec4 dummyv4;
     float dummyf;
-    return RayOBB(r, box, model, &dummyf, &dummyv3);
+    return RayOBB(r, box, model, &dummyf, &dummyv4);
 }
 
 //From https://www.iquilezles.org/www/articles/intersectors/intersectors.htm
-bool Intersection::RayCylAbsolute(ray r, Cylinder cyl, float *d, glm::vec3 *hit){
+bool Intersection::RayCylAbsolute(ray r, Cylinder cyl, float *d, glm::vec4 *hit){
     r.dir = glm::normalize(r.dir);
-    v3 ca = cyl.p1 - cyl.p0;
-    v3 oc = r.orig - cyl.p0;
+    v4 ca = cyl.p1 - cyl.p0;
+    v4 oc = r.orig - cyl.p0;
     float caca = glm::dot(ca, ca);
     float card = glm::dot(ca, r.dir);
     float caoc = glm::dot(ca, oc);
@@ -240,45 +240,45 @@ bool Intersection::RayCylAbsolute(ray r, Cylinder cyl, float *d, glm::vec3 *hit)
     return false;
 }
 
-bool Intersection::RayCylAbsolute(ray r, Cylinder cyl, glm::vec3 *hit){
+bool Intersection::RayCylAbsolute(ray r, Cylinder cyl, glm::vec4 *hit){
     float dummyf;
     return RayCylAbsolute(r, cyl, &dummyf, hit);
 }
 
 bool Intersection::RayCylAbsolute(ray r, Cylinder cyl, float *d){
-    glm::vec3 dummyv3;
-    return RayCylAbsolute(r, cyl, d, &dummyv3);
+    glm::vec4 dummyv4;
+    return RayCylAbsolute(r, cyl, d, &dummyv4);
 }
 
 bool Intersection::RayCylAbsolute(ray r, Cylinder cyl){
-    glm::vec3 dummyv3;
+    glm::vec4 dummyv4;
     float dummyf;
-    return RayCylAbsolute(r, cyl, &dummyf, &dummyv3);
+    return RayCylAbsolute(r, cyl, &dummyf, &dummyv4);
 }
 
 // Note that this math does not obey scaling the radius
-bool Intersection::RayCyl(ray r, Cylinder cyl, glm::mat4 model, float *d, glm::vec3 *hit){
+bool Intersection::RayCyl(ray r, Cylinder cyl, glm::mat4 model, float *d, glm::vec4* hit){
     v4 p0 = model * v4(cyl.p0.x, cyl.p0.y, cyl.p0.z, 1.0f);
     v4 p1 = model * v4(cyl.p1.x, cyl.p1.y, cyl.p1.z, 1.0f);
     
-    cyl.p0 = v3(p0.x, p0.y, p0.z);
-    cyl.p1 = v3(p1.x, p1.y, p1.z);
+    cyl.p0 = v4(p0.x, p0.y, p0.z, 1.0f);
+    cyl.p1 = v4(p1.x, p1.y, p1.z, 1.0f);
     
     return RayCylAbsolute(r, cyl, d, hit);
 }
 
-bool Intersection::RayCyl(ray r, Cylinder cyl, glm::mat4 model, glm::vec3 *hit){
+bool Intersection::RayCyl(ray r, Cylinder cyl, glm::mat4 model, glm::vec4* hit){
     float dummyf;
     return RayCyl(r, cyl, model, &dummyf, hit);
 }
 
 bool Intersection::RayCyl(ray r, Cylinder cyl, glm::mat4 model, float *d){
-    glm::vec3 dummyv3;
-    return RayCyl(r, cyl, model, d, &dummyv3);
+    glm::vec4 dummyv4;
+    return RayCyl(r, cyl, model, d, &dummyv4);
 }
 
 bool Intersection::RayCyl(ray r, Cylinder cyl, glm::mat4 model){
-    glm::vec3 dummyv3;
+    glm::vec4 dummyv4;
     float dummyf;
-    return RayCyl(r, cyl, model, &dummyf, &dummyv3);
+    return RayCyl(r, cyl, model, &dummyf, &dummyv4);
 }

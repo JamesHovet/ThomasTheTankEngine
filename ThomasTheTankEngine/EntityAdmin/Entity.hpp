@@ -20,7 +20,7 @@ private:
 public:
     componentMask m_mask;
     entityID m_entityID;
-    entityID m_parentID = 0;
+    entityID m_parentID = NO_ENTITY;
     entityID m_children[MAX_CHILDREN] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; // any bigger and we go over 32 bytes and then only one can fit on a cache line.
     EntityAdmin* m_admin;
 
@@ -28,6 +28,10 @@ public:
     
     Entity(EntityAdmin * _admin, entityID eID) : m_entityID(eID), m_admin(_admin){
         m_mask.reset();
+    }
+    
+    bool hasParent(){
+        return m_parentID != NO_ENTITY;
     }
 };
 

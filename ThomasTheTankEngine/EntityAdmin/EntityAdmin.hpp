@@ -113,6 +113,7 @@ public:
         int componentID = ComponentIndexTable::RetrieveComponentIndex<T>::componentIndex;
         boost::object_pool<T>* this_pool = ((boost::object_pool<T>*)m_components_pool_array.at(componentID));
         T* out = this_pool->construct();
+        ((ECSComponent*) out)->m_entity = m_entities.at(eID);
         
         m_component_maps.at(eID).insert(std::make_pair(componentID, out));
         m_entities.at(eID)->m_mask.set(componentID);

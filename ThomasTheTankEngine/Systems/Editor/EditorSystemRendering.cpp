@@ -732,9 +732,10 @@ void EditorSystem::renderGizmos(){
         if(t != nullptr){
             glm::mat4 baseMatrix;
             if(edit.usingLocalWorldSpace){
-                baseMatrix = t->getLocalMat4Unscaled();
+//                baseMatrix = t->getLocalMat4Unscaled();
+                baseMatrix = t->getMat4();
             } else {
-                baseMatrix = glm::translate(t->m_position);
+                baseMatrix = glm::translate(t->getPosition3());
             }
             
             switch (edit.currentEditMode) {

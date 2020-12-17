@@ -15,6 +15,7 @@
 
 namespace ImGui {
 void InputVec3(const char * label, glm::vec3 *v3);
+void InputVec3(const char * label, glm::vec4 *v4);
 void InputQuat(const char * label, glm::quat *q);
 void InputQuatDirect(const char * lablel, glm::quat *q);
 void InputRGBA(const char * label, glm::vec4 *v4);

@@ -312,7 +312,7 @@ void EntityAdmin::loadTestScene(){
 //        //@Remove: temporary test camera
 //        entityID eID = this->createEntity();
 //        TransformComponent& transformC = addComponent<TransformComponent>(eID);
-//        transformC.m_position = glm::vec3(1.0f, 0.0f, -3.0f);
+//        transformC.setPosition(glm::vec3(1.0f, 0.0f, -3.0f));
 //        CameraComponent& cameraC = addComponent<CameraComponent>(eID);
 ////        cameraC.m_forward = glm::vec3(0.0f, 0.0f, 1.0f);
 //        DebugNameComponent& nameC = addComponent<DebugNameComponent>(eID);
@@ -332,8 +332,8 @@ void EntityAdmin::loadTestScene(){
 //            debugPrintC.m_enabled = false;
 
 //            nameC.m_name = std::to_string(eID);
-            transformC.m_position = glm::vec3(4.0f * ((float) i - (numToAdd / 2)) / (float) numToAdd);
-            transformC.m_scale = glm::vec3(1.0f, 1.5f, 1.0f);
+            transformC.setPosition(glm::vec3(4.0f * ((float) i - (numToAdd / 2)) / (float) numToAdd));
+            transformC.setScale(glm::vec3(1.0f, 1.5f, 1.0f));
 //                transformC.m_orientation = glm::quat(glm::vec3(0.0f, glm::radians(0.0f), glm::radians((float) random())));
 //            transformC.m_orientation = glm::quat(glm::vec3(0.0f, 0.0f, 0.0f));
             boxC.m_color = glm::vec4(((float) i) * (1.0f / (float) numToAdd), 0.0, 0.0, 1.0f);
@@ -351,7 +351,7 @@ void EntityAdmin::loadTestScene(){
 //            DebugNameComponent& nameC = addComponent<DebugNameComponent>(parent);
 //            nameC.m_name = "parent";
 //            TransformComponent& trans = addComponent<TransformComponent>(parent);
-//            trans.m_position = glm::vec3(0.0f);
+//            trans.setPosition(glm::vec3(0.0f));
 //            GreyBoxComponent& boxC = addComponent<GreyBoxComponent>(parent);
 //            boxC.m_color = RGBA(1.0f, 0.0f, 0.0f, 1.0f);
 //            AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(parent);
@@ -360,7 +360,7 @@ void EntityAdmin::loadTestScene(){
 //            DebugNameComponent& nameC = addComponent<DebugNameComponent>(child);
 //            nameC.m_name = "child";
 //            TransformComponent& trans = addComponent<TransformComponent>(child);
-//            trans.m_position = glm::vec3(0.0f, -2.0f, 0.0f);
+//            trans.setPosition(glm::vec3(0.0f, -2.0f, 0.0f));
 //            GreyBoxComponent& boxC = addComponent<GreyBoxComponent>(child);
 //            boxC.m_color = RGBA(0.0f, 1.0f, 0.0f, 1.0f);
 //            AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(child);
@@ -370,7 +370,7 @@ void EntityAdmin::loadTestScene(){
 //            DebugNameComponent& nameC = addComponent<DebugNameComponent>(grandchild);
 //            nameC.m_name = "grandchild";
 //            TransformComponent& trans = addComponent<TransformComponent>(grandchild);
-//            trans.m_position = glm::vec3(0.0f, -2.0f, 0.0f);
+//            trans.setPosition(glm::vec3(0.0f, -2.0f, 0.0f));
 //            GreyBoxComponent& boxC = addComponent<GreyBoxComponent>(grandchild);
 //            boxC.m_color = RGBA(0.0f, 0.0f, 1.0f, 1.0f);
 //            AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(grandchild);
@@ -385,7 +385,7 @@ void EntityAdmin::loadTestScene(){
         for(int i = 0; i < 1; i ++){
             entityID eID = this->createEntity();
             TransformComponent& trans = addComponent<TransformComponent>(eID);
-            trans.m_position = glm::vec3((i - 2) * 10.0f, 0.0f, 0.0f);
+            trans.setPosition(glm::vec3((i - 1) * 10.0f, 0.0f, 0.0f));
             GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(eID);
             AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(eID);
             boxC.m_color = RGBA(1.0f, 0.0f, 0.0f, 1.0f);
@@ -394,23 +394,25 @@ void EntityAdmin::loadTestScene(){
                 entityID child = createEntity();
                 setParent(child, eID);
                 TransformComponent& trans = addComponent<TransformComponent>(child);
-                trans.m_scale = glm::vec3(0.5f);
-                trans.m_position = glm::vec3((j - 5) * 2.0f, -2.5f, 0.0f);
+                trans.setScale(glm::vec3(0.5f));
+                trans.setPosition(glm::vec3((j - 5) * 2.0f, -2.5f, 0.0f));
                 GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(child);
                 AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(child);
                 boxC.m_color = RGBA(0.0f, 1.0f, 0.0f, 1.0f);
+                
+                trans.getMat4();
 
                                             
-                for(int k = 0; k < 10; k++){
-                    entityID grandchild = createEntity();
-                    setParent(grandchild, child);
-                    TransformComponent& trans = addComponent<TransformComponent>(grandchild);
-                    trans.m_scale = glm::vec3(0.5f);
-                    trans.m_position = glm::vec3((k - 5) * 2.0f, -5.0f, 0.0f);
-                    GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(grandchild);
-                    AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(grandchild);
-                    boxC.m_color = RGBA(0.0f, 0.0f, 1.0f, 1.0f);
-                }
+//                for(int k = 0; k < 10; k++){
+//                    entityID grandchild = createEntity();
+//                    setParent(grandchild, child);
+//                    TransformComponent& trans = addComponent<TransformComponent>(grandchild);
+//                    trans.setScale(glm::vec3(0.5f));
+//                    trans.setPosition(glm::vec3((k - 5) * 2.0f, -5.0f, 0.0f));
+//                    GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(grandchild);
+//                    AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(grandchild);
+//                    boxC.m_color = RGBA(0.0f, 0.0f, 1.0f, 1.0f);
+//                }
             }
         }
     }
@@ -421,7 +423,7 @@ void EntityAdmin::loadTestScene(){
 //        DebugNameComponent& nameC = addComponent<DebugNameComponent>(eID);
 //        nameC.m_name = "Lion";
 //        TransformComponent& trans = this->addComponent<TransformComponent>(eID);
-//        trans.m_position = glm::vec3(0.0f, 0.0f, -2.0f);
+//        trans.setPosition(glm::vec3(0.0f, 0.0f, -2.0f));
 //        BasicModelComponent& model = this->addComponent<BasicModelComponent>(eID);
 //        model.m_model_name = "lion";
 //        if(m_ModelCatalogSingleton.modelExists(model.m_model_name)){
@@ -435,7 +437,7 @@ void EntityAdmin::loadTestScene(){
 //        DebugNameComponent& nameC = addComponent<DebugNameComponent>(eID);
 //        nameC.m_name = "Barrel";
 //        TransformComponent& trans = this->addComponent<TransformComponent>(eID);
-//        trans.m_position = glm::vec3(-5.0f, 0.0f, 0.0f);
+//        trans.setPosition(glm::vec3(-5.0f, 0.0f, 0.0f));
 //        BasicModelComponent& model = this->addComponent<BasicModelComponent>(eID);
 //        model.m_model_name = "boxes";
 //    }
@@ -444,7 +446,7 @@ void EntityAdmin::loadTestScene(){
 //        DebugNameComponent& nameC = addComponent<DebugNameComponent>(eID);
 //        nameC.m_name = "Suzanne";
 //        TransformComponent& trans = this->addComponent<TransformComponent>(eID);
-//        trans.m_position = glm::vec3(-5.0f, 0.0f, 0.0f);
+//        trans.setPosition(glm::vec3(-5.0f, 0.0f, 0.0f));
 //        BasicModelComponent& model = this->addComponent<BasicModelComponent>(eID);
 //        model.m_model_name = "suzanne";
 //        if(m_ModelCatalogSingleton.modelExists(model.m_model_name)){
@@ -457,7 +459,7 @@ void EntityAdmin::loadTestScene(){
 //        DebugNameComponent& nameC = addComponent<DebugNameComponent>(eID);
 //        nameC.m_name = "Multi-Material";
 //        TransformComponent& trans = this->addComponent<TransformComponent>(eID);
-//        trans.m_position = glm::vec3(5.0f, 0.0f, 0.0f);
+//        trans.setPosition(glm::vec3(5.0f, 0.0f, 0.0f));
 //        BasicModelComponent& model = this->addComponent<BasicModelComponent>(eID);
 //        model.m_model_name = "multi-material";
 //        AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(eID);
@@ -470,8 +472,8 @@ void EntityAdmin::loadTestScene(){
 //        DebugNameComponent& nameC = addComponent<DebugNameComponent>(eID);
 //        nameC.m_name = "column";
 //        TransformComponent& trans = this->addComponent<TransformComponent>(eID);
-//        trans.m_position = glm::vec3(5.0f, -2.0f, 0.0f);
-//        trans.m_scale = glm::vec3(2.0f);
+//        trans.setPosition(glm::vec3(5.0f, -2.0f, 0.0f));
+//        trans.setScale(glm::vec3(2.0f));
 //        BasicModelComponent& model = this->addComponent<BasicModelComponent>(eID);
 //        model.m_model_name = "column";
 //        if(m_ModelCatalogSingleton.modelExists(model.m_model_name)){
@@ -497,7 +499,7 @@ void EntityAdmin::filterIfNeeded(){
     if(m_entities_dirty){
         this->clearFamilies();
         filterEntitiesIntoMutableFamilies();
-        m_entities_dirty = false; 
+        m_entities_dirty = false;
     }
 }
 
@@ -595,7 +597,7 @@ void EntityAdmin::addSubtreeIntoStaticFamilies(Entity* e){
     TransformComponent* transC = tryGetComponent<TransformComponent>(eID);
     
     if(transC != nullptr){
-        glm::mat4 newMat4 = transC->getLocalModelMatrix();
+        glm::mat4 newMat4 = transC->getLocalMat4();
         currentTransform = currentTransform * newMat4;
         transC->m_cachedMat4 = currentTransform;
 //        transC->m_cachedMat4 = glm::mat4(1.0f);

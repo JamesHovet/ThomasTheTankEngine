@@ -20,7 +20,7 @@
 #define MAX_COMPONENT_TYPES 64
 
 //#include "Entity.hpp"
-//class Entity;
+class Entity;
 
 using json = nlohmann::json;
 
@@ -28,6 +28,7 @@ class EntityAdmin;
 struct ECSComponent {
     virtual void imDisplay(EntityAdmin* m_admin){};
     virtual json::object_t serialize() = 0;
+    Entity* m_entity;
 };
 
 // a bit of a hack to allow lookup of a component index using <> notation.

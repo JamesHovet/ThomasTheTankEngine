@@ -29,6 +29,7 @@
 		590E551824FD57BC0039A383 /* lion.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 590E551324FD579E0039A383 /* lion.tga */; };
 		590F5682242CD12A00BC9DC2 /* FileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 590F5681242CD12A00BC9DC2 /* FileUtils.cpp */; };
 		590F5685242CD3D300BC9DC2 /* stb_image_implementation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 590F5684242CD3D300BC9DC2 /* stb_image_implementation.cpp */; };
+		59155D34258C21A900D467EF /* TransformComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59155D33258C21A900D467EF /* TransformComponent.cpp */; };
 		591D1D0B243106A400AF9DC5 /* ImGuiUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 591D1D09243106A400AF9DC5 /* ImGuiUtils.cpp */; };
 		592257AF24F1D132009F1BB0 /* EditorSystemRendering.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 592257AE24F1D132009F1BB0 /* EditorSystemRendering.cpp */; };
 		59374D5424D367E100A75B7E /* ShaderCatalogSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59374D5224D367E100A75B7E /* ShaderCatalogSingleton.cpp */; };
@@ -219,6 +220,7 @@
 		590F5681242CD12A00BC9DC2 /* FileUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FileUtils.cpp; sourceTree = "<group>"; };
 		590F5683242CD3B700BC9DC2 /* stb_image.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stb_image.h; sourceTree = "<group>"; };
 		590F5684242CD3D300BC9DC2 /* stb_image_implementation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = stb_image_implementation.cpp; sourceTree = "<group>"; };
+		59155D33258C21A900D467EF /* TransformComponent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TransformComponent.cpp; sourceTree = "<group>"; };
 		5919A0F324C0E63E009F97F8 /* generateComponentsAndFamilies.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = generateComponentsAndFamilies.py; sourceTree = "<group>"; };
 		5919A0F524C0E63E009F97F8 /* base.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = base.json; sourceTree = "<group>"; };
 		5919A0F724C0E701009F97F8 /* DebugNameComponent.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DebugNameComponent.hpp; sourceTree = "<group>"; };
@@ -978,6 +980,7 @@
 				594A5F3824B4E99000733231 /* Component.cpp */,
 				594A5F3924B4E99000733231 /* Component.hpp */,
 				594F6A2324C1D71300647AC3 /* TransformComponent.hpp */,
+				59155D33258C21A900D467EF /* TransformComponent.cpp */,
 				5919A0F724C0E701009F97F8 /* DebugNameComponent.hpp */,
 				590A09E024CB4FB800D1153A /* CameraComponent.hpp */,
 			);
@@ -1726,6 +1729,7 @@
 				594A5F3A24B4E99000733231 /* Component.cpp in Sources */,
 				59484F65242910030068591C /* imgui_widgets.cpp in Sources */,
 				59484F67242910030068591C /* imgui_impl_opengl3.cpp in Sources */,
+				59155D34258C21A900D467EF /* TransformComponent.cpp in Sources */,
 				596C9E9924D44438007FEAF4 /* ConsoleCommands.cpp in Sources */,
 				59484F68242910030068591C /* imgui_demo.cpp in Sources */,
 				59AA59D324D4D8D10082B201 /* componentViews.cpp in Sources */,

@@ -33,10 +33,10 @@ private:
     void renderMoveAxesAtModelMat(glm::mat4 modelBase);
     void renderScaleAxesAtModelMat(glm::mat4 modelBase);
     void renderRotationWheelAtModelMat(glm::mat4 modelBase);
-    glm::vec3 getLocalAxisToDrag(glm::vec3* tangent, glm::vec3* binormal);
+    glm::vec4 getLocalAxisToDrag(glm::vec4* tangent, glm::vec4* binormal);
     bool getShouldDragMoveAxis(AXIS* axisToDrag);
     bool getShouldDragRotateAxis(AXIS* axisToDrag);
-    bool getClosestOBBIntersectionEntity(ray r, entityID* eID, glm::vec3* hitOutput);
+    bool getClosestOBBIntersectionEntity(ray r, entityID* eID, glm::vec4* hitOutput);
     
     //Gizmo Rendering
     static GLuint stem_VBO;

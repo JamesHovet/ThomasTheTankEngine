@@ -61,10 +61,10 @@ static void processEditorCameraKeyInput(TransformComponent &camTransformC, uint6
         camTransformC.m_position = camTransformC.m_position - (camTransformC.getUp() * keyboardEditorMovementSpeed);
     }
     if(input.rawSDLState[SDL_SCANCODE_Q]){
-        camTransformC.m_orientation = glm::rotate(camTransformC.m_orientation, 1.0f * seconds(dt), camTransformC.getUp());
+        camTransformC.m_orientation = glm::rotate(camTransformC.m_orientation, 1.0f * seconds(dt), camTransformC.getUp3());
     }
     if(input.rawSDLState[SDL_SCANCODE_E]){
-        camTransformC.m_orientation = glm::rotate(camTransformC.m_orientation, -1.0f * seconds(dt), camTransformC.getUp());
+        camTransformC.m_orientation = glm::rotate(camTransformC.m_orientation, -1.0f * seconds(dt), camTransformC.getUp3());
     }
 }
 
@@ -108,53 +108,52 @@ void EditorSystem::tick(uint64_t dt){
                     }
                     if(edit.isDraggingAxis){
                         //TODO: Make global stuff work again
-                        glm::vec3 pos = trans->m_position;
+                        glm::vec4 pos = trans->getPosition();
                         ray raycast0 = input.getRaycast(input.mouseDownPositionViewportSpace);
                         ray raycast1 = input.getRaycast(input.mouseDragPositionViewportSpace);
-                        glm::vec3 delta = raycast1.dir - raycast0.dir;
-                        glm::vec3 axis = edit.draggedAxisLocal;
-                        glm::vec4 axis4 = glm::vec4(axis.x, axis.y, axis.z, 0.0f);
-                        glm::vec4 transformed4 = edit.selectedTransformCopyAtSelectionTime.getMat4Unscaled() * axis4;
-                        glm::vec3 axisTransformed = glm::normalize(glm::vec3(transformed4.x, transformed4.y, transformed4.z));
+                        glm::vec4 delta = raycast1.dir - raycast0.dir;
+                        glm::vec4 axis = edit.draggedAxisLocal;
+                        glm::vec4 axisTransformed = edit.selectedTransformCopyAtSelectionTime.getMat4Unscaled() * axis;
+                        
                         if (edit.currentEditMode == EditMode::MOVE){
                             if(!edit.usingLocalWorldSpace){
                                 axisTransformed = axis;
                             }
-                            glm::vec3 projectedMove = axisTransformed * glm::dot(delta, axisTransformed);
+                            glm::vec4 projectedMove = axisTransformed * glm::dot(delta, axisTransformed);
                             trans->m_position = trans->m_position + projectedMove;
                         } else if (edit.currentEditMode == EditMode::SCALE){
-                            glm::vec3 projectedScale = axis * glm::dot(delta, axisTransformed);
+                            glm::vec4 projectedScale = axis * glm::dot(delta, axisTransformed);
                             if(!edit.usingLocalWorldSpace){
                                 projectedScale = axisTransformed * glm::dot(delta, axis);
                             }
-                            trans->m_scale = trans->m_scale * (glm::vec3(1.0f) + projectedScale);
+                            trans->m_scale = trans->m_scale * (glm::vec4(1.0f, 1.0f, 1.0f, 0.0f) + projectedScale);
                         } else if (edit.currentEditMode == EditMode::ROTATE){
 
                             Plane rotationPlane = {trans->m_position, axisTransformed};
                             if(!edit.usingLocalWorldSpace){
                                 rotationPlane.normal = axis;
                                 glm::mat4 inverse = glm::inverse(edit.selectedTransformCopyAtSelectionTime.getMat4Unscaled());
-                                axis = axis4 * inverse;
+                                axis = axis * inverse;
                             }
                             
-                            glm::vec3 hit0;
+                            glm::vec4 hit0;
                             Intersection::RayPlaneAbsolute(raycast0, rotationPlane, &hit0);
-                            glm::vec3 hit1;
+                            glm::vec4 hit1;
                             Intersection::RayPlaneAbsolute(raycast1, rotationPlane, &hit1);
                             
-                            glm::vec3 planeTangent = glm::normalize(hit0 - trans->m_position);
-                            glm::vec3 planeBitangent = glm::cross(planeTangent, rotationPlane.normal);
+                            glm::vec4 planeTangent = glm::normalize(hit0 - trans->m_position);
+                            glm::vec4 planeBitangent = glm::vec4(glm::cross(glm::vec3(planeTangent), glm::vec3(rotationPlane.normal)), 0.0f);
 
-                            glm::vec3 dir0 = glm::normalize(hit0 - trans->m_position);
-                            glm::vec3 dir1 = glm::normalize(hit1 - trans->m_position);
+                            glm::vec4 dir0 = glm::normalize(hit0 - trans->m_position);
+                            glm::vec4 dir1 = glm::normalize(hit1 - trans->m_position);
                             
-                            float angle = glm::orientedAngle(dir0, dir1, rotationPlane.normal);
+                            float angle = glm::orientedAngle(glm::vec3(dir0), glm::vec3(dir1), glm::vec3(rotationPlane.normal));
                             float originalAxisToTransformedAxisDot = glm::dot(rotationPlane.normal, axisTransformed);
                             if (originalAxisToTransformedAxisDot < 0){
                                 angle = - angle;
                             }
                             
-                            trans->m_orientation = glm::rotate(edit.selectedTransformCopyAtSelectionTime.m_orientation, angle, axis);
+                            trans->m_orientation = glm::rotate(edit.selectedTransformCopyAtSelectionTime.m_orientation, angle, glm::vec3(axis));
 //                            printf("angle: %1.5f, axis: (%4.4f, %4.4f, %4.4f)\n", angle, axis.x, axis.y, axis.z);
                             
                             
@@ -182,7 +181,7 @@ void EditorSystem::tick(uint64_t dt){
             ray r = input.getRaycast(input.clickViewportSpace);
             input.resetClick();
             entityID targetEID;
-            glm::vec3 hit;
+            glm::vec4 hit;
             if (getClosestOBBIntersectionEntity(r, &targetEID, &hit)){
                 edit.hasSelectedEntity = true;
                 edit.selectedEntity = targetEID;
@@ -207,13 +206,13 @@ bool EditorSystem::getShouldDragMoveAxis(AXIS* axisToDrag){
     TransformComponent& selectedTransform = m_admin.getComponent<TransformComponent>(edit.selectedEntity);
     
     ray r = input.getRaycast(input.mouseDownPositionViewportSpace);
-    Cylinder collider = {glm::vec3(0.0), glm::vec3(1.5f, 0.0f, 0.0f), 0.1f};
+    Cylinder collider = {glm::vec4(0.0f, 0.0f, 0.0f, 1.0f), glm::vec4(1.5f, 0.0f, 0.0f, 1.0f), 0.1f};
     glm::mat4 baseMatrix;
     
     if(edit.usingLocalWorldSpace){
         baseMatrix = selectedTransform.getMat4Unscaled();
     } else {
-        baseMatrix = glm::translate(selectedTransform.m_position);
+        baseMatrix = glm::translate(selectedTransform.getPosition3());
     }
     
     if(Intersection::RayCyl(r, collider, baseMatrix)){
@@ -248,21 +247,21 @@ bool EditorSystem::getShouldDragRotateAxis(AXIS* axisToDrag){
     }
     
     const float half_width = 0.15f;
-    Cylinder collider = {glm::vec3(-half_width, 0.0f, 0.0f), glm::vec3(half_width, 0.0f, 0.0f), 1.0f};
+    Cylinder collider = {glm::vec4(-half_width, 0.0f, 0.0f, 1.0f), glm::vec4(half_width, 0.0f, 0.0f, 1.0f), 1.0f};
     glm::mat4 baseMatrix;
     
     if(edit.usingLocalWorldSpace){
         baseMatrix = selectedTransform.getMat4Unscaled();
     } else {
-        baseMatrix = glm::translate(selectedTransform.m_position);
+        baseMatrix = glm::translate(selectedTransform.getPosition3());
     }
     
     bool didHit = false;
     const float threshold = 0.8f;
     
-    glm::vec3 hitX;
-    glm::vec3 hitY;
-    glm::vec3 hitZ;
+    glm::vec4 hitX;
+    glm::vec4 hitY;
+    glm::vec4 hitZ;
     
     float distanceFromCenterX = 0.0f;
     float distanceFromCenterY = 0.0f;
@@ -297,39 +296,39 @@ bool EditorSystem::getShouldDragRotateAxis(AXIS* axisToDrag){
     return didHit;
 }
 
-glm::vec3 EditorSystem::getLocalAxisToDrag(glm::vec3* tangent, glm::vec3* binormal){
+glm::vec4 EditorSystem::getLocalAxisToDrag(glm::vec4* tangent, glm::vec4* binormal){
     EditorSingleton& edit = m_admin.m_EditorSingleton;
-    glm::vec3 out;
+    glm::vec4 out;
     switch (edit.draggedAxis) {
         case AXIS::X:
-            out       = glm::vec3(1.0f, 0.0f, 0.0f);
-            *tangent  = glm::vec3(0.0f, 1.0f, 0.0f);
-            *binormal = glm::vec3(0.0f, 0.0f, 1.0f);
+            out       = glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
+            *tangent  = glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
+            *binormal = glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
             break;
         case AXIS::Y:
-            out       = glm::vec3(0.0f, 1.0f, 0.0f);
-            *tangent  = glm::vec3(0.0f, 0.0f, 1.0f);
-            *binormal = glm::vec3(1.0f, 0.0f, 0.0f);
+            out       = glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
+            *tangent  = glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
+            *binormal = glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
             break;
         case AXIS::Z:
-            out       = glm::vec3(0.0f, 0.0f, 1.0f);
-            *tangent  = glm::vec3(1.0f, 0.0f, 0.0f);
-            *binormal = glm::vec3(0.0f, 0.0f, 1.0f);
+            out       = glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
+            *tangent  = glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
+            *binormal = glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
             break;
     }
     return out;
 }
 
-bool EditorSystem::getClosestOBBIntersectionEntity(ray r, entityID *eID, glm::vec3 *hitOutput){
+bool EditorSystem::getClosestOBBIntersectionEntity(ray r, entityID *eID, glm::vec4 *hitOutput){
     float closestD = INFINITY;
     entityID closest = NO_ENTITY;
-    glm::vec3 hit;
+    glm::vec4 hit;
     
     std::vector<AABBCollisionFamilyStatic> staticAABBFamilies = m_admin.getFamilyStaticVector<AABBCollisionFamilyStatic>();
     for(AABBCollisionFamilyStatic f : staticAABBFamilies){
         AABB box = f.m_AABBColliderComponent.m_AABB;
         glm::mat4 model = f.m_TransformComponent.m_cachedMat4;
-        glm::vec3 thisHit;
+        glm::vec4 thisHit;
         float d;
         bool didIntersect = Intersection::RayOBB(r, box, model, &d, &thisHit);
         if(didIntersect){

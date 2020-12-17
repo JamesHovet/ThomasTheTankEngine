@@ -14,6 +14,23 @@
 
 using namespace ImGui;
 
+void ImGui::InputVec3(const char *label, glm::vec4 *v4){
+    ImGui::PushID(label);
+    ImGui::Columns(4, NULL, false);
+    
+    ImGui::Text("%s", label);
+    ImGui::NextColumn();
+    ImGui::InputFloat("x", &v4->x);
+    ImGui::NextColumn();
+    ImGui::InputFloat("y", &v4->y);
+    ImGui::NextColumn();
+    ImGui::InputFloat("z", &v4->z);
+
+    ImGui::Columns();
+    ImGui::PopID();
+
+}
+
 void ImGui::InputVec3(const char *label, glm::vec3 *v3){
     ImGui::PushID(label);
     ImGui::Columns(4, NULL, false);

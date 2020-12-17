@@ -38,9 +38,9 @@ struct EditorSingleton {
     
     bool isDraggingAxis {false};
     AXIS draggedAxis;
-    glm::vec3 draggedAxisLocal;
-    glm::vec3 draggedAxisLocalTangent;
-    glm::vec3 draggedAxisLocalBinormal;
+    glm::vec4 draggedAxisLocal;
+    glm::vec4 draggedAxisLocalTangent;
+    glm::vec4 draggedAxisLocalBinormal;
     
 };
 

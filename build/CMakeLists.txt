@@ -76,6 +76,7 @@ set(SOURCES
 	../ThomasTheTankEngine/Systems/Console/ConsoleSystem.cpp
 	../ThomasTheTankEngine/Systems/Console/ConsoleCommands.cpp
 	../ThomasTheTankEngine/Components/Component.cpp
+	../ThomasTheTankEngine/Components/TransformComponent.cpp
 	../ThomasTheTankEngine/Singletons/InputSingleton.cpp
 	../ThomasTheTankEngine/Singletons/ShaderCatalogSingleton.cpp
 	../ThomasTheTankEngine/Singletons/ModelCatalogSingleton.cpp

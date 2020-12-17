@@ -45,7 +45,7 @@ void RenderSetupSystem::setupCamera(){
         CameraComponent& cameraC = editorSingleton.editorCameraComponent;
         TransformComponent& transC = editorSingleton.editorCameraTransform;
         
-        renderSingleton.view = glm::lookAt(transC.m_position, transC.m_position + transC.getForward(), transC.getUp());
+        renderSingleton.view = glm::lookAt(transC.getPosition3(), transC.getPosition3() + transC.getForward3(), transC.getUp3());
         renderSingleton.projection = glm::perspective(glm::radians(cameraC.m_FOV), (float)renderSingleton.SCREEN_WIDTH / (float)renderSingleton.SCREEN_HEIGHT, 0.1f, 100.0f);
         renderSingleton.currentCameraC = &cameraC;
         renderSingleton.currentCameraTransformC = &transC;
@@ -58,7 +58,7 @@ void RenderSetupSystem::setupCamera(){
                 renderSingleton.currentCameraC = &cameraC;
                 renderSingleton.currentCameraTransformC = &transC;
                 
-                renderSingleton.view = glm::lookAt(transC.m_position, transC.m_position + transC.getForward(), transC.getUp());
+                renderSingleton.view = glm::lookAt(transC.getPosition3(), transC.getPosition3() + transC.getForward3(), transC.getUp3());
                 renderSingleton.projection = glm::perspective(glm::radians(cameraC.m_FOV), (float)renderSingleton.SCREEN_WIDTH / (float)renderSingleton.SCREEN_HEIGHT, 0.1f, 100.0f);
                 break;
             }

@@ -32,21 +32,21 @@ typedef glm::vec4 RGBA;
 #define RGBA_Blue RGBA(0.0f, 0.0f, 1.0f, l.0f)
 typedef glm::vec3 RGB;
 typedef struct Plane {
-    glm::vec3 origin;
-    glm::vec3 normal;
+    glm::vec4 origin;
+    glm::vec4 normal;
 } Plane;
 typedef struct AABB {
     glm::vec3 min;
     glm::vec3 max;
 } AABB;
 typedef struct Cylinder {
-    glm::vec3 p0;
-    glm::vec3 p1;
+    glm::vec4 p0;
+    glm::vec4 p1;
     float radius;
 } Cylinder;
 typedef struct ray {
-    glm::vec3 orig;
-    glm::vec3 dir;
+    glm::vec4 orig;
+    glm::vec4 dir;
 } ray;
 typedef enum AXIS {
     X,

@@ -747,6 +747,11 @@ void EditorSystem::renderGizmos(){
                     
                 case EditMode::ROTATE:
                     renderRotationWheelAtModelMat(baseMatrix);
+                    //@Temporary
+                    //@Temporary
+                    //@Temporary
+                    renderMoveAxesAtModelMat(baseMatrix);
+                    
                     break;
             }
             

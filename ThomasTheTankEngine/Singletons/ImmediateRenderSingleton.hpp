@@ -15,7 +15,9 @@
 
 struct ImmediateRenderSingleton {
     void drawLine(glm::vec3 v0, glm::vec3 v1, RGBA color);
+    void drawLine(glm::vec3 v0, glm::vec3 v1, RGBA color0, RGBA color1);
     void drawTri(glm::vec3 v0, glm::vec3 v1, glm::vec3 v2, RGBA color);
+    void drawTri(glm::vec3 v0, glm::vec3 v1, glm::vec3 v2, RGBA color0, RGBA color1, RGBA color2);
 private:
     // Format: x, y, z, r, g, b, a
     std::vector<float> immLineVerts;

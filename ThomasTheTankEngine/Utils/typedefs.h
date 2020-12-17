@@ -25,6 +25,11 @@ typedef int GLint;
 typedef nlohmann::json::object_t prototype;
 typedef std::bitset<64> componentMask;
 typedef glm::vec4 RGBA;
+#define RGBA_White RGBA(1.0f, 1.0f, 1.0f, 1.0f)
+#define RGBA_Black RGBA(0.0f, 0.0f, 0.0f, 1.0f)
+#define RGBA_Red RGBA(1.0f, 0.0f, 0.0f, 1.0f)
+#define RGBA_Green RGBA(0.0f, 1.0f, 0.0f, 1.0f)
+#define RGBA_Blue RGBA(0.0f, 0.0f, 1.0f, l.0f)
 typedef glm::vec3 RGB;
 typedef struct Plane {
     glm::vec3 origin;

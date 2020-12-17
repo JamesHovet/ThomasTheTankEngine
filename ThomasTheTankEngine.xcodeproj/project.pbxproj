@@ -74,6 +74,7 @@
 		597C6AAC24E0583E002CB5D8 /* Trace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 597C6AAA24E0583E002CB5D8 /* Trace.cpp */; };
 		59AA59D324D4D8D10082B201 /* componentViews.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59AA59D224D4D8D10082B201 /* componentViews.cpp */; };
 		59B2DDA924D77EE00050E31A /* IntersectionUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59B2DDA724D77EE00050E31A /* IntersectionUtils.cpp */; };
+		59B4E59B258A660C00590916 /* ImmediateRenderSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59B4E599258A660C00590916 /* ImmediateRenderSystem.cpp */; };
 		59B6511924FC05FC00D419AD /* ModelCatalogSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59B6511724FC05FC00D419AD /* ModelCatalogSingleton.cpp */; };
 		59B6512224FC1DA200D419AD /* BasicModelRenderSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59B6512024FC1DA200D419AD /* BasicModelRenderSystem.cpp */; };
 		59B6512524FC21D600D419AD /* basicModel.vert in CopyFiles */ = {isa = PBXBuildFile; fileRef = 59B6512324FC208700D419AD /* basicModel.vert */; };
@@ -84,6 +85,11 @@
 		59C0382A24D5999800DFFA3E /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59484F4E24290C410068591C /* SDL2.framework */; };
 		59C0382B24D5999800DFFA3E /* SDL2.framework in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 59484F4E24290C410068591C /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		59C0383224D5CEFE00DFFA3E /* SerializationUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59C0383024D5CEFE00DFFA3E /* SerializationUtils.cpp */; };
+		59CB7BBE258A6CBE005919CC /* ImmediateRenderSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59CB7BBC258A6CBE005919CC /* ImmediateRenderSingleton.cpp */; };
+		59CB7BC0258A783F005919CC /* unlit_rgba.frag in Resources */ = {isa = PBXBuildFile; fileRef = 59CB7BBF258A783F005919CC /* unlit_rgba.frag */; };
+		59CB7BC2258A7857005919CC /* unlit_rgba.vert in Resources */ = {isa = PBXBuildFile; fileRef = 59CB7BC1258A7857005919CC /* unlit_rgba.vert */; };
+		59CB7BC3258A796F005919CC /* unlit_rgba.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 59CB7BBF258A783F005919CC /* unlit_rgba.frag */; };
+		59CB7BC4258A796F005919CC /* unlit_rgba.vert in CopyFiles */ = {isa = PBXBuildFile; fileRef = 59CB7BC1258A7857005919CC /* unlit_rgba.vert */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -120,6 +126,8 @@
 			dstPath = Shaders;
 			dstSubfolderSpec = 7;
 			files = (
+				59CB7BC3258A796F005919CC /* unlit_rgba.frag in CopyFiles */,
+				59CB7BC4258A796F005919CC /* unlit_rgba.vert in CopyFiles */,
 				59B6512524FC21D600D419AD /* basicModel.vert in CopyFiles */,
 				59B6512624FC21D600D419AD /* basicModel.frag in CopyFiles */,
 				595B230524E2027C002F74FF /* unlitOpaque.vert in CopyFiles */,
@@ -692,6 +700,8 @@
 		59B2DDA824D77EE00050E31A /* IntersectionUtils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = IntersectionUtils.hpp; sourceTree = "<group>"; };
 		59B35EDD24CE1E0400605588 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework; sourceTree = DEVELOPER_DIR; };
 		59B35EE024CE1EAC00605588 /* libboost_filesystem.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_filesystem.dylib; path = ../../../../usr/local/Cellar/boost/1.72.0_3/lib/libboost_filesystem.dylib; sourceTree = "<group>"; };
+		59B4E599258A660C00590916 /* ImmediateRenderSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ImmediateRenderSystem.cpp; sourceTree = "<group>"; };
+		59B4E59A258A660C00590916 /* ImmediateRenderSystem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ImmediateRenderSystem.hpp; sourceTree = "<group>"; };
 		59B6511724FC05FC00D419AD /* ModelCatalogSingleton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ModelCatalogSingleton.cpp; sourceTree = "<group>"; };
 		59B6511824FC05FC00D419AD /* ModelCatalogSingleton.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ModelCatalogSingleton.hpp; sourceTree = "<group>"; };
 		59B6512024FC1DA200D419AD /* BasicModelRenderSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BasicModelRenderSystem.cpp; sourceTree = "<group>"; };
@@ -704,6 +714,10 @@
 		59C0383024D5CEFE00DFFA3E /* SerializationUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SerializationUtils.cpp; sourceTree = "<group>"; };
 		59C0383124D5CEFE00DFFA3E /* SerializationUtils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SerializationUtils.hpp; sourceTree = "<group>"; };
 		59CA7DC624D6FBBE00982443 /* deserializationCompatability.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = deserializationCompatability.cpp; sourceTree = "<group>"; };
+		59CB7BBC258A6CBE005919CC /* ImmediateRenderSingleton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ImmediateRenderSingleton.cpp; sourceTree = "<group>"; };
+		59CB7BBD258A6CBE005919CC /* ImmediateRenderSingleton.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ImmediateRenderSingleton.hpp; sourceTree = "<group>"; };
+		59CB7BBF258A783F005919CC /* unlit_rgba.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = unlit_rgba.frag; sourceTree = "<group>"; };
+		59CB7BC1258A7857005919CC /* unlit_rgba.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = unlit_rgba.vert; sourceTree = "<group>"; };
 		59E57C4324CDC1E20076E507 /* filterEntitiesIntoStaticFamiliesInclude.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = filterEntitiesIntoStaticFamiliesInclude.cpp; sourceTree = "<group>"; };
 		59E57C4424CDC1F10076E507 /* populateFamilyStaticVectorsInclude.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = populateFamilyStaticVectorsInclude.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1449,6 +1463,8 @@
 		59661B3A242962890088525D /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
+				59CB7BBF258A783F005919CC /* unlit_rgba.frag */,
+				59CB7BC1258A7857005919CC /* unlit_rgba.vert */,
 				59661B3B242962B70088525D /* default.vert */,
 				59661B3C242962CA0088525D /* default.frag */,
 				59661B45242B958C0088525D /* shader_globals.glh */,
@@ -1485,6 +1501,8 @@
 				595B22FE24E1E273002F74FF /* InputSingleton.cpp */,
 				59B6511724FC05FC00D419AD /* ModelCatalogSingleton.cpp */,
 				59B6511824FC05FC00D419AD /* ModelCatalogSingleton.hpp */,
+				59CB7BBC258A6CBE005919CC /* ImmediateRenderSingleton.cpp */,
+				59CB7BBD258A6CBE005919CC /* ImmediateRenderSingleton.hpp */,
 			);
 			path = Singletons;
 			sourceTree = "<group>";
@@ -1498,6 +1516,8 @@
 				590A09B324CA34B800D1153A /* GreyBoxRenderSystem.hpp */,
 				59B6512024FC1DA200D419AD /* BasicModelRenderSystem.cpp */,
 				59B6512124FC1DA200D419AD /* BasicModelRenderSystem.hpp */,
+				59B4E599258A660C00590916 /* ImmediateRenderSystem.cpp */,
+				59B4E59A258A660C00590916 /* ImmediateRenderSystem.hpp */,
 			);
 			path = RenderOnly;
 			sourceTree = "<group>";
@@ -1661,6 +1681,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				59CB7BC0258A783F005919CC /* unlit_rgba.frag in Resources */,
+				59CB7BC2258A7857005919CC /* unlit_rgba.vert in Resources */,
 				59484F2E24290AEE0068591C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1684,6 +1706,7 @@
 			files = (
 				59484F3424290AEE0068591C /* main.cpp in Sources */,
 				590A09DE24CB3B5E00D1153A /* EditorSystem.cpp in Sources */,
+				59B4E59B258A660C00590916 /* ImmediateRenderSystem.cpp in Sources */,
 				59B2DDA924D77EE00050E31A /* IntersectionUtils.cpp in Sources */,
 				59B6512224FC1DA200D419AD /* BasicModelRenderSystem.cpp in Sources */,
 				59668C6224CF9E31006744B7 /* ConsoleSystem.cpp in Sources */,
@@ -1699,6 +1722,7 @@
 				59661B44242B93900088525D /* Shader.cpp in Sources */,
 				590A09B424CA34B800D1153A /* GreyBoxRenderSystem.cpp in Sources */,
 				594A5F2C24B4B32A00733231 /* EntityAdmin.cpp in Sources */,
+				59CB7BBE258A6CBE005919CC /* ImmediateRenderSingleton.cpp in Sources */,
 				594A5F3A24B4E99000733231 /* Component.cpp in Sources */,
 				59484F65242910030068591C /* imgui_widgets.cpp in Sources */,
 				59484F67242910030068591C /* imgui_impl_opengl3.cpp in Sources */,

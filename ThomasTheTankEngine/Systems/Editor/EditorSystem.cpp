@@ -155,7 +155,7 @@ void EditorSystem::tick(uint64_t dt){
                             }
                             
                             trans->m_orientation = glm::rotate(edit.selectedTransformCopyAtSelectionTime.m_orientation, angle, axis);
-                            printf("angle: %1.5f, axis: (%4.4f, %4.4f, %4.4f)\n", angle, axis.x, axis.y, axis.z);
+//                            printf("angle: %1.5f, axis: (%4.4f, %4.4f, %4.4f)\n", angle, axis.x, axis.y, axis.z);
                             
                             
                             imm.drawTri(pos, pos + planeTangent * 100.0f, pos + planeBitangent * 100.0f, RGBA(0.5f, 0.5f, 0.5f, 0.3f));
@@ -322,29 +322,28 @@ glm::vec3 EditorSystem::getLocalAxisToDrag(glm::vec3* tangent, glm::vec3* binorm
 
 bool EditorSystem::getClosestOBBIntersectionEntity(ray r, entityID *eID, glm::vec3 *hitOutput){
     float closestD = INFINITY;
-    entityID closest = -1;
+    entityID closest = NO_ENTITY;
     glm::vec3 hit;
     
-    for(std::pair<entityID, AABBCollisionFamily> p : m_admin.getFamilyMap<AABBCollisionFamily>()){
-        AABBCollisionFamily f = p.second;
+    std::vector<AABBCollisionFamilyStatic> staticAABBFamilies = m_admin.getFamilyStaticVector<AABBCollisionFamilyStatic>();
+    for(AABBCollisionFamilyStatic f : staticAABBFamilies){
         AABB box = f.m_AABBColliderComponent.m_AABB;
-        glm::mat4 model = f.m_TransformComponent.getLocalModelMatrix();
+        glm::mat4 model = f.m_TransformComponent.m_cachedMat4;
         glm::vec3 thisHit;
         float d;
         bool didIntersect = Intersection::RayOBB(r, box, model, &d, &thisHit);
         if(didIntersect){
             if(d < closestD){
-                closest = p.first;
+                closest = f.eID;
                 closestD = d;
                 hit = thisHit;
             }
         }
     }
     
-    if(closest != -1){
-        *eID = closest;
-        *hitOutput = hit;
-        return true;
-    }
-    return false;
+    if(closest == NO_ENTITY) return false;
+    
+    *eID = closest;
+    *hitOutput = hit;
+    return true;
 }

@@ -146,7 +146,7 @@ Entity* EntityAdmin::tryCreateEntity(entityID eID){
         return nullptr;
     }
     
-    m_entity_storage[eID] = Entity(eID);
+    m_entity_storage[eID] = Entity(this, eID);
     m_entities[eID] = &m_entity_storage[eID];
     m_component_maps.insert(std::make_pair(eID, std::unordered_map<componentID, ECSComponent*>()));
     
@@ -163,7 +163,7 @@ entityID EntityAdmin::createEntity(){
         eID = rand() % MAX_ENTITIES;
     }
     
-    m_entity_storage[eID] = Entity(eID);
+    m_entity_storage[eID] = Entity(this, eID);
     m_entities[eID] = &m_entity_storage[eID];
     m_component_maps.insert(std::make_pair(eID, std::unordered_map<componentID, ECSComponent*>()));
     
@@ -379,10 +379,10 @@ void EntityAdmin::loadTestScene(){
 //
 //    }
     
-   /* 
+   
     
     {
-        for(int i = 0; i < 5; i ++){
+        for(int i = 0; i < 1; i ++){
             entityID eID = this->createEntity();
             TransformComponent& trans = addComponent<TransformComponent>(eID);
             trans.m_position = glm::vec3((i - 2) * 10.0f, 0.0f, 0.0f);
@@ -406,7 +406,7 @@ void EntityAdmin::loadTestScene(){
                     setParent(grandchild, child);
                     TransformComponent& trans = addComponent<TransformComponent>(grandchild);
                     trans.m_scale = glm::vec3(0.5f);
-                    trans.m_position = glm::vec3((k - 10) * 2.0f, -5.0f, 0.0f);
+                    trans.m_position = glm::vec3((k - 5) * 2.0f, -5.0f, 0.0f);
                     GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(grandchild);
                     AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(grandchild);
                     boxC.m_color = RGBA(0.0f, 0.0f, 1.0f, 1.0f);
@@ -414,22 +414,22 @@ void EntityAdmin::loadTestScene(){
             }
         }
     }
-   */ 
+   
     
-    {
-        entityID eID = this->createEntity();
-        DebugNameComponent& nameC = addComponent<DebugNameComponent>(eID);
-        nameC.m_name = "Lion";
-        TransformComponent& trans = this->addComponent<TransformComponent>(eID);
-        trans.m_position = glm::vec3(0.0f, 0.0f, -2.0f);
-        BasicModelComponent& model = this->addComponent<BasicModelComponent>(eID);
-        model.m_model_name = "lion";
-        if(m_ModelCatalogSingleton.modelExists(model.m_model_name)){
-            AABBColliderComponent& bbox = this->addComponent<AABBColliderComponent>(eID);
-            bbox.m_AABB = this->m_ModelCatalogSingleton.getModel(model.m_model_name).bbox;
-        }
-
-    }
+//    {
+//        entityID eID = this->createEntity();
+//        DebugNameComponent& nameC = addComponent<DebugNameComponent>(eID);
+//        nameC.m_name = "Lion";
+//        TransformComponent& trans = this->addComponent<TransformComponent>(eID);
+//        trans.m_position = glm::vec3(0.0f, 0.0f, -2.0f);
+//        BasicModelComponent& model = this->addComponent<BasicModelComponent>(eID);
+//        model.m_model_name = "lion";
+//        if(m_ModelCatalogSingleton.modelExists(model.m_model_name)){
+//            AABBColliderComponent& bbox = this->addComponent<AABBColliderComponent>(eID);
+//            bbox.m_AABB = this->m_ModelCatalogSingleton.getModel(model.m_model_name).bbox;
+//        }
+//
+//    }
 //    {
 //        entityID eID = this->createEntity();
 //        DebugNameComponent& nameC = addComponent<DebugNameComponent>(eID);

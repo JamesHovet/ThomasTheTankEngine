@@ -14,7 +14,7 @@
 #include <glm/glm.hpp>
 #include <json.hpp>
 
-#define MAX_CHILDREN 10
+#define MAX_CHILDREN 22 // just how much space was left in the struct
 #define NO_ENTITY 0
 
 typedef unsigned short entityID;

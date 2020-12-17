@@ -38,6 +38,9 @@ struct TransformComponent : public ECSComponent {
     glm::vec3 getForward() {return glm::rotate(m_orientation, glm::vec3(0.0f, 0.0f, 1.0f));}
     glm::vec3 getUp()      {return glm::rotate(m_orientation, glm::vec3(0.0f, 1.0f, 0.0f));}
     glm::vec3 getRight()   {return glm::rotate(m_orientation, glm::vec3(1.0f, 0.0f, 0.0f));}
+    inline void setPosition(glm::vec3 pos){m_position = pos; dirty = true;}
+    inline void setOrientation(glm::quat orientation){m_orientation = orientation; dirty = true;}
+    inline void setScale(glm::vec3 scale){m_scale = scale; dirty = true;}
     
     glm::mat4 getLocalModelMatrix() {
         glm::mat4 translation = glm::translate(m_position);

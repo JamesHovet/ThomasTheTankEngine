@@ -321,7 +321,7 @@ void EntityAdmin::loadTestScene(){
 //    }
     { // create testing boxes
         //@Remove: temporary test entities
-        int numToAdd = 0;
+        int numToAdd = 5;
         for(int i = 0; i < numToAdd; i++){
             entityID eID = this->createEntity();
 //            DebugNameComponent& nameC = this->addComponent<DebugNameComponent>(eID);
@@ -332,7 +332,7 @@ void EntityAdmin::loadTestScene(){
 //            debugPrintC.m_enabled = false;
 
 //            nameC.m_name = std::to_string(eID);
-            transformC.setPosition(glm::vec3(4.0f * ((float) i - (numToAdd / 2)) / (float) numToAdd));
+            transformC.setLocalPosition(glm::vec3(4.0f * ((float) i - (numToAdd / 2)) / (float) numToAdd));
             transformC.setScale(glm::vec3(1.0f, 1.5f, 1.0f));
 //                transformC.m_orientation = glm::quat(glm::vec3(0.0f, glm::radians(0.0f), glm::radians((float) random())));
 //            transformC.m_orientation = glm::quat(glm::vec3(0.0f, 0.0f, 0.0f));
@@ -381,41 +381,41 @@ void EntityAdmin::loadTestScene(){
     
    
     
-    {
-        for(int i = 0; i < 1; i ++){
-            entityID eID = this->createEntity();
-            TransformComponent& trans = addComponent<TransformComponent>(eID);
-            trans.setPosition(glm::vec3((i - 1) * 10.0f, 0.0f, 0.0f));
-            GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(eID);
-            AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(eID);
-            boxC.m_color = RGBA(1.0f, 0.0f, 0.0f, 1.0f);
-
-            for (int j = 0; j < 10; j ++){
-                entityID child = createEntity();
-                setParent(child, eID);
-                TransformComponent& trans = addComponent<TransformComponent>(child);
-                trans.setScale(glm::vec3(0.5f));
-                trans.setPosition(glm::vec3((j - 5) * 2.0f, -2.5f, 0.0f));
-                GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(child);
-                AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(child);
-                boxC.m_color = RGBA(0.0f, 1.0f, 0.0f, 1.0f);
-                
-                trans.getMat4();
-
-                                            
-//                for(int k = 0; k < 10; k++){
-//                    entityID grandchild = createEntity();
-//                    setParent(grandchild, child);
-//                    TransformComponent& trans = addComponent<TransformComponent>(grandchild);
-//                    trans.setScale(glm::vec3(0.5f));
-//                    trans.setPosition(glm::vec3((k - 5) * 2.0f, -5.0f, 0.0f));
-//                    GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(grandchild);
-//                    AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(grandchild);
-//                    boxC.m_color = RGBA(0.0f, 0.0f, 1.0f, 1.0f);
-//                }
-            }
-        }
-    }
+//    {
+//        for(int i = 0; i < 1; i ++){
+//            entityID eID = this->createEntity();
+//            TransformComponent& trans = addComponent<TransformComponent>(eID);
+//            trans.setLocalPosition(glm::vec3((i - 1) * 10.0f, 0.0f, 0.0f));
+//            GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(eID);
+//            AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(eID);
+//            boxC.m_color = RGBA(1.0f, 0.0f, 0.0f, 1.0f);
+//
+//            for (int j = 0; j < 10; j ++){
+//                entityID child = createEntity();
+//                setParent(child, eID);
+//                TransformComponent& trans = addComponent<TransformComponent>(child);
+//                trans.setScale(glm::vec3(0.5f));
+//                trans.setLocalPosition(glm::vec3((j - 5) * 2.0f, -2.5f, 0.0f));
+//                GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(child);
+//                AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(child);
+//                boxC.m_color = RGBA(0.0f, 1.0f, 0.0f, 1.0f);
+//                
+//                trans.getMat4();
+//
+//                                            
+////                for(int k = 0; k < 10; k++){
+////                    entityID grandchild = createEntity();
+////                    setParent(grandchild, child);
+////                    TransformComponent& trans = addComponent<TransformComponent>(grandchild);
+////                    trans.setScale(glm::vec3(0.5f));
+////                    trans.setPosition(glm::vec3((k - 5) * 2.0f, -5.0f, 0.0f));
+////                    GreyBoxComponent& boxC = this->addComponent<GreyBoxComponent>(grandchild);
+////                    AABBColliderComponent& collisionC = this->addComponent<AABBColliderComponent>(grandchild);
+////                    boxC.m_color = RGBA(0.0f, 0.0f, 1.0f, 1.0f);
+////                }
+//            }
+//        }
+//    }
    
     
 //    {

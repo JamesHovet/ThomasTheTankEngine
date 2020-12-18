@@ -24,7 +24,15 @@ Shader defaultShader;
 EntityAdmin g_admin;
 
 int main(int argc, const char * argv[]) {
-    
+    /*
+    glm::mat4 m4 = glm::mat4(1.0f);
+    m4 = glm::translate(m4, glm::vec3(1.0f, 2.0f, 3.0f));
+    glm::vec4 zeroPos = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+    glm::vec4 transPoint0 = m4 * zeroPos;
+
+    std::cout << SerializationUtils::serializeVec3(transPoint0) << std::endl;
+    std::cout << SerializationUtils::serializeVec3(transPoint1) << std::endl;
+    */
 
     TRACE_EVENT("Setup Begin");
     

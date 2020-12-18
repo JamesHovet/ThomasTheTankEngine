@@ -45,6 +45,14 @@ void RenderSetupSystem::setupCamera(){
         CameraComponent& cameraC = editorSingleton.editorCameraComponent;
         TransformComponent& transC = editorSingleton.editorCameraTransform;
         
+        /*
+        std::cout << "--\n";
+        std::cout << SerializationUtils::serializeVec4(transC.m_position) << "\n";
+        std::cout << SerializationUtils::serializeVec3(transC.getPosition3()) << "\n";
+        std::cout << SerializationUtils::serializeVec3(transC.getForward3()) << "\n";
+        std::cout << SerializationUtils::serializeVec3(transC.getUp3()) << std::endl;
+         */
+        
         renderSingleton.view = glm::lookAt(transC.getPosition3(), transC.getPosition3() + transC.getForward3(), transC.getUp3());
         renderSingleton.projection = glm::perspective(glm::radians(cameraC.m_FOV), (float)renderSingleton.SCREEN_WIDTH / (float)renderSingleton.SCREEN_HEIGHT, 0.1f, 100.0f);
         renderSingleton.currentCameraC = &cameraC;

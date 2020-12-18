@@ -43,22 +43,22 @@ static void processEditorCameraKeyInput(TransformComponent &camTransformC, uint6
     
     // Keyboard editor camera movement
     if(input.rawSDLState[SDL_SCANCODE_W]){
-        camTransformC.m_position = camTransformC.m_position + (camTransformC.getForward() * keyboardEditorMovementSpeed);
+        camTransformC.setLocalPosition(camTransformC.m_position + (camTransformC.getForward() * keyboardEditorMovementSpeed));
     }
     if(input.rawSDLState[SDL_SCANCODE_S]){
-        camTransformC.m_position = camTransformC.m_position - (camTransformC.getForward() * keyboardEditorMovementSpeed);
+        camTransformC.setLocalPosition(camTransformC.m_position - (camTransformC.getForward() * keyboardEditorMovementSpeed));
     }
     if(input.rawSDLState[SDL_SCANCODE_D]){
-        camTransformC.m_position = camTransformC.m_position - camTransformC.getRight() * keyboardEditorMovementSpeed;
+        camTransformC.setLocalPosition(camTransformC.m_position - camTransformC.getRight() * keyboardEditorMovementSpeed);
     }
     if(input.rawSDLState[SDL_SCANCODE_A]){
-        camTransformC.m_position = camTransformC.m_position + camTransformC.getRight() * keyboardEditorMovementSpeed;
+        camTransformC.setLocalPosition(camTransformC.m_position + camTransformC.getRight() * keyboardEditorMovementSpeed);
     }
     if(input.rawSDLState[SDL_SCANCODE_LSHIFT]){
-        camTransformC.m_position = camTransformC.m_position + (camTransformC.getUp() * keyboardEditorMovementSpeed);
+        camTransformC.setLocalPosition(camTransformC.m_position + (camTransformC.getUp() * keyboardEditorMovementSpeed));
     }
     if(input.rawSDLState[SDL_SCANCODE_LCTRL]){
-        camTransformC.m_position = camTransformC.m_position - (camTransformC.getUp() * keyboardEditorMovementSpeed);
+        camTransformC.setLocalPosition(camTransformC.m_position - (camTransformC.getUp() * keyboardEditorMovementSpeed));
     }
     if(input.rawSDLState[SDL_SCANCODE_Q]){
         camTransformC.m_orientation = glm::rotate(camTransformC.m_orientation, 1.0f * seconds(dt), camTransformC.getUp3());
@@ -69,10 +69,10 @@ static void processEditorCameraKeyInput(TransformComponent &camTransformC, uint6
 }
 
 static void processEditorCameraPadInput(TransformComponent &camTransformC, InputSingleton &input) {
-    camTransformC.m_position = camTransformC.m_position - (camTransformC.getRight() * input.LStickX * controllerEditorMovementSpeed);
-    camTransformC.m_position = camTransformC.m_position + (camTransformC.getForward() * input.LStickY * controllerEditorMovementSpeed);
-    camTransformC.m_position = camTransformC.m_position - (camTransformC.getUp() * input.LTAnalog * controllerEditorMovementSpeed);
-    camTransformC.m_position = camTransformC.m_position + (camTransformC.getUp() * input.RTAnalog * controllerEditorMovementSpeed);
+    camTransformC.setLocalPosition(camTransformC.m_position - (camTransformC.getRight() * input.LStickX * controllerEditorMovementSpeed));
+    camTransformC.setLocalPosition(camTransformC.m_position + (camTransformC.getForward() * input.LStickY * controllerEditorMovementSpeed));
+    camTransformC.setLocalPosition(camTransformC.m_position - (camTransformC.getUp() * input.LTAnalog * controllerEditorMovementSpeed));
+    camTransformC.setLocalPosition(camTransformC.m_position + (camTransformC.getUp() * input.RTAnalog * controllerEditorMovementSpeed));
 }
 
 void EditorSystem::tick(uint64_t dt){
@@ -113,14 +113,14 @@ void EditorSystem::tick(uint64_t dt){
                         ray raycast1 = input.getRaycast(input.mouseDragPositionViewportSpace);
                         glm::vec4 delta = raycast1.dir - raycast0.dir;
                         glm::vec4 axis = edit.draggedAxisLocal;
-                        glm::vec4 axisTransformed = edit.selectedTransformCopyAtSelectionTime.getMat4Unscaled() * axis;
+                        glm::vec4 axisTransformed = glm::normalize(edit.selectedTransformCopyAtSelectionTime.getMat4() * axis);
                         
                         if (edit.currentEditMode == EditMode::MOVE){
                             if(!edit.usingLocalWorldSpace){
                                 axisTransformed = axis;
                             }
                             glm::vec4 projectedMove = axisTransformed * glm::dot(delta, axisTransformed);
-                            trans->m_position = trans->m_position + projectedMove;
+                            trans->setLocalPosition(trans->m_position + projectedMove);
                         } else if (edit.currentEditMode == EditMode::SCALE){
                             glm::vec4 projectedScale = axis * glm::dot(delta, axisTransformed);
                             if(!edit.usingLocalWorldSpace){
@@ -132,8 +132,8 @@ void EditorSystem::tick(uint64_t dt){
                             Plane rotationPlane = {trans->m_position, axisTransformed};
                             if(!edit.usingLocalWorldSpace){
                                 rotationPlane.normal = axis;
-                                glm::mat4 inverse = glm::inverse(edit.selectedTransformCopyAtSelectionTime.getMat4Unscaled());
-                                axis = axis * inverse;
+//                                glm::mat4 inverse = glm::inverse(edit.selectedTransformCopyAtSelectionTime.getMat4Unscaled());
+//                                axis = axis * inverse;
                             }
                             
                             glm::vec4 hit0;
@@ -210,7 +210,8 @@ bool EditorSystem::getShouldDragMoveAxis(AXIS* axisToDrag){
     glm::mat4 baseMatrix;
     
     if(edit.usingLocalWorldSpace){
-        baseMatrix = selectedTransform.getMat4Unscaled();
+        //@Temporary fix scale
+        baseMatrix = selectedTransform.getMat4();
     } else {
         baseMatrix = glm::translate(selectedTransform.getPosition3());
     }
@@ -251,7 +252,9 @@ bool EditorSystem::getShouldDragRotateAxis(AXIS* axisToDrag){
     glm::mat4 baseMatrix;
     
     if(edit.usingLocalWorldSpace){
-        baseMatrix = selectedTransform.getMat4Unscaled();
+        //@Temporary
+//        baseMatrix = selectedTransform.getMat4Unscaled();
+        baseMatrix = selectedTransform.getMat4();
     } else {
         baseMatrix = glm::translate(selectedTransform.getPosition3());
     }

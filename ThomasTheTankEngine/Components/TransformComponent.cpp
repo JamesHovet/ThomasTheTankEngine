@@ -16,7 +16,7 @@
 
 glm::mat4 TransformComponent::getMat4(){
     if(dirty){
-        if(m_entity->hasParent()){
+        if(m_entity && m_entity->hasParent()){
             TransformComponent* parentTrans = m_entity->m_admin->tryGetComponent<TransformComponent>(m_entity->m_parentID);
             if (parentTrans){
                 m_cachedMat4 = getLocalMat4() * parentTrans->getMat4();

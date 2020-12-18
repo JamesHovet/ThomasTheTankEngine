@@ -19,6 +19,8 @@
 #include <vector>
 #include <iostream>
 
+constexpr glm::vec4 zeroPos = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+
 struct TransformComponent : public ECSComponent {
     static constexpr int componentIndex{ 0 };
     
@@ -26,42 +28,43 @@ struct TransformComponent : public ECSComponent {
     
     //members:
     glm::mat4 m_cachedMat4;
+//private:
     glm::quat m_orientation = glm::quat(1.0f, 0.0f, 0.0f, 0.0f);
     glm::vec4 m_position = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
     glm::vec4 m_scale = glm::vec4(1.0f, 1.0f, 1.0f, 0.0f);
     
     bool dirty = true;
-    
+public:
     // dirty system
     // the entityAdmin can call "refreshTransforms" or something to go through the process of cleaning all these transforms
     // just takes the responsability off of the transform itself.
     // messy, for sure, but also more consistent with the design patterns we've created so far.
     
-    inline glm::vec4 getPosition()     {return m_position;}
-    inline glm::vec3 getPosition3()    {return glm::vec3(m_position);}
+    inline glm::vec4 getPosition()     {return getMat4() * zeroPos;}
+    inline glm::vec3 getPosition3()    {return glm::vec3(getPosition());}
     inline glm::quat getOrientation()  {return m_orientation;}
     inline glm::vec4 getScale()        {return m_scale;}
     inline glm::vec3 getScale3()       {return glm::vec3(m_scale);}
     
-    inline void setPosition(glm::vec4 pos){m_position = pos; dirty = true;}
-    inline void setPosition(glm::vec3 pos){m_position = glm::vec4(pos, 1.0f); dirty = true;}
+    inline void setLocalPosition(glm::vec4 pos){m_position = pos; dirty = true;}
+    inline void setLocalPosition(glm::vec3 pos){m_position = glm::vec4(pos, 1.0f); dirty = true;}
     inline void setOrientation(glm::quat orientation){m_orientation = orientation; dirty = true;}
     inline void setScale(glm::vec4 scale){m_scale = scale; dirty = true;}
     inline void setScale(glm::vec3 scale){m_scale = glm::vec4(scale, 0.0f); dirty = true;}
     
-    inline glm::vec4 getForward()      {return getMat4Unscaled() * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);}
-    inline glm::vec4 getUp()           {return getMat4Unscaled() * glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);}
-    inline glm::vec4 getRight()        {return getMat4Unscaled() * glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);}
+    inline glm::vec4 getForward()      {return glm::normalize(getMat4() * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f));}
+    inline glm::vec4 getUp()           {return glm::normalize(getMat4() * glm::vec4(0.0f, 1.0f, 0.0f, 0.0f));}
+    inline glm::vec4 getRight()        {return glm::normalize(getMat4() * glm::vec4(1.0f, 0.0f, 0.0f, 0.0f));}
     inline glm::vec4 getForwardLocal() {return getLocalMat4Unscaled() * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);}
     inline glm::vec4 getUpLocal()      {return getLocalMat4Unscaled() * glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);}
     inline glm::vec4 getRightLocal()   {return getLocalMat4Unscaled() * glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);}
     
-    inline glm::vec3 getForward3()      {return glm::vec3(getMat4Unscaled() * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f));}
-    inline glm::vec3 getUp3()           {return glm::vec3(getMat4Unscaled() * glm::vec4(0.0f, 1.0f, 0.0f, 0.0f));}
-    inline glm::vec3 getRight3()        {return glm::vec3(getMat4Unscaled() * glm::vec4(1.0f, 0.0f, 0.0f, 0.0f));}
-    inline glm::vec3 getForwardLocal3() {return glm::vec3(getLocalMat4Unscaled() * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f));}
-    inline glm::vec3 getUpLocal3()      {return glm::vec3(getLocalMat4Unscaled() * glm::vec4(0.0f, 1.0f, 0.0f, 0.0f));}
-    inline glm::vec3 getRightLocal3()   {return glm::vec3(getLocalMat4Unscaled() * glm::vec4(1.0f, 0.0f, 0.0f, 0.0f));}
+    inline glm::vec3 getForward3()      {return glm::vec3(getForward());}
+    inline glm::vec3 getUp3()           {return glm::vec3(getUp());}
+    inline glm::vec3 getRight3()        {return glm::vec3(getRight());}
+    inline glm::vec3 getForwardLocal3() {return glm::vec3(getForwardLocal());}
+    inline glm::vec3 getUpLocal3()      {return glm::vec3(getUpLocal());}
+    inline glm::vec3 getRightLocal3()   {return glm::vec3(getRightLocal());}
     
     glm::mat4 getLocalMat4() {
         glm::mat4 translation = glm::translate(glm::vec3(m_position));
@@ -80,11 +83,7 @@ struct TransformComponent : public ECSComponent {
     
     // @Placeholder for when I implement the parent system, which I think will be in this struct, but could possibly go in a different one, to allow for parent relationships between things that do not have a transform.
     glm::mat4 getMat4();
-    
-    glm::mat4 getMat4Unscaled(){
-        return getLocalMat4Unscaled();
-    }
-    
+
     glm::mat3 getNormalMatrix(){
         return glm::mat3(glm::transpose(glm::inverse(getMat4())));
     }

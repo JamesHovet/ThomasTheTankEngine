@@ -732,8 +732,7 @@ void EditorSystem::renderGizmos(){
         if(t != nullptr){
             glm::mat4 baseMatrix;
             if(edit.usingLocalWorldSpace){
-//                baseMatrix = t->getLocalMat4Unscaled();
-                baseMatrix = t->getMat4();
+                baseMatrix = t->getMat4Unscaled();
             } else {
                 baseMatrix = glm::translate(t->getPosition3());
             }
@@ -745,7 +744,6 @@ void EditorSystem::renderGizmos(){
                 case EditMode::SCALE:
                     renderScaleAxesAtModelMat(baseMatrix);
                     break;
-                    
                 case EditMode::ROTATE:
                     renderRotationWheelAtModelMat(baseMatrix);
                     break;

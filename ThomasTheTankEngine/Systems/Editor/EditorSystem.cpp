@@ -210,8 +210,7 @@ bool EditorSystem::getShouldDragMoveAxis(AXIS* axisToDrag){
     glm::mat4 baseMatrix;
     
     if(edit.usingLocalWorldSpace){
-        //@Temporary fix scale
-        baseMatrix = selectedTransform.getMat4();
+        baseMatrix = selectedTransform.getMat4Unscaled();
     } else {
         baseMatrix = glm::translate(selectedTransform.getPosition3());
     }
@@ -252,9 +251,7 @@ bool EditorSystem::getShouldDragRotateAxis(AXIS* axisToDrag){
     glm::mat4 baseMatrix;
     
     if(edit.usingLocalWorldSpace){
-        //@Temporary
-//        baseMatrix = selectedTransform.getMat4Unscaled();
-        baseMatrix = selectedTransform.getMat4();
+        baseMatrix = selectedTransform.getMat4Unscaled();
     } else {
         baseMatrix = glm::translate(selectedTransform.getPosition3());
     }

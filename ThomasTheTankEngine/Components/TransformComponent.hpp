@@ -28,6 +28,7 @@ struct TransformComponent : public ECSComponent {
     
     //members:
     glm::mat4 m_cachedMat4;
+    glm::quat m_cachedOrientation;
 //private:
     glm::quat m_orientation = glm::quat(1.0f, 0.0f, 0.0f, 0.0f);
     glm::vec4 m_position = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
@@ -40,15 +41,20 @@ public:
     // just takes the responsability off of the transform itself.
     // messy, for sure, but also more consistent with the design patterns we've created so far.
     
+    void cacheTransform();
+    
     inline glm::vec4 getPosition()     {return getMat4() * zeroPos;}
+    inline glm::vec4 getLocalPosition()     {return m_position;}
     inline glm::vec3 getPosition3()    {return glm::vec3(getPosition());}
-    inline glm::quat getOrientation()  {return m_orientation;}
+    inline glm::vec3 getLocalPosition3()    {return glm::vec3(getLocalPosition());}
+    glm::quat getOrientation();
+    inline glm::quat getLocalOrientation()  {return m_orientation;}
     inline glm::vec4 getScale()        {return m_scale;}
     inline glm::vec3 getScale3()       {return glm::vec3(m_scale);}
     
     inline void setLocalPosition(glm::vec4 pos){m_position = pos; dirty = true;}
     inline void setLocalPosition(glm::vec3 pos){m_position = glm::vec4(pos, 1.0f); dirty = true;}
-    inline void setOrientation(glm::quat orientation){m_orientation = orientation; dirty = true;}
+    inline void setLocalOrientation(glm::quat orientation){m_orientation = orientation; dirty = true;}
     inline void setScale(glm::vec4 scale){m_scale = scale; dirty = true;}
     inline void setScale(glm::vec3 scale){m_scale = glm::vec4(scale, 0.0f); dirty = true;}
     
@@ -81,8 +87,14 @@ public:
         return translation * rotation;
     }
     
-    // @Placeholder for when I implement the parent system, which I think will be in this struct, but could possibly go in a different one, to allow for parent relationships between things that do not have a transform.
     glm::mat4 getMat4();
+    glm::mat4 getMat4Unscaled() {
+        cacheTransform();
+        glm::mat4 translation = glm::translate(getPosition3());
+        glm::mat4 rotation    = glm::toMat4(getOrientation());
+        
+        return translation * rotation;
+    }
 
     glm::mat3 getNormalMatrix(){
         return glm::mat3(glm::transpose(glm::inverse(getMat4())));

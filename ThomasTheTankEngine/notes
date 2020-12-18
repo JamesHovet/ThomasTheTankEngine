@@ -1,2 +1,3 @@
 Bugs:
 - if you use the console, you cannot input values into imgui again afterwards
+- The bbox and drag axes render weirdly during move, but then go back to normal after the move is finished. 

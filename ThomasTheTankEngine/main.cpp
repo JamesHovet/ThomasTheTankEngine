@@ -91,7 +91,7 @@ bool window_init()
         }
         gl_context = SDL_GL_CreateContext(g_window);
         SDL_GL_MakeCurrent(g_window, gl_context);
-        SDL_GL_SetSwapInterval(1); // Enable vsync
+//        SDL_GL_SetSwapInterval(1); // Enable vsync
         
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_BLEND);

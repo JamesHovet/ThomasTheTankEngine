@@ -16,7 +16,7 @@ Big milestones already reached:
 - a "Family" or component tuple system for iterating over components
 - Serialization and deserialization of all entity data
 - Mesh importing and rendering
-- A somewhat useful editor
+- A somewhat useful editor with parent & child support.
 
 Big Milestones to come:
 - True multithreading (the groundwork is there but its early days)

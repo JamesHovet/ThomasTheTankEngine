@@ -737,7 +737,7 @@ json::object_t EntityAdmin::serializeByEntityInternal(){
     return out;
 }
 
-prototype EntityAdmin::createPrototypeFromEntity(entityID eID){
+prototype EntityAdmin::createPrototypeFromEntityShallow(entityID eID){
     prototype out;
     for(auto it = componentsBegin(eID); it != componentsEnd(eID); ++it){
         out[ComponentIDToStringStruct::map.at(it.cID)] = (*it)->serialize();
@@ -745,8 +745,12 @@ prototype EntityAdmin::createPrototypeFromEntity(entityID eID){
     return out;
 }
 
+prototype EntityAdmin::createPrototypeFromEntity(entityID eID){
+    return serializeByEntityInternalHelper(eID);
+}
+
 //TODO: make a not compatability version that is faster and doesn't have to do so many string compares
-void EntityAdmin::populateEntityFromJson(entityID eID, json j){
+void EntityAdmin::populateComponentsFromJson(entityID eID, json j){
     for(json::iterator componentIt = j.begin(); componentIt != j.end(); ++componentIt){
             if(componentIt.key() == "TransformComponent"){
                 addComponent<TransformComponent>(eID, TransformComponent::deserialize(componentIt.value()));
@@ -764,15 +768,47 @@ void EntityAdmin::populateEntityFromJson(entityID eID, json j){
         }
 }
 
+bool EntityAdmin::populateEntityFromPrototype(entityID eID, prototype p){
+    
+    populateComponentsFromJson(eID, p["components"]);
+    
+    std::cout << p["children"] << std::endl;
+    
+    bool couldCreateChildren = deserializeByEntityInternalHelper(p["children"], false);
+    if(!couldCreateChildren){
+        return false;
+    }
+    for(json::iterator childrenIt = p["children"].begin(); childrenIt != p["children"].end(); ++childrenIt){
+        addChild(eID, std::stoi(childrenIt.key()));
+    }
+    return true;
+}
+
 entityID EntityAdmin::createEntityFromPrototype(prototype proto){
     entityID eID = createEntity();
-    populateEntityFromJson(eID, proto);
+    if(populateEntityFromPrototype(eID, proto)){
+        return eID;
+    }
+    assert(false);
+    return NO_ENTITY;
+}
+
+entityID EntityAdmin::createEntityFromPrototypeShallow(prototype proto){
+    entityID eID = createEntity();
+    populateComponentsFromJson(eID, proto);
     return eID;
 }
 
 entityID EntityAdmin::duplicateEntity(entityID eID){
+    prototype proto = createPrototypeFromEntity(eID);
+//    std::cout << proto << std::endl;
+    entityID out = createEntityFromPrototype(proto);
+    return out;
+}
+
+entityID EntityAdmin::duplicateEntityShallow(entityID eID){
     entityID dupe = createEntity();
-    populateEntityFromJson(dupe, createPrototypeFromEntity(eID));
+    populateComponentsFromJson(dupe, createPrototypeFromEntity(eID));
     return dupe;
 }
 
@@ -783,34 +819,30 @@ bool EntityAdmin::deserializeByEntityInternal_v0_1(nlohmann::json::object_t in){
         if(couldCreateEntity == false){
             return false;
         }
-        populateEntityFromJson(eID, entityIt.value());
+        populateComponentsFromJson(eID, entityIt.value());
     }
     return true;
 }
 
-bool EntityAdmin::deserializeByEntityInternalHelper(nlohmann::json dict_of_entities){
+bool EntityAdmin::deserializeByEntityInternalHelper(nlohmann::json dict_of_entities, bool preserveIDs){
     for(json::iterator entityIt = dict_of_entities.begin(); entityIt != dict_of_entities.end(); ++entityIt){
-        entityID eID = std::stoi(entityIt.key());
-        bool couldCreateEntity = tryCreateEntity(eID);
-        if(!couldCreateEntity){
-            return false;
+        entityID eID;
+        if(preserveIDs){
+            eID = std::stoi(entityIt.key());
+            bool couldCreateEntity = tryCreateEntity(eID);
+            if(!couldCreateEntity){
+                return false;
+            }
+        } else {
+            eID = createEntity();
         }
-        json::object_t entityObj = entityIt.value();
-        populateEntityFromJson(eID, entityObj["components"]);
-        
-        bool couldCreateChildren = deserializeByEntityInternalHelper(entityObj["children"]);
-        if(!couldCreateChildren){
-            return false;
-        }
-        for(json::iterator childrenIt = entityObj["children"].begin(); childrenIt != entityObj["children"].end(); ++childrenIt){
-            addChild(eID, std::stoi(childrenIt.key()));
-        }
+        populateEntityFromPrototype(eID, entityIt.value());
     }
     return true;
 }
 
 bool EntityAdmin::deserializeByEntityInternal(nlohmann::json::object_t in){
-    return deserializeByEntityInternalHelper(in["entities"]);
+    return deserializeByEntityInternalHelper(in["entities"], true);
 }
 
 bool EntityAdmin::deserializeByEntityCompatability(boost::filesystem::path inAbsolute){

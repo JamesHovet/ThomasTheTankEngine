@@ -76,7 +76,9 @@ public:
     
     entityID createEntity();
     entityID createEntityFromPrototype(prototype proto);
+    entityID createEntityFromPrototypeShallow(prototype proto);
     prototype createPrototypeFromEntity(entityID eID);
+    prototype createPrototypeFromEntityShallow(entityID eID);
     bool hasParent(entityID eID);
     bool hasChildren(entityID eID);
     bool isChildOf(entityID eID, entityID parent);
@@ -87,6 +89,7 @@ public:
     bool clearParent(entityID child);
     void defer(std::function<void (void)>);
     entityID duplicateEntity(entityID eID);
+    entityID duplicateEntityShallow(entityID eID);
     Entity* tryCreateEntity(entityID eID);
     void destroyEntity(entityID eID);
     bool entityExists(entityID eID);
@@ -97,7 +100,7 @@ public:
     nlohmann::json::object_t serializeByEntityInternalHelper(entityID eID);
     bool deserializeByEntityCompatability(boost::filesystem::path inAbsolute);
     bool deserializeByEntityInternal(nlohmann::json::object_t obj);
-    bool deserializeByEntityInternalHelper(nlohmann::json obj);
+    bool deserializeByEntityInternalHelper(nlohmann::json obj, bool preserveIDs);
     bool deserializeByEntityInternal_v0_1(nlohmann::json::object_t obj);
     
 private:
@@ -107,7 +110,8 @@ private:
     void filterEntitiesIntoStaticFamilies();
     void clearFamilies();
     void clearStaticFamilyVectors();
-    void populateEntityFromJson(entityID eID, nlohmann::json j);
+    void populateComponentsFromJson(entityID eID, nlohmann::json j);
+    bool populateEntityFromPrototype(entityID eID, prototype p);
 public:
     template <typename T>
     T& addComponent(entityID eID){

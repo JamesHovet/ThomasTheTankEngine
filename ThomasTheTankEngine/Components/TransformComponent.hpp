@@ -23,6 +23,7 @@ constexpr glm::vec4 zeroPos = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 
 struct TransformComponent : public ECSComponent {
     static constexpr int componentIndex{ 0 };
+    componentID getComponentIndex(){return componentIndex;}
     
 //    std::vector<entityID> m_children; // TODO: parent child relationship, but probably not here
     
@@ -35,6 +36,7 @@ private:
     glm::vec4 m_scale = glm::vec4(1.0f, 1.0f, 1.0f, 0.0f);
     
 public:
+    
     bool m_dirty = true;
     // dirty system
     // the entityAdmin can call "refreshTransforms" or something to go through the process of cleaning all these transforms

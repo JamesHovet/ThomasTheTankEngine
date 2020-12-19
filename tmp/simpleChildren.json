@@ -1,0 +1,148 @@
+{
+    "entities": {
+        "1": {
+            "children": {
+                "2": {
+                    "children": {
+                        "3": {
+                            "children": {},
+                            "components": {
+                                "AABBColliderComponent": {
+                                    "m_AABB": {
+                                        "max": {
+                                            "x": 0.5,
+                                            "y": 0.5,
+                                            "z": 0.5
+                                        },
+                                        "min": {
+                                            "x": -0.5,
+                                            "y": -0.5,
+                                            "z": -0.5
+                                        }
+                                    }
+                                },
+                                "GreyBoxComponent": {
+                                    "m_color": {
+                                        "w": 1.0,
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 1.0
+                                    }
+                                },
+                                "TransformComponent": {
+                                    "m_orientation": {
+                                        "w": 1.0,
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
+                                    "m_position": {
+                                        "w": 1.0,
+                                        "x": 1.3501503467559814,
+                                        "y": 1.0616662502288818,
+                                        "z": 0.0
+                                    },
+                                    "m_scale": {
+                                        "w": 0.0,
+                                        "x": 1.0,
+                                        "y": 1.0,
+                                        "z": 1.0
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "components": {
+                        "AABBColliderComponent": {
+                            "m_AABB": {
+                                "max": {
+                                    "x": 0.5,
+                                    "y": 0.5,
+                                    "z": 0.5
+                                },
+                                "min": {
+                                    "x": -0.5,
+                                    "y": -0.5,
+                                    "z": -0.5
+                                }
+                            }
+                        },
+                        "GreyBoxComponent": {
+                            "m_color": {
+                                "w": 1.0,
+                                "x": 0.0,
+                                "y": 1.0,
+                                "z": 0.0
+                            }
+                        },
+                        "TransformComponent": {
+                            "m_orientation": {
+                                "w": 1.0,
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "m_position": {
+                                "w": 1.0,
+                                "x": 1.2857773303985596,
+                                "y": 0.700467586517334,
+                                "z": 0.0
+                            },
+                            "m_scale": {
+                                "w": 0.0,
+                                "x": 1.0,
+                                "y": 1.0,
+                                "z": 1.0
+                            }
+                        }
+                    }
+                }
+            },
+            "components": {
+                "AABBColliderComponent": {
+                    "m_AABB": {
+                        "max": {
+                            "x": 0.5,
+                            "y": 0.5,
+                            "z": 0.5
+                        },
+                        "min": {
+                            "x": -0.5,
+                            "y": -0.5,
+                            "z": -0.5
+                        }
+                    }
+                },
+                "GreyBoxComponent": {
+                    "m_color": {
+                        "w": 1.0,
+                        "x": 1.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    }
+                },
+                "TransformComponent": {
+                    "m_orientation": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "m_position": {
+                        "w": 1.0,
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "m_scale": {
+                        "w": 0.0,
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                }
+            }
+        }
+    },
+    "version": "0.2"
+}

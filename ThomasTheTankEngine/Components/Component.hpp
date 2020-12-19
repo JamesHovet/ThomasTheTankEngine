@@ -27,6 +27,7 @@ using json = nlohmann::json;
 class EntityAdmin;
 struct ECSComponent {
     virtual void imDisplay(EntityAdmin* m_admin){};
+    virtual componentID getComponentIndex() = 0;
     virtual json::object_t serialize() = 0;
     Entity* m_entity;
 };

@@ -7,6 +7,7 @@
 #include "Component.hpp"
 struct GreyBoxComponent : public ECSComponent {
 	static constexpr int componentIndex{ 4 };
+    componentID getComponentIndex(){return componentIndex;}
 	RGBA m_color = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
 	void imDisplay(EntityAdmin* m_admin){
 		if(ImGui::TreeNode("GreyBoxComponent")){

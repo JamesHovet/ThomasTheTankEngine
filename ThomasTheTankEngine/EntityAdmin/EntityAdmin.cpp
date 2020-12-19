@@ -704,20 +704,33 @@ bool EntityAdmin::serializeByEntityCompatability(boost::filesystem::path outAbso
     return true;
 }
 
+json::object_t EntityAdmin::serializeByEntityInternalHelper(entityID eID){
+    json::object_t out = json::object();
+    out["components"] = json::object();
+    
+    for(auto it = componentsBegin(eID); it != componentsEnd(eID); ++it){
+        out["components"][ComponentIDToStringStruct::map.at(it.cID)] = (*it)->serialize();
+    }
+    out["children"] = json::object();
+    Entity* e = m_entities.at(eID);
+    for(int childIndex = 0; childIndex < MAX_CHILDREN; childIndex++){
+        if(e->m_children[childIndex] != NO_ENTITY){
+            entityID child = e->m_children[childIndex];
+            out["children"][std::to_string(child)] = serializeByEntityInternalHelper(child);
+        }
+    }
+    return out;
+}
+
 json::object_t EntityAdmin::serializeByEntityInternal(){
     json out;
     
     out["entities"] = json::object();
     
     for(std::pair<entityID, Entity*> p : m_entities){
-        entityID eID = p.first;
-        std::string eIDStr = std::to_string(p.first);
-        out["entities"][eIDStr] = json::object();
-        
-        for(auto it = componentsBegin(eID); it != componentsEnd(eID); ++it){
-            out["entities"][eIDStr][ComponentIDToStringStruct::map.at(it.cID)] = (*it)->serialize();
+        if(!p.second->hasParent()){ // only root elements
+            out["entities"][std::to_string(p.first)] = serializeByEntityInternalHelper(p.first);
         }
-
     }
     
     out["version"] = SERIALIZATION_VERSION;
@@ -763,7 +776,7 @@ entityID EntityAdmin::duplicateEntity(entityID eID){
     return dupe;
 }
 
-bool EntityAdmin::deserializeByEntityInternal(nlohmann::json::object_t in){
+bool EntityAdmin::deserializeByEntityInternal_v0_1(nlohmann::json::object_t in){
     for(json::iterator entityIt = in["entities"].begin(); entityIt != in["entities"].end(); ++entityIt){
         entityID eID = std::stoi(entityIt.key());
         bool couldCreateEntity = tryCreateEntity(eID);
@@ -773,6 +786,31 @@ bool EntityAdmin::deserializeByEntityInternal(nlohmann::json::object_t in){
         populateEntityFromJson(eID, entityIt.value());
     }
     return true;
+}
+
+bool EntityAdmin::deserializeByEntityInternalHelper(nlohmann::json dict_of_entities){
+    for(json::iterator entityIt = dict_of_entities.begin(); entityIt != dict_of_entities.end(); ++entityIt){
+        entityID eID = std::stoi(entityIt.key());
+        bool couldCreateEntity = tryCreateEntity(eID);
+        if(!couldCreateEntity){
+            return false;
+        }
+        json::object_t entityObj = entityIt.value();
+        populateEntityFromJson(eID, entityObj["components"]);
+        
+        bool couldCreateChildren = deserializeByEntityInternalHelper(entityObj["children"]);
+        if(!couldCreateChildren){
+            return false;
+        }
+        for(json::iterator childrenIt = entityObj["children"].begin(); childrenIt != entityObj["children"].end(); ++childrenIt){
+            addChild(eID, std::stoi(childrenIt.key()));
+        }
+    }
+    return true;
+}
+
+bool EntityAdmin::deserializeByEntityInternal(nlohmann::json::object_t in){
+    return deserializeByEntityInternalHelper(in["entities"]);
 }
 
 bool EntityAdmin::deserializeByEntityCompatability(boost::filesystem::path inAbsolute){
@@ -785,10 +823,15 @@ bool EntityAdmin::deserializeByEntityCompatability(boost::filesystem::path inAbs
     
     infile >> in;
     
-    bool out = deserializeByEntityInternal(in);
+    bool out;
+    if(in["version"] == "0.1"){
+        out = deserializeByEntityInternal_v0_1(in);
+    } else {
+        out = deserializeByEntityInternal(in);
+    }
+    
     
     infile.close();
-    
     
     return out;
 }

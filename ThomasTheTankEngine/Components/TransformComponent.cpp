@@ -16,9 +16,9 @@
 
 void TransformComponent::makeClean(){
     if(!m_dirty) return;
-    if(m_entity){
-        std::cout << "Cleaning: " << m_entity->m_entityID << std::endl;
-    }
+//    if(m_entity){
+//        std::cout << "Cleaning: " << m_entity->m_entityID << std::endl;
+//    }
     if(m_entity && m_entity->hasParent()){
         TransformComponent* parentTrans = m_entity->m_admin->tryGetComponent<TransformComponent>(m_entity->m_parentID);
         if (parentTrans){
@@ -40,7 +40,7 @@ void TransformComponent::makeClean(){
 void TransformComponent::makeDirty(){
     m_dirty = true;
     if(!m_entity) return;
-    std::cout << "Dirtying: " << m_entity->m_entityID << std::endl;
+//    std::cout << "Dirtying: " << m_entity->m_entityID << std::endl;
     for(entityID childEID : m_entity->m_children){
         if(childEID != NO_ENTITY){
             TransformComponent* childTrans = m_entity->m_admin->tryGetComponent<TransformComponent>(childEID);

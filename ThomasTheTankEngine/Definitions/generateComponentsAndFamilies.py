@@ -89,6 +89,7 @@ def createAndWriteForComponentDict(c, componentID):
     f.write("struct " + fullname + " : public ECSComponent {\n")
 
     f.write("\tstatic constexpr int componentIndex{ " + str(componentID) + " };\n")
+    f.write("\tcomponentID getComponentIndex(){return componentIndex;}\n")
     componentID += 1
 
     for m in c['members']:

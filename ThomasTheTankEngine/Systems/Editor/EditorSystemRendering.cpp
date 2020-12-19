@@ -803,6 +803,7 @@ void EditorSystem::renderSceneGraphEditor(){
     ImGui::Begin("Editor");
 
     ImGui::Text("Create:");
+    ImGui::PushID("Base");
     ImGui::SameLine();
     if(ImGui::Button("Empty")){
         m_admin.defer([this](){
@@ -830,6 +831,42 @@ void EditorSystem::renderSceneGraphEditor(){
             m_admin.addComponent<AABBColliderComponent>(eID);
         });
     }
+    ImGui::PopID();
+    
+    ImGui::Text("Create Child:");
+    ImGui::PushID("Create Child:");
+    ImGui::SameLine();
+    if(ImGui::Button("Empty")){
+        m_admin.defer([this](){
+            entityID child = m_admin.createEntity();
+            m_admin.addChild(m_admin.m_EditorSingleton.selectedEntity, child);
+            m_admin.m_EditorSingleton.selectedEntity = child;
+            m_admin.m_EditorSingleton.hasSelectedEntity = true;
+        });
+    }
+    ImGui::SameLine();
+    if(ImGui::Button("Transform")){
+        m_admin.defer([this](){
+            entityID child = m_admin.createEntity();
+            m_admin.addChild(m_admin.m_EditorSingleton.selectedEntity, child);
+            m_admin.m_EditorSingleton.selectedEntity = child;
+            m_admin.m_EditorSingleton.hasSelectedEntity = true;
+            m_admin.addComponent<TransformComponent>(child);
+        });
+    }
+    ImGui::SameLine();
+    if(ImGui::Button("GreyBox")){
+        m_admin.defer([this](){
+            entityID child = m_admin.createEntity();
+            m_admin.addChild(m_admin.m_EditorSingleton.selectedEntity, child);
+            m_admin.m_EditorSingleton.selectedEntity = child;
+            m_admin.m_EditorSingleton.hasSelectedEntity = true;
+            m_admin.addComponent<TransformComponent>(child);
+            m_admin.addComponent<GreyBoxComponent>(child);
+            m_admin.addComponent<AABBColliderComponent>(child);
+        });
+    }
+    ImGui::PopID();
     
     for (std::pair<entityID, Entity*> p : m_admin.m_entities){
         entityID eID = p.first;
@@ -934,8 +971,16 @@ void EditorSystem::renderInspector(){
         }
         
         for(auto it = m_admin.componentsBegin(eID); it != m_admin.componentsEnd(eID); ++it){
+            componentID cID = (*it)->getComponentIndex();
+            ImGui::PushID(cID);
+            if(ImGui::Button("X")){
+                m_admin.deferRemove(cID, eID);
+//                std::cout << "removing cID of " << cID << std::endl;
+            }
+            ImGui::SameLine();
             ImGui::SetNextItemOpen(true, ImGuiCond_Once); // Ahhh I love imGui -- it just works! And "extending" it is so easy.
             (*it)->imDisplay(&m_admin);
+            ImGui::PopID();
         }
         
         if(ImGui::Button("Add Component")){

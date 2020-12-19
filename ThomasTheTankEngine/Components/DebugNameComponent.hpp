@@ -9,6 +9,7 @@
 
 struct DebugNameComponent : public ECSComponent {
 	static constexpr int componentIndex{ 1 };
+    componentID getComponentIndex(){return componentIndex;}
 	std::string m_name = "myName";
     
     void imDisplay(){}

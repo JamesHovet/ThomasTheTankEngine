@@ -7,6 +7,7 @@
 #include "Component.hpp"
 struct CameraComponent : public ECSComponent {
 	static constexpr int componentIndex{ 2 };
+    componentID getComponentIndex(){return componentIndex;}
 	float m_FOV = 45.0f;
 	bool m_enabled = true;
     //to add: render surface? ortho vs perspective?

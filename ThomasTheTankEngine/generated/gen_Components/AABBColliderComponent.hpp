@@ -7,6 +7,7 @@
 #include "Component.hpp"
 struct AABBColliderComponent : public ECSComponent {
 	static constexpr int componentIndex{ 5 };
+    componentID getComponentIndex(){return componentIndex;}
 	AABB m_AABB = {glm::vec3(-0.5, -0.5, -0.5), glm::vec3(0.5, 0.5, 0.5)};
 	void imDisplay(EntityAdmin* m_admin){
 		if(ImGui::TreeNode("AABBColliderComponent")){

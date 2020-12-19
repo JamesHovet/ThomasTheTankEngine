@@ -40,7 +40,7 @@
 
 
 #define MAX_ENTITIES 2048
-#define SERIALIZATION_VERSION "0.1"
+#define SERIALIZATION_VERSION "0.2"
 
 struct entityIDHash {
     std::size_t operator()(const entityID eID) const {
@@ -94,8 +94,11 @@ public:
 
     bool serializeByEntityCompatability(boost::filesystem::path outAbsolute);
     nlohmann::json::object_t serializeByEntityInternal();
+    nlohmann::json::object_t serializeByEntityInternalHelper(entityID eID);
     bool deserializeByEntityCompatability(boost::filesystem::path inAbsolute);
     bool deserializeByEntityInternal(nlohmann::json::object_t obj);
+    bool deserializeByEntityInternalHelper(nlohmann::json obj);
+    bool deserializeByEntityInternal_v0_1(nlohmann::json::object_t obj);
     
 private:
     void initAllSystems();
@@ -143,6 +146,19 @@ public:
         this->defer([this, eID, toCopy](){
             T& out = this->addComponent<T>(eID);
             out = toCopy;
+        });
+    }
+    
+    template <typename T>
+    void deferRemove(entityID eID){
+        this->defer([this, eID](){
+            removeComponent<T>(eID);
+        });
+    }
+    
+    void deferRemove(componentID cID, entityID eID){
+        this->defer([this, cID, eID](){
+            removeComponent(cID, eID);
         });
     }
 
@@ -276,6 +292,19 @@ public:
     
     ChildrenIter childrenEnd(entityID eID){
         return ChildrenIter(*this, eID, MAX_CHILDREN);
+    }
+    
+    
+    void removeComponent(componentID cID, entityID eID){
+        m_entities_dirty = true;
+        auto& this_entity_map = m_component_maps.at(eID);
+        ECSComponent* componentPtr = this_entity_map.at(cID);
+        
+        std::invoke(m_components_destuction_callbacks_array[cID], componentPtr);
+        this_entity_map.erase(cID);
+        
+        
+        m_entities.at(eID)->m_mask.reset(cID); // clear entity flag
     }
     
     template<typename T>

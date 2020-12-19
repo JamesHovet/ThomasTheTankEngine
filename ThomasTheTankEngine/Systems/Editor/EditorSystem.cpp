@@ -24,7 +24,7 @@ void EditorSystem::init(){
     EditorSingleton& edit = m_admin.m_EditorSingleton;
     edit.defaultEditorCameraComponent = CameraComponent();
     edit.defaultEditorCameraTransform = TransformComponent();
-    edit.defaultEditorCameraTransform.m_orientation = glm::rotation(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 0.0f, -1.0f));
+    edit.defaultEditorCameraTransform.setLocalOrientation(glm::rotation(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 0.0f, -1.0f)));
     edit.editorCameraComponent = edit.defaultEditorCameraComponent;
     edit.editorCameraTransform = edit.defaultEditorCameraTransform;
     edit.currentEditMode = EditMode::MOVE;
@@ -43,36 +43,36 @@ static void processEditorCameraKeyInput(TransformComponent &camTransformC, uint6
     
     // Keyboard editor camera movement
     if(input.rawSDLState[SDL_SCANCODE_W]){
-        camTransformC.setLocalPosition(camTransformC.m_position + (camTransformC.getForward() * keyboardEditorMovementSpeed));
+        camTransformC.setLocalPosition(camTransformC.getPosition() + (camTransformC.getForward() * keyboardEditorMovementSpeed));
     }
     if(input.rawSDLState[SDL_SCANCODE_S]){
-        camTransformC.setLocalPosition(camTransformC.m_position - (camTransformC.getForward() * keyboardEditorMovementSpeed));
+        camTransformC.setLocalPosition(camTransformC.getPosition() - (camTransformC.getForward() * keyboardEditorMovementSpeed));
     }
     if(input.rawSDLState[SDL_SCANCODE_D]){
-        camTransformC.setLocalPosition(camTransformC.m_position - camTransformC.getRight() * keyboardEditorMovementSpeed);
+        camTransformC.setLocalPosition(camTransformC.getPosition() - camTransformC.getRight() * keyboardEditorMovementSpeed);
     }
     if(input.rawSDLState[SDL_SCANCODE_A]){
-        camTransformC.setLocalPosition(camTransformC.m_position + camTransformC.getRight() * keyboardEditorMovementSpeed);
+        camTransformC.setLocalPosition(camTransformC.getPosition() + camTransformC.getRight() * keyboardEditorMovementSpeed);
     }
     if(input.rawSDLState[SDL_SCANCODE_LSHIFT]){
-        camTransformC.setLocalPosition(camTransformC.m_position + (camTransformC.getUp() * keyboardEditorMovementSpeed));
+        camTransformC.setLocalPosition(camTransformC.getPosition() + (camTransformC.getUp() * keyboardEditorMovementSpeed));
     }
     if(input.rawSDLState[SDL_SCANCODE_LCTRL]){
-        camTransformC.setLocalPosition(camTransformC.m_position - (camTransformC.getUp() * keyboardEditorMovementSpeed));
+        camTransformC.setLocalPosition(camTransformC.getPosition() - (camTransformC.getUp() * keyboardEditorMovementSpeed));
     }
     if(input.rawSDLState[SDL_SCANCODE_Q]){
-        camTransformC.m_orientation = glm::rotate(camTransformC.m_orientation, 1.0f * seconds(dt), camTransformC.getUp3());
+        camTransformC.setLocalOrientation(glm::rotate(camTransformC.getLocalOrientation(), 1.0f * seconds(dt), camTransformC.getUp3()));
     }
     if(input.rawSDLState[SDL_SCANCODE_E]){
-        camTransformC.m_orientation = glm::rotate(camTransformC.m_orientation, -1.0f * seconds(dt), camTransformC.getUp3());
+        camTransformC.setLocalOrientation(glm::rotate(camTransformC.getLocalOrientation(), -1.0f * seconds(dt), camTransformC.getUp3()));
     }
 }
 
 static void processEditorCameraPadInput(TransformComponent &camTransformC, InputSingleton &input) {
-    camTransformC.setLocalPosition(camTransformC.m_position - (camTransformC.getRight() * input.LStickX * controllerEditorMovementSpeed));
-    camTransformC.setLocalPosition(camTransformC.m_position + (camTransformC.getForward() * input.LStickY * controllerEditorMovementSpeed));
-    camTransformC.setLocalPosition(camTransformC.m_position - (camTransformC.getUp() * input.LTAnalog * controllerEditorMovementSpeed));
-    camTransformC.setLocalPosition(camTransformC.m_position + (camTransformC.getUp() * input.RTAnalog * controllerEditorMovementSpeed));
+    camTransformC.setLocalPosition(camTransformC.getPosition() - (camTransformC.getRight() * input.LStickX * controllerEditorMovementSpeed));
+    camTransformC.setLocalPosition(camTransformC.getPosition() + (camTransformC.getForward() * input.LStickY * controllerEditorMovementSpeed));
+    camTransformC.setLocalPosition(camTransformC.getPosition() - (camTransformC.getUp() * input.LTAnalog * controllerEditorMovementSpeed));
+    camTransformC.setLocalPosition(camTransformC.getPosition() + (camTransformC.getUp() * input.RTAnalog * controllerEditorMovementSpeed));
 }
 
 void EditorSystem::tick(uint64_t dt){
@@ -120,16 +120,16 @@ void EditorSystem::tick(uint64_t dt){
                                 axisTransformed = axis;
                             }
                             glm::vec4 projectedMove = axisTransformed * glm::dot(delta, axisTransformed);
-                            trans->setLocalPosition(trans->m_position + projectedMove);
+                            trans->setLocalPosition(trans->getPosition() + projectedMove);
                         } else if (edit.currentEditMode == EditMode::SCALE){
                             glm::vec4 projectedScale = axis * glm::dot(delta, axisTransformed);
                             if(!edit.usingLocalWorldSpace){
                                 projectedScale = axisTransformed * glm::dot(delta, axis);
                             }
-                            trans->m_scale = trans->m_scale * (glm::vec4(1.0f, 1.0f, 1.0f, 0.0f) + projectedScale);
+                            trans->setScale(trans->getScale() * (glm::vec4(1.0f, 1.0f, 1.0f, 0.0f) + projectedScale));
                         } else if (edit.currentEditMode == EditMode::ROTATE){
 
-                            Plane rotationPlane = {trans->m_position, axisTransformed};
+                            Plane rotationPlane = {trans->getPosition(), axisTransformed};
                             if(!edit.usingLocalWorldSpace){
                                 rotationPlane.normal = axis;
 //                                glm::mat4 inverse = glm::inverse(edit.selectedTransformCopyAtSelectionTime.getMat4Unscaled());
@@ -141,11 +141,11 @@ void EditorSystem::tick(uint64_t dt){
                             glm::vec4 hit1;
                             Intersection::RayPlaneAbsolute(raycast1, rotationPlane, &hit1);
                             
-                            glm::vec4 planeTangent = glm::normalize(hit0 - trans->m_position);
+                            glm::vec4 planeTangent = glm::normalize(hit0 - trans->getPosition());
                             glm::vec4 planeBitangent = glm::vec4(glm::cross(glm::vec3(planeTangent), glm::vec3(rotationPlane.normal)), 0.0f);
 
-                            glm::vec4 dir0 = glm::normalize(hit0 - trans->m_position);
-                            glm::vec4 dir1 = glm::normalize(hit1 - trans->m_position);
+                            glm::vec4 dir0 = glm::normalize(hit0 - trans->getPosition());
+                            glm::vec4 dir1 = glm::normalize(hit1 - trans->getPosition());
                             
                             float angle = glm::orientedAngle(glm::vec3(dir0), glm::vec3(dir1), glm::vec3(rotationPlane.normal));
                             float originalAxisToTransformedAxisDot = glm::dot(rotationPlane.normal, axisTransformed);
@@ -153,7 +153,7 @@ void EditorSystem::tick(uint64_t dt){
                                 angle = - angle;
                             }
                             
-                            trans->m_orientation = glm::rotate(edit.selectedTransformCopyAtSelectionTime.m_orientation, angle, glm::vec3(axis));
+                            trans->setLocalOrientation(glm::rotate(edit.selectedTransformCopyAtSelectionTime.getLocalOrientation(), angle, glm::vec3(axis)));
 //                            printf("angle: %1.5f, axis: (%4.4f, %4.4f, %4.4f)\n", angle, axis.x, axis.y, axis.z);
                             
                             
@@ -242,7 +242,7 @@ bool EditorSystem::getShouldDragRotateAxis(AXIS* axisToDrag){
     
     //Early out -- can't intersect the cylinder colliders without intersecting the sphere (within a small margin of error)
     float dummyf;
-    if(! glm::intersectRaySphere(r.orig, r.dir, selectedTransform.m_position, 1, dummyf)){
+    if(! glm::intersectRaySphere(r.orig, r.dir, selectedTransform.getPosition(), 1, dummyf)){
         return false;
     }
     
@@ -272,21 +272,21 @@ bool EditorSystem::getShouldDragRotateAxis(AXIS* axisToDrag){
     bool didHitZ = Intersection::RayCyl(r, collider, glm::rotate(baseMatrix, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)), &hitZ);
     
     if(didHitX){
-        distanceFromCenterX = glm::distance(selectedTransform.m_position, hitX);
+        distanceFromCenterX = glm::distance(selectedTransform.getPosition(), hitX);
         if(distanceFromCenterX > threshold){
             didHit = true;
             *axisToDrag = AXIS::X;
         }
     }
     if (didHitY) {
-        distanceFromCenterY = glm::distance(selectedTransform.m_position, hitY);
+        distanceFromCenterY = glm::distance(selectedTransform.getPosition(), hitY);
         if(distanceFromCenterY > threshold && distanceFromCenterY > distanceFromCenterX){
             didHit = true;
             *axisToDrag = AXIS::Y;
         }
     }
     if(didHitZ){
-        distanceFromCenterZ = glm::distance(selectedTransform.m_position, hitZ);
+        distanceFromCenterZ = glm::distance(selectedTransform.getPosition(), hitZ);
         if(distanceFromCenterZ > threshold && distanceFromCenterZ > distanceFromCenterX && distanceFromCenterZ > distanceFromCenterY){
             didHit = true;
             *axisToDrag = AXIS::Z;

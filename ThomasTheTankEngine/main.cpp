@@ -271,8 +271,8 @@ void holdWindowOpen() {
         updateThread.join();
         renderThread.join();
 #else
-        g_admin.update(dt_ms);
         g_admin.render();
+        g_admin.update(dt_ms);
 #endif
         
         // ImGui global stuff
@@ -284,7 +284,7 @@ void holdWindowOpen() {
 
         ImGui::End();
         
-//        ImGui::ShowDemoWindow();
+        ImGui::ShowDemoWindow();
         
         TRACE_BEGIN_EXCLUSIVE("Imgui Rendering");
         ImGui::Render();

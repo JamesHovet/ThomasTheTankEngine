@@ -319,6 +319,7 @@ void EntityAdmin::loadTestScene(){
 //        nameC.m_name = "Main Camera";
 //
 //    }
+    /*
     { // create testing boxes
         //@Remove: temporary test entities
         int numToAdd = 0;
@@ -339,6 +340,7 @@ void EntityAdmin::loadTestScene(){
             boxC.m_color = glm::vec4(((float) i) * (1.0f / (float) numToAdd), 0.0, 0.0, 1.0f);
         }
     }
+    */
     
 //    {
 //        entityID parent = this->createEntity();
@@ -380,7 +382,37 @@ void EntityAdmin::loadTestScene(){
 //    }
     
    
+    {
+        Entity* parentE = this->tryCreateEntity(1);
+        entityID parent = 1;
+        TransformComponent& parentXform = addComponent<TransformComponent>(parent);
+        parentXform.setLocalPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+        GreyBoxComponent& parentBoxC = this->addComponent<GreyBoxComponent>(parent);
+        AABBColliderComponent& parentCollisionC = this->addComponent<AABBColliderComponent>(parent);
+        parentBoxC.m_color = RGBA(1.0f, 0.0f, 0.0f, 1.0f);
+        
+        Entity* childE = this->tryCreateEntity(2);
+        entityID child = 2;
+        TransformComponent& childXform = addComponent<TransformComponent>(child);
+        childXform.setLocalPosition(glm::vec3(1.0f, 0.0f, 0.0f));
+        GreyBoxComponent& childBoxC = this->addComponent<GreyBoxComponent>(child);
+        AABBColliderComponent& childCollisionC = this->addComponent<AABBColliderComponent>(child);
+        childBoxC.m_color = RGBA(0.0f, 1.0f, 0.0f, 1.0f);
+        
+        Entity* grandchildE = this->tryCreateEntity(3);
+        entityID grandchild = 3;
+        TransformComponent& grandchildXform = addComponent<TransformComponent>(grandchild);
+        grandchildXform.setLocalPosition(glm::vec3(1.0f, 0.0f, 0.0f));
+        GreyBoxComponent& grandchildBoxC = this->addComponent<GreyBoxComponent>(grandchild);
+        AABBColliderComponent& grandchildCollisionC = this->addComponent<AABBColliderComponent>(grandchild);
+        grandchildBoxC.m_color = RGBA(0.0f, 0.0f, 1.0f, 1.0f);
+        
+        this->addChild(parent, child);
+        this->addChild(child, grandchild);
+
+    }
     
+    /*
     {
         for(int i = 0; i < 1; i ++){
             entityID eID = this->createEntity();
@@ -416,6 +448,7 @@ void EntityAdmin::loadTestScene(){
             }
         }
     }
+    */
    
     
 //    {
@@ -520,6 +553,20 @@ void EntityAdmin::updateMainThreadSystems(uint64_t dt){
 
 void EntityAdmin::update(uint64_t dt){
     
+    //@Temporary
+    //@Temporary
+    //@Temporary
+    //@Temporary
+    ImmediateRenderSingleton& imm = this->m_ImmediateRenderSingleton;
+    imm.drawLine(glm::vec3(0.0f), glm::vec3(5.0f, 0.0f, 0.0f), RGBA_Red);
+    imm.drawLine(glm::vec3(0.0f), glm::vec3(0.0f, 5.0f, 0.0f), RGBA_Green);
+    imm.drawLine(glm::vec3(0.0f), glm::vec3(0.0f, 0.0f, 5.0f), RGBA_Blue);
+    
+    for(int i = 1; i < 5; i++){
+        imm.drawLine(glm::vec3(i * 1.0f, 0.0f, 0.0f), glm::vec3(i * 1.0f, 1.0f, 0.0f), RGBA_White);
+    }
+    
+    
 //    m_DebugPrintSystem.tick(dt);
 //    m_ConsoleSystem.tick(dt);
     TRACE_BEGIN("editor update", &m_EditorSystem);
@@ -585,55 +632,71 @@ static std::string prefix = "";
 static glm::mat4 currentTransform = glm::mat4(1.0f);
 static std::stack<glm::mat4> transformStack;
 
-void EntityAdmin::addSubtreeIntoStaticFamilies(Entity* e){
-    entityID eID = e->m_entityID;
-    componentMask mask = e->m_mask;
-    
-    
-//    std::cout << prefix << e.m_entityID << std::endl;
-//    prefix.push_back('-');
-    transformStack.push(currentTransform);
-    
-    TransformComponent* transC = tryGetComponent<TransformComponent>(eID);
-    
-    if(transC != nullptr){
-        glm::mat4 newMat4 = transC->getLocalMat4();
-        currentTransform = currentTransform * newMat4;
-        transC->m_cachedMat4 = currentTransform;
-        transC->dirty = false;
-//        transC->m_cachedMat4 = glm::mat4(1.0f);
-    }
-    
-    // do the actual filtering
-    {
-        {
-        if(ECSUtils::doesPassFilter(mask, Family<CameraFamilyStatic>::mask)){
-            CameraFamilyStatic family = CameraFamilyStatic(eID, getComponent<TransformComponent>(eID), getComponent<CameraComponent>(eID));
-            getFamilyStaticVector<CameraFamilyStatic>().push_back(family);
-            }
-        }
-        #include "filterEntitiesIntoStaticFamiliesInclude.cpp"
-    }
-    
-    // recurse
-    for(int i = 0; i < MAX_CHILDREN; i++){
-        if(e->m_children[i] != 0){
-            addSubtreeIntoStaticFamilies(m_entities.at(e->m_children[i]));
-        }
-    }
-    currentTransform = transformStack.top();
-    transformStack.pop();
-//    prefix.pop_back();
-}
+//void EntityAdmin::addSubtreeIntoStaticFamilies(Entity* e){
+//    entityID eID = e->m_entityID;
+//    componentMask mask = e->m_mask;
+//
+//
+////    std::cout << prefix << e.m_entityID << std::endl;
+////    prefix.push_back('-');
+//    transformStack.push(currentTransform);
+//
+//    TransformComponent* transC = tryGetComponent<TransformComponent>(eID);
+//
+//    if(transC != nullptr && transC->m_dirty){
+//        transC->makeClean();
+////        glm::mat4 newMat4 = transC->getLocalMat4();
+////        currentTransform = currentTransform * newMat4;
+////        transC->m_cachedMat4 = currentTransform;
+////        transC->m_dirty = false;
+//    }
+//
+//    // do the actual filtering
+//    {
+//        {
+//        if(ECSUtils::doesPassFilter(mask, Family<CameraFamilyStatic>::mask)){
+//            CameraFamilyStatic family = CameraFamilyStatic(eID, getComponent<TransformComponent>(eID), getComponent<CameraComponent>(eID));
+//            getFamilyStaticVector<CameraFamilyStatic>().push_back(family);
+//            }
+//        }
+//        #include "filterEntitiesIntoStaticFamiliesInclude.cpp"
+//    }
+//
+//    // recurse
+//    for(int i = 0; i < MAX_CHILDREN; i++){
+//        if(e->m_children[i] != 0){
+//            addSubtreeIntoStaticFamilies(m_entities.at(e->m_children[i]));
+//        }
+//    }
+//    currentTransform = transformStack.top();
+//    transformStack.pop();
+////    prefix.pop_back();
+//}
 
 void EntityAdmin::filterEntitiesIntoStaticFamilies(){
 //    std::cout << "Filtering:\n";
     for (std::pair<entityID, Entity*> pair : m_entities){
         entityID eID = pair.first;
         Entity* e = pair.second;
-        if(e->m_parentID == 0){
-            addSubtreeIntoStaticFamilies(e);
+        componentMask mask = e->m_mask;
+        TransformComponent* transC = tryGetComponent<TransformComponent>(eID);
+        
+        if(transC != nullptr && transC->m_dirty){
+            transC->makeClean();
         }
+//        if(e->m_parentID == 0){
+//            addSubtreeIntoStaticFamilies(e);
+        {
+            {
+            if(ECSUtils::doesPassFilter(mask, Family<CameraFamilyStatic>::mask)){
+                CameraFamilyStatic family = CameraFamilyStatic(eID, getComponent<TransformComponent>(eID), getComponent<CameraComponent>(eID));
+                getFamilyStaticVector<CameraFamilyStatic>().push_back(family);
+                }
+            }
+            #include "filterEntitiesIntoStaticFamiliesInclude.cpp"
+        }
+            
+//        }
     }
 //    std::cout << std::endl;
 }

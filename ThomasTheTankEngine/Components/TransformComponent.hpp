@@ -29,19 +29,21 @@ struct TransformComponent : public ECSComponent {
     //members:
     glm::mat4 m_cachedMat4;
     glm::quat m_cachedOrientation;
-//private:
+private:
     glm::quat m_orientation = glm::quat(1.0f, 0.0f, 0.0f, 0.0f);
     glm::vec4 m_position = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
     glm::vec4 m_scale = glm::vec4(1.0f, 1.0f, 1.0f, 0.0f);
     
-    bool dirty = true;
 public:
+    bool m_dirty = true;
     // dirty system
     // the entityAdmin can call "refreshTransforms" or something to go through the process of cleaning all these transforms
     // just takes the responsability off of the transform itself.
     // messy, for sure, but also more consistent with the design patterns we've created so far.
     
-    void cacheTransform();
+    void makeClean();
+    void forceClean(){makeDirty(); makeClean();}
+    void makeDirty();
     
     inline glm::vec4 getPosition()     {return getMat4() * zeroPos;}
     inline glm::vec4 getLocalPosition()     {return m_position;}
@@ -52,11 +54,11 @@ public:
     inline glm::vec4 getScale()        {return m_scale;}
     inline glm::vec3 getScale3()       {return glm::vec3(m_scale);}
     
-    inline void setLocalPosition(glm::vec4 pos){m_position = pos; dirty = true;}
-    inline void setLocalPosition(glm::vec3 pos){m_position = glm::vec4(pos, 1.0f); dirty = true;}
-    inline void setLocalOrientation(glm::quat orientation){m_orientation = orientation; dirty = true;}
-    inline void setScale(glm::vec4 scale){m_scale = scale; dirty = true;}
-    inline void setScale(glm::vec3 scale){m_scale = glm::vec4(scale, 0.0f); dirty = true;}
+    inline void setLocalPosition(glm::vec4 pos){m_position = pos; makeDirty();}
+    inline void setLocalPosition(glm::vec3 pos){m_position = glm::vec4(pos, 1.0f); makeDirty();}
+    inline void setLocalOrientation(glm::quat orientation){m_orientation = orientation; makeDirty();}
+    inline void setScale(glm::vec4 scale){m_scale = scale; makeDirty();}
+    inline void setScale(glm::vec3 scale){m_scale = glm::vec4(scale, 0.0f); makeDirty();}
     
     inline glm::vec4 getForward()      {return glm::normalize(getMat4() * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f));}
     inline glm::vec4 getUp()           {return glm::normalize(getMat4() * glm::vec4(0.0f, 1.0f, 0.0f, 0.0f));}
@@ -89,7 +91,6 @@ public:
     
     glm::mat4 getMat4();
     glm::mat4 getMat4Unscaled() {
-        cacheTransform();
         glm::mat4 translation = glm::translate(getPosition3());
         glm::mat4 rotation    = glm::toMat4(getOrientation());
         
@@ -104,9 +105,9 @@ public:
     void imDisplay(EntityAdmin * m_admin){
         ImGui::PushID(this);
         if(ImGui::TreeNode("TransformComponent")){
-            ImGui::InputVec3("m_position", &m_position);
-            ImGui::InputVec3("m_scale", &m_scale);
-            ImGui::InputQuat("m_orientation", &m_orientation);
+            if(ImGui::InputVec3("m_position", &m_position)){forceClean();}
+            if(ImGui::InputVec3("m_scale", &m_scale)){forceClean();}
+            if(ImGui::InputQuat("m_orientation", &m_orientation)){forceClean();}
             ImGui::TreePop();
         }
         ImGui::PopID();

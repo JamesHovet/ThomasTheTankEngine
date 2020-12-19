@@ -18,7 +18,7 @@ ray InputSingleton::getRaycast(glm::vec2 mouseViewportSpace){
     pos.y /= pos.w;
     pos.z /= pos.w;
 
-    r.orig = m_admin.m_RenderSingleton.currentCameraTransformC->m_position;
+    r.orig = m_admin.m_RenderSingleton.currentCameraTransformC->getPosition();
     r.dir = glm::normalize(glm::vec4(pos.x, pos.y, pos.z, 1.0f) - r.orig);
     return r;
 }

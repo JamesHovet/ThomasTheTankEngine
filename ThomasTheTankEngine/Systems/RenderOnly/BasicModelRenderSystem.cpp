@@ -38,7 +38,7 @@ void BasicModelRenderSystem::render(){
         glPolygonMode(GL_FRONT, GL_FILL);
     }
     
-    basicModelShader->set3f("viewPos", renderSingleton.currentCameraTransformC->m_position);
+    basicModelShader->set3f("viewPos", renderSingleton.currentCameraTransformC->getPosition3());
     basicModelShader->set3f("lightColor", glm::vec3(1.0f));
     basicModelShader->set1f("time", ((float)SDL_GetTicks() / 1000.0f));
     

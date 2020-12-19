@@ -15,8 +15,8 @@ void DebugPrintSystem::tick(uint64_t dt){
     int count = 0;
     for(std::pair<entityID, GreyBoxFamily> p : m_admin.getFamilyMap<GreyBoxFamily>()){
         count++;
-        auto f = p.second;
-        auto pos = f.m_TransformComponent.m_position;
+        GreyBoxFamily f = p.second;
+        glm::vec4 pos = f.m_TransformComponent.getPosition();
         printf("[%4d]:(%4.0f, %4.0f, %4.0f) : %2.2f\n", f.eID, pos.x, pos.y, pos.z, f.m_GreyBoxComponent.m_color.r);
     }
     

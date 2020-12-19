@@ -925,6 +925,12 @@ void EditorSystem::renderInspector(){
         });
     }
     ImGui::SameLine();
+    if(ImGui::Button("Duplicate & Unparent") && edit.hasSelectedEntity){
+        m_admin.defer([this](){
+            m_admin.m_EditorSingleton.selectedEntity = m_admin.duplicateEntity(m_admin.m_EditorSingleton.selectedEntity, false);
+        });
+    }
+    ImGui::SameLine();
     if(ImGui::Button("Delete") && edit.hasSelectedEntity){
         m_admin.defer([this](){
             m_admin.destroyEntity(m_admin.m_EditorSingleton.selectedEntity);

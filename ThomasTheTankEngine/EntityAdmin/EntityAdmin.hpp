@@ -79,6 +79,7 @@ public:
     entityID createEntityFromPrototypeShallow(prototype proto);
     prototype createPrototypeFromEntity(entityID eID);
     prototype createPrototypeFromEntityShallow(entityID eID);
+    entityID getParent(entityID eID);
     bool hasParent(entityID eID);
     bool hasChildren(entityID eID);
     bool isChildOf(entityID eID, entityID parent);
@@ -89,6 +90,7 @@ public:
     bool clearParent(entityID child);
     void defer(std::function<void (void)>);
     entityID duplicateEntity(entityID eID);
+    entityID duplicateEntity(entityID eID, bool shouldParent);
     entityID duplicateEntityShallow(entityID eID);
     Entity* tryCreateEntity(entityID eID);
     void destroyEntity(entityID eID);
@@ -100,7 +102,8 @@ public:
     nlohmann::json::object_t serializeByEntityInternalHelper(entityID eID);
     bool deserializeByEntityCompatability(boost::filesystem::path inAbsolute);
     bool deserializeByEntityInternal(nlohmann::json::object_t obj);
-    bool deserializeByEntityInternalHelper(nlohmann::json obj, bool preserveIDs);
+    bool deserializeByEntityInternalHelper(nlohmann::json obj);
+    bool deserializeEntityTree(entityID eID, nlohmann::json entityObj);
     bool deserializeByEntityInternal_v0_1(nlohmann::json::object_t obj);
     
 private:

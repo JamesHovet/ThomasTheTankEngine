@@ -1,5 +1,5 @@
 // GreyBoxComponent.hpp
-// generated at: 2020-09-05 11:50:39.887762
+// generated at: 2020-12-19 15:25:14.206896
 #pragma once
 #ifndef GreyBoxComponent_hpp
 #define GreyBoxComponent_hpp
@@ -7,7 +7,7 @@
 #include "Component.hpp"
 struct GreyBoxComponent : public ECSComponent {
 	static constexpr int componentIndex{ 4 };
-    componentID getComponentIndex(){return componentIndex;}
+	componentID getComponentIndex(){return componentIndex;}
 	RGBA m_color = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
 	void imDisplay(EntityAdmin* m_admin){
 		if(ImGui::TreeNode("GreyBoxComponent")){

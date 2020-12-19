@@ -823,18 +823,6 @@ entityID EntityAdmin::duplicateEntityShallow(entityID eID){
     return dupe;
 }
 
-bool EntityAdmin::deserializeByEntityInternal_v0_1(nlohmann::json::object_t in){
-    for(json::iterator entityIt = in["entities"].begin(); entityIt != in["entities"].end(); ++entityIt){
-        entityID eID = std::stoi(entityIt.key());
-        bool couldCreateEntity = tryCreateEntity(eID);
-        if(couldCreateEntity == false){
-            return false;
-        }
-        populateComponentsFromJson(eID, entityIt.value());
-    }
-    return true;
-}
-
 bool EntityAdmin::deserializeEntityTree(entityID eID, nlohmann::json entityObj){
     populateComponentsFromJson(eID, entityObj["components"]);
     for(json::iterator childrenIt = entityObj["children"].begin(); childrenIt != entityObj["children"].end(); ++childrenIt){
@@ -887,12 +875,7 @@ bool EntityAdmin::deserializeByEntityCompatability(boost::filesystem::path inAbs
     infile >> in;
     
     bool out;
-    if(in["version"] == "0.1"){
-        out = deserializeByEntityInternal_v0_1(in);
-    } else {
-        out = deserializeByEntityInternal(in);
-    }
-    
+    out = deserializeByEntityInternal(in);
     
     infile.close();
     

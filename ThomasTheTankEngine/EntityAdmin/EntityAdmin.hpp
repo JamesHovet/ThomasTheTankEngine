@@ -104,8 +104,7 @@ public:
     bool deserializeByEntityInternal(nlohmann::json::object_t obj);
     bool deserializeByEntityInternalHelper(nlohmann::json obj);
     bool deserializeEntityTree(entityID eID, nlohmann::json entityObj);
-    bool deserializeByEntityInternal_v0_1(nlohmann::json::object_t obj);
-    
+
 private:
     void initAllSystems();
     void filterEntitiesIntoMutableFamilies();
@@ -172,7 +171,6 @@ public:
     template <typename T>
     T* tryGetComponent(entityID eID){
         constexpr componentID cID = ComponentIndexTable::RetrieveComponentIndex<T>::componentIndex;
-        assert(m_entities.count(eID) == 1);
         if(m_component_maps.count(eID) == 0){
             return nullptr;
         }

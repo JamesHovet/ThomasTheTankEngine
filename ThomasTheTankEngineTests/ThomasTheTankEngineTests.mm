@@ -9,6 +9,7 @@
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdocumentation"
+#define private public
 #include "main.h"
 #include "EntityAdmin.hpp"
 #include "TransformComponent.hpp"

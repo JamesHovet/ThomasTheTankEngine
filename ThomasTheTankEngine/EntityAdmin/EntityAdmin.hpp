@@ -123,8 +123,11 @@ public:
     
     template <typename T>
     T& addComponent(entityID eID, T toCopy){
+        // We want to copy everything from the component of type T *except* for the entity pointer that the vanilla addComponent<T>(eID) gives us. 
         T& out = addComponent<T>(eID);
+        Entity* entityPtr = out.m_entity;
         out = toCopy;
+        out.m_entity = entityPtr;
         return out;
     }
     
@@ -146,6 +149,7 @@ public:
     template <typename T>
     T* tryGetComponent(entityID eID){
         constexpr componentID cID = ComponentIndexTable::RetrieveComponentIndex<T>::componentIndex;
+        assert(m_entities.count(eID) == 1);
         if(m_component_maps.count(eID) == 0){
             return nullptr;
         }

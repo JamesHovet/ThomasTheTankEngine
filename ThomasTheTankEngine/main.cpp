@@ -284,7 +284,7 @@ void holdWindowOpen() {
 
         ImGui::End();
         
-        ImGui::ShowDemoWindow();
+//        ImGui::ShowDemoWindow();
         
         TRACE_BEGIN_EXCLUSIVE("Imgui Rendering");
         ImGui::Render();

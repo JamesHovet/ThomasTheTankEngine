@@ -1,34 +1,5 @@
 {
     "entities": {
-        "1037": {
-            "CameraComponent": {
-                "m_FOV": 45.0,
-                "m_enabled": true
-            },
-            "DebugNameComponent": {
-                "m_name": "Main Camera"
-            },
-            "TransformComponent": {
-                "m_orientation": {
-                    "w": 1.0,
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "m_position": {
-                    "w": 1.0,
-                    "x": 1.0,
-                    "y": 0.0,
-                    "z": -3.0
-                },
-                "m_scale": {
-                    "w": 0.0,
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                }
-            }
-        },
         "1068": {
             "AABBColliderComponent": {
                 "m_AABB": {

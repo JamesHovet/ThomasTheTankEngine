@@ -112,21 +112,29 @@ void EditorSystem::tick(uint64_t dt){
                         ray raycast0 = input.getRaycast(input.mouseDownPositionViewportSpace);
                         ray raycast1 = input.getRaycast(input.mouseDragPositionViewportSpace);
                         glm::vec4 delta = raycast1.dir - raycast0.dir;
+                        //@Temporary
+                        //@Temporary
+                        //@Temporary
+                        glm::vec3 origin = glm::vec3(3.0f, 3.0f, 0.0f);
+                        imm.drawLine(glm::vec3(origin), origin + glm::vec3(raycast1.dir) * 5.0f, RGBA_Red);
+                        imm.drawLine(glm::vec3(origin), origin + glm::vec3(raycast0.dir) * 5.0f, RGBA_Blue);
+                        imm.drawLine(origin + glm::vec3(raycast1.dir) * 5.0f, origin + glm::vec3(raycast0.dir) * 5.0f, RGBA_Green);
                         glm::vec4 axis = edit.draggedAxisLocal;
-                        glm::vec4 axisTransformed = glm::normalize(edit.selectedTransformCopyAtSelectionTime.getMat4() * axis);
+                        glm::vec4 axisTransformed = glm::normalize(edit.selectedTransformCopyAtSelectionTime.getMat4Unscaled() * axis);
                         
                         if (edit.currentEditMode == EditMode::MOVE){
                             if(!edit.usingLocalWorldSpace){
                                 axisTransformed = axis;
                             }
                             glm::vec4 projectedMove = axisTransformed * glm::dot(delta, axisTransformed);
-                            trans->setLocalPosition(trans->getPosition() + projectedMove);
+                            imm.drawLine(glm::vec3(origin), origin + glm::vec3(projectedMove) * 5.0f, RGBA_Black);
+                            trans->setLocalPosition(trans->getLocalPosition() + projectedMove);
                         } else if (edit.currentEditMode == EditMode::SCALE){
                             glm::vec4 projectedScale = axis * glm::dot(delta, axisTransformed);
                             if(!edit.usingLocalWorldSpace){
                                 projectedScale = axisTransformed * glm::dot(delta, axis);
                             }
-                            trans->setScale(trans->getScale() * (glm::vec4(1.0f, 1.0f, 1.0f, 0.0f) + projectedScale));
+                            trans->setScale(trans->getLocalScale() * (glm::vec4(1.0f, 1.0f, 1.0f, 0.0f) + projectedScale));
                         } else if (edit.currentEditMode == EditMode::ROTATE){
 
                             Plane rotationPlane = {trans->getPosition(), axisTransformed};

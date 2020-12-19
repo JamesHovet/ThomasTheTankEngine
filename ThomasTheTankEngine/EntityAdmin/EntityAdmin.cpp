@@ -283,6 +283,8 @@ void EntityAdmin::destroyAllEntities(){
         m_component_maps.erase(eID);
         it = m_entities.erase(it);
     }
+    assert(m_entities.empty());
+    assert(m_component_maps.empty());
 }
 
 void EntityAdmin::initAllSystems(){
@@ -551,22 +553,7 @@ void EntityAdmin::updateMainThreadSystems(uint64_t dt){
     m_ConsoleSystem.tick(dt);
 }
 
-void EntityAdmin::update(uint64_t dt){
-    
-    //@Temporary
-    //@Temporary
-    //@Temporary
-    //@Temporary
-    ImmediateRenderSingleton& imm = this->m_ImmediateRenderSingleton;
-    imm.drawLine(glm::vec3(0.0f), glm::vec3(5.0f, 0.0f, 0.0f), RGBA_Red);
-    imm.drawLine(glm::vec3(0.0f), glm::vec3(0.0f, 5.0f, 0.0f), RGBA_Green);
-    imm.drawLine(glm::vec3(0.0f), glm::vec3(0.0f, 0.0f, 5.0f), RGBA_Blue);
-    
-    for(int i = 1; i < 5; i++){
-        imm.drawLine(glm::vec3(i * 1.0f, 0.0f, 0.0f), glm::vec3(i * 1.0f, 1.0f, 0.0f), RGBA_White);
-    }
-    
-    
+void EntityAdmin::update(uint64_t dt){ 
 //    m_DebugPrintSystem.tick(dt);
 //    m_ConsoleSystem.tick(dt);
     TRACE_BEGIN("editor update", &m_EditorSystem);
@@ -758,6 +745,9 @@ void EntityAdmin::populateEntityFromJson(entityID eID, json j){
                 addComponent<CameraComponent>(eID, CameraComponent::deserialize(componentIt.value()));
             }
 #include "deserializationCompatability.cpp"
+            else {
+                std::cout << "DESERIALIZATION FAILED: NO COMPONENT WITH NAME " << componentIt.key() << std::endl;
+            }
         }
 }
 

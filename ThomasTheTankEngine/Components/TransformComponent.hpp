@@ -51,6 +51,9 @@ public:
     inline glm::vec3 getLocalPosition3()    {return glm::vec3(getLocalPosition());}
     glm::quat getOrientation();
     inline glm::quat getLocalOrientation()  {return m_orientation;}
+    inline glm::vec4 getLocalScale()   {return m_scale;}
+    inline glm::vec3 getLocalScale3()  {return glm::vec3(m_scale);}
+    //@Incomplete??
     inline glm::vec4 getScale()        {return m_scale;}
     inline glm::vec3 getScale3()       {return glm::vec3(m_scale);}
     

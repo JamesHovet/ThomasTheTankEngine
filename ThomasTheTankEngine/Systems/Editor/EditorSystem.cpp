@@ -115,10 +115,10 @@ void EditorSystem::tick(uint64_t dt){
                         //@Temporary
                         //@Temporary
                         //@Temporary
-                        glm::vec3 origin = glm::vec3(3.0f, 3.0f, 0.0f);
-                        imm.drawLine(glm::vec3(origin), origin + glm::vec3(raycast1.dir) * 5.0f, RGBA_Red);
-                        imm.drawLine(glm::vec3(origin), origin + glm::vec3(raycast0.dir) * 5.0f, RGBA_Blue);
-                        imm.drawLine(origin + glm::vec3(raycast1.dir) * 5.0f, origin + glm::vec3(raycast0.dir) * 5.0f, RGBA_Green);
+                        glm::vec3 origin = glm::vec3(0.3f, 0.3f, 0.0f);
+                        imm.drawLine2d(glm::vec3(origin), origin + glm::vec3(raycast1.dir) * 0.5f, RGBA_Red);
+                        imm.drawLine2d(glm::vec3(origin), origin + glm::vec3(raycast0.dir) * 0.5f, RGBA_Blue);
+                        imm.drawLine2d(origin + glm::vec3(raycast1.dir) * 0.5f, origin + glm::vec3(raycast0.dir) * 0.5f, RGBA_Green);
                         glm::vec4 axis = edit.draggedAxisLocal;
                         glm::vec4 axisTransformed = glm::normalize(edit.selectedTransformCopyAtSelectionTime.getMat4Unscaled() * axis);
                         
@@ -127,7 +127,7 @@ void EditorSystem::tick(uint64_t dt){
                                 axisTransformed = axis;
                             }
                             glm::vec4 projectedMove = axisTransformed * glm::dot(delta, axisTransformed);
-                            imm.drawLine(glm::vec3(origin), origin + glm::vec3(projectedMove) * 5.0f, RGBA_Black);
+                            imm.drawLine2d(glm::vec3(origin), origin + glm::vec3(projectedMove) * 0.5f, RGBA_Black);
                             trans->setLocalPosition(trans->getLocalPosition() + projectedMove);
                         } else if (edit.currentEditMode == EditMode::SCALE){
                             glm::vec4 projectedScale = axis * glm::dot(delta, axisTransformed);
@@ -165,16 +165,16 @@ void EditorSystem::tick(uint64_t dt){
 //                            printf("angle: %1.5f, axis: (%4.4f, %4.4f, %4.4f)\n", angle, axis.x, axis.y, axis.z);
                             
                             
-                            imm.drawTri(pos, pos + planeTangent * 100.0f, pos + planeBitangent * 100.0f, RGBA(0.5f, 0.5f, 0.5f, 0.3f));
-                            imm.drawTri(pos, pos + planeTangent * 100.0f, pos - planeBitangent * 100.0f, RGBA(0.5f, 0.5f, 0.5f, 0.3f));
-                            imm.drawTri(pos, pos - planeTangent * 100.0f, pos + planeBitangent * 100.0f, RGBA(0.5f, 0.5f, 0.5f, 0.3f));
-                            imm.drawTri(pos, pos - planeTangent * 100.0f, pos - planeBitangent * 100.0f, RGBA(0.5f, 0.5f, 0.5f, 0.3f));
+                            imm.drawTri3d(pos, pos + planeTangent * 100.0f, pos + planeBitangent * 100.0f, RGBA(0.5f, 0.5f, 0.5f, 0.3f));
+                            imm.drawTri3d(pos, pos + planeTangent * 100.0f, pos - planeBitangent * 100.0f, RGBA(0.5f, 0.5f, 0.5f, 0.3f));
+                            imm.drawTri3d(pos, pos - planeTangent * 100.0f, pos + planeBitangent * 100.0f, RGBA(0.5f, 0.5f, 0.5f, 0.3f));
+                            imm.drawTri3d(pos, pos - planeTangent * 100.0f, pos - planeBitangent * 100.0f, RGBA(0.5f, 0.5f, 0.5f, 0.3f));
 
-                            imm.drawLine(pos, pos + rotationPlane.normal * 5.0f, RGBA(1.0f, 0.0f, 1.0f, 1.0f));
+                            imm.drawLine3d(pos, pos + rotationPlane.normal * 5.0f, RGBA(1.0f, 0.0f, 1.0f, 1.0f));
 
-                            imm.drawLine(hit0, hit1, RGBA(1.0f, 1.0f, 1.0f, 1.0f));
-                            imm.drawLine(pos, pos + dir0 * 5.0f, RGBA_White);
-                            imm.drawLine(pos, pos + dir1 * 5.0f, RGBA_White);
+                            imm.drawLine3d(hit0, hit1, RGBA(1.0f, 1.0f, 1.0f, 1.0f));
+                            imm.drawLine3d(pos, pos + dir0 * 5.0f, RGBA_White);
+                            imm.drawLine3d(pos, pos + dir1 * 5.0f, RGBA_White);
                             
                         }
                     }

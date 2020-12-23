@@ -753,6 +753,12 @@ void EditorSystem::renderGizmos(){
             if(bbox != nullptr){
                 renderBBox(t->getMat4(), bbox->m_AABB);
             }
+//            DebugNameComponent* nameC = m_admin.tryGetComponent<DebugNameComponent>(edit.selectedEntity);
+//            if(nameC != nullptr){
+//                ImmediateRenderSingleton& imm = m_admin.m_ImmediateRenderSingleton;
+//                glm::vec2 screenspacePos2 = m_admin.m_RenderSingleton.worldToCVV(t->getPosition());
+//                imm.drawQuad2d(screenspacePos2, 0.2f, 0.1f, RGBA_Black);
+//            }
         }
         
     }

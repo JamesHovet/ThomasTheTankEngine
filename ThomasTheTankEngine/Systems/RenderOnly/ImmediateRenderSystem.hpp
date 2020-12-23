@@ -21,13 +21,19 @@ public:
     ~ImmediateRenderSystem(){};
 private:
     
-    static unsigned int lines_VBO;
-    static unsigned int lines_VAO;
-    static unsigned int tris_VBO;
-    static unsigned int tris_VAO;
+    static unsigned int lines_VBO3d;
+    static unsigned int lines_VAO3d;
+    static unsigned int tris_VBO3d;
+    static unsigned int tris_VAO3d;
+    static unsigned int lines_VBO2d;
+    static unsigned int lines_VAO2d;
+    static unsigned int tris_VBO2d;
+    static unsigned int tris_VAO2d;
     
-    void drawLines();
-    void drawTris();
+    void draw3d();
+    
+    void draw2d();
+    
 };
 
 #endif /* ImmediateRenderSystem_hpp */

@@ -32,6 +32,16 @@ struct RenderSingleton {
         return glm::inverse(view * projection);
     }
     
+    glm::mat4 worldToCVV() const {
+        return projection * view;
+    }
+    
+    glm::vec2 worldToCVV(glm::vec4 worldPos) const {
+        glm::vec4 screenspacePos = worldToCVV() * worldPos;
+        glm::vec2 screenspacePos2 = glm::vec2(screenspacePos.x / screenspacePos.w, screenspacePos.y / screenspacePos.w);
+        return screenspacePos2;
+    }
+    
     CameraComponent* currentCameraC;
     TransformComponent* currentCameraTransformC;
     

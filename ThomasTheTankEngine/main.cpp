@@ -11,8 +11,6 @@
 #include <thread>
 #include "Trace.hpp"
 
-//#include "OBJ_Loader.h"
-
 const int SCREEN_WIDTH = 1024;
 const int SCREEN_HEIGHT = 768;
 

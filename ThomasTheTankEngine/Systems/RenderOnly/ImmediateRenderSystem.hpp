@@ -29,11 +29,16 @@ private:
     static unsigned int lines_VAO2d;
     static unsigned int tris_VBO2d;
     static unsigned int tris_VAO2d;
+    static unsigned int text_VBO;
+    static unsigned int text_VAO;
+    
+    bool initFreetype();
     
     void draw3d();
     
     void draw2d();
     
+    void drawText();
 };
 
 #endif /* ImmediateRenderSystem_hpp */

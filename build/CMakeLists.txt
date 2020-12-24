@@ -14,6 +14,7 @@ add_compile_definitions(BUILD_CMAKE)
 find_package(OpenGL REQUIRED)
 find_package(SDL2 REQUIRED)
 find_package(Boost REQUIRED COMPONENTS filesystem)
+find_package(Freetype REQUIRED)
 
 if(APPLE) 
 	find_package(GLEW 2.0 REQUIRED)
@@ -58,6 +59,7 @@ include_directories(${OPENGL_LIBRARIES})
 if(WIN32)
 include_directories(${Boost_INCLUDE_DIRS})
 endif()
+include_directories(${FREETYPE_INCLUDE_DIRS})
 
 ## Sources
 set(SOURCES 
@@ -103,6 +105,7 @@ add_executable(ThomasTheTankEngine ../ThomasTheTankEngine/main.cpp ${SOURCES})
 target_compile_features(ThomasTheTankEngine PRIVATE cxx_std_17) 
 
 target_link_libraries(ThomasTheTankEngine ${OPENGL_LIBRARIES})
+target_link_libraries(ThomasTheTankEngine ${FREETYPE_LIBRARIES})
 
 if(APPLE)
 target_link_libraries(ThomasTheTankEngine ${SDL2_LIBRARIES})

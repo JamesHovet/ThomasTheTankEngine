@@ -74,6 +74,12 @@
 		59745F0B24FE92B200690D9B /* sponza_column_b.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 59745F0724FE928600690D9B /* sponza_column_b.tga */; };
 		597C6AAC24E0583E002CB5D8 /* Trace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 597C6AAA24E0583E002CB5D8 /* Trace.cpp */; };
 		59AA59D324D4D8D10082B201 /* componentViews.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59AA59D224D4D8D10082B201 /* componentViews.cpp */; };
+		59AD3C062594EC3D005C1101 /* libfreetype.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 59AD3C052594EC3C005C1101 /* libfreetype.6.dylib */; };
+		59AD3C072594EC3D005C1101 /* libfreetype.6.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 59AD3C052594EC3C005C1101 /* libfreetype.6.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		59AD3C0B2594EDD9005C1101 /* MesloLGL-Regular.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 59AD3C092594EDAB005C1101 /* MesloLGL-Regular.ttf */; };
+		59AD3C0E2594F693005C1101 /* freetype.frag in Resources */ = {isa = PBXBuildFile; fileRef = 59AD3C0D2594F693005C1101 /* freetype.frag */; };
+		59AD3C0F2594FCCB005C1101 /* freetype.vert in CopyFiles */ = {isa = PBXBuildFile; fileRef = 59AD3C0C2594F685005C1101 /* freetype.vert */; };
+		59AD3C102594FCCB005C1101 /* freetype.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 59AD3C0D2594F693005C1101 /* freetype.frag */; };
 		59B2DDA924D77EE00050E31A /* IntersectionUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59B2DDA724D77EE00050E31A /* IntersectionUtils.cpp */; };
 		59B4E59B258A660C00590916 /* ImmediateRenderSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59B4E599258A660C00590916 /* ImmediateRenderSystem.cpp */; };
 		59B6511924FC05FC00D419AD /* ModelCatalogSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59B6511724FC05FC00D419AD /* ModelCatalogSingleton.cpp */; };
@@ -127,6 +133,8 @@
 			dstPath = Shaders;
 			dstSubfolderSpec = 7;
 			files = (
+				59AD3C0F2594FCCB005C1101 /* freetype.vert in CopyFiles */,
+				59AD3C102594FCCB005C1101 /* freetype.frag in CopyFiles */,
 				59CB7BC3258A796F005919CC /* unlit_rgba.frag in CopyFiles */,
 				59CB7BC4258A796F005919CC /* unlit_rgba.vert in CopyFiles */,
 				59B6512524FC21D600D419AD /* basicModel.vert in CopyFiles */,
@@ -138,6 +146,16 @@
 				59661B46242B96250088525D /* default.vert in CopyFiles */,
 				59661B47242B96250088525D /* default.frag in CopyFiles */,
 				59661B48242B96250088525D /* shader_globals.glh in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		59AD3C0A2594EDBF005C1101 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Fonts;
+			dstSubfolderSpec = 7;
+			files = (
+				59AD3C0B2594EDD9005C1101 /* MesloLGL-Regular.ttf in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -168,6 +186,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				59AD3C072594EC3D005C1101 /* libfreetype.6.dylib in Embed Libraries */,
 				59C0382B24D5999800DFFA3E /* SDL2.framework in Embed Libraries */,
 				59C0382724D5999400DFFA3E /* libGLEW.2.1.0.dylib in Embed Libraries */,
 				59C0382424D5999100DFFA3E /* libboost_filesystem.dylib in Embed Libraries */,
@@ -695,6 +714,11 @@
 		59A7A96224BD269400DB8CD9 /* pool_construct.ipp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pool_construct.ipp; sourceTree = "<group>"; };
 		59A7A96324BD269400DB8CD9 /* simple_segregated_storage.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = simple_segregated_storage.hpp; sourceTree = "<group>"; };
 		59AA59D224D4D8D10082B201 /* componentViews.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = componentViews.cpp; sourceTree = "<group>"; };
+		59AD3C042594EC24005C1101 /* libfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreetype.a; path = ../../../../usr/local/Cellar/freetype/2.10.4/lib/libfreetype.a; sourceTree = "<group>"; };
+		59AD3C052594EC3C005C1101 /* libfreetype.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfreetype.6.dylib; path = ../../../../usr/local/Cellar/freetype/2.10.4/lib/libfreetype.6.dylib; sourceTree = "<group>"; };
+		59AD3C092594EDAB005C1101 /* MesloLGL-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MesloLGL-Regular.ttf"; sourceTree = "<group>"; };
+		59AD3C0C2594F685005C1101 /* freetype.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = freetype.vert; sourceTree = "<group>"; };
+		59AD3C0D2594F693005C1101 /* freetype.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = freetype.frag; sourceTree = "<group>"; };
 		59AF4BE624DCB39D00D24E71 /* liblog_signpost.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = liblog_signpost.tbd; path = usr/lib/log/liblog_signpost.tbd; sourceTree = SDKROOT; };
 		59B2DDA524D77C2B0050E31A /* AABBColliderComponent.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AABBColliderComponent.hpp; sourceTree = "<group>"; };
 		59B2DDA624D77CCB0050E31A /* AABBCollisionFamily.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AABBCollisionFamily.hpp; sourceTree = "<group>"; };
@@ -742,6 +766,7 @@
 			files = (
 				59C0382A24D5999800DFFA3E /* SDL2.framework in Frameworks */,
 				59484F6B242911110068591C /* libGLEW.2.1.0.dylib in Frameworks */,
+				59AD3C062594EC3D005C1101 /* libfreetype.6.dylib in Frameworks */,
 				5938690024CE214400AD33FF /* libboost_filesystem.dylib in Frameworks */,
 				59C0382824D5999600DFFA3E /* OpenGL.framework in Frameworks */,
 			);
@@ -855,6 +880,7 @@
 		5924F96E24F2E24D00B52D9F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				59AD3C082594ED63005C1101 /* Fonts */,
 				590E54F224FC41E30039A383 /* Models */,
 				590E54EF24FC41E30039A383 /* Textures */,
 				59661B3A242962890088525D /* Shaders */,
@@ -927,6 +953,8 @@
 		59484F4924290C0C0068591C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				59AD3C052594EC3C005C1101 /* libfreetype.6.dylib */,
+				59AD3C042594EC24005C1101 /* libfreetype.a */,
 				59AF4BE624DCB39D00D24E71 /* liblog_signpost.tbd */,
 				592B478024CF178200EB0DC0 /* libgainput.1.0.0.dylib */,
 				59B35EE024CE1EAC00605588 /* libboost_filesystem.dylib */,
@@ -1477,6 +1505,8 @@
 				595B230424E201B7002F74FF /* unlitOpaque.frag */,
 				59B6512324FC208700D419AD /* basicModel.vert */,
 				59B6512424FC209C00D419AD /* basicModel.frag */,
+				59AD3C0C2594F685005C1101 /* freetype.vert */,
+				59AD3C0D2594F693005C1101 /* freetype.frag */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";
@@ -1572,6 +1602,14 @@
 			path = Editor;
 			sourceTree = "<group>";
 		};
+		59AD3C082594ED63005C1101 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				59AD3C092594EDAB005C1101 /* MesloLGL-Regular.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXLegacyTarget section */
@@ -1621,6 +1659,7 @@
 				59661B37242962320088525D /* CopyFiles */,
 				590F5679242CCD1400BC9DC2 /* CopyFiles */,
 				59B6511B24FC135900D419AD /* CopyFiles */,
+				59AD3C0A2594EDBF005C1101 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1687,6 +1726,7 @@
 				59CB7BC0258A783F005919CC /* unlit_rgba.frag in Resources */,
 				59CB7BC2258A7857005919CC /* unlit_rgba.vert in Resources */,
 				59484F2E24290AEE0068591C /* Assets.xcassets in Resources */,
+				59AD3C0E2594F693005C1101 /* freetype.frag in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2011,6 +2051,7 @@
 					/usr/local/Cellar/boost/1.71.0/include,
 					/usr/local/include/,
 					/Library/Frameworks/SDL2.framework/Headers/,
+					/usr/local/Cellar/freetype/2.10.4/include/freetype2,
 				);
 				INFOPLIST_FILE = ThomasTheTankEngine/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2023,6 +2064,7 @@
 					/usr/local/lib,
 					/usr/local/Cellar/boost/1.72.0_3/lib,
 					"$(SDKROOT)/usr/lib/log",
+					/usr/local/Cellar/freetype/2.10.4/lib,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jamesHovet.ThomasTheTankEngine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2048,6 +2090,7 @@
 					/usr/local/Cellar/boost/1.71.0/include,
 					/usr/local/include/,
 					/Library/Frameworks/SDL2.framework/Headers/,
+					/usr/local/Cellar/freetype/2.10.4/include/freetype2,
 				);
 				INFOPLIST_FILE = ThomasTheTankEngine/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2060,6 +2103,7 @@
 					/usr/local/lib,
 					/usr/local/Cellar/boost/1.72.0_3/lib,
 					"$(SDKROOT)/usr/lib/log",
+					/usr/local/Cellar/freetype/2.10.4/lib,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jamesHovet.ThomasTheTankEngine;
 				PRODUCT_NAME = "$(TARGET_NAME)";

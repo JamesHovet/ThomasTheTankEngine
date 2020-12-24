@@ -717,12 +717,13 @@ void EditorSystem::renderGizmos(){
             if(bbox != nullptr){
                 renderBBox(t->getMat4(), bbox->m_AABB);
             }
-//            DebugNameComponent* nameC = m_admin.tryGetComponent<DebugNameComponent>(edit.selectedEntity);
-//            if(nameC != nullptr){
-//                ImmediateRenderSingleton& imm = m_admin.m_ImmediateRenderSingleton;
-//                glm::vec2 screenspacePos2 = m_admin.m_RenderSingleton.worldToCVV(t->getPosition());
-//                imm.drawQuad2d(screenspacePos2, 0.2f, 0.1f, RGBA_Black);
-//            }
+            DebugNameComponent* nameC = m_admin.tryGetComponent<DebugNameComponent>(edit.selectedEntity);
+            if(nameC != nullptr){
+                ImmediateRenderSingleton& imm = m_admin.m_ImmediateRenderSingleton;
+                glm::vec2 screenspacePos2 = m_admin.m_RenderSingleton.worldToCVV(t->getPosition());
+                imm.drawQuad2d(screenspacePos2, 0.2f, 0.1f, RGBA_Black);
+                imm.drawText(screenspacePos2 - glm::vec2(0.0f, 0.06f), nameC->m_name);
+            }
         }
         
     }

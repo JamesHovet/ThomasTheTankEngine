@@ -290,46 +290,56 @@ void ImmediateRenderSystem::drawText(){
 //    glm::mat4 ortho = glm::mat4(1.0f);
     glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(ortho));
     
-    std::string text = "There are 65109 leaves in the pile.";
-    float x = 20.0f;
-    float y = 20.0f;
-    float scale = 1.0f;
-    
-    std::string::const_iterator c;
-    for (c = text.begin(); c != text.end(); c++)
-    {
-        Character ch = CharacterInfo[*c];
+    for(TextDrawCommand command : m_admin.m_ImmediateRenderSingleton.textDrawQueue){
+        float x = command.pos.x;
+        float y = command.pos.y;
+        float scale = 1.0f;
+        
+        x = (x + 1.0f) / 2.0f;
+        y = (y + 1.0f) / 2.0f;
+        
+        x = x * static_cast<float>(m_admin.m_RenderSingleton.SCREEN_WIDTH);
+        y = y * static_cast<float>(m_admin.m_RenderSingleton.SCREEN_HEIGHT);
 
-        float xpos = x + ch.Bearing.x * scale;
-        float ypos = y - (ch.Size.y - ch.Bearing.y) * scale;
+        std::string::const_iterator c;
+        for (c = command.text.begin(); c != command.text.end(); c++)
+        {
+            Character ch = CharacterInfo[*c];
 
-        float w = ch.Size.x * scale;
-        float h = ch.Size.y * scale;
-        // update VBO for each character
-        float vertices[6][4] = {
-            { xpos,     ypos + h,   0.0f, 0.0f },
-            { xpos,     ypos,       0.0f, 1.0f },
-            { xpos + w, ypos,       1.0f, 1.0f },
+            float xpos = x + ch.Bearing.x * scale;
+            float ypos = y - (ch.Size.y - ch.Bearing.y) * scale;
 
-            { xpos,     ypos + h,   0.0f, 0.0f },
-            { xpos + w, ypos,       1.0f, 1.0f },
-            { xpos + w, ypos + h,   1.0f, 0.0f }
-        };
-        // render glyph texture over quad
-        glBindTexture(GL_TEXTURE_2D, ch.TextureID);
-        // update content of VBO memory
-        glBindBuffer(GL_ARRAY_BUFFER, text_VBO);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); // be sure to use glBufferSubData and not glBufferData
+            float w = ch.Size.x * scale;
+            float h = ch.Size.y * scale;
+            // update VBO for each character
+            float vertices[6][4] = {
+                { xpos,     ypos + h,   0.0f, 0.0f },
+                { xpos,     ypos,       0.0f, 1.0f },
+                { xpos + w, ypos,       1.0f, 1.0f },
 
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        // render quad
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-        // now advance cursors for next glyph (note that advance is number of 1/64 pixels)
-        x += (ch.Advance >> 6) * scale; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
+                { xpos,     ypos + h,   0.0f, 0.0f },
+                { xpos + w, ypos,       1.0f, 1.0f },
+                { xpos + w, ypos + h,   1.0f, 0.0f }
+            };
+            // render glyph texture over quad
+            glBindTexture(GL_TEXTURE_2D, ch.TextureID);
+            // update content of VBO memory
+            glBindBuffer(GL_ARRAY_BUFFER, text_VBO);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); // be sure to use glBufferSubData and not glBufferData
+
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+            // render quad
+            glDrawArrays(GL_TRIANGLES, 0, 6);
+            // now advance cursors for next glyph (note that advance is number of 1/64 pixels)
+            x += (ch.Advance >> 6) * scale; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
+        }
     }
+    
     glBindVertexArray(0);
     glBindTexture(GL_TEXTURE_2D, 0);
     
     freetypeShader->end();
     glEnable(GL_DEPTH_TEST);
+    
+    m_admin.m_ImmediateRenderSingleton.textDrawQueue.clear();
 }

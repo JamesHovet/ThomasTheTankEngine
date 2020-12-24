@@ -330,3 +330,17 @@ void ImmediateRenderSingleton::drawQuad2d(glm::vec2 tl, float width, float heigh
     glm::vec2 br = tl + glm::vec2(width, -height);
     drawQuad2d(tl, tr, bl, br, color);
 }
+
+void ImmediateRenderSingleton::drawText(glm::vec3 bl, std::string text){
+    TextDrawCommand command;
+    command.pos = bl;
+    command.text = text;
+    textDrawQueue.push_back(command);
+}
+
+void ImmediateRenderSingleton::drawText(glm::vec2 bl, std::string text){
+    TextDrawCommand command;
+    command.pos = glm::vec3(bl.x, bl.y, 0.0f);
+    command.text = text;
+    textDrawQueue.push_back(command);
+}

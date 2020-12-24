@@ -13,6 +13,11 @@
 #include "typedefs.h"
 #include <vector>
 
+struct TextDrawCommand {
+    glm::vec3 pos; // bl corner
+    std::string text;
+};
+
 struct ImmediateRenderSingleton {
     void drawLine3d(glm::vec3 v0, glm::vec3 v1, RGBA color);
     void drawLine3d(glm::vec3 v0, glm::vec3 v1, RGBA color0, RGBA color1);
@@ -31,6 +36,9 @@ struct ImmediateRenderSingleton {
     void drawQuad2d(glm::vec3 tl, float width, float height, RGBA color);
     void drawQuad2d(glm::vec2 tl, float width, float height, RGBA color);
     
+    void drawText(glm::vec3 bl, std::string text);
+    void drawText(glm::vec2 bl, std::string text);
+    
 private:
     // Format: x, y, z, r, g, b, a
     std::vector<float> immLineVerts3d;
@@ -44,6 +52,8 @@ private:
     // Format: x, y, z, r, g, b, a   where z is for manual overlap / 2d "depth"
     std::vector<float> immTriVerts2d;
     unsigned numTriVerts2d = 0;
+    
+    std::vector<TextDrawCommand> textDrawQueue;
     
     friend class ImmediateRenderSystem;
 

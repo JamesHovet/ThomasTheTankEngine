@@ -482,7 +482,7 @@ void EditorSystem::render(){
 //    renderTextureCatalogViewer();
 }
 
-void EditorSystem::renderBBox(glm::mat4 modelBase, AABB b){
+void EditorSystem::renderBBox(glm::mat4 modelBase, AABB b, RGBA color){
     GLuint modelLoc = glGetUniformLocation(gizmoShader->ID, "model");
     
     float data[] = {
@@ -506,7 +506,7 @@ void EditorSystem::renderBBox(glm::mat4 modelBase, AABB b){
     glBindBuffer(GL_ARRAY_BUFFER, bbox_VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(data), data,  GL_DYNAMIC_DRAW);
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelBase));
-    gizmoShader->set4f("color", RGBA(1.0f));
+    gizmoShader->set4f("color", color);
     glDrawArrays(GL_LINES, 0, 24);
 }
 
@@ -692,45 +692,94 @@ void EditorSystem::renderGizmos(){
     glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(renderSingleton.projection));
     
     if (edit.hasSelectedEntity){
-        TransformComponent* t = m_admin.tryGetComponent<TransformComponent>(edit.selectedEntity);
-        if(t != nullptr){
-            glm::mat4 baseMatrix;
-            if(edit.usingLocalWorldSpace){
-                baseMatrix = t->getMat4Unscaled();
-            } else {
-                baseMatrix = glm::translate(t->getPosition3());
-            }
-            
-            switch (edit.currentEditMode) {
-                case EditMode::MOVE:
-                    renderMoveAxesAtModelMat(baseMatrix);
-                    break;
-                case EditMode::SCALE:
-                    renderScaleAxesAtModelMat(baseMatrix);
-                    break;
-                case EditMode::ROTATE:
-                    renderRotationWheelAtModelMat(baseMatrix);
-                    break;
-            }
-            
-            AABBColliderComponent* bbox = m_admin.tryGetComponent<AABBColliderComponent>(edit.selectedEntity);
-            if(bbox != nullptr){
-                renderBBox(t->getMat4(), bbox->m_AABB);
-            }
-            DebugNameComponent* nameC = m_admin.tryGetComponent<DebugNameComponent>(edit.selectedEntity);
-            if(nameC != nullptr){
-                ImmediateRenderSingleton& imm = m_admin.m_ImmediateRenderSingleton;
-                glm::vec2 screenspacePos2 = m_admin.m_RenderSingleton.worldToCVV(t->getPosition());
-                imm.drawQuad2d(screenspacePos2, 0.2f, 0.1f, RGBA_Black);
-                imm.drawText(screenspacePos2 - glm::vec2(0.0f, 0.06f), nameC->m_name);
-            }
-        }
-        
+        renderGizmosForSingleSelection();
+    }
+    if (edit.hasMultiselection){
+        renderGizmosForMultiSelection();
     }
 
     gizmoShader->end();
     glEnable(GL_DEPTH_TEST);
 }
+
+void EditorSystem::renderBBoxTopLevel(entityID eID){
+    TransformComponent* t = m_admin.tryGetComponent<TransformComponent>(eID);
+    AABBColliderComponent* bbox = m_admin.tryGetComponent<AABBColliderComponent>(eID);
+    if(bbox != nullptr){
+        renderBBox(t->getMat4(), bbox->m_AABB, RGBA_White);
+    }
+    if(m_admin.hasChildren(eID)){
+        for(auto it = m_admin.childrenBegin(eID); it != m_admin.childrenEnd(eID); ++it){
+            renderBBoxRecursive(*it);
+        }
+    }
+}
+
+void EditorSystem::renderBBoxRecursive(entityID eID){
+    TransformComponent* trans = m_admin.tryGetComponent<TransformComponent>(eID);
+    AABBColliderComponent* aabb = m_admin.tryGetComponent<AABBColliderComponent>(eID);
+    
+    if(trans && aabb){
+        renderBBox(trans->getMat4(), aabb->m_AABB, RGBA_Black);
+    }
+    
+    if(m_admin.hasChildren(eID)){
+        for(auto it = m_admin.childrenBegin(eID); it != m_admin.childrenEnd(eID); ++it){
+            renderBBoxRecursive(*it);
+        }
+    }
+}
+
+void EditorSystem::renderTransformGizmoAtBaseMatrix(glm::mat4 baseMatrix){
+    EditorSingleton& edit = m_admin.m_EditorSingleton;
+    switch (edit.currentEditMode) {
+        case EditMode::MOVE:
+            renderMoveAxesAtModelMat(baseMatrix);
+            break;
+        case EditMode::SCALE:
+            renderScaleAxesAtModelMat(baseMatrix);
+            break;
+        case EditMode::ROTATE:
+            renderRotationWheelAtModelMat(baseMatrix);
+            break;
+    }
+}
+
+void EditorSystem::renderGizmosForSingleSelection(){
+    EditorSingleton& edit = m_admin.m_EditorSingleton;
+    TransformComponent* t = m_admin.tryGetComponent<TransformComponent>(edit.selectedEntity);
+    if(t != nullptr){
+        glm::mat4 baseMatrix;
+        if(edit.usingLocalWorldSpace){
+            baseMatrix = t->getMat4Unscaled();
+        } else {
+            baseMatrix = glm::translate(t->getPosition3());
+        }
+        
+        renderTransformGizmoAtBaseMatrix(baseMatrix);
+        renderBBoxTopLevel(edit.selectedEntity);
+        
+//        DebugNameComponent* nameC = m_admin.tryGetComponent<DebugNameComponent>(edit.selectedEntity);
+//        if(nameC != nullptr){
+//            ImmediateRenderSingleton& imm = m_admin.m_ImmediateRenderSingleton;
+//            glm::vec2 screenspacePos2 = m_admin.m_RenderSingleton.worldToCVV(t->getPosition());
+//            imm.drawQuad2d(screenspacePos2, 0.2f, 0.1f, RGBA_Black);
+//            imm.drawText(screenspacePos2 - glm::vec2(0.0f, 0.06f), nameC->m_name);
+//        }
+    }
+}
+
+void EditorSystem::renderGizmosForMultiSelection(){
+    EditorSingleton& edit = m_admin.m_EditorSingleton;
+    
+    glm::mat4 baseMatrix = glm::translate(edit.multiselectionCenter.getPosition3());
+    renderTransformGizmoAtBaseMatrix(baseMatrix);
+    
+    for(entityID eID : edit.multiselectionEntities){
+        renderBBoxTopLevel(eID);
+    }
+}
+
 char nameBuf[64];
 
 void EditorSystem::renderSceneGraphSubtree(entityID eID){

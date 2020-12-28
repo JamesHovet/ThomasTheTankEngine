@@ -30,6 +30,9 @@ typedef glm::vec4 RGBA;
 #define RGBA_Red RGBA(1.0f, 0.0f, 0.0f, 1.0f)
 #define RGBA_Green RGBA(0.0f, 1.0f, 0.0f, 1.0f)
 #define RGBA_Blue RGBA(0.0f, 0.0f, 1.0f, 1.0f)
+#define RGBA_Purple RGBA(1.0f, 0.0f, 1.0f, 1.0f)
+#define RGBA_Cyan RGBA(0.0f, 1.0f, 1.0f, 1.0f)
+#define RGBA_Yellow RGBA(1.0f, 1.0f, 0.0f, 1.0f)
 typedef glm::vec3 RGB;
 typedef struct Plane {
     glm::vec4 origin;

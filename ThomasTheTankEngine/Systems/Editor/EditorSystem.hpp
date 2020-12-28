@@ -29,12 +29,23 @@ private:
     void renderSceneGraphSubtree(entityID eID);
     void renderInspector();
     void renderGizmos();
-    void renderBBox(glm::mat4 modelBase, AABB box);
+
+    void renderGizmosForSingleSelection();
+    void renderGizmosForMultiSelection();
+    void renderTransformGizmoAtBaseMatrix(glm::mat4 baseMatrix);
+    void renderBBox(glm::mat4 modelBase, AABB box, RGBA color);
+    void renderBBoxRecursive(entityID eID);
+    void renderBBoxTopLevel(entityID eID);
     void renderMoveAxesAtModelMat(glm::mat4 modelBase);
     void renderScaleAxesAtModelMat(glm::mat4 modelBase);
     void renderRotationWheelAtModelMat(glm::mat4 modelBase);
     
+    void addToMultiselection(entityID eID);
+    void startMultiselection(entityID eID, entityID other);
+    
+    void processClick();
     void processMouseDragForSingleSelection();
+    void processMouseDragForMultiSelection();
     void processEditorCameraKeyInput();
     
     glm::vec4 getLocalAxisToDrag(glm::vec4* tangent, glm::vec4* binormal);

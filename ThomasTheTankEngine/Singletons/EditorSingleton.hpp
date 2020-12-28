@@ -32,6 +32,10 @@ struct EditorSingleton {
     entityID selectedEntity;
     TransformComponent selectedTransformCopyAtSelectionTime;
     
+    bool hasMultiselection;
+    std::vector<entityID> multiselectionEntities;
+    TransformComponent multiselectionCenter;
+    
     EditMode currentEditMode {EditMode::MOVE};
     
     bool usingLocalWorldSpace {true};

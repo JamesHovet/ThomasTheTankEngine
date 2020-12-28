@@ -51,6 +51,9 @@ void InputSystem::tick(){
     EditorSingleton& edit     = m_admin.m_EditorSingleton;
     ConsoleSingleton& console = m_admin.m_ConsoleSingleton;
 
+    // process keymod bools
+    input.shift = input.rawSDLState[SDL_SCANCODE_LSHIFT];
+    
     // Process all SDL events
     SDL_Event e;
     while(SDL_PollEvent(&e)){

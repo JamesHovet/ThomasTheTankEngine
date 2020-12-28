@@ -78,6 +78,8 @@ public:
         hasPendingClick = false;
     }
     
+    bool shift  = false;
+    
     bool A      = false;
     bool B      = false;
     bool X      = false;

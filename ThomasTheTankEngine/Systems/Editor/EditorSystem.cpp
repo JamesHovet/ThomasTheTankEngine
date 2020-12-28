@@ -58,7 +58,7 @@ void EditorSystem::processEditorCameraKeyInput() {
     if(input.rawSDLState[SDL_SCANCODE_A]){
         camTransformC.setLocalPosition(camTransformC.getPosition() + camTransformC.getRight() * keyboardEditorMovementSpeed);
     }
-    if(input.rawSDLState[SDL_SCANCODE_LSHIFT]){
+    if(input.rawSDLState[SDL_SCANCODE_SPACE]){
         camTransformC.setLocalPosition(camTransformC.getPosition() + (camTransformC.getUp() * keyboardEditorMovementSpeed));
     }
     if(input.rawSDLState[SDL_SCANCODE_LCTRL]){
@@ -167,9 +167,63 @@ void EditorSystem::processMouseDragForSingleSelection(){
     }
 }
 
-void EditorSystem::tick(){
+void EditorSystem::processMouseDragForMultiSelection(){
+    
+}
+
+void EditorSystem::startMultiselection(entityID eID, entityID other){
+    EditorSingleton& edit = m_admin.m_EditorSingleton;
+    edit.multiselectionEntities.clear();
+    edit.multiselectionEntities.push_back(eID);
+    glm::vec4 selectedPosition =  m_admin.getComponent<TransformComponent>(eID).getPosition();
+    edit.multiselectionCenter.setLocalPosition(selectedPosition);
+    addToMultiselection(other);
+}
+
+void EditorSystem::addToMultiselection(entityID eID){
+    EditorSingleton& edit = m_admin.m_EditorSingleton;
+    glm::vec4 targetPos = m_admin.getComponent<TransformComponent>(eID).getPosition();
+    float numSelected = (float) edit.multiselectionEntities.size();
+    glm::vec4 oldCenter = edit.multiselectionCenter.getPosition();
+    glm::vec4 newCenter = ((oldCenter * numSelected) + targetPos) / (numSelected + 1.0f);
+    edit.multiselectionCenter.setLocalPosition(newCenter);
+    edit.multiselectionEntities.push_back(eID);
+}
+
+void EditorSystem::processClick(){
     EditorSingleton& edit = m_admin.m_EditorSingleton;
     InputSingleton& input = m_admin.m_InputSingleton;
+    ray r = input.getRaycast(input.clickViewportSpace);
+    input.resetClick();
+    entityID targetEID;
+    glm::vec4 hit;
+    bool didHit = getClosestOBBIntersectionEntity(r, &targetEID, &hit);
+    
+    if(didHit){
+        if(edit.hasMultiselection && input.shift){
+            addToMultiselection(targetEID);
+            return;
+        }
+        
+        if(edit.hasSelectedEntity && input.shift){
+            edit.hasSelectedEntity = false;
+            edit.hasMultiselection = true;
+            startMultiselection(edit.selectedEntity, targetEID);
+            return;
+        }
+        
+        edit.hasMultiselection = false;
+        edit.hasSelectedEntity = true;
+        edit.selectedEntity = targetEID;
+    } else {
+        edit.hasSelectedEntity = false;
+        edit.hasMultiselection = false;
+    }
+}
+
+void EditorSystem::tick(){
+    EditorSingleton& edit = m_admin.m_EditorSingleton;
+    InputSingleton input = m_admin.m_InputSingleton;
     
     if(edit.hasSelectedEntity && !m_admin.entityExists(edit.selectedEntity)){
         edit.hasSelectedEntity = false;
@@ -186,17 +240,16 @@ void EditorSystem::tick(){
             }
         }
         
-        if(input.hasPendingClick){
-            ray r = input.getRaycast(input.clickViewportSpace);
-            input.resetClick();
-            entityID targetEID;
-            glm::vec4 hit;
-            if (getClosestOBBIntersectionEntity(r, &targetEID, &hit)){
-                edit.hasSelectedEntity = true;
-                edit.selectedEntity = targetEID;
+        if(edit.hasMultiselection){
+            if(input.isDragging){
+                processMouseDragForMultiSelection();
             } else {
-                edit.hasSelectedEntity = false;
+                edit.isDraggingAxis = false;
             }
+        }
+        
+        if(input.hasPendingClick){
+            processClick();
         }
     }
 }

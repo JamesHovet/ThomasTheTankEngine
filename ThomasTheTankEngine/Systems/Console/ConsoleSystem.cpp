@@ -15,7 +15,7 @@ void ConsoleSystem::init(){
     
 }
 
-void ConsoleSystem::tick(uint64_t dt){
+void ConsoleSystem::tick(){
     InputSingleton& input = m_admin.m_InputSingleton;
     ConsoleSingleton& console = m_admin.m_ConsoleSingleton;
     EditorSingleton& edit = m_admin.m_EditorSingleton;

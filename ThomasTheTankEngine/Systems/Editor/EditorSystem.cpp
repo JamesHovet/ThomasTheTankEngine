@@ -35,7 +35,11 @@ void EditorSystem::init(){
 const float keyboardEditorMovementSpeed = 0.2f;
 const float controllerEditorMovementSpeed = 0.6f;
 
-static void processEditorCameraKeyInput(TransformComponent &camTransformC, uint64_t dt, EditorSingleton &edit, InputSingleton &input) {
+void EditorSystem::processEditorCameraKeyInput() {
+    EditorSingleton& edit = m_admin.m_EditorSingleton;
+    InputSingleton input = m_admin.m_InputSingleton;
+    TransformComponent& camTransformC = m_admin.m_EditorSingleton.editorCameraTransform;
+    TimeSingleton time = m_admin.m_TimeSingleton;
     if(input.rawSDLState[SDL_SCANCODE_R]){
         edit.editorCameraComponent = edit.defaultEditorCameraComponent;
         edit.editorCameraTransform = edit.defaultEditorCameraTransform;
@@ -61,125 +65,122 @@ static void processEditorCameraKeyInput(TransformComponent &camTransformC, uint6
         camTransformC.setLocalPosition(camTransformC.getPosition() - (camTransformC.getUp() * keyboardEditorMovementSpeed));
     }
     if(input.rawSDLState[SDL_SCANCODE_Q]){
-        camTransformC.setLocalOrientation(glm::rotate(camTransformC.getLocalOrientation(), 1.0f * seconds(dt), camTransformC.getUp3()));
+        camTransformC.setLocalOrientation(glm::rotate(camTransformC.getLocalOrientation(), 1.0f * time.fseconds, camTransformC.getUp3()));
     }
     if(input.rawSDLState[SDL_SCANCODE_E]){
-        camTransformC.setLocalOrientation(glm::rotate(camTransformC.getLocalOrientation(), -1.0f * seconds(dt), camTransformC.getUp3()));
+        camTransformC.setLocalOrientation(glm::rotate(camTransformC.getLocalOrientation(), -1.0f * time.fseconds, camTransformC.getUp3()));
     }
 }
 
-static void processEditorCameraPadInput(TransformComponent &camTransformC, InputSingleton &input) {
-    camTransformC.setLocalPosition(camTransformC.getPosition() - (camTransformC.getRight() * input.LStickX * controllerEditorMovementSpeed));
-    camTransformC.setLocalPosition(camTransformC.getPosition() + (camTransformC.getForward() * input.LStickY * controllerEditorMovementSpeed));
-    camTransformC.setLocalPosition(camTransformC.getPosition() - (camTransformC.getUp() * input.LTAnalog * controllerEditorMovementSpeed));
-    camTransformC.setLocalPosition(camTransformC.getPosition() + (camTransformC.getUp() * input.RTAnalog * controllerEditorMovementSpeed));
-}
-
-void EditorSystem::tick(uint64_t dt){
+void EditorSystem::processMouseDragForSingleSelection(){
     EditorSingleton& edit = m_admin.m_EditorSingleton;
     InputSingleton& input = m_admin.m_InputSingleton;
     TransformComponent& camTransformC = m_admin.m_EditorSingleton.editorCameraTransform;
     ImmediateRenderSingleton& imm = m_admin.m_ImmediateRenderSingleton;
+    TransformComponent* trans = m_admin.tryGetComponent<TransformComponent>(edit.selectedEntity);
+    if(trans != nullptr){
+        if(! edit.isDraggingAxis){
+            switch (edit.currentEditMode){
+                case EditMode::MOVE:
+                case EditMode::SCALE:
+                    edit.isDraggingAxis = getShouldDragMoveAxis(&edit.draggedAxis);
+                    break;
+                case EditMode::ROTATE:
+                    edit.isDraggingAxis = getShouldDragRotateAxis(&edit.draggedAxis);
+                    break;
+            }
+            edit.selectedTransformCopyAtSelectionTime = *trans;
+            edit.draggedAxisLocal = getLocalAxisToDrag(&edit.draggedAxisLocalTangent, &edit.draggedAxisLocalBinormal);
+        }
+        if(edit.isDraggingAxis){
+            //TODO: Make global stuff work again
+            glm::vec4 pos = trans->getPosition();
+            ray raycast0 = input.getRaycast(input.mouseDownPositionViewportSpace);
+            ray raycast1 = input.getRaycast(input.mouseDragPositionViewportSpace);
+            glm::vec4 delta = raycast1.dir - raycast0.dir;
+            //@Temporary
+            //@Temporary
+            //@Temporary
+            glm::vec3 origin = glm::vec3(0.3f, 0.3f, 0.0f);
+            imm.drawLine2d(glm::vec3(origin), origin + glm::vec3(raycast1.dir) * 0.5f, RGBA_Red);
+            imm.drawLine2d(glm::vec3(origin), origin + glm::vec3(raycast0.dir) * 0.5f, RGBA_Blue);
+            imm.drawLine2d(origin + glm::vec3(raycast1.dir) * 0.5f, origin + glm::vec3(raycast0.dir) * 0.5f, RGBA_Green);
+            glm::vec4 axis = edit.draggedAxisLocal;
+            glm::vec4 axisTransformed = glm::normalize(edit.selectedTransformCopyAtSelectionTime.getMat4Unscaled() * axis);
+            
+            if (edit.currentEditMode == EditMode::MOVE){
+                if(!edit.usingLocalWorldSpace){
+                    axisTransformed = axis;
+                }
+                glm::vec4 projectedMove = axisTransformed * glm::dot(delta, axisTransformed);
+                imm.drawLine2d(glm::vec3(origin), origin + glm::vec3(projectedMove) * 0.5f, RGBA_Black);
+                trans->setLocalPosition(trans->getLocalPosition() + projectedMove);
+            } else if (edit.currentEditMode == EditMode::SCALE){
+                glm::vec4 projectedScale = axis * glm::dot(delta, axisTransformed);
+                if(!edit.usingLocalWorldSpace){
+                    projectedScale = axisTransformed * glm::dot(delta, axis);
+                }
+                trans->setScale(trans->getLocalScale() * (glm::vec4(1.0f, 1.0f, 1.0f, 0.0f) + projectedScale));
+            } else if (edit.currentEditMode == EditMode::ROTATE){
+
+                Plane rotationPlane = {trans->getPosition(), axisTransformed};
+                if(!edit.usingLocalWorldSpace){
+                    rotationPlane.normal = axis;
+//                                glm::mat4 inverse = glm::inverse(edit.selectedTransformCopyAtSelectionTime.getMat4Unscaled());
+//                                axis = axis * inverse;
+                }
+                
+                glm::vec4 hit0;
+                Intersection::RayPlaneAbsolute(raycast0, rotationPlane, &hit0);
+                glm::vec4 hit1;
+                Intersection::RayPlaneAbsolute(raycast1, rotationPlane, &hit1);
+                
+                glm::vec4 planeTangent = glm::normalize(hit0 - trans->getPosition());
+                glm::vec4 planeBitangent = glm::vec4(glm::cross(glm::vec3(planeTangent), glm::vec3(rotationPlane.normal)), 0.0f);
+
+                glm::vec4 dir0 = glm::normalize(hit0 - trans->getPosition());
+                glm::vec4 dir1 = glm::normalize(hit1 - trans->getPosition());
+                
+                float angle = glm::orientedAngle(glm::vec3(dir0), glm::vec3(dir1), glm::vec3(rotationPlane.normal));
+                float originalAxisToTransformedAxisDot = glm::dot(rotationPlane.normal, axisTransformed);
+                if (originalAxisToTransformedAxisDot < 0){
+                    angle = - angle;
+                }
+                
+                trans->setLocalOrientation(glm::rotate(edit.selectedTransformCopyAtSelectionTime.getLocalOrientation(), angle, glm::vec3(axis)));
+//                            printf("angle: %1.5f, axis: (%4.4f, %4.4f, %4.4f)\n", angle, axis.x, axis.y, axis.z);
+                
+                
+                imm.drawTri3d(pos, pos + planeTangent * 100.0f, pos + planeBitangent * 100.0f, RGBA(0.5f, 0.5f, 0.5f, 0.3f));
+                imm.drawTri3d(pos, pos + planeTangent * 100.0f, pos - planeBitangent * 100.0f, RGBA(0.5f, 0.5f, 0.5f, 0.3f));
+                imm.drawTri3d(pos, pos - planeTangent * 100.0f, pos + planeBitangent * 100.0f, RGBA(0.5f, 0.5f, 0.5f, 0.3f));
+                imm.drawTri3d(pos, pos - planeTangent * 100.0f, pos - planeBitangent * 100.0f, RGBA(0.5f, 0.5f, 0.5f, 0.3f));
+
+                imm.drawLine3d(pos, pos + rotationPlane.normal * 5.0f, RGBA(1.0f, 0.0f, 1.0f, 1.0f));
+
+                imm.drawLine3d(hit0, hit1, RGBA(1.0f, 1.0f, 1.0f, 1.0f));
+                imm.drawLine3d(pos, pos + dir0 * 5.0f, RGBA_White);
+                imm.drawLine3d(pos, pos + dir1 * 5.0f, RGBA_White);
+                
+            }
+        }
+    }
+}
+
+void EditorSystem::tick(){
+    EditorSingleton& edit = m_admin.m_EditorSingleton;
+    InputSingleton& input = m_admin.m_InputSingleton;
     
     if(edit.hasSelectedEntity && !m_admin.entityExists(edit.selectedEntity)){
         edit.hasSelectedEntity = false;
     }
 
     if(input.shouldSendKeysTo == KEY_INPUT_MODE::EDITOR){
-        processEditorCameraKeyInput(camTransformC, dt, edit, input);
+        processEditorCameraKeyInput();
        
-        // TODO: Use new drag stuff from the input system to drag objects in world space along axes
         if(edit.hasSelectedEntity){
             if(input.isDragging){
-                TransformComponent* trans = m_admin.tryGetComponent<TransformComponent>(edit.selectedEntity);
-                if(trans != nullptr){
-                    if(! edit.isDraggingAxis){
-                        switch (edit.currentEditMode){
-                            case EditMode::MOVE:
-                            case EditMode::SCALE:
-                                edit.isDraggingAxis = getShouldDragMoveAxis(&edit.draggedAxis);
-                                break;
-                            case EditMode::ROTATE:
-                                edit.isDraggingAxis = getShouldDragRotateAxis(&edit.draggedAxis);
-                                break;
-                        }
-                        edit.selectedTransformCopyAtSelectionTime = *trans;
-                        edit.draggedAxisLocal = getLocalAxisToDrag(&edit.draggedAxisLocalTangent, &edit.draggedAxisLocalBinormal);
-                    }
-                    if(edit.isDraggingAxis){
-                        //TODO: Make global stuff work again
-                        glm::vec4 pos = trans->getPosition();
-                        ray raycast0 = input.getRaycast(input.mouseDownPositionViewportSpace);
-                        ray raycast1 = input.getRaycast(input.mouseDragPositionViewportSpace);
-                        glm::vec4 delta = raycast1.dir - raycast0.dir;
-                        //@Temporary
-                        //@Temporary
-                        //@Temporary
-                        glm::vec3 origin = glm::vec3(0.3f, 0.3f, 0.0f);
-                        imm.drawLine2d(glm::vec3(origin), origin + glm::vec3(raycast1.dir) * 0.5f, RGBA_Red);
-                        imm.drawLine2d(glm::vec3(origin), origin + glm::vec3(raycast0.dir) * 0.5f, RGBA_Blue);
-                        imm.drawLine2d(origin + glm::vec3(raycast1.dir) * 0.5f, origin + glm::vec3(raycast0.dir) * 0.5f, RGBA_Green);
-                        glm::vec4 axis = edit.draggedAxisLocal;
-                        glm::vec4 axisTransformed = glm::normalize(edit.selectedTransformCopyAtSelectionTime.getMat4Unscaled() * axis);
-                        
-                        if (edit.currentEditMode == EditMode::MOVE){
-                            if(!edit.usingLocalWorldSpace){
-                                axisTransformed = axis;
-                            }
-                            glm::vec4 projectedMove = axisTransformed * glm::dot(delta, axisTransformed);
-                            imm.drawLine2d(glm::vec3(origin), origin + glm::vec3(projectedMove) * 0.5f, RGBA_Black);
-                            trans->setLocalPosition(trans->getLocalPosition() + projectedMove);
-                        } else if (edit.currentEditMode == EditMode::SCALE){
-                            glm::vec4 projectedScale = axis * glm::dot(delta, axisTransformed);
-                            if(!edit.usingLocalWorldSpace){
-                                projectedScale = axisTransformed * glm::dot(delta, axis);
-                            }
-                            trans->setScale(trans->getLocalScale() * (glm::vec4(1.0f, 1.0f, 1.0f, 0.0f) + projectedScale));
-                        } else if (edit.currentEditMode == EditMode::ROTATE){
-
-                            Plane rotationPlane = {trans->getPosition(), axisTransformed};
-                            if(!edit.usingLocalWorldSpace){
-                                rotationPlane.normal = axis;
-//                                glm::mat4 inverse = glm::inverse(edit.selectedTransformCopyAtSelectionTime.getMat4Unscaled());
-//                                axis = axis * inverse;
-                            }
-                            
-                            glm::vec4 hit0;
-                            Intersection::RayPlaneAbsolute(raycast0, rotationPlane, &hit0);
-                            glm::vec4 hit1;
-                            Intersection::RayPlaneAbsolute(raycast1, rotationPlane, &hit1);
-                            
-                            glm::vec4 planeTangent = glm::normalize(hit0 - trans->getPosition());
-                            glm::vec4 planeBitangent = glm::vec4(glm::cross(glm::vec3(planeTangent), glm::vec3(rotationPlane.normal)), 0.0f);
-
-                            glm::vec4 dir0 = glm::normalize(hit0 - trans->getPosition());
-                            glm::vec4 dir1 = glm::normalize(hit1 - trans->getPosition());
-                            
-                            float angle = glm::orientedAngle(glm::vec3(dir0), glm::vec3(dir1), glm::vec3(rotationPlane.normal));
-                            float originalAxisToTransformedAxisDot = glm::dot(rotationPlane.normal, axisTransformed);
-                            if (originalAxisToTransformedAxisDot < 0){
-                                angle = - angle;
-                            }
-                            
-                            trans->setLocalOrientation(glm::rotate(edit.selectedTransformCopyAtSelectionTime.getLocalOrientation(), angle, glm::vec3(axis)));
-//                            printf("angle: %1.5f, axis: (%4.4f, %4.4f, %4.4f)\n", angle, axis.x, axis.y, axis.z);
-                            
-                            
-                            imm.drawTri3d(pos, pos + planeTangent * 100.0f, pos + planeBitangent * 100.0f, RGBA(0.5f, 0.5f, 0.5f, 0.3f));
-                            imm.drawTri3d(pos, pos + planeTangent * 100.0f, pos - planeBitangent * 100.0f, RGBA(0.5f, 0.5f, 0.5f, 0.3f));
-                            imm.drawTri3d(pos, pos - planeTangent * 100.0f, pos + planeBitangent * 100.0f, RGBA(0.5f, 0.5f, 0.5f, 0.3f));
-                            imm.drawTri3d(pos, pos - planeTangent * 100.0f, pos - planeBitangent * 100.0f, RGBA(0.5f, 0.5f, 0.5f, 0.3f));
-
-                            imm.drawLine3d(pos, pos + rotationPlane.normal * 5.0f, RGBA(1.0f, 0.0f, 1.0f, 1.0f));
-
-                            imm.drawLine3d(hit0, hit1, RGBA(1.0f, 1.0f, 1.0f, 1.0f));
-                            imm.drawLine3d(pos, pos + dir0 * 5.0f, RGBA_White);
-                            imm.drawLine3d(pos, pos + dir1 * 5.0f, RGBA_White);
-                            
-                        }
-                    }
-                }
-                
+                processMouseDragForSingleSelection();
             } else {
                 edit.isDraggingAxis = false;
             }
@@ -198,13 +199,6 @@ void EditorSystem::tick(uint64_t dt){
             }
         }
     }
-   
-    //TODO: @Remove forced always true once I add player control
-    if(input.shouldSendPadTo == PAD_INPUT_MODE::EDITOR || true){
-        // Controller editor camera movement
-        processEditorCameraPadInput(camTransformC, input);
-    }
-    
 }
 
 

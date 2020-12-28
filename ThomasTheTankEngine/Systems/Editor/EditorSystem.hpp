@@ -20,7 +20,7 @@ public:
     ~EditorSystem(){};
     
     void init();
-    void tick(uint64_t dt);
+    void tick();
     void render();
     
 private:
@@ -33,6 +33,10 @@ private:
     void renderMoveAxesAtModelMat(glm::mat4 modelBase);
     void renderScaleAxesAtModelMat(glm::mat4 modelBase);
     void renderRotationWheelAtModelMat(glm::mat4 modelBase);
+    
+    void processMouseDragForSingleSelection();
+    void processEditorCameraKeyInput();
+    
     glm::vec4 getLocalAxisToDrag(glm::vec4* tangent, glm::vec4* binormal);
     bool getShouldDragMoveAxis(AXIS* axisToDrag);
     bool getShouldDragRotateAxis(AXIS* axisToDrag);

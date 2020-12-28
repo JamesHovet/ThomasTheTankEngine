@@ -296,6 +296,7 @@
 		594AE39524FD9F4200FF9E28 /* GLUtils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GLUtils.hpp; sourceTree = "<group>"; };
 		594F6A2324C1D71300647AC3 /* TransformComponent.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TransformComponent.hpp; sourceTree = "<group>"; };
 		594F6A2524C218FA00647AC3 /* AllSystems.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AllSystems.hpp; sourceTree = "<group>"; };
+		595AF2E9259A829500222762 /* TimeSingleton.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TimeSingleton.hpp; sourceTree = "<group>"; };
 		595B22FC24E1C73B002F74FF /* TypeSerializationTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = TypeSerializationTests.mm; sourceTree = "<group>"; };
 		595B22FE24E1E273002F74FF /* InputSingleton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = InputSingleton.cpp; sourceTree = "<group>"; };
 		595B230024E1F376002F74FF /* RenderSetupSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RenderSetupSystem.cpp; sourceTree = "<group>"; };
@@ -1525,6 +1526,7 @@
 		59839E6524B658C500BB3362 /* Singletons */ = {
 			isa = PBXGroup;
 			children = (
+				595AF2E9259A829500222762 /* TimeSingleton.hpp */,
 				590A09B924CB286700D1153A /* RenderSingleton.hpp */,
 				590A09DF24CB4AB000D1153A /* EditorSingleton.hpp */,
 				5970727224CE452C0016F78F /* InputSingleton.hpp */,

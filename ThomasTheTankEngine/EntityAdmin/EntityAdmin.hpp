@@ -25,6 +25,7 @@
 #include "Family.hpp"
 #include "FamiliesEnum.hpp"
 
+#include "TimeSingleton.hpp"
 #include "RenderSingleton.hpp"
 #include "EditorSingleton.hpp"
 #include "InputSingleton.hpp"
@@ -65,8 +66,9 @@ public:
     void teardown();
     void filterIfNeeded();
     void exectueDeferred();
-    void updateMainThreadSystems(uint64_t dt);
-    void update(uint64_t dt);
+    void populateTime(uint64_t dt_ms){m_TimeSingleton.populateTime(dt_ms);};
+    void updateMainThreadSystems();
+    void update();
     void copyToRenderBuffer();
     void render();
     void mainLoop(void);
@@ -344,6 +346,7 @@ public:
 public:
     ShaderCatalogSingleton m_ShaderCatalogSingleton;
     ModelCatalogSingleton  m_ModelCatalogSingleton;
+    TimeSingleton          m_TimeSingleton;
     
     RenderSingleton          m_RenderSingleton;
     EditorSingleton          m_EditorSingleton;

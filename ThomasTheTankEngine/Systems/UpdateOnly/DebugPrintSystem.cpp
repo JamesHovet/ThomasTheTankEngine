@@ -11,7 +11,7 @@
 #include "GreyBoxFamily.hpp"
 #include <stdio.h>
 
-void DebugPrintSystem::tick(uint64_t dt){
+void DebugPrintSystem::tick(){
     int count = 0;
     for(std::pair<entityID, GreyBoxFamily> p : m_admin.getFamilyMap<GreyBoxFamily>()){
         count++;

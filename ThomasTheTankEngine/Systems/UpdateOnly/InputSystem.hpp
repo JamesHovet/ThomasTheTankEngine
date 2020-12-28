@@ -15,7 +15,7 @@
 class InputSystem : public System {
 public:
     void init();
-    void tick(uint64_t dt);
+    void tick();
     void render(){};
     void teardown();
    

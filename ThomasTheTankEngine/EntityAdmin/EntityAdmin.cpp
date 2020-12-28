@@ -552,16 +552,16 @@ void EntityAdmin::copyToRenderBuffer(){
     filterEntitiesIntoStaticFamilies();
 }
 
-void EntityAdmin::updateMainThreadSystems(uint64_t dt){
-    m_InputSystem.tick(dt);
-    m_ConsoleSystem.tick(dt);
+void EntityAdmin::updateMainThreadSystems(){
+    m_InputSystem.tick();
+    m_ConsoleSystem.tick();
 }
 
-void EntityAdmin::update(uint64_t dt){ 
-//    m_DebugPrintSystem.tick(dt);
-//    m_ConsoleSystem.tick(dt);
+void EntityAdmin::update(){
+//    m_DebugPrintSystem.tick();
+//    m_ConsoleSystem.tick();
     TRACE_BEGIN("editor update", &m_EditorSystem);
-    m_EditorSystem.tick(dt);
+    m_EditorSystem.tick();
     TRACE_END("editor update", &m_EditorSystem);
     
 }

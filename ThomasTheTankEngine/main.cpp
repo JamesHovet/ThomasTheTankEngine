@@ -244,6 +244,8 @@ void holdWindowOpen() {
         TRACE_END_EXCLUSIVE("SDL POLLING Boilerplate");
         
         // Main loop:
+        g_admin.populateTime(dt_ms);
+        
         TRACE_BEGIN_EXCLUSIVE("Deferred");
         g_admin.exectueDeferred();
         TRACE_END_EXCLUSIVE("Deferred");
@@ -255,7 +257,7 @@ void holdWindowOpen() {
         TRACE_END_EXCLUSIVE("Copy to render buffer");
        
         TRACE_BEGIN_EXCLUSIVE("update main thread");
-        g_admin.updateMainThreadSystems(dt_ms);
+        g_admin.updateMainThreadSystems();
         TRACE_END_EXCLUSIVE("update main thread");
         
 #ifndef NOJOBS
@@ -264,13 +266,13 @@ void holdWindowOpen() {
             g_admin.render();
             
         });
-        std::thread updateThread([dt_ms](void) {g_admin.update(dt_ms);});
+        std::thread updateThread([](void) {g_admin.update();});
 
         updateThread.join();
         renderThread.join();
 #else
         g_admin.render();
-        g_admin.update(dt_ms);
+        g_admin.update();
 #endif
         
         // ImGui global stuff

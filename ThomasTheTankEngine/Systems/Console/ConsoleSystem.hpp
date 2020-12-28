@@ -18,7 +18,7 @@ public:
     ~ConsoleSystem(){};
     
     void init();
-    void tick(uint64_t dt);
+    void tick();
     void render();
 };
 

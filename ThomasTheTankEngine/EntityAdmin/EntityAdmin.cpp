@@ -520,6 +520,9 @@ void EntityAdmin::loadTestScene(){
 //            bbox.m_AABB = this->m_ModelCatalogSingleton.getModel(model.m_model_name).bbox;
 //        }
 //    }
+    
+    destroyAllEntities();
+    deserializeByEntityCompatability(boost::filesystem::path("/Users/jameshovet/Development/ThomasTheTankEngine/tmp/door.json"));
        
 }
 

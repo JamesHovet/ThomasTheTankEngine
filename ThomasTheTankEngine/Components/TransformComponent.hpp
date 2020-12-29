@@ -22,6 +22,7 @@
 constexpr glm::vec4 zeroPos = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 
 struct TransformComponent : public ECSComponent {
+    friend class EditorSystem;
     static constexpr int componentIndex{ 0 };
     componentID getComponentIndex(){return componentIndex;}
     

@@ -472,9 +472,7 @@ void EditorSystem::initRendering(){
 // pre: Imgui must be running
 void EditorSystem::render(){
     EditorSingleton& edit = m_admin.m_EditorSingleton;
-    if(edit.hasSelectedEntity && !m_admin.entityExists(edit.selectedEntity)){
-        edit.hasSelectedEntity = false;
-    }
+    ensureSelectionNotDeleted();
     
     renderGizmos();
     renderSceneGraphEditor();
@@ -933,6 +931,133 @@ void EditorSystem::renderSceneGraphEditor(){
     ImGui::End();
 }
 
+void EditorSystem::renderInspectorPanelForSingleSelection(entityID eID) {
+    ImGui::PushID(eID); // if two items from two different "worlds" have the same ID, then the ImGui state from one (like, which tree nodes are open) could carry over, but I'm just not sure I care.
+    DebugNameComponent* nameC = m_admin.tryGetComponent<DebugNameComponent>(eID);
+    char nameBuf[64];
+    
+    if(nameC != nullptr){
+        ImGui::Text("%s: %d", nameC->m_name.c_str(), eID);
+        snprintf(nameBuf, sizeof(nameBuf), "%s", nameC->m_name.c_str());
+        if(ImGui::InputText("Name", nameBuf, sizeof(nameBuf))){
+            nameC->m_name = nameBuf;
+        }
+    } else {
+        ImGui::Text("%d", eID);
+        ImGui::SameLine();
+        if(ImGui::Button("Add Name")){
+            m_admin.defer([this, eID](){
+                m_admin.addComponent<DebugNameComponent>(eID);
+            });
+        }
+    }
+    
+    for(auto it = m_admin.componentsBegin(eID); it != m_admin.componentsEnd(eID); ++it){
+        componentID cID = (*it)->getComponentIndex();
+        ImGui::PushID(cID);
+        if(ImGui::Button("X")){
+            m_admin.deferRemove(cID, eID);
+            //                std::cout << "removing cID of " << cID << std::endl;
+        }
+        ImGui::SameLine();
+        ImGui::SetNextItemOpen(true, ImGuiCond_Once); // Ahhh I love imGui -- it just works! And "extending" it is so easy.
+        (*it)->imDisplay(&m_admin);
+        ImGui::PopID();
+    }
+    
+    if(ImGui::Button("Add Component")){
+        ImGui::OpenPopup("add_component");
+    }
+    if(ImGui::BeginPopup("add_component")){
+        ImGui::Text("Component Type:");
+        ImGui::Separator();
+        
+        if(m_admin.tryGetComponent<TransformComponent>(eID) == nullptr){
+            if(ImGui::Selectable("TransformComponent")){
+                m_admin.deferAdd<TransformComponent>(eID);
+            }
+        }
+        if(m_admin.tryGetComponent<CameraComponent>(eID) == nullptr){
+            if (ImGui::Selectable("CameraComponent")){
+                m_admin.deferAdd<CameraComponent>(eID);
+            }
+        }
+        
+#include "editorAddComponentPopup.cpp"
+        
+        ImGui::EndPopup();
+    }
+    
+    ImGui::PopID();
+}
+
+void EditorSystem::renderInspectorPanelForMultiSelection(){
+    EditorSingleton& edit = m_admin.m_EditorSingleton;
+    componentMask sharedMask = std::bitset<64>();
+    sharedMask.flip();
+
+//    std::cout << "shared before " << sharedMask << std::endl;
+    for(entityID eID : edit.multiselectionEntities){
+        componentMask this_mask = m_admin.m_entities[eID]->m_mask;
+        sharedMask = sharedMask & this_mask;
+//        std::cout << eID << " " << this_mask << std::endl;
+    }
+//    std::cout << "shared after  " << sharedMask << std::endl;
+    
+    if(sharedMask[TransformComponent::componentIndex]){
+        auto it = edit.multiselectionEntities.begin();
+        TransformComponent firstTransform = m_admin.getComponent<TransformComponent>(*it);
+        ++it;
+        float px = firstTransform.m_position.x;
+        bool usePx = true;
+        float py = firstTransform.m_position.y;
+        bool usePy = true;
+        float pz = firstTransform.m_position.z;
+        bool usePz = true;
+        float sx = firstTransform.m_scale.x;
+        bool useSx = true;
+        float sy = firstTransform.m_scale.y;
+        bool useSy = true;
+        float sz = firstTransform.m_scale.z;
+        bool useSz = true;
+
+        for( ;it != edit.multiselectionEntities.end(); ++it){
+            TransformComponent thisTransform = m_admin.getComponent<TransformComponent>(*it);
+            if(px != thisTransform.m_position.x){usePx = false;}
+            if(py != thisTransform.m_position.y){usePy = false;}
+            if(pz != thisTransform.m_position.z){usePz = false;}
+            if(sx != thisTransform.m_scale.x){useSx = false;}
+            if(sy != thisTransform.m_scale.y){useSy = false;}
+            if(sz != thisTransform.m_scale.z){useSz = false;}
+        }
+        if(usePx || usePy || usePz || useSx || useSy || useSz){
+            if(usePx){ImGui::InputFloat("x", &px);}
+            if(usePy){ImGui::InputFloat("y", &py);}
+            if(usePz){ImGui::InputFloat("z", &pz);}
+            if(useSx){ImGui::InputFloat("sx", &sx);}
+            if(useSy){ImGui::InputFloat("sy", &sy);}
+            if(useSz){ImGui::InputFloat("sz", &sz);}
+            
+            glm::vec4 center = glm::vec4(0.0f);
+            float count = 0.0f;
+            for(it = edit.multiselectionEntities.begin(); it != edit.multiselectionEntities.end(); ++it){
+                TransformComponent& trans = m_admin.getComponent<TransformComponent>(*it);
+                if(usePx){trans.m_position.x = px;}
+                if(usePy){trans.m_position.y = py;}
+                if(usePz){trans.m_position.z = pz;}
+                if(useSx){trans.m_scale.x = sx;}
+                if(useSy){trans.m_scale.y = sy;}
+                if(useSz){trans.m_scale.z = sz;}
+                trans.forceClean();
+                
+                center = center + trans.getPosition();
+                count += 1.0f;
+            }
+            edit.multiselectionCenter.setLocalPosition(center / count);
+        }
+    }
+}
+
 void EditorSystem::renderInspector(){
     EditorSingleton& edit = m_admin.m_EditorSingleton;
     entityID eID = edit.selectedEntity;
@@ -974,66 +1099,14 @@ void EditorSystem::renderInspector(){
     }
     
     
-    
     if(edit.hasSelectedEntity){
-        ImGui::PushID(eID); // if two items from two different "worlds" have the same ID, then the ImGui state from one (like, which tree nodes are open) could carry over, but I'm just not sure I care.
-        DebugNameComponent* nameC = m_admin.tryGetComponent<DebugNameComponent>(eID);
-        char nameBuf[64];
-        
-        if(nameC != nullptr){
-            ImGui::Text("%s: %d", nameC->m_name.c_str(), eID);
-            snprintf(nameBuf, sizeof(nameBuf), "%s", nameC->m_name.c_str());
-            if(ImGui::InputText("Name", nameBuf, sizeof(nameBuf))){
-                nameC->m_name = nameBuf;
-            }
-        } else {
-            ImGui::Text("%d", eID);
-            ImGui::SameLine();
-            if(ImGui::Button("Add Name")){
-                m_admin.defer([this, eID](){
-                    m_admin.addComponent<DebugNameComponent>(eID);
-                });
-            }
-        }
-        
-        for(auto it = m_admin.componentsBegin(eID); it != m_admin.componentsEnd(eID); ++it){
-            componentID cID = (*it)->getComponentIndex();
-            ImGui::PushID(cID);
-            if(ImGui::Button("X")){
-                m_admin.deferRemove(cID, eID);
-//                std::cout << "removing cID of " << cID << std::endl;
-            }
-            ImGui::SameLine();
-            ImGui::SetNextItemOpen(true, ImGuiCond_Once); // Ahhh I love imGui -- it just works! And "extending" it is so easy.
-            (*it)->imDisplay(&m_admin);
-            ImGui::PopID();
-        }
-        
-        if(ImGui::Button("Add Component")){
-            ImGui::OpenPopup("add_component");
-        }
-        if(ImGui::BeginPopup("add_component")){
-            ImGui::Text("Component Type:");
-            ImGui::Separator();
-            
-            if(m_admin.tryGetComponent<TransformComponent>(eID) == nullptr){
-                if(ImGui::Selectable("TransformComponent")){
-                    m_admin.deferAdd<TransformComponent>(eID);
-                }
-            }
-            if(m_admin.tryGetComponent<CameraComponent>(eID) == nullptr){
-                if (ImGui::Selectable("CameraComponent")){
-                    m_admin.deferAdd<CameraComponent>(eID);
-                }
-            }
-            
-            #include "editorAddComponentPopup.cpp"
-            
-            ImGui::EndPopup();
-        }
-        
-        ImGui::PopID();
+        renderInspectorPanelForSingleSelection(edit.selectedEntity);
     }
+    
+    if(edit.hasMultiselection){
+        renderInspectorPanelForMultiSelection();
+    }
+    
     ImGui::End();
 }
 

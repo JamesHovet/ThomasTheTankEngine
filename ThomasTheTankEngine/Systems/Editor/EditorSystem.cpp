@@ -250,7 +250,7 @@ void EditorSystem::processClick(){
             return;
         }
         
-        if(edit.hasSelectedEntity && input.shift){
+        if(edit.hasSelectedEntity && input.shift && m_admin.tryGetComponent<TransformComponent>(edit.selectedEntity)){
             edit.hasSelectedEntity = false;
             edit.hasMultiselection = true;
             startMultiselection(edit.selectedEntity, targetEID);

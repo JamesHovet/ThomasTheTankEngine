@@ -28,7 +28,11 @@ private:
     void initRendering();
     void renderSceneGraphEditor();
     void renderSceneGraphSubtree(entityID eID);
+    void extracted(entityID eID);
+    
     void renderInspector();
+    void renderInspectorPanelForSingleSelection(entityID eID);
+    void renderInspectorPanelForMultiSelection();
     void renderGizmos();
 
     void renderGizmosForSingleSelection();

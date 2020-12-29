@@ -13,6 +13,7 @@
 #include "System.hpp"
 #include "typedefs.h"
 #include "Entity.hpp"
+#include "TransformComponent.hpp"
 
 class EditorSystem : public System {
 public:
@@ -32,6 +33,7 @@ private:
 
     void renderGizmosForSingleSelection();
     void renderGizmosForMultiSelection();
+    TransformComponent& getGizmoTransform();
     void renderTransformGizmoAtBaseMatrix(glm::mat4 baseMatrix);
     void renderBBox(glm::mat4 modelBase, AABB box, RGBA color);
     void renderBBoxRecursive(entityID eID);
@@ -39,6 +41,8 @@ private:
     void renderMoveAxesAtModelMat(glm::mat4 modelBase);
     void renderScaleAxesAtModelMat(glm::mat4 modelBase);
     void renderRotationWheelAtModelMat(glm::mat4 modelBase);
+    
+    void ensureSelectionNotDeleted();
     
     void addToMultiselection(entityID eID);
     void startMultiselection(entityID eID, entityID other);

@@ -168,7 +168,51 @@ void EditorSystem::processMouseDragForSingleSelection(){
 }
 
 void EditorSystem::processMouseDragForMultiSelection(){
+    EditorSingleton& edit = m_admin.m_EditorSingleton;
+    InputSingleton& input = m_admin.m_InputSingleton;
+    TransformComponent& camTransformC = m_admin.m_EditorSingleton.editorCameraTransform;
+    ImmediateRenderSingleton& imm = m_admin.m_ImmediateRenderSingleton;
+
+    if(!edit.isDraggingAxis){
+        switch (edit.currentEditMode){
+            case EditMode::MOVE:
+            case EditMode::SCALE:
+                edit.isDraggingAxis = getShouldDragMoveAxis(&edit.draggedAxis);
+                break;
+            case EditMode::ROTATE:
+                edit.isDraggingAxis = getShouldDragRotateAxis(&edit.draggedAxis);
+                break;
+        }
+        edit.draggedAxisLocal = getLocalAxisToDrag(&edit.draggedAxisLocalTangent, &edit.draggedAxisLocalBinormal);
+    }
+    if(edit.isDraggingAxis){
+        //TODO: Make global stuff work again
+        ray raycast0 = input.getRaycast(input.mouseDownPositionViewportSpace);
+        ray raycast1 = input.getRaycast(input.mouseDragPositionViewportSpace);
+        glm::vec4 delta = raycast1.dir - raycast0.dir;
+        //@Temporary
+        //@Temporary
+        //@Temporary
+        
+        glm::vec3 origin = glm::vec3(0.3f, 0.3f, 0.0f);
+        imm.drawLine2d(glm::vec3(origin), origin + glm::vec3(raycast1.dir) * 0.5f, RGBA_Red);
+        imm.drawLine2d(glm::vec3(origin), origin + glm::vec3(raycast0.dir) * 0.5f, RGBA_Blue);
+        imm.drawLine2d(origin + glm::vec3(raycast1.dir) * 0.5f, origin + glm::vec3(raycast0.dir) * 0.5f, RGBA_Green);
     
+        glm::vec4 axis = edit.draggedAxisLocal;
+        
+        if (edit.currentEditMode == EditMode::MOVE){
+            glm::vec4 projectedMove = axis * glm::dot(delta, axis);
+            imm.drawLine2d(glm::vec3(origin), origin + glm::vec3(projectedMove) * 0.5f, RGBA_Black);
+            edit.multiselectionCenter.setLocalPosition(edit.multiselectionCenter.getLocalPosition() + projectedMove);
+            for(entityID eID : edit.multiselectionEntities){
+                TransformComponent* trans = m_admin.tryGetComponent<TransformComponent>(eID);
+                if(trans){
+                    trans->setLocalPosition(trans->getLocalPosition() + projectedMove);
+                }
+            }
+        }
+    }
 }
 
 void EditorSystem::startMultiselection(entityID eID, entityID other){
@@ -187,6 +231,7 @@ void EditorSystem::addToMultiselection(entityID eID){
     glm::vec4 oldCenter = edit.multiselectionCenter.getPosition();
     glm::vec4 newCenter = ((oldCenter * numSelected) + targetPos) / (numSelected + 1.0f);
     edit.multiselectionCenter.setLocalPosition(newCenter);
+    edit.multiselectionCenterCopyAtSelectionTime = edit.multiselectionCenter;
     edit.multiselectionEntities.push_back(eID);
 }
 
@@ -221,31 +266,36 @@ void EditorSystem::processClick(){
     }
 }
 
+void EditorSystem::ensureSelectionNotDeleted(){
+    EditorSingleton& edit = m_admin.m_EditorSingleton;
+    if(edit.hasSelectedEntity && !m_admin.entityExists(edit.selectedEntity)){
+        edit.hasSelectedEntity = false;
+    }
+    if(edit.hasMultiselection){
+        for(entityID eID : edit.multiselectionEntities){
+            if(!m_admin.entityExists(eID)){
+                edit.hasMultiselection = false;
+                edit.multiselectionEntities.clear();
+                return;
+            }
+        }
+    }
+}
+
 void EditorSystem::tick(){
     EditorSingleton& edit = m_admin.m_EditorSingleton;
     InputSingleton input = m_admin.m_InputSingleton;
     
-    if(edit.hasSelectedEntity && !m_admin.entityExists(edit.selectedEntity)){
-        edit.hasSelectedEntity = false;
-    }
+    ensureSelectionNotDeleted();
 
     if(input.shouldSendKeysTo == KEY_INPUT_MODE::EDITOR){
         processEditorCameraKeyInput();
        
-        if(edit.hasSelectedEntity){
-            if(input.isDragging){
-                processMouseDragForSingleSelection();
-            } else {
-                edit.isDraggingAxis = false;
-            }
-        }
-        
-        if(edit.hasMultiselection){
-            if(input.isDragging){
-                processMouseDragForMultiSelection();
-            } else {
-                edit.isDraggingAxis = false;
-            }
+        if(input.isDragging){
+            if(edit.hasSelectedEntity){processMouseDragForSingleSelection();}
+            if(edit.hasMultiselection){processMouseDragForMultiSelection();}
+        } else {
+            edit.isDraggingAxis = false;
         }
         
         if(input.hasPendingClick){
@@ -254,11 +304,19 @@ void EditorSystem::tick(){
     }
 }
 
+TransformComponent& EditorSystem::getGizmoTransform(){
+    EditorSingleton& edit = m_admin.m_EditorSingleton;
+    if(edit.hasMultiselection){
+        return edit.multiselectionCenter;
+    } else {
+        return m_admin.getComponent<TransformComponent>(edit.selectedEntity);
+    }
+}
 
 bool EditorSystem::getShouldDragMoveAxis(AXIS* axisToDrag){
     InputSingleton& input = m_admin.m_InputSingleton;
     EditorSingleton& edit = m_admin.m_EditorSingleton;
-    TransformComponent& selectedTransform = m_admin.getComponent<TransformComponent>(edit.selectedEntity);
+    TransformComponent& selectedTransform = getGizmoTransform();
     
     ray r = input.getRaycast(input.mouseDownPositionViewportSpace);
     Cylinder collider = {glm::vec4(0.0f, 0.0f, 0.0f, 1.0f), glm::vec4(1.5f, 0.0f, 0.0f, 1.0f), 0.1f};
@@ -291,7 +349,7 @@ bool EditorSystem::getShouldDragMoveAxis(AXIS* axisToDrag){
 bool EditorSystem::getShouldDragRotateAxis(AXIS* axisToDrag){
     InputSingleton& input = m_admin.m_InputSingleton;
     EditorSingleton& edit = m_admin.m_EditorSingleton;
-    TransformComponent& selectedTransform = m_admin.getComponent<TransformComponent>(edit.selectedEntity);
+    TransformComponent& selectedTransform = getGizmoTransform();
     
     ray r = input.getRaycast(input.mouseDownPositionViewportSpace);
     
